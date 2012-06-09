@@ -1,0 +1,25 @@
+div.courseheading h1 {
+   font-size: 24px !important;
+   line-height: 26px !important;
+   padding-top: 80px !important;
+   padding-left: 160px !important;
+   margin-bottom: 50px !important;
+   margin-top: 0em !important;
+   color:rgb(65,111,186);
+}
+
+div.custombox.heading {
+   min-height:150px;
+}
+
+div.courseheading {
+   background-image: url("courseheading.jpg");
+   background-repeat : no-repeat;
+   margin-top: 0em !important;
+   padding-left: 10px !important;
+}
+
+div.courseheading div.description {
+   width: 550px;
+   padding-left : 10px;
+} 

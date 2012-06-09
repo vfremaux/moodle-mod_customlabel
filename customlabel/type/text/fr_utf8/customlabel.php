@@ -1,0 +1,5 @@
+<?php
+
+$string['content'] = 'Texte ';
+
+?>

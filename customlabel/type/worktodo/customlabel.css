@@ -1,0 +1,60 @@
+table.worktodo {
+    width: 100%;
+}
+
+td.custombox-header-thumb.worktodo {
+    padding-right:8px;
+    border-right:8px solid #EFD3B8 !important;
+}
+
+#middle-column td.custombox-header-thumb.worktodo {
+    width:40px;
+	background-image: url("icon_todo.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+#left-column td.custombox-header-thumb.worktodo,
+#right-column td.custombox-header-thumb.worktodo {
+    width:25px;
+	background-image: url("icon_todo_small.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+td.custombox-header-caption.worktodo {
+    color:#B3621A;
+    font-weight:bolder;
+    font-size:1.3em;
+    padding-left:8px;
+}
+
+td.custombox-content.worktodo {
+    padding-left:8px;
+    min-height:100px;
+}
+
+td.custombox-worktype.worktodo {
+    padding-left:8px;
+    height:20px;
+}
+
+td.custombox-content.worktodo h1,
+td.custombox-content.worktodo h2,
+td.custombox-content.worktodo h3{
+    background-image:none !important;
+    padding-left:0px !important;
+    color:#91571E !important;
+    font-weight:bolder !important;
+}
+
+span.custom-worktype{
+	font-style:italic;
+	color:#8C919B;
+	font-size:0.95em;
+}
+
+div.custom-clockimage{
+	background:url('../../mod/customlabel/pix/clock.jpg') no-repeat;
+}
+

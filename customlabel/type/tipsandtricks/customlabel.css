@@ -1,0 +1,46 @@
+table.tipsandtricks {
+   width: 100%;
+}
+
+td.custombox-header-thumb.tipsandtricks {
+   width:40px;
+   padding-right:8px;
+   border-right:8px solid #EEB9E9 !important;
+}
+
+#middle-column td.custombox-header-thumb.tipsandtricks {
+    width:40px;
+	background-image: url("icon_idea.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+#left-column td.custombox-header-thumb.tipsandtricks,
+#right-column td.custombox-header-thumb.tipsandtricks {
+    width:25px;
+	background-image: url("icon_idea_small.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+td.custombox-header-caption.tipsandtricks {
+    color:#B11BA3;
+    font-weight:bolder;
+    font-size:1.3em;
+    padding-left:8px;
+}
+
+td.custombox-content.tipsandtricks {
+    padding-left:8px;
+    min-height:100Px;
+}
+
+td.custombox-content.tipsandtricks h1,
+td.custombox-content.tipsandtricks h2,
+td.custombox-content.tipsandtricks h3{
+    background-image:none !important;
+    padding-left:0px !important;
+    color:#931C8A !important;
+    font-weight:bolder !important;
+}
+

@@ -1,0 +1,35 @@
+table.keypoints {
+   width: 100%;
+}
+
+td.custombox-header-thumb.keypoints {
+   padding-right:8px;
+   border-right:8px solid #F88A1D !important;
+}
+
+#middle-column td.custombox-header-thumb.keypoints {
+    width:40px;
+	background-image: url("icon_reminder.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+#left-column td.custombox-header-thumb.keypoints,
+#right-column td.custombox-header-thumb.keypoints {
+    width:25px;
+	background-image: url("icon_reminder_small.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+td.custombox-header-caption.keypoints {
+    color:#F88A1D;
+    font-weight:bolder;
+    font-size:1.3em;
+    padding-left:8px;
+}
+
+td.custombox-content.keypoints {
+    padding-left:8px;
+    min-height:100Px;
+}

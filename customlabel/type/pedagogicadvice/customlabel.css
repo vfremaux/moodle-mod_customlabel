@@ -1,0 +1,28 @@
+#middle-column td.custombox-header-thumb.pedagogicnote {
+    width:40px;
+	background-image: url("icon_infop.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+#left-column td.custombox-header-thumb.pedagogicnote,
+#right-column td.custombox-header-thumb.pedagogicnote {
+    width:25px;
+	background-image: url("icon_infop_small.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+.custom-advicecontent,
+.custom-advicecontrol
+ {
+   width: 98%;
+   border: 1px solid #378A39;
+   background-color: #E4EEE3;
+   color: #609957;
+   padding: 3px;
+}
+.custom-advicehelper {
+   font-size:80%
+   color: #58AD5A;
+}

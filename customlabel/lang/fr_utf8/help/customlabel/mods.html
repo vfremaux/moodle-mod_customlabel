@@ -1,0 +1,17 @@
+<img alt="<?php print_string('modulename', 'customlabel');?>" valign="middle" src="<?php echo $CFG->wwwroot?>/mod/customlabel/icon.gif">
+&nbsp;<b><?php print_string('modulename', 'customlabel');?></b></b>
+
+<ul>
+<p>Ce module permet d'élaborer des élements préformatés qui peuvent constituer le contenu d'un cours. Le préformatage d'éléments "standard" ou "briques de contenu" permet d'assurer à l'ensemble des productions d'une plate-forme une unité et une meilleure ergonomie en systématisant l'aspect et la signalétique de messages identiques.</p>
+<p>Les "éléments Pairformance" produisent leur contenu dans le déroulé du cours (format de cours courant) comme des étiquettes Moodle. La seule différence est que le contenu de ces étiquettes est soumis à des régles de structure et de présentation qui ont été définis par les intégrateurs de la plate-forme.</p>
+<p>Chaque "élément Pairformance" est d'une certaine classe, laquelle définit le jeu de données qu'il peut afficher. Les auteurs de cours peuvent produire plusieurs exemplaires de ces labels et renseigner les champs de données requis par le modèle.</p>
+<p>Les données stockées dans l'étiquette sont ensuite "produite" dans le cours à travers un "modèle de production de sortie". Ce modèle insère les données utiles dans une structure HTML prédéfinie qui produit le formattage désiré.</p>
+<p>Les données entrées par l'auteur du parcours peuvent être affichées en tant que texte, mais pourront également servir à tout autre construction comme la fabrication d'URLs prédéfinies vers un lot d'images. On peut imaginer des traitements encore plus sophistiqués. Quelle que soit la complexité du contenu qui est produit par l'étiquette, la saisie reste d'une grande simplicité pour l'auteur.</p>
+<p>Le formulaire de configuration du module s'adapte de lui-même au modèle de données interne de l'étiquette. Il peut proposer des saisies de type texte, zone de texte ou encore des listes de valeurs pour les entrées fermées.</p>
+
+<h3>Contenus conditionnels suivant les rôles</h3>
+<p>L'élément Pairformance permet de définir pour chaque classe un schéma d'accès au contenu et à l'utilisation de la classe. Ainsi, il est aisé de constituer des contenus qui deviennent automatiquement visibles pour certains rôles seulement, sans avoir à configurer la visibilité du module.</p>
+
+<h3>Contraintes d'utilisation</h3>
+<p>L'exploitation de ce module nécessite quelques modifications mineures dans les formats de cours de Moodle.</p>
+</ul>
