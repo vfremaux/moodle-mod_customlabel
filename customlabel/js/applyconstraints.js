@@ -128,7 +128,7 @@ function type_change_submit(selectobj, advicetext){
 
 function type_change_submit2(advicetext, courseid, section, returntomod, sesskey){
 	if (confirm(advicetext)){
-        url = '/course/mod.php?id='+courseid+'&section='+section+'&sesskey='+sesskey+'&add=customlabel&returntomod='+returntomod+'&type='+ document.getElementById('menulabelclass').options[document.getElementById('menulabelclass').selectedIndex].value;
+        url = '/course/mod.php?id='+courseid+'&section='+section+'&sesskey='+sesskey+'&add=customlabel&returntomod='+returntomod+'&type='+ document.getElementById('id_menulabelclass').options[document.getElementById('id_menulabelclass').selectedIndex].value;
         document.location.href = url;
 	}
 }

@@ -11,6 +11,7 @@
 
 $string['pluginname'] = 'Course element : NEW TYPE';
 $string['typename'] = 'Customized label sample ';
+$string['configtypename'] = 'Enables subtype NEWTYPE';
 $string['smalltext'] = 'Text sample ';
 $string['parag'] = 'Long text sample ';
 $string['list'] = 'Unique choice list sample ';

@@ -9,7 +9,9 @@
 *
 */
 
-$string['typename'] = 'Informations du parcours';
+$string['pluginname'] = 'Elément de cours : Information sur le cours';
+$string['typename'] = 'Information sur le cours';
+$string['configtypename'] = 'Active le type Information sur le cours';
 $string['goals'] = 'Buts ';
 $string['concepts'] = 'concepts clefs ';
 $string['teachingorganization'] = 'Organisation pédagogique ';

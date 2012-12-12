@@ -9,7 +9,9 @@
 *
 */
 
+$string['pluginname'] = 'Elément de cours : NEW TYPE';
 $string['typename'] = 'Prototype de type de label personnalisé ';
+$string['configtypename'] = 'Active le type NEWTYPE';
 $string['smalltext'] = 'Exemple de texte ';
 $string['parag'] = 'Exemple de texte long ';
 $string['list'] = 'Exemple de liste à choix unique ';

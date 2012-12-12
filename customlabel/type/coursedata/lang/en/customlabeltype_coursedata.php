@@ -9,7 +9,7 @@
 *
 */
 
-$string['pluginname'] = 'Course element : Course Data';
+$string['pluginname'] = 'Course element : Course Information';
 $string['typename'] = 'Course information';
 $string['configtypename'] = 'Enable subtype Course information';
 $string['goals'] = 'Goals ';

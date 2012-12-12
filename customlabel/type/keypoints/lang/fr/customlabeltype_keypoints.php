@@ -1,5 +1,8 @@
 <?php
 
+$string['pluginname'] = 'Elément de cours : A retenir';
+$string['typename'] = 'A retenir';
+$string['configtypename'] = 'Enable subtype Key points';
 $string['keypoints'] = 'Rubrique \"A retenir\"';
 $string['keypointnum'] = 'Nombre de points';
 $string['keypointitem0'] = 'Point 1';
@@ -18,5 +21,3 @@ $string['keypointitem12'] = 'Point 13';
 $string['keypointitem13'] = 'Point 14';
 $string['keypointitem14'] = 'Point 15';
 $string['keypointitem15'] = 'Point 16';
-
-?>

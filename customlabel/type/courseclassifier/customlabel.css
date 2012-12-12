@@ -1,0 +1,32 @@
+.coursedata {
+   width: 100%;
+   border:1px solid #C87E11;
+}
+
+.coursedata p {
+	padding-top:0px;
+	margin-top:0px;
+}
+
+.coursedata .title {
+   background-color: #A62724;
+   color: #F2F2F2;
+   font-size: 15px;
+   text-align: left;
+   padding: 5px;
+}
+
+.coursedata .param {
+   background-color: #D3A87C;
+   color: #FFFFFF;
+   font-weight: bold;
+   padding: 5px;
+   border:#ffffff 1px solid;
+}
+
+.coursedata .value {
+   background-color: #EFE7D3;
+   color: #55281A;
+   padding: 5px;
+   border:#ffffff 1px solid;
+}
