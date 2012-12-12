@@ -1,0 +1,30 @@
+table.example {
+   width: 100%;
+}
+
+td.custombox-header-thumb.example {
+   width:40px;
+   padding-right:8px;
+   border-right:8px solid #E3E4E6;
+}
+
+td.custombox-header-caption.example {
+    color:#8C919B;
+    font-weight:bolder;
+    font-size:1.3em;
+    padding-left:8px;
+}
+
+td.custombox-content.example {
+    padding-left:8px;
+    min-height:100Px;
+}
+
+td.custombox-content.example h1,
+td.custombox-content.example h2,
+td.custombox-content.example h3{
+    background-image:none !important;
+    padding-left:0px !important;
+    color:#465879 !important;
+    font-weight:bolder !important;
+}

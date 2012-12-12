@@ -1,0 +1,58 @@
+table.worktodo {
+    width: 100%;
+}
+
+td.custombox-header-thumb.worktodo {
+    padding-right:8px;
+    border-right:1px solid #E0E0E0;
+    width:25px;
+    min-width:25px;
+	background-image: url("type/worktodo/icon_todo_small.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+#region-main td.custombox-header-thumb.worktodo {
+    width:65px;
+    min-width:65px;
+	background-image: url("type/worktodo/icon_todo.png");
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+td.custombox-header-caption.worktodo {
+    color:#B3621A;
+    font-weight:bolder;
+    font-size:1.3em;
+    padding-left:8px;
+}
+
+td.custombox-content.worktodo {
+    padding-left:8px;
+    min-height:100px;
+}
+
+td.custombox-worktype.worktodo {
+    padding-left:8px;
+    height:20px;
+}
+
+td.custombox-content.worktodo h1,
+td.custombox-content.worktodo h2,
+td.custombox-content.worktodo h3{
+    background-image:none !important;
+    padding-left:0px !important;
+    color:#91571E !important;
+    font-weight:bolder !important;
+}
+
+span.custom-worktype{
+	font-style:italic;
+	color:#8C919B;
+	font-size:0.95em;
+}
+
+div.custom-clockimage{
+	background:url('../../mod/customlabel/pix/clock.jpg') no-repeat;
+}
+

@@ -1,0 +1,18 @@
+table.sectionheading td#right{
+   background-image: url("themeheading.jpg");
+   background-repeat : no-repeat;
+   background-position : center right;
+   height:259px;
+   width:151px;
+}
+
+table.sectionheading td#left h1 {
+   font-size: 34px !important;
+   line-height:45px;
+}
+
+table.sectionheading td#left p {
+   font-size: 12px !important;
+   margin-top: 0em !important;
+   width:95%;
+}

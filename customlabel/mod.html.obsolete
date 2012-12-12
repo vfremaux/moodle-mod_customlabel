@@ -1,0 +1,301 @@
+<!-- This page defines the form to create or edit an instance of this module -->
+<!-- It is used from /course/mod.php.  The whole instance is available as $form. -->
+<?php
+
+    /**
+    * form for edting label configuration and data. 
+    * DO NOT TRY TO USE mod_form HERE.
+    * @package mod-customlabel
+    * @category mod
+    * @author Valery Fremaux for Pairformance/TAO
+    * @date 15/07/2008
+    */
+
+
+    require("$CFG->dirroot/mod/customlabel/lib.php");
+	require_js('yui_yahoo');
+	require_js('yui_dom');
+	require_js('yui_utilities');
+	require_js('yui_connection');
+	require_js('yui_json');
+
+    $context = get_context_instance(CONTEXT_COURSE, $COURSE->id);
+
+	$hastextareas = false;
+    
+    $what = optional_param('what', null, PARAM_ALPHA);
+    $to = optional_param('to', null, PARAM_TEXT);
+    
+    if ($what == "changetype"){
+        $form->labelclass = $to;
+    }
+    
+    if (!isset($form->name)) {
+        $form->name = '';
+    }
+    if (!isset($form->labelclass)) {
+        $form->labelclass = 'text';
+    }
+
+    if (!isset($form->title)) {
+        $form->title = '';
+    }
+
+	// convert progressively only if existing resource
+    if (empty($form->usesafe) && !empty($form->id)){
+    	$customlabelrec->id = $form->id;
+    	
+    	$tmpcontent = $form->content;
+    	// do we need reslash lost backslashing ?
+    	if (strstr($tmpcontent, '\\u00') === false){
+	    	$tmpcontent = str_replace('u00', '\\u00', $tmpcontent);
+	    	$tmpcontent = str_replace('/', '\/', $tmpcontent);
+	    }
+    	$tmpcontent = str_replace("\r", '\r', $tmpcontent);
+    	$tmpcontent = str_replace("\n", '\n', $tmpcontent);
+    	
+    	$form->safecontent = $customlabelrec->safecontent = base64_encode($tmpcontent);
+    	// do not alter content in case of we need revert.
+    	if (debugging()) notify('Debug mode : Customlabel converted to safe storage');
+    }
+
+    if (!isset($form->safecontent)) {
+        $form->safecontent = null;
+    } else {
+		$dejsoned = json_decode(base64_decode($form->safecontent));  
+    	if ($dejsoned){
+	        $customlabel = customlabel_stripslashes_fields($dejsoned);
+	    }
+    }
+    
+    $mandatories = array();
+
+    // mounts dynamically the label's form
+    if ($form->labelclass == 'text'){
+        $content = @$customlabel->textcontent;
+    }
+    $customclass = customlabel_load_class($form);
+
+    // get classes for custom label        
+    $labelclasses = customlabel_get_classes($context);
+
+    foreach($labelclasses as $labelclass){
+        $qoptions[$labelclass->id] = $labelclass->name;
+    }
+    asort($qoptions);
+    
+    require_js($CFG->wwwroot.'/mod/customlabel/js/applyconstraints.js');
+    
+?>
+
+<form name="changetype" method="post" action="#">
+<input type="hidden" name="what" value="changetype" />
+<input type="hidden" name="to" value="" />
+</form>
+
+<form name="customlabelform" method="post" action="mod.php" >
+<table style="margin:auto; ">
+<tr>
+    <td align="right"><b><?php print_string('labelclass', 'customlabel') ?>:</b></td>
+    <td>
+        <?php
+            // non full access people cannot change the element type in a non full access element 
+            // so we can just change data
+            if (has_capability('mod/customlabel:fullaccess', $context) || $customclass->fullaccess){
+                choose_from_menu($qoptions, 'labelclass', $form->labelclass, '', "type_change_submit(this)"); 
+                helpbutton('labelclass', get_string('labelclass', 'customlabel'), 'customlabel');
+            } else {
+                p($qoptions[$form->labelclass]); 
+                echo "<input type=\"hidden\" name=\"labelclass\" size=\"80\" value=\"{$form->labelclass}\" />";
+            }
+        ?>       
+    </td>
+</tr>
+<?php
+    if (has_capability('mod/customlabel:fullaccess', $context) || $customclass->fullaccess){
+?>
+<tr valign="top">
+    <td align="right"><b><?php print_string('title', 'customlabel') ?>:</b></td>
+    <td align="left">
+        <input type="text" name="title" size="80" value="<?php p($form->title) ?>" />
+        <?php helpbutton('title', get_string('title', 'customlabel'), 'customlabel'); ?>
+    </td>
+</tr>
+<?php
+    } else {
+?>
+<tr valign="top">
+    <td align="right"><b><?php print_string('title', 'customlabel') ?>:</b></td>
+    <td align="left">
+        <?php p($form->title) ?> 
+        <input type="hidden" name="title" size="80" value="<?php p($form->title) ?>" />
+    </td>
+</tr>
+<?php
+    }
+?>
+
+<!-- More rows go in here... -->
+<?php
+    if ($form->labelclass == 'text'){
+?>
+<tr valign="top">
+    <td align="right"><b><?php print_string('content', 'customlabel') ?>:</b></td>
+    <td>
+        <?php 
+           print_textarea($usehtmleditor, 10, 50, 680, 400, 'textcontent', $content);
+        ?>
+    </td>
+</tr>
+<?php
+    } else {
+        if (!$customclass){
+            error("Custom label class lacks of definition");
+        }
+        foreach($customclass->fields as $field){
+            if (!has_capability('mod/customlabel:fullaccess', $context) && !empty($field->admin)) continue ; // no capable users cannot edit lock fields
+            $name = str_replace("[]", "", $field->name);
+?>
+<tr valign="top">
+    <td align="right"><b><?php 
+    		if (!isset($field->mandatory)){
+	    		print_string($name, 'customlabel');
+	    	} else {
+	    		$mandatories[] = 'menu'.$field->name;
+	    		echo "<span class=\"required\">".print_string($name, 'customlabel')."<img class=\"req\" title=\"Champ requis\" alt=\"Champ requis\" src=\"{$CFG->pixpath}/req.gif\"></span>";
+	    	}
+    		if (!empty($field->help)) echo " {$field->help}";
+		?>:</b></td>
+    <td>
+        <?php 
+            $fieldname = str_replace('[]', '', $field->name); // must take care it is a multiple field
+            $value = (isset($customlabel->{$fieldname})) ? $customlabel->{$fieldname} : @$field->default ;
+            if ($field->type == 'choiceyesno') {
+                $yeschecked = (!empty($value)) ? 'checked="checked"' : '' ;
+                $nochecked = (!empty($value)) ? '' : 'checked="checked"' ;
+                echo "<input type=\"radio\" name=\"{$field->name}\" value=\"1\" $yeschecked /> ".get_string('yes').' - '."<input type=\"radio\" name=\"{$field->name}\" value=\"0\" $nochecked /> ".get_string('no');
+            } elseif ($field->type == 'textfield') {
+                $value = str_replace("\\'", "'", $value);
+                $size = (isset($field->size)) ? $field->size : 40 ;
+                $maxlength = (isset($field->maxlength)) ? $field->maxlength : 255 ;
+                echo "<input type=\"text\" size=\"{$size}\" maxlength=\"{$maxlength}\" name=\"{$field->name}\" value=\"{$value}\" />";
+            } elseif ($field->type == 'textarea') {
+                $value = str_replace("\\'", "'", $value);
+                $size = (isset($field->size)) ? $field->size : 40 ;
+                $rows = (isset($field->rows)) ? $field->rows : 10 ;
+                $cols = (isset($field->cols)) ? $field->cols : 50 ;
+                print_textarea($usehtmleditor, $rows, $cols, 680, 400, $field->name, $value);
+                $hastextareas = true;
+            } elseif (preg_match("/list$/", $field->type)) {
+                $multiple = (isset($field->multiple)) ? $field->multiple : '' ;
+                $options = $customclass->get_options($fieldname);
+                if (empty($multiple)){
+                	if (empty($value) && !empty($field->default)) $value = $field->default;
+                    choose_from_menu($options, $field->name, $value, '');
+                } else {
+                    // $values = explode(', ', $value);
+                    choose_from_menu_multiple($options, "{$field->name}[]", $value, '');
+                }
+            } elseif (preg_match("/datasource$/", $field->type)) {
+                // Very similar to lists, except options come from an external datasource
+                $multiple = (isset($field->multiple)) ? $field->multiple : '' ;
+                $options = $customclass->get_datasource_options($field);
+                
+                $script = '';
+                if (!empty($field->constraintson)){
+                	$script = " applyconstraints('{$CFG->wwwroot}', '{$customclass->type}', this, '{$field->constraintson}') ";
+                }
+                
+                echo "<div id=\"div_menu_{$field->name}\">";
+                if (empty($multiple)){
+                    choose_from_menu($options, $field->name, $value, '', '', $script);
+                } else {
+                    choose_from_menu_multiple($options, "{$field->name}[]", $value, '', '', $script);
+                }
+                echo '</div>';
+            } elseif (preg_match("/^coursefile$/", $field->type)) {
+            	// implement a course file chooser.
+            } else {
+            	echo "Unknown or unsupported type";
+            }
+        ?>
+    </td>
+<?php 
+        }
+    }
+?>
+
+<tr>
+    <td></td>
+    <td>
+        <!-- These hidden variables are always the same -->
+        <input type="hidden" name="course" value="<?php  p($form->course) ?>" />
+        <input type="hidden" name="coursemodule" value="<?php  p($form->coursemodule) ?>" />
+        <input type="hidden" name="section" value="<?php  p($form->section) ?>" />
+        <input type="hidden" name="module" value="<?php  p($form->module) ?>" />
+        <input type="hidden" name="modulename" value="<?php  p($form->modulename) ?>" />
+        <input type="hidden" name="instance" value="<?php  p($form->instance) ?>" />
+        <!-- Enhanced Page Course Format patch -->
+        <input type="hidden" name="insertinpage" value="<?php  p(@$form->insertinpage) ?>" />
+        <!-- -->
+        <input type="hidden" name="mode" value="<?php  p($form->mode) ?>" />
+        <input type="hidden" name="cid" value="<?php  p($form->course) ?>" />
+        <input type="hidden" name="sesskey" value="<?php  p($form->sesskey) ?>" />
+        <input type="button" value="<?php print_string('savechanges') ?>" onclick="checkmandatories(this.form);" />
+        <input type="submit" name="cancel" value="<?php  print_string('cancel') ?>" />
+    </td>
+</tr>
+<?php
+if (!empty($form->id)){
+	$options = "menubar=0,toolbar=0,status=1,location=1,scrollbars,resizable,width=300,height=400,top=20,left=20";
+	$urlpopup = "/mod/customlabel/view.php?what=xml&amp;l={$form->id}&amp;id={$cm->id}";
+	$onclick = "onClick=\"this.target = 'xmldata'; return window.open('$CFG->wwwroot/$urlpopup','xmldata','$options');\" ";
+?>
+<tr>
+    <td>
+    </td>
+    <td>
+        <a href="#" <?php echo $onclick ?> ><?php print_string('exportdata', 'customlabel') ?></a>
+    </td>
+</tr>
+<?php
+}
+?>
+</table>
+</form>
+
+<script type="text/javascript">
+var oldvalue = document.getElementById('menulabelclass').selectedIndex;
+
+function checkmandatories(formobj){
+<?php
+	if (!empty($mandatories)){
+?>
+	var mandatories = ['<?php echo implode("','", $mandatories) ?>'];
+	for (i = 0 ; i < mandatories.length ; i++){
+		if (formobj.elements[mandatories[i]].value == ''){
+			alert('<?php print_string('missingfields', 'customlabel') ?>');
+			return false;
+		}
+	}
+<?php
+	}
+	if ($hastextareas && $usehtmleditor && @$CFG->defaulthtmleditor != 'tinymce'){
+?>
+	// with htmlarea editor
+	formobj.onsubmit();
+<?php
+	}
+?>
+	formobj.submit();
+}
+
+function type_change_submit(selectobj){
+    if (confirm('<?php print_string('changetypeadvice', 'customlabel') ?>')){ 
+        document.forms['changetype'].to.value = selectobj.options[selectobj.selectedIndex].value;
+        document.forms['changetype'].submit(); 
+    } else {
+        selectobj.options[oldvalue].selected = true;
+    }
+}
+</script>

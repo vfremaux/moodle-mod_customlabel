@@ -1,0 +1,29 @@
+
+td.custombox-header-thumb.authornote {
+    width:25px;
+	background-image: url("type/authornote/icon_info_small.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+#region-main td.custombox-header-thumb.authornote {
+    width:65px;
+    min-width:65px;
+	background-image: url("type/authornote/icon_info.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+.custom-authornotecontent,
+.custom-authornotecontrol {
+   width: 98%;
+   border: 1px solid #B3B300;
+   background-color: #E7E8E6;
+   color: #73750B;
+   padding: 3px;
+}
+.custom-authornotehelper,
+.custom-authornotehead {
+   font-size:80%;
+   color: #A7AB10;
+}

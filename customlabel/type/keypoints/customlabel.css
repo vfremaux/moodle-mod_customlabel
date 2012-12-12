@@ -1,0 +1,35 @@
+table.keypoints {
+   width: 100%;
+}
+
+td.custombox-header-thumb.keypoints {
+   padding-right:8px;
+   border-right:1px solid #E0E0E0 !important;
+}
+
+td.custombox-header-thumb.keypoints {
+    width:25px;
+	background-image: url("type/keypoints/icon_reminder_small.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+#region-main td.custombox-header-thumb.keypoints {
+    width:65px;
+    min-width:65px;
+	background-image: url("type/keypoints/icon_reminder.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+td.custombox-header-caption.keypoints {
+    color:#F88A1D;
+    font-weight:bolder;
+    font-size:1.3em;
+    padding-left:8px;
+}
+
+td.custombox-content.keypoints {
+    padding-left:8px;
+    min-height:100Px;
+}
