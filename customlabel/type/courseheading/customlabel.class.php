@@ -13,6 +13,22 @@ class customlabel_type_courseheading extends customlabel_type{
         parent::__construct($data);
         $this->type = 'courseheading';
         $this->fields = array();        
+        
+        $field = new StdClass;
+        $field->name = 'showdescription';
+        $field->type = 'choiceyesno';
+        $this->fields['showdescription'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'showidnumber';
+        $field->type = 'choiceyesno';
+        $this->fields['showidnumber'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'showcategory';
+        $field->type = 'choiceyesno';
+        $this->fields['showcategory'] = $field;
+        
     }
 
     /**
@@ -21,13 +37,22 @@ class customlabel_type_courseheading extends customlabel_type{
     * Type information structure and application context dependant.
     */
     function postprocess_data($course = null){
-        global $CFG, $COURSE;
+        global $CFG, $COURSE, $DB;
 
         if (is_null($course)) $course = &$COURSE;
         
         // get virtual fields from course title.
         $this->data->courseheading = str_replace("'", "\\'", $course->fullname);
-        $this->data->coursedesc = str_replace("'", "\\'", $course->summary);
+        if (@$this->data->showdescription){
+	        $this->data->coursedesc = '<div class="custombox-description courseheader">'.str_replace("'", "\\'", $course->summary).'</div>';
+	    }
+        if (@$this->data->showidnumber){
+	        $this->data->idnumber = '<div class="custombox-idnumber courseheader">'.$course->idnumber.'</div>';
+	    }
+        if (@$this->data->showcategory){
+        	$cat = $DB->get_record('course_categories', array('id' => $course->category));
+	        $this->data->category = '<div class="custombox-category courseheader">'.$cat->name.'</div>';
+	    }
     }
 }
  

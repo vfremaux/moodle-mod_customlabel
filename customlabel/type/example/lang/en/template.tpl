@@ -1,7 +1,6 @@
-<table class="example" cellspacing="0" width="100%">
+<table class="custombox-example" cellspacing="0" width="100%">
 <tr valign="middle">
     <td class="custombox-header-thumb example" width="2%">
-        <img src="<%%headerimage%%>" />
     </td>
     <td class="custombox-header-caption example" width="98%">
         Example...

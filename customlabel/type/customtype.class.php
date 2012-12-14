@@ -181,6 +181,7 @@ class customlabel_type{
         $this->preprocess_data(); // hooking to subclasses specialization
         $this->process_form_fields();
         $this->process_datasource_fields();
+       	$this->postprocess_data(); // hooking to subclasses specialization after all field and source field processing done
 
         $this->data->currenttheme = $PAGE->theme->name;
         $this->data->title = $this->title;
@@ -190,8 +191,6 @@ class customlabel_type{
             $content = "customlabel{$customlabel->instance}";
             return $content;
         }
-
-       	$this->postprocess_data(); // hooking to subclasses specialization
 
         return $this->content;
     }

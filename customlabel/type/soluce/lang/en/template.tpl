@@ -1,4 +1,4 @@
-<table class="soluce" cellspacing="0" width="100%">
+<table class="custombox-soluce" cellspacing="0" width="100%">
 <tr valign="middle">
     <td class="custombox-header-thumb soluce" width="2%" rowspan="2">
     </td>

@@ -1,5 +1,5 @@
-<link href="<%%customlabelcss%%>" rel="stylesheet" type="text/css" />
-<div class="custombox courseheading">
-<div class="custombox heading"><h1><%%courseheading%%></h1></div>
-<div class="custombox description"><%%coursedesc%%></div>
+<div class="custombox-courseheading">
+<%%category%%>
+<div class="custombox-heading courseheading"><h1><%%courseheading%%> [<%%idnumber%%>]</h1></div>
+<div class="custombox-description courseheading"><%%coursedesc%%></div>
 </div>

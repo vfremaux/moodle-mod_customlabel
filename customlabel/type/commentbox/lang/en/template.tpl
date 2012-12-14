@@ -1,4 +1,3 @@
-<link href="<%%customlabelcss%%>" rel="stylesheet" type="text/css" />
-<div class="labelcontent">
+<div class="custombox-commentbox">
 <%%comment%%>
 </div>

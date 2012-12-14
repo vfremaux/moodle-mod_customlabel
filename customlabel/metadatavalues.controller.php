@@ -75,7 +75,7 @@ if ($action == 'forcedelete'){
 function classification_tree_updateordering($id, $type){
 
 	// getting ordering value of the current node
-	global $CFG;
+	global $CFG, $DB;
 
 	$res =  $DB->get_record($CFG->classification_value_table, array('id' => $id));
 	if (!$res) { // fallback : we give the ordering
@@ -116,7 +116,7 @@ function classification_tree_updateordering($id, $type){
 * @return void
 */
 function classification_tree_up($id, $type){
-	global $CFG;
+	global $CFG, $DB;
 
 	$res = $DB->get_record($CFG->classification_value_table, array('id' => $id));
 	if (!$res) return;
@@ -154,7 +154,7 @@ function classification_tree_up($id, $type){
 * @param istree if not set, performs swapping on a single list
 */
 function classification_tree_down($id, $type){
-	global $CFG;
+	global $CFG, $DB;
 
 	$res =  $DB->get_record($CFG->classification_value_table, array('id' => $id));
 

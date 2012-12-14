@@ -95,7 +95,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
 		$mform->setDefault('title', $customlabel->labelclass.'_'.$customlabel_next_id);
         
     	if ($customlabel->labelclass == 'text'){    		    		
-    		$mform->addElement('htmleditor', 'textcontent', get_string('content', 'customlabel'));
+    		$mform->addElement('htmleditor', 'textcontent_editor', get_string('content', 'customlabel'));
     	} else {
 	        if (!$customclass){
 	            print_error("Custom label class lacks of definition");

@@ -1,25 +1,25 @@
-div.courseheading h1 {
-   font-size: 24px !important;
-   line-height: 26px !important;
-   padding-top: 80px !important;
-   padding-left: 160px !important;
-   margin-bottom: 50px !important;
-   margin-top: 0em !important;
-   color:rgb(65,111,186);
+div.custombox-courseheading 
+{
+	width:100%;
 }
 
-div.custombox.heading {
-   min-height:150px;
+div.custombox-courseheading h1 
+{
+   font-size: 24px;
+   line-height: 26px;
+   border-bottom:2px solid #404040;
 }
 
-div.courseheading {
-   background-image: url("type/contactpoint/courseheading.jpg");
-   background-repeat : no-repeat;
-   margin-top: 0em !important;
-   padding-left: 10px !important;
+div.custombox-heading.courseheading 
+{
 }
 
-div.courseheading div.description {
-   width: 550px;
+div.custombox-description.courseheading 
+{
    padding-left : 10px;
+}
+
+div.custombox-idnumber.courseheading
+{
+	display:inline;
 } 

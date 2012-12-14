@@ -1,11 +1,11 @@
-<div class="custom-authornotecontrol"><a href="javascript:togglecustom('<%%customid%%>')"><img id="customctl<%%customid%%>" src="<%%initialcontrolimage%%>" /></a>
-<span class="custom-authornotehead"><b>Author note</b></span></div>
-<div class="custom-authornotecontent" id="custom<%%customid%%>">
-<p class="custom-authornotehelper"><b>(This note is only visible by authors)</b></p>
-<table width="100%">
+<div class="custombox-control authornote"><a href="javascript:togglecustom('<%%customid%%>')"><img id="customctl<%%customid%%>" src="<%%initialcontrolimage%%>" /></a>
+<span class="custombox-head-caption authornote">Author note</span></div>
+<div class="custombox-content authornote" id="custom<%%customid%%>">
+<p class="custombox-helper authornote">(This note is only visible by authors)</p>
+<table class="custombox-authornote">
 	<tr valign="top">
 		<td class="custombox-header-thumb authornote"  width="2%"></td>
-		<td><%%authornote%%></td>
+		<td class="custombox-content-text pedagogicadvice"><%%authornote%%></td>
 	</tr>
 </table>
 </div>

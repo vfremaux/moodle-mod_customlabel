@@ -1,15 +1,29 @@
-table.example {
+table.custombox-example {
    width: 100%;
 }
 
 td.custombox-header-thumb.example {
-   width:40px;
    padding-right:8px;
-   border-right:8px solid #E3E4E6;
+   border-right:1px solid #E0E0E0 !important;
+}
+
+td.custombox-header-thumb.example {
+    width:25px;
+	background-image: url("type/example/icon_example_small.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+#region-main td.custombox-header-thumb.example {
+    width:65px;
+    min-width:65px;
+	background-image: url("type/example/icon_example.png"); 
+	background-repeat: no-repeat;
+    height:73px;
 }
 
 td.custombox-header-caption.example {
-    color:#8C919B;
+    color:#5B734D;
     font-weight:bolder;
     font-size:1.3em;
     padding-left:8px;

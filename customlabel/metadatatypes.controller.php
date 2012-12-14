@@ -21,7 +21,7 @@ if ($action == 'update'){
     $metadatatype->id = clean_param($data->id, PARAM_INT);
     $metadatatype->type = clean_param($data->type, PARAM_TEXT);
     $metadatatype->code = clean_param($data->code, PARAM_ALPHANUM);
-    $metadatatype->name = clean_param($data->name, PARAM_CLEANHYML);
+    $metadatatype->name = clean_param($data->name, PARAM_CLEANHTML);
     $metadatatype->description = clean_param($data->description, PARAM_CLEANHTML);
     if (!$DB->update_record($CFG->classification_type_table, $metadatatype)){
         error('Could not insert a new type');

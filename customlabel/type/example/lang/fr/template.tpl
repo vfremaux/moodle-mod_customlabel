@@ -1,28 +1,14 @@
-<<<<<<< template.tpl
-<table class="example" cellspacing="0" width="100%">
-=======
-<link href="<%%customlabelcss%%>" rel="stylesheet" type="text/css" />
-<table class="worktodo" cellspacing="0" width="100%">
->>>>>>> 1.4
+<table class="custombox-example" cellspacing="0" width="100%">
 <tr valign="middle">
-    <td class="custombox-header-thumb worktodo" width="2%" rowspan="4">
-        <img src="<%%headerimage%%>" />
+    <td class="custombox-header-thumb example" width="2%">
     </td>
-    <td class="custombox-header-caption worktodo" width="98%" colspan="2">
-        Travail à effectuer...
-    </td>
-</tr>
-<tr valign="top">
-    <td class="custombox-worktype worktodo">
-        <b>Type :</b> <span class="custom-worktype"><%%worktype%%></span>
-    </td>
-    <td class="custombox-timeexpected worktodo" align="right">
-        <img src="/mod/customlabel/type/worktodo/clock.jpg" /> <%%estimatedworktime%%>
+    <td class="custombox-header-caption example" width="98%">
+        Exemple...
     </td>
 </tr>
 <tr>
-    <td class="custombox-content worktodo" colspan="2">
-        <%%worktodo%%>
+    <td colspan="2" class="custombox-content example">
+        <%%example%%>
     </td>
 </tr>
 </table>

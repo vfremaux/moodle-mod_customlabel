@@ -1,4 +1,4 @@
-table.contactpoint {
+table.custombox-contactpoint {
    width: 100%;
 }
 
@@ -14,7 +14,7 @@ td.custombox-header-thumb.any {
     height:73px;
 }
 
-#main-region td.custombox-header-thumb.any {
+#region-main td.custombox-header-thumb.any {
     width:65px;
     min-width:65px;
 	background-image: url("type/contactpoint/icon_any.jpg"); 
