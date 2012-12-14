@@ -221,7 +221,7 @@ class customlabel_type{
             
             if ($template){
                 $contentlang = "<span class=\"multilang\" lang=\"$lang\" >";
-                $contentlang .= $template;
+                $contentlang .= $this->process_conditional($template);
                 $contentlang .= "</span>";
                 // $contentlang = str_replace("'", "\\'", $contentlang);
                 if (!empty($this->data)){
@@ -427,6 +427,30 @@ class customlabel_type{
     }
 
     function post_update(){
+    }
+    
+    function process_conditional($template){
+    	
+    	if (!preg_match('/<%if /', $template)) return $template; // quick return for unconditional templates
+    	
+        $search = '/(.*?)<%if %%(.*?)%%\s+%>(.*?)<%endif\s+%>(.*)$/is';
+        $buffer = '';
+        $matches = array();
+        $matches[4] = '';
+    	while (preg_match($search, $template, $matches)){
+    		$buffer .= $matches[1]; // prefix
+    		$test = $matches[2]; // test variable
+    		if ($test){
+	    		if (!empty($this->data->$test)){
+	    			$buffer .= $matches[3];
+	    		}
+	    	}
+    		$test = $matches[3]; // conditional content
+    		$template = $matches[4];
+    	}
+		$buffer .= $template;
+
+		return $buffer;
     }
 }
 

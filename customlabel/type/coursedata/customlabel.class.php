@@ -15,22 +15,45 @@ class customlabel_type_coursedata extends customlabel_type{
         $this->fields = array();
 
         unset($field);
+        $field->name = 'tablecaption';
+        $field->type = 'textfield';
+        $this->fields['tablecaption'] = $field;
+
+        unset($field);
+        $field->name = 'showgoals';
+        $field->type = 'choiceyesno';
+        $this->fields['showgoals'] = $field;
+
+        unset($field);
         $field->name = 'goals';
         $field->type = 'textarea';
         $this->fields['goals'] = $field;
+
+        unset($field);
+        $field->name = 'showobjectives';
+        $field->type = 'choiceyesno';
+        $this->fields['showobjectives'] = $field;
 
         unset($field);
         $field->name = 'objectives';
         $field->type = 'textarea';
         $this->fields['objectives'] = $field;
 
-		/*
+        unset($field);
+        $field->name = 'showconcepts';
+        $field->type = 'choiceyesno';
+        $this->fields['showconcepts'] = $field;
+
         unset($field);
         $field->name = 'concepts';
         $field->type = 'textarea';
         $field->size = 80;
         $this->fields['concepts'] = $field;
-        */
+
+        unset($field);
+        $field->name = 'showduration';
+        $field->type = 'choiceyesno';
+        $this->fields['showduration'] = $field;
 
         unset($field);
         $field->name = 'duration';
@@ -39,15 +62,30 @@ class customlabel_type_coursedata extends customlabel_type{
         $this->fields['duration'] = $field;
 
         unset($field);
+        $field->name = 'showteachingorganization';
+        $field->type = 'choiceyesno';
+        $this->fields['showteachingorganization'] = $field;
+
+        unset($field);
         $field->name = 'teachingorganization';
         $field->type = 'textarea';
         $field->size = 80;
         $this->fields['teachingorganization'] = $field;
 
         unset($field);
-        $field->name = 'prerequisite';
+        $field->name = 'showprerequisites';
+        $field->type = 'choiceyesno';
+        $this->fields['showprerequisites'] = $field;
+
+        unset($field);
+        $field->name = 'prerequisites';
         $field->type = 'textarea';
-        $this->fields[] = $field;
+        $this->fields['prerequisites'] = $field;
+
+        unset($field);
+        $field->name = 'showfollowers';
+        $field->type = 'choiceyesno';
+        $this->fields['showfollowers'] = $field;
 
         unset($field);
         $field->name = 'followers';
@@ -64,28 +102,6 @@ class customlabel_type_coursedata extends customlabel_type{
 
         $this->data->coursecode = str_replace("'", "\\'", $COURSE->idnumber);
 
-    /// have to save back datasource information within tables
-
-        // remove all old classification
-        $DB->delete_records('customlabel_course_metadata', array('courseid' => $COURSE->id));
-
-        // add updated learning method
-        $cc->courseid = $COURSE->id;
-        if (!empty($this->data->learningmethod)){
-            if (is_array($this->data->learningmethod)){
-                foreach($this->data->learningmethod as $method){
-                    $cc->value = $method;
-                    if (!$DB->insert_record('customlabel_course_metadata', $cc)){
-                        notice("Could not classify course");
-                    }
-                }
-            } else {
-                $cc->value = $this->data->learningmethod;
-                if (!$DB->insert_record('customlabel_course_metadata', $cc)){
-                    notice("Could not classify course");
-                }
-            }
-        }
     }
 }
 

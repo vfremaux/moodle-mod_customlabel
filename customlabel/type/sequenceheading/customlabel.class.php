@@ -35,12 +35,6 @@ class customlabel_type_sequenceheading extends customlabel_type{
         $this->fields['imageurl'] = $field;
 
 		$field = new StdClass();
-        $field->name = 'overimagetext';
-        $field->type = 'textfield';
-        $field->size = 20;
-        $this->fields['overimagetext'] = $field;
-
-		$field = new StdClass();
         $field->name = 'imageposition';
         $field->type = 'list';
         $field->options = array('none', 'left', 'right');
@@ -59,11 +53,11 @@ class customlabel_type_sequenceheading extends customlabel_type{
         // get virtual fields from course title.
         $imageurl = (empty($this->data->imageurl)) ? $CFG->wwwroot.'/mod/customlabel/type/sectionheading/defaultsectionheading.jpg' : $this->data->imageurl ;
     	if (@$this->data->imagepositionoption == 'left'){
-	        $this->data->imageL = "<td width=\"100\" class=\"custombox-sequenceheading-icon-left\" align=\"center\" style=\"background:url({$imageurl}) 50% 0% no-repeat transparent\">{$this->data->overimagetext}</td>";
+	        $this->data->imageL = "<td width=\"100\" class=\"custombox-sequenceheading-icon-left\" align=\"center\" style=\"background:url({$imageurl}) 50% 50% no-repeat transparent\">{$this->data->overimagetext}</td>";
 	        $this->data->imageR = '';
 	    } else if (@$this->data->imagepositionoption == 'right'){
 	        $this->data->imageL = '';
-	        $this->data->imageR = "<td width=\"100\" class=\"custombox-sequenceheading-icon-right\" align=\"center\" style=\"background:url({$imageurl}) 50% 0% no-repeat transparent\">{$this->data->overimagetext}</td>";
+	        $this->data->imageR = "<td width=\"100\" class=\"custombox-sequenceheading-icon-right\" align=\"center\" style=\"background:url({$imageurl}) 50% 50% no-repeat transparent\">{$this->data->overimagetext}</td>";
 	    } else {
 	        $this->data->imageL = '';
 	        $this->data->imageR = '';

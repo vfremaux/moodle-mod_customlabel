@@ -44,14 +44,14 @@ class customlabel_type_courseheading extends customlabel_type{
         // get virtual fields from course title.
         $this->data->courseheading = str_replace("'", "\\'", $course->fullname);
         if (@$this->data->showdescription){
-	        $this->data->coursedesc = '<div class="custombox-description courseheader">'.str_replace("'", "\\'", $course->summary).'</div>';
+	        $this->data->coursedesc = '<div class="custombox-description courseheading">'.str_replace("'", "\\'", $course->summary).'</div>';
 	    }
         if (@$this->data->showidnumber){
-	        $this->data->idnumber = '<div class="custombox-idnumber courseheader">'.$course->idnumber.'</div>';
+	        $this->data->idnumber = '<div class="custombox-idnumber courseheading">['.$course->idnumber.']</div>';
 	    }
         if (@$this->data->showcategory){
         	$cat = $DB->get_record('course_categories', array('id' => $course->category));
-	        $this->data->category = '<div class="custombox-category courseheader">'.$cat->name.'</div>';
+	        $this->data->category = '<div class="custombox-category courseheading">'.$cat->name.'</div>';
 	    }
     }
 }

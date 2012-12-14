@@ -1,5 +1,9 @@
-<link href="<%%customlabelcss%%>" rel="stylesheet" type="text/css" />
-<div class="sequenceheading">
-<h2 class="sequenceheading"><%%heading%%></h2>
-<p class="sequenceheading"><%%shortdesc%%></p>
-</div>
+<table class="custombox-sequenceheading">
+<tr valign="top">
+<%%imageL%%>
+<td><div class="custombox-heading sequenceheading"><h2><%%heading%%></h2></div>
+<div class="custombox-description sequenceheading"><%%shortdesc%%></div>
+</td>
+<%%imageR%%>
+</tr>
+</table>
