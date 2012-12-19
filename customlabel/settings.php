@@ -17,7 +17,7 @@ foreach($classes as $class){
 	$settings->add(new admin_setting_configcheckbox("list_$parmname", get_string('typename', 'customlabeltype_'.$class->id), get_string('configtypename', 'customlabeltype_'.$class->id), 1));
     $description = get_string('hiddenrolesfor', 'customlabel') . ' ' . get_string('typename', 'customlabeltype_'.$class->id);
     $parmname = "customlabel_{$class->id}_hiddenfor";
-    $selection = split(',', @$CFG->$parmname);
+    $selection = explode(',', @$CFG->$parmname);
     $settings->add (new admin_setting_configmultiselect("$parmname", "customlabel_{$class->id}_hiddenfor", $description, $selection, $roles));
 }
 
