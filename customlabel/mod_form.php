@@ -133,6 +133,8 @@ class mod_customlabel_mod_form extends moodleform_mod {
 	                if (!empty($field->multiple)){
 	                	$select->setMultiple(true);
 	                }
+	            } elseif (preg_match("/^coursefile$/", $field->type)) {
+	            	// implement a course file chooser.
 	            } else {
 	            	echo "Unknown or unsupported type : $field->type";
 	            }
