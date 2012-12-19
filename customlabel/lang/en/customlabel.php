@@ -3,6 +3,7 @@ global $CFG;
 
 $string['configusesafestorage'] = 'If enabled, any old storage will be converted when edited. New storage will be used for converted items.';
 $string['changetypeadvice'] = "You are about to thange the internal data structure of this element. Old content cannot be maintained. Continue?";
+$string['customlabel:addinstance'] = 'Can add an instance';
 $string['customlabel:fullaccess'] = 'Full access to all fields ';
 $string['customlabeltools'] = 'Mass tools for custom labels';
 $string['doupdate'] = 'Update !!';

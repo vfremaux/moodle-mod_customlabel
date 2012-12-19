@@ -33,6 +33,15 @@
 
 $capabilities = array(
 
+    'mod/customlabel:addinstance' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'legacy' => array(
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        )
+    ),
+
     'mod/customlabel:fullaccess' => array(
 
         'captype' => 'write',
