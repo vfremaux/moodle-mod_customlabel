@@ -8,3 +8,5 @@ $string['level0'] = 'Classification 1';
 $string['level1'] = 'Classification 2';
 $string['level2'] = 'Classification 3';
 $string['people'] = 'Public';
+$string['showpeople'] = 'Afficher le critère de public';
+$string['uselevels'] = 'Niveaux actifs';

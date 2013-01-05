@@ -63,6 +63,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
         $mform = $this->_form;
 
 		$tomodel = '';
+		$customlabel = new StdClass;
 		if ($tomodel = optional_param('type', '', PARAM_TEXT)){
 			$customlabel->labelclass = $tomodel;
 		}
@@ -148,14 +149,12 @@ class mod_customlabel_mod_form extends moodleform_mod {
 	            $mform->setDefault($fieldname, @$field->default);
 	        }
         }
-        
 
+        //-------------------------------------------------------------------------------
         $this->standard_coursemodule_elements();
-
-//-------------------------------------------------------------------------------
-// buttons
-        $this->add_action_buttons(true, false, null);
-
+        //-------------------------------------------------------------------------------
+        // buttons
+        $this->add_action_buttons();
     }
 
 	function validation($data, $files = null){		
@@ -163,7 +162,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
 	// we must prepare data, extract dynamic part from instance
 	function set_data($customlabel){
-
+		
 		if (empty($customlabel->labelclass)){
 			 $customlabel->labelclass = 'text';
 			 $customlabel->content = '';
@@ -179,6 +178,10 @@ class mod_customlabel_mod_form extends moodleform_mod {
 		// get dynamic part of data and add to fixed model part from customlabel record
 		$formdatadyn = (array)json_decode(base64_decode($customlabel->content));
 		foreach($formdatadyn as $key => $value){
+			// discard all moodle core data that should be there
+			if (in_array($key, array('coursemodule', 'instance', 'sesskey', 'module', 'section'))) continue;
+			// ignore old Moodle 1.9 stuff
+			if (in_array($key, array('safe_content', 'usesafe'))) continue;
 			$formdata->{$key} = $value;
 			if (is_object($formdata->{$key}) && isset($formdata->{$key}->text)){
 				$formdata->{$key} = (array)$formdata->{$key};
@@ -199,6 +202,8 @@ class mod_customlabel_mod_form extends moodleform_mod {
 		if ($tomodel = optional_param('type', '', PARAM_TEXT)){
 			$formdata->labelclass = $tomodel;
 		}
+
+		$formdata->sesskey = sesskey();
 		
 		parent::set_data($formdata);
 	}

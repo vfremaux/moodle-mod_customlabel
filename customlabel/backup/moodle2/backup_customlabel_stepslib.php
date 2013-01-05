@@ -39,7 +39,7 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
 
         // Define each element separated
         $customlabel = new backup_nested_element('customlabel', array('id'), array(
-            'name', 'title', 'intro', 'introformat', 'labelclass', 'content', 'processedcontent', 'timemodified'));
+            'name', 'title', 'labelclass', 'safecontent', 'timemodified'));
 
         $metadata = new backup_nested_element('metadata');
 
@@ -80,11 +80,11 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
         // Define sources
         $customlabel->set_source_table('customlabel', array('id' => backup::VAR_ACTIVITYID));
 
-        $metadatatype->set_source_table('customlabel_mtd_type', array());
+        $metadatatype->set_source_table('customlabel_mtd_type', array('id' => backup::VAR_ACTIVITYID));
 
         $metadatavalue->set_source_table('customlabel_mtd_value', array('typeid' => backup::VAR_PARENTID));
 
-        $metadataconstraint->set_source_table('customlabel_mtd_constraint', array());
+        $metadatacontraint->set_source_table('customlabel_mtd_constraint', array('courseid' => backup::VAR_COURSEID));
 
         $metadatacoursedatum->set_source_table('customlabel_course_metadata', array('courseid' => backup::VAR_COURSEID));
 
@@ -92,7 +92,7 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
         // (none)
 
         // Define file annotations
-        $customlabel->annotate_files('mod_customlabel', 'processedcontent', null); // This file area hasn't itemid
+        $customlabel->annotate_files('mod_customlabel', 'safecontent', null); // This file area hasn't itemid
 
         // Return the root element (customlabel), wrapped into standard activity structure
         return $this->prepare_activity_structure($customlabel);

@@ -14,80 +14,80 @@ class customlabel_type_coursedata extends customlabel_type{
         $this->type = 'coursedata';
         $this->fields = array();
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'tablecaption';
         $field->type = 'textfield';
         $this->fields['tablecaption'] = $field;
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'showgoals';
         $field->type = 'choiceyesno';
         $this->fields['showgoals'] = $field;
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'goals';
         $field->type = 'textarea';
         $this->fields['goals'] = $field;
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'showobjectives';
         $field->type = 'choiceyesno';
         $this->fields['showobjectives'] = $field;
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'objectives';
         $field->type = 'textarea';
         $this->fields['objectives'] = $field;
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'showconcepts';
         $field->type = 'choiceyesno';
         $this->fields['showconcepts'] = $field;
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'concepts';
         $field->type = 'textarea';
         $field->size = 80;
         $this->fields['concepts'] = $field;
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'showduration';
         $field->type = 'choiceyesno';
         $this->fields['showduration'] = $field;
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'duration';
         $field->type = 'textfield';
         $field->size = 80;
         $this->fields['duration'] = $field;
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'showteachingorganization';
         $field->type = 'choiceyesno';
         $this->fields['showteachingorganization'] = $field;
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'teachingorganization';
         $field->type = 'textarea';
         $field->size = 80;
         $this->fields['teachingorganization'] = $field;
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'showprerequisites';
         $field->type = 'choiceyesno';
         $this->fields['showprerequisites'] = $field;
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'prerequisites';
         $field->type = 'textarea';
         $this->fields['prerequisites'] = $field;
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'showfollowers';
         $field->type = 'choiceyesno';
         $this->fields['showfollowers'] = $field;
 
-        unset($field);
+		$field = new StdClass;
         $field->name = 'followers';
         $field->type = 'textarea';
         $this->fields['followers'] = $field;

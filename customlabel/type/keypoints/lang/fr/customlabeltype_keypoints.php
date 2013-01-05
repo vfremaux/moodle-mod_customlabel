@@ -1,6 +1,6 @@
 <?php
 
-$string['pluginname'] = 'Elément de cours : A retenir';
+$string['pluginname'] = 'ElÃ©ment de cours : A retenir';
 $string['typename'] = 'A retenir';
 $string['configtypename'] = 'Enable subtype Key points';
 $string['keypoints'] = 'Rubrique \"A retenir\"';

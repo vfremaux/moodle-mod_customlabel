@@ -17,9 +17,9 @@
      * You should have received a copy of the GNU General Public License
      * along with this program.  If not, see <http://www.gnu.org/licenses/>.
      *
-     * @package    moodle
-     * @subpackage local
-     * @author     Penny Leach <penny@catalyst.net.nz>, Valery Fremaux <valery.fremaux@club-internet.fr>
+ 	 * @package    mod
+     * @subpackage customlabel
+     * @author     Valery Fremaux <valery.fremaux@gmail.com>
      * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
      * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
      *
@@ -55,8 +55,12 @@
 
 /// print page
 
+	echo $deferredheader;
+
     echo get_string('editclass', 'customlabel') . ':';
-    echo $OUTPUT->single_select($url . '?typeid=', 'classify', $types, $type);
+
+    echo $OUTPUT->single_select($url . '?view='.$view, 'typeid', $types, $type);
+
     echo $OUTPUT->heading(get_string('metadataset', 'customlabel'));
     if (!$values = $DB->get_records($CFG->classification_value_table, array($CFG->classification_value_type_key => $type), 'sortorder')) {
         $values = array();
@@ -81,14 +85,17 @@
 	            SELECT
 	                COUNT(ccm.id) AS courses
 	            FROM
+	                {{$CFG->classification_value_table}} v
+	            LEFT JOIN
 	                {{$CFG->course_metadata_table}} ccm
-	            JOIN
+	            ON
+	            	ccm.{$CFG->course_metadata_value_key} = v.id
+	            LEFT JOIN
 	                {course} c
+	            ON
+	            	(ccm.{$CFG->course_metadata_course_key} = c.id OR ccm.{$CFG->course_metadata_course_key} IS NULL)
 	            WHERE
-	                ccm.{$CFG->course_metadata_value_key} = {$avalue->id} AND
-	                (ccm.{$CFG->course_metadata_course_key} = c.id OR ccm.{$CFG->course_metadata_course_key} IS NULL)
-	            GROUP BY
-	                ccm.{$CFG->course_metadata_value_key}
+	                ccm.{$CFG->course_metadata_value_key} = {$avalue->id}	                
 	        ";
 	        $avalue->courses = $DB->count_records_sql($sql);
 

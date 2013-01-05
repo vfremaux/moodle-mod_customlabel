@@ -14,16 +14,11 @@ class customlabel_type_important extends customlabel_type{
         $this->type = 'important';
         $this->fields = array();
         
+		$field = new StdClass;
         $field->name = 'importantnote';
         $field->type = 'textarea';
         $field->rows = 20;
         $this->fields['importantnote'] = $field;
-    }
-    
-    function postprocess_data($course = null){
-        global $CFG;
-
-        $this->data->headerimage = $CFG->wwwroot.'/mod/customlabel/type/important/thumb.jpg';
     }
 }
  

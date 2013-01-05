@@ -3,22 +3,21 @@ table.custombox-important {
 }
 
 td.custombox-header-thumb.important {
-   width:40px;
    padding-right:8px;
-   border-right:1px solid #E0E0E0 !important;
+   border-right:1px solid #f00000 !important;
 }
 
 #region-main td.custombox-header-thumb.important {
     width:65px;
     min-width:65px;
-	background-image: url("type/important/icon_important.png"); 
+	background-image: url("/mod/customlabel/type/important/icon_important.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
 
 td.custombox-header-thumb.important {
     width:25px;
-	background-image: url("type/important/icon_important_small.png"); 
+	background-image: url("/mod/customlabel/type/important/icon_important_small.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }

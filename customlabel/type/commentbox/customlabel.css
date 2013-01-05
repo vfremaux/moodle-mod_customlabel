@@ -1,6 +1,12 @@
 .custombox-commentbox {
-   width: 100%;
-   border: 1px solid #808080;
-   background-color: #DADADA;
-   padding: 3px;
+   border: 1px dashed #D0D0D0;
+   background-color: #F8F8F8;
+   color:#C0C0C0;
+   padding: 10px;
+   border-radius:6px;
+   margin-left:100px;
+}
+
+.custombox-commentbox > p{
+	display:inline;
 }

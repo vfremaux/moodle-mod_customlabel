@@ -2,12 +2,15 @@ table.custombox-worktodo {
     width: 100%;
 }
 
-td.custombox-header-thumb.worktodo {
+.custombox-header-thumb.worktodo {
     padding-right:8px;
-    border-right:1px solid #E0E0E0;
+    border-right:1px solid #EFD3B8 !important;
+}
+
+.custombox-header-thumb.worktodo {
     width:25px;
     min-width:25px;
-	background-image: url("type/worktodo/icon_todo_small.png"); 
+	background-image: url("/mod/customlabel/type/worktodo/icon_todo_small.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
@@ -15,7 +18,7 @@ td.custombox-header-thumb.worktodo {
 #region-main td.custombox-header-thumb.worktodo {
     width:65px;
     min-width:65px;
-	background-image: url("type/worktodo/icon_todo.png");
+	background-image: url("/mod/customlabel/type/worktodo/icon_todo.png");
 	background-repeat: no-repeat;
     height:73px;
 }
@@ -30,6 +33,10 @@ td.custombox-header-caption.worktodo {
 td.custombox-content.worktodo {
     padding-left:8px;
     min-height:100px;
+}
+
+td.custombox-content.worktodo p {
+    line-height:1.5em;
 }
 
 td.custombox-worktype.worktodo {
@@ -53,6 +60,6 @@ span.custom-worktype{
 }
 
 div.custom-clockimage{
-	background:url('../../mod/customlabel/pix/clock.jpg') no-repeat;
+	background:url('/mod/customlabel/pix/clock.jpg') no-repeat;
 }
 

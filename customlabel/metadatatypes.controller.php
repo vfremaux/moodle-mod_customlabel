@@ -3,6 +3,7 @@
 /************************************* Add ******************/
 if ($action == 'add'){
     $data = $mform->get_data();
+    $metadatatype = new StdClass;
     $metadatatype->type = clean_param($data->type, PARAM_TEXT);
     $metadatatype->code = clean_param($data->code, PARAM_ALPHANUM);
     $metadatatype->name = addslashes(clean_param($data->name, PARAM_CLEANHTML));
@@ -18,6 +19,7 @@ if ($action == 'add'){
 /************************************* Update ******************/
 if ($action == 'update'){
     $data = $mform->get_data();
+    $metadatatype = new StdClass;
     $metadatatype->id = clean_param($data->id, PARAM_INT);
     $metadatatype->type = clean_param($data->type, PARAM_TEXT);
     $metadatatype->code = clean_param($data->code, PARAM_ALPHANUM);
@@ -34,11 +36,13 @@ if ($action == 'edit'){
     $typeid = required_param('typeid', PARAM_INT);
     $data = $DB->get_record($CFG->classification_type_table, array('id' => $typeid));    
 }
+
 /*********************************** moves up ************************/
 if ($action == 'up'){
     $id = required_param('typeid', PARAM_INT);
     classification_tree_up($id);
 }
+
 /*********************************** moves down ************************/
 if ($action == 'down'){
     $id = required_param('typeid', PARAM_INT);

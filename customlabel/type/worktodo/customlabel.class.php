@@ -16,12 +16,14 @@ class customlabel_type_worktodo extends customlabel_type{
         $this->type = 'worktodo';
         $this->fields = array();
         $this->allowedpageformats = 'page';
+
+		$field = new StdClass;
         $field->name = 'worktodo';
         $field->type = 'textarea';
         $field->rows = 20;
         $this->fields['worktodo'] = $field;
 
-		$field = new Stdclass;
+		$field = new StdClass;
         $field->name = 'estimatedworktime';
         $field->type = 'textfield';
         $field->size = 10;
@@ -29,7 +31,7 @@ class customlabel_type_worktodo extends customlabel_type{
 
         if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKTYPE'))){
 
-			$field = new Stdclass;
+			$field = new StdClass;
 	        $field->name = 'worktype';
 	        $field->type = 'vdatasource';
 	        $field->source = 'dbfieldkeyed';
@@ -40,12 +42,12 @@ class customlabel_type_worktodo extends customlabel_type{
 	        // $field->multiple = 'multiple';
 	        $this->fields['worktype'] = $field;
 	    } else {
-	    	echo "no field for WORKTYPE ";
+	    	// echo "no field for WORKTYPE ";
 	    }
 
       	if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKEFFORT'))){
 
-			$field = new Stdclass;
+			$field = new StdClass;
 	        $field->name = 'workeffort';
 	        $field->type = 'vdatasource';
 	        $field->source = 'dbfieldkeyed';
@@ -56,12 +58,12 @@ class customlabel_type_worktodo extends customlabel_type{
 	        // $field->multiple = 'multiple';
 	        $this->fields['workeffort'] = $field;
 	    } else {
-	    	echo "no field for WORKEFFORT ";
+	    	// echo "no field for WORKEFFORT ";
 	    }
 
     	if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKMODE'))){
 
-			$field = new Stdclass;
+			$field = new StdClass;
 	        $field->name = 'workmode';
 	        $field->type = 'vdatasource';
 	        $field->source = 'dbfieldkeyed';
@@ -72,7 +74,7 @@ class customlabel_type_worktodo extends customlabel_type{
 	        // $field->multiple = 'multiple';
 	        $this->fields['workmode'] = $field;
 	    } else {
-	    	echo "no field for WORKMODE ";
+	    	// echo "no field for WORKMODE ";
 	    }
     }
 

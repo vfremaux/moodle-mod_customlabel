@@ -13,7 +13,8 @@ class customlabel_type_example extends customlabel_type{
         parent::__construct($data);
         $this->type = 'example';
         $this->fields = array();
-        
+
+		$field = new StdClass;        
         $field->name = 'example';
         $field->type = 'textarea';
         $field->rows = 20;

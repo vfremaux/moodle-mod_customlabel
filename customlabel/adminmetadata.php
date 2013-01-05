@@ -43,21 +43,23 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_url($url);
 $PAGE->set_title($SITE->fullname);
 $PAGE->set_heading($SITE->fullname);
-echo $OUTPUT->header();
+$deferredheader = $OUTPUT->header();
 
-echo $OUTPUT->heading(get_string('adminmetadata', 'customlabel'));
+$deferredheader .= $OUTPUT->heading(get_string('adminmetadata', 'customlabel'));
 
 $action = optional_param('what', '', PARAM_ALPHA);
 
-if (!preg_match("/classifiers|metadata|constraints/", $view)) $view = 'metadata';
+if (!preg_match("/classifiers|metadata|constraints|model/", $view)) $view = 'metadata';
 $tabname = get_string('classifiers', 'customlabel');
 $row[] = new tabobject('classifiers', $CFG->wwwroot."/mod/customlabel/adminmetadata.php?view=classifiers", $tabname);
 $tabname = get_string('classification', 'customlabel');
 $row[] = new tabobject('metadata', $CFG->wwwroot."/mod/customlabel/adminmetadata.php?view=metadata", $tabname);
 $tabname = get_string('constraints', 'customlabel');
 $row[] = new tabobject('constraints', $CFG->wwwroot."/mod/customlabel/adminmetadata.php?view=constraints", $tabname);
+$tabname = get_string('classificationmodel', 'customlabel');
+$row[] = new tabobject('model', $CFG->wwwroot."/mod/customlabel/adminmetadata.php?view=model", $tabname);
 $tabrows[] = $row;
-print_tabs($tabrows, $view);
+$deferredheader .= print_tabs($tabrows, $view, '', '', true);
 
 // MVC debug
 // echo "[$view : $action]";
@@ -73,6 +75,10 @@ switch($view){
     }
     case 'constraints':{
         include $CFG->dirroot."/mod/customlabel/metadataconstraints.php";
+        break;
+    }
+    case 'model':{
+        include $CFG->dirroot."/mod/customlabel/metadatamodel.php";
         break;
     }
 }

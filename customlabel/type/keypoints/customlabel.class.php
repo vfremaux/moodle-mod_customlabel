@@ -18,6 +18,7 @@ class customlabel_type_keypoints extends customlabel_type{
         
         $keypointnum = (!empty($storeddata->keypointnum)) ? $storeddata->keypointnum : 3 ;
         
+		$field = new StdClass;        
         $field->name = 'keypointnum';
         $field->type = 'textfield';
         $field->size = 4;

@@ -17,10 +17,9 @@ require $CFG->libdir.'/formslib.php';
 
 class customlabel_updateall_form extends moodleform{
 
-    function __construct($courses, $types, $langs){
+    function __construct($courses, $types){
         $this->types = $types;
         $this->courses = $courses;
-        $this->langs = $langs;
         parent::moodleform();
     }
 
