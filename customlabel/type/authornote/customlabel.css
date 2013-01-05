@@ -2,41 +2,34 @@
 td.custombox-thumb.authornote 
 {
     width:25px;
-	background-image: url("type/authornote/icon_info_small.png"); 
+	background-image: url("/mod/customlabel/type/authornote/icon_info_small.png"); 
 	background-repeat: no-repeat;
     height:73px;
+    float:left;
 }
 
 #region-main td.custombox-thumb.authornote 
 {
     width:65px;
     min-width:65px;
-	background-image: url("type/authornote/icon_info.png"); 
+	background-image: url("/mod/customlabel/type/authornote/icon_info.png"); 
 	background-repeat: no-repeat;
     height:73px;
+    float:left;
 }
 
 .custombox-content.authornote,
-.custombox-control.authornote 
-{
+.custombox-control.authornote {
    width: 98%;
-   border: 1px solid #B3B300;
-   background-color: #E7E8E6;
-   color: #73750B;
+   border: 1px solid #B0B0B0;
+   background-color: #f0f0f0;
+   color: #404040;
    padding: 3px;
 }
-
-.custombox-header-caption.authornote
-{
-   font-weight:bolder;
-   color: #A7AB10;
-}
-
 .custombox-helper.authornote,
-{
-   font-size:0.8em;
-   font-weight:bolder;
-   color: #A7AB10;
+.custombox-head.authornote {
+   font-size:80%;
+   color: #606060;
 }
 
 

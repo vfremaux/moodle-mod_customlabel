@@ -15,26 +15,23 @@
     require_once($CFG->libdir . '/adminlib.php');
     require_once($CFG->dirroot . '/mod/customlabel/locallib.php');
     require_once($CFG->dirroot . '/mod/customlabel/admin_updateall_form.php');
-    require_once $CFG->libdir."/pear/HTML/AJAX/JSON.php";
     // admin_externalpage_setup('customlabel_updateall');
     // admin_externalpage_print_header();
 
-	require_capability('moodle/site:doanything', context_system::instance());
+	$systemcontext = context_system::instance();
 
-    $navlinks[] = array('name' => get_string('customlabeltools', 'customlabel'),
-                        'url' => '',
-                        'type' => 'title');
-    $navigation = build_navigation($navlinks);
-    $PAGE->set_title('');
-    $PAGE->set_heading('');
+	require_login();
+	require_capability('moodle/site:config', $systemcontext);
+    
+    $url = $CFG->wwwroot.'/mod/customlabel/admin_updateall.php';
+    
+    $PAGE->set_context($systemcontext);
+    $PAGE->set_url($url);
+    $PAGE->set_title(get_string('updatelabels', 'customlabel', get_string('pluginname', 'customlabel')));
+    $PAGE->set_heading(get_string('updatelabels', 'customlabel', get_string('pluginname', 'customlabel')));
     /* SCANMSG: may be additional work required for $navigation variable */
     $PAGE->set_focuscontrol('');
     $PAGE->set_cacheable(true);
-    $PAGE->set_button('');
-    $PAGE->set_headingmenu('');
-    echo $OUTPUT->header();
-    /// get languages
-    $langs = get_list_of_languages();
 
     /// get courses
     $allcourses = $DB->get_records_menu('course', null, 'shortname', 'id,shortname');
@@ -53,6 +50,8 @@
 	if ($form->is_cancelled()){
 		redirect($CFG->wwwroot.'/admin/settings.php?section=modsettingcustomlabel');
 	}
+
+    echo $OUTPUT->header();
     if ($data = $form->get_data()){
         echo $OUTPUT->container_start('emptyleftspace');        
         echo $OUTPUT->heading(get_string('updatelabels', 'customlabel', get_string('modulename', 'customlabel')), 1);
@@ -82,11 +81,7 @@
                         // renew the template
 
 					    // fake unpacks object's load
-					    if (empty($block->usesafe)){
-                        	$data = json_decode($customlabel->content);                        
-						} else {
-						    $data = json_decode(base64_decode($customlabel->->safecontent));
-						}
+                    	$data = json_decode(base64_decode($customlabel->content));
                         if (is_null($data)) $data = new StdClass;
                         if (!is_object($data)){
                             $data = new StdClass; // reset old serialized data
@@ -101,9 +96,8 @@
                         $instance->process_form_fields();
                         $instance->process_datasource_fields();
                         $instance->postprocess_data($course);
-                        $customlabel->name = $instance->get_name(); // this realizes the template
+                        $customlabel->processedcontent = $instance->make_content(); // this realizes the template
                         $customlabel->timemodified = time();
-                        $customlabel = customlabel_addslashes_fields($customlabel);
                         $result = $DB->update_record('customlabel', $customlabel);
                         mtrace("\tfinished customlabel $customlabel->id");
                     }

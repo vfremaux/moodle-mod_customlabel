@@ -1,18 +1,27 @@
-table.sectionheading td#right{
-   background-image: url("themeheading.jpg");
-   background-repeat : no-repeat;
-   background-position : center right;
-   height:259px;
-   width:151px;
+
+table.custombox-sectionheading h1 {
+   font-size: 22px;
+   line-height:26px;
+   color: #F2A439
 }
 
-table.sectionheading td#left h1 {
-   font-size: 34px !important;
-   line-height:45px;
+table.custombox-sectionheading p {
+	font-size:12pt;
+    width:95%;
+    line-height:1.5em;
 }
 
-table.sectionheading td#left p {
-   font-size: 12px !important;
-   margin-top: 0em !important;
-   width:95%;
+tr.custombox-icon.sectionheading{
+	min-height:85px;
+	height:85px;
+}
+
+td.custombox-icon-left.sectionheading{
+	min-width:80px;
+	padding-right:20px;
+}
+
+td.custombox-icon-right.sectionheading{
+	min-width:80px;
+	padding-left:20px;
 }

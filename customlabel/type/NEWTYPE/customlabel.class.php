@@ -15,6 +15,7 @@ class customlabel_type_NEWTYPE extends customlabel_type{
         $this->type = 'NEWTYPE';
         $this->fields = array();
 
+		$field = new StdClass;        
         $field->name = 'smalltext';
         $field->type = 'textfield';
         $field->maxlength = 80;

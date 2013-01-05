@@ -18,47 +18,50 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package    moodle
- * @subpackage local
- * @author     Penny Leach <penny@catalyst.net.nz>
+ * @package    mod
+ * @subpackage customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  *
  */
 
-$value1 = optional_param('value1', '', PARAM_TEXT);
-$value2 = optional_param('value2', '', PARAM_TEXT);
+	$value1 = optional_param('value1', '', PARAM_TEXT);
+	$value2 = optional_param('value2', '', PARAM_TEXT);
 
-if ($value1 == $value2){
-    $noticesametypes = true;
-    $value1 = '';
-    $value2 = '';
-}
+	if ($value1 == $value2){
+	    $noticesametypes = true;
+	    $value1 = '';
+	    $value2 = '';
+	}
+	
+	// swap to avoid inverted map
+	if ($value1 < $value2){
+	    $tmp = $value1;
+	    $value1 = $value2;
+	    $value2 = $tmp;
+	}
+	
+	$value1types = $DB->get_records_menu($CFG->classification_type_table, array(), 'name', 'id,name');
+	$value2types = $DB->get_records_menu($CFG->classification_type_table, array(), 'name', 'id,name');
+	
+	$valueset1 = $DB->get_records($CFG->classification_value_table, array($CFG->classification_value_type_key => $value1));
+	$valueset2 = $DB->get_records($CFG->classification_value_table, array($CFG->classification_value_type_key => $value2));
+	
+	if ($action != ''){
+	    include $CFG->dirroot."/mod/customlabel/metadataconstraints.controller.php";
+	}
+	
+	$constraints = $DB->get_records($CFG->classification_constraint_table);
+	if ($constraints){
+	    foreach($constraints as $constraint){
+	        $values[$constraint->value1][$constraint->value2] = $constraint->const;
+	    }
+	}
 
-// swap to avoid inverted map
-if ($value1 < $value2){
-    $tmp = $value1;
-    $value1 = $value2;
-    $value2 = $tmp;
-}
+/// Print table
 
-$value1types = $DB->get_records_menu($CFG->classification_type_table, array(), 'name', 'id,name');
-$value2types = $DB->get_records_menu($CFG->classification_type_table, array(), 'name', 'id,name');
-
-$valueset1 = $DB->get_records($CFG->classification_value_table, array($CFG->classification_value_type_key => $value1));
-$valueset2 = $DB->get_records($CFG->classification_value_table, array($CFG->classification_value_type_key => $value2));
-
-if ($action != ''){
-    include $CFG->dirroot."/mod/customlabel/metadataconstraints.controller.php";
-}
-
-
-$constraints = $DB->get_records($CFG->classification_constraint_table);
-if ($constraints){
-    foreach($constraints as $constraint){
-        $values[$constraint->value1][$constraint->value2] = $constraint->const;
-    }
-}
+	echo $deferredheader;
 
 ?>
 <form name="choosesets" method="POST" action="<?php echo $CFG->wwwroot."/mod/customlabel/adminmetadata.php" ?>">

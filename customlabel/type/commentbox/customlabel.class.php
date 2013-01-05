@@ -14,6 +14,7 @@ class customlabel_type_commentbox extends customlabel_type{
         $this->type = 'commentbox';
         $this->fields = array();
         
+		$field = new StdClass;
         $field->name = 'comment';
         $field->type = 'textarea';
         $this->fields['comment'] = $field;

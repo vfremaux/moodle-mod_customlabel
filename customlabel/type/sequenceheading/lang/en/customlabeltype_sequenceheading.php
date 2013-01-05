@@ -10,5 +10,10 @@ $string['imageposition'] = 'Image position';
 $string['left'] = 'Left';
 $string['right'] = 'Right';
 $string['none'] = 'Not visible';
+$string['overimagetext'] = 'Text over image';
+$string['verticalalign'] = 'Vertical alignment';
+$string['top'] = 'Top';
+$string['middle'] = 'Middle';
+$string['bottom'] = 'Bottom';
 
 

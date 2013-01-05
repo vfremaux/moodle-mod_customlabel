@@ -17,9 +17,9 @@
      * You should have received a copy of the GNU General Public License
      * along with this program.  If not, see <http://www.gnu.org/licenses/>.
      *
-     * @package    moodle
-     * @subpackage local
-     * @author     Penny Leach <penny@catalyst.net.nz>, Valery Fremaux <valery.fremaux@club-internet.fr>
+ 	 * @package    mod
+ 	 * @subpackage customlabel
+ 	 * @author     Valery Fremaux <valery.fremaux@gmail.com>
      * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
      * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
      *
@@ -50,6 +50,9 @@
         }
     }
 
+	// print page start (after controller)
+	echo $deferredheader;
+	
     $types = $DB->get_records($CFG->classification_type_table, null, 'sortorder');
 
     echo $OUTPUT->heading(get_string('classifierstypes', 'customlabel'));
@@ -79,18 +82,19 @@
 		        SELECT 
 		            COUNT(c.id)
 		        FROM
-		            {course} c,
-		            {{$CFG->course_metadata_table}} ccm,
 		            {{$CFG->classification_value_table}} v
-		        WHERE
-		            c.id = ccm.{$CFG->course_metadata_course_key} AND
-		            ccm.{$CFG->course_metadata_value_key} = v.id AND
+		        LEFT JOIN
+		            {{$CFG->course_metadata_table}} ccm
+		        ON
+		        	ccm.{$CFG->course_metadata_value_key} = v.id
+				LEFT JOIN
+		            {course} c
+		        ON
+		            c.id = ccm.{$CFG->course_metadata_course_key}
+				WHERE		            
 		            v.{$CFG->classification_value_type_key} = '{$atype->id}'
-		        GROUP BY 
-		            v.id
 		    ";
 		    $atype->courses = $DB->count_records_sql($sql);
-
 
             $cmds = "<a href=\"{$url}?view=classifiers&what=delete&amp;typeid={$atype->id}\"><img src=\"".$OUTPUT->pix_url('/t/delete')."\" alt=".get_string('delete').'"></a>';
             $cmds .= " <a href=\"{$url}?view=classifiers&amp;what=edit&amp;typeid={$atype->id}\"><img src=\"".$OUTPUT->pix_url('/t/edit')."\" alt=".get_string('editvalues', 'customlabel').'"></a>';

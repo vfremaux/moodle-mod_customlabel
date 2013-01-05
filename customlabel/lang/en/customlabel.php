@@ -35,6 +35,14 @@ $string['updatelabels'] = 'Regenerate instances of {$a}';
 $string['updatescope'] = 'Updating scope';
 $string['usesafestorage'] = 'Use safe storage for content (base64)';
 $string['pluginadministration'] = 'Course element administration';
+$string['modulename_help'] = "Course Elements provide you with pedagogic modules that are already layout and
+designed for serving some high level pedagogic needs. Course elements have subtypes that address common
+learning actions : work to do, soluce, see also (optional reference), local goals, reminder, and some 
+editioral helpers such as course captions. Administrator can integrate specific models with additional
+editorial value such as using prefitted image bank, or tagging courses,
+You just need to enter the appropriate data in each module
+and register. 
+";
 
 // Metadata
 $string['adminmetadata'] = 'Classifiers configuration';
@@ -63,6 +71,22 @@ $string['novalues'] = 'No registered value';
 $string['notypes'] = 'No classifier type';
 $string['up'] = 'Up';
 $string['down'] = 'Down';
+$string['model'] = 'Data Model';
+$string['classificationmodel'] = 'Data Model for Classification';
+$string['classificationtypetable'] = 'Classification Types Table';
+$string['classificationtypetable_help'] = 'This table provides domains of classification. A domain holds a set of values.';
+$string['classificationvaluetable'] = 'Classification Values Table';
+$string['classificationvaluetable_help'] = 'This table provides all values for all classifiers defined in the Type Table.';
+$string['classificationvaluetypekey'] = 'Type key for values';
+$string['classificationvaluetypekey_help'] = 'This must define the table column name that is used to key the type ownership on values.';
+$string['classificationconstrainttable'] = 'Classification Constraints Table';
+$string['classificationconstrainttable_help'] = 'This table is capable to map the value pairs wich are not compatible.';
+$string['coursemetadatatable'] = 'Course Metadata Table';
+$string['coursemetadatatable_help'] = 'This table provides course to metadata bindings.';
+$string['coursemetadatavaluekey'] = 'Course Metadata Value Key';
+$string['coursemetadatavaluekey_help'] = 'This must define a column name in database that maps a record to a metadata value.';
+$string['coursemetadatacoursekey'] = 'Course Metadata Course Key';
+$string['coursemetadatacoursekey_help'] = 'This must define a column name in database that maps a record to a course ID.';
 
 $string['templatenotfound'] = 'Template {$a} not found';
 

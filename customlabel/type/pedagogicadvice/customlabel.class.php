@@ -14,11 +14,12 @@ class customlabel_type_pedagogicadvice extends customlabel_type{
         $this->type = 'pedagogicadvice';
         $this->fields = array();
         
+		$field = new StdClass;
         $field->name = 'advice';
         $field->type = 'textarea';
         $this->fields['advice'] = $field;
 
-		$field = new Stdclass;
+		$field = new StdClass;
         $field->type = 'choiceyesno';
         $field->name = 'initiallyvisible';
         $field->default = 1;

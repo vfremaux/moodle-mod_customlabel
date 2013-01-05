@@ -39,7 +39,7 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
     	$paths[] = new restore_path_element('metadatatype', '/activity/customlabel/types/type');
     	$paths[] = new restore_path_element('metadatavalue', '/activity/customlabel/types/type/values/value');
     	$paths[] = new restore_path_element('metadataconstraint', '/activity/customlabel/constraints/constraint');
-    	$paths[] = new restore_path_element('metadatacourse', '/activity/customlabel/metadatacourse/metadatacoursedatum');
+    	$paths[] = new restore_path_element('coursemetadata', '/activity/customlabel/metadatacourse/metadatacoursedatum');
         
         // Return the paths wrapped into standard activity structure
         return $this->prepare_activity_structure($paths);
@@ -53,8 +53,8 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
     
     
     protected function process_customlabel($data){
-		global $DB;
-		
+    	global $DB;
+
         $data = (object)$data;        
         $oldid = $data->id;
         $data->course = $this->get_courseid();
@@ -71,16 +71,9 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $data = (object)$data;        
         $oldid = $data->id;
 
-        $data->timemodified = $this->apply_date_offset($data->timemodified);
-
         // The data is actually inserted into the database later in inform_new_usage_id.
-        // items with similar code SHOULD NOT be duplicated. Old value will prepend to preserve local system stability.
-        if ($oldrecord = $DB->get_record('customlabel_mtd_type', 'code', $data->code)){
-        	$itemid = $oldrecord->id;
-        } else {
-        	$itemid = $DB->insert_record('customlabel_mtd_type', $data);
-        }
-        $this->set_mapping('customlabel_mtd_type', $oldid, $itemid, false); // Has no related files
+        $newitemid = $DB->insert_record('customlabel_mtd_type', $data);
+        $this->set_mapping('customlabel_mtd_type', $oldid, $newitemid, false); // Has no related files
     }
 
     protected function process_metadatavalue($data) {
@@ -89,18 +82,11 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $data = (object)$data;        
         $oldid = $data->id;
 
-		// If an older record matches the same code, use the local one.
-        if ($oldrecord = $DB->get_record('customlabel_mtd_value', 'code', $data->code)){
-        	$itemid = $oldrecord->id;
-        } else {
+        $data->typeid = $this->get_mappingid('customlabel_mtd_type', $data->typeid);
 
-	        $data->typeid = $this->get_mappingid('customlabel_mtd_type', $data->typeid);
-	        $data->timemodified = $this->apply_date_offset($data->timemodified);
-
-	        // The data is actually inserted into the database later in inform_new_usage_id.
-	        $itemid = $DB->insert_record('customlabel_mtd_value', $data);
-	    }
-        $this->set_mapping('customlabel_mtd_value', $oldid, $itemid, false); // Has no related files
+        // The data is actually inserted into the database later in inform_new_usage_id.
+        $newitemid = $DB->insert_record('customlabel_mtd_value', $data);
+        $this->set_mapping('customlabel_mtd_value', $oldid, $newitemid, false); // Has no related files
     }
 
     protected function process_metadataconstraint($data) {
@@ -112,17 +98,12 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $data->value1 = $this->get_mappingid('customlabel_mtd_value', $data->value1);
         $data->value2 = $this->get_mappingid('customlabel_mtd_value', $data->value2);
 
-		if ($oldconstraint = $DB->get_record_select('customlabel_mtd_constraint', " (value1 = $data->value1 AND value2 = $data->value2) OR (value2 = $data->value1 AND value1 = $data->value2) ")){
-			$itemid = $oldconstraint->id;
-		} else {	
-	        $data->timemodified = $this->apply_date_offset($data->timemodified);	
-	        // The data is actually inserted into the database later in inform_new_usage_id.
-	        $itemid = $DB->insert_record('customlabel_mtd_value', $data);
-	    }
-        $this->set_mapping('customlabel_mtd_constraint', $oldid, $itemid, false); // Has no related files
+        // The data is actually inserted into the database later in inform_new_usage_id.
+        $newitemid = $DB->insert_record('customlabel_mtd_value', $data);
+        $this->set_mapping('customlabel_mtd_onstraint', $oldid, $newitemid, false); // Has no related files
     }
 
-    protected function process_metadatacourse($data) {
+    protected function process_coursemetadata($data) {
     	global $DB;
     	
         $data = (object)$data;

@@ -116,14 +116,16 @@ class customlabel_type{
     function get_datasource_values($field, $values){
         global $CFG, $USER, $COURSE, $DB;
 
-        if (is_array($values))
+        if (is_array($values)){
             $valuelist = implode("','", $values);
-        else 
+        } else {
             $valuelist = $values;
+        }
         $table = $CFG->prefix.$field->table;
         $fieldname = $field->field;
         $fieldkey = (empty($field->key)) ? 'id' : $field->key ;
-        $select = " WHERE `$fieldkey` IN ('$valuelist') ";
+        $fieldselect = (@$field->select) ? "AND $field->select" : '' ;
+        $select = " WHERE `$fieldkey` IN ('$valuelist') ". $fieldselect;
 
         $output = array();
 

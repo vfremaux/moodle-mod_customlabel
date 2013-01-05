@@ -2,14 +2,15 @@ table.custombox-example {
    width: 100%;
 }
 
-td.custombox-header-thumb.example {
+.custombox-header-thumb.example {
+   width:65px;
    padding-right:8px;
-   border-right:1px solid #E0E0E0 !important;
+   border-right:1px solid #DBE41B !important;
 }
 
 td.custombox-header-thumb.example {
     width:25px;
-	background-image: url("type/example/icon_example_small.png"); 
+	background-image: url("/mod/customlabel/type/example/icon_example_small.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
@@ -17,13 +18,13 @@ td.custombox-header-thumb.example {
 #region-main td.custombox-header-thumb.example {
     width:65px;
     min-width:65px;
-	background-image: url("type/example/icon_example.png"); 
+	background-image: url("/mod/customlabel/type/example/icon_example.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
 
 td.custombox-header-caption.example {
-    color:#5B734D;
+    color:#8C919B;
     font-weight:bolder;
     font-size:1.3em;
     padding-left:8px;
@@ -31,7 +32,7 @@ td.custombox-header-caption.example {
 
 td.custombox-content.example {
     padding-left:8px;
-    min-height:100Px;
+    min-height:100px;
 }
 
 td.custombox-content.example h1,

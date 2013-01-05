@@ -1,15 +1,11 @@
-<div class="custombox-control authornote"><a href="javascript:togglecustom('<%%customid%%>')"><img id="customctl<%%customid%%>" src="<%%initialcontrolimage%%>" /></a>
-<span class="custombox-head-caption authornote">Author note</span></div>
+<div class="custombox-control authornote"><a href="javascript:togglecustom('<%%customid%%>')"><img id="customctl<%%customid%%>" src="/mod/customlabel/pix/neutral.gif" /></a>
+<span class="custombox-head authornote"><b>Author note</b></span>
+</div>
 <div class="custombox-content authornote" id="custom<%%customid%%>">
-<p class="custombox-helper authornote">(This note is only visible by authors)</p>
-<table class="custombox-authornote">
-	<tr valign="top">
-		<td class="custombox-header-thumb authornote"  width="2%"></td>
-		<td class="custombox-content-text pedagogicadvice"><%%authornote%%></td>
-	</tr>
-</table>
+<div class="custombox-header-thumb authornote"></div>
+<p class="custombox-helper authornote"><b>(Only authors can see this note. It can be deleted from course when read)</b></p>
+<%%authornote%%>
 </div>
 <script type="text/javascript">
 setupcustom("<%%customid%%>", "<%%initiallyvisible%%>");
 </script>
-

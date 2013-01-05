@@ -31,6 +31,13 @@ $string['updateall'] = 'Régénérer tous les éléments';
 $string['updatelabels'] = 'Régénération des instances de {$a}';
 $string['updatescope'] = 'Portée de la mise à jour';
 $string['usesafestorage'] = 'Utiliser le stockage sûr (base64)';
+$string['modulename_help'] = 'Les éléments de cours sont des modules de contenus qui constituent des briques pédagogiques. 
+Les éléments de cours ont un sous-type qui rencontre la plupart des actions d\'apprentissage communes : consigne de travail, 
+élément de solution, référence accessoire, objectifs, rubrique à retenir, ainsi que des briques éditoriales comme 
+les titres de cours, ou la bibliographie. Les administrateurs peuvent redéfinir des nouveaux type et y introduire
+une politique éditoriale spécifique. Les éléments de cours prennent en charge la "mise en forme" du contenu et facilitent 
+le travail de l\'auteur. 
+';
 
 // Metadata
 $string['adminmetadata'] = 'Administration des classifieurs';
@@ -57,7 +64,22 @@ $string['value'] = 'Valeur';
 $string['code'] = 'Code';
 $string['novalues'] = 'Aucune valeur enregistrée';
 $string['notypes'] = 'Aucun classifieur défini';
-
+$string['model'] = 'Data Model';
+$string['classificationmodel'] = 'Modèle de données pour classification';
+$string['classificationtypetable'] = 'Table des domaines';
+$string['classificationtypetable_help'] = 'This table provides domains of classification. A domain holds a set of values.';
+$string['classificationvaluetable'] = 'Table des valeurs de domaine';
+$string['classificationvaluetable_help'] = 'This table provides all values for all classifiers defined in the Type Table.';
+$string['classificationvaluetypekey'] = 'Clef de type pour les valeurs';
+$string['classificationvaluetypekey_help'] = 'This must define the table column name that is used to key the type ownership on values.';
+$string['classificationconstrainttable'] = 'Table des contraintes';
+$string['classificationconstrainttable_help'] = 'This table is capable to map the value pairs wich are not compatible.';
+$string['coursemetadatatable'] = 'Table des métadonnées de cours';
+$string['coursemetadatatable_help'] = 'This table provides course to metadata bindings.';
+$string['coursemetadatavaluekey'] = 'Clef des valeurs (métadonnées de cours)';
+$string['coursemetadatavaluekey_help'] = 'This must define a column name in database that maps a record to a metadata value.';
+$string['coursemetadatacoursekey'] = 'Clef de cours (métadonnées de cours)';
+$string['coursemetadatacoursekey_help'] = 'This must define a column name in database that maps a record to a course ID.';
 
 // known types
 $string['text'] = 'Texte';
@@ -76,7 +98,7 @@ if (!function_exists('local_customlabel_get_classes')){
         while ($entry = readdir($classdir)){
             if (preg_match("/^[.!]/", $entry)) continue; // ignore what need to be ignored
             if (!is_dir($basetypedir.'/'.$entry)) continue; // ignore real files
-            unset($obj);
+            $obj = new StdClass;
             $obj->id = $entry;
             $classes[] = $obj;
         }

@@ -11,4 +11,3 @@ $module->component = 'mod_customlabel';   // Full name of the plugin (used for d
 $module->cron     = 0;           // Period for cron to check this module (secs)
 $module->maturity = MATURITY_RC;           // Maturity 
 $module->release = "2.3.0 (Build 2012062401)"; // Release
-

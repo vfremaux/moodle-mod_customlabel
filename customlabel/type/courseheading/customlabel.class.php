@@ -10,10 +10,12 @@ require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
 class customlabel_type_courseheading extends customlabel_type{
 
     function __construct($data){
+    	global $CFG, $COURSE;
+    	
         parent::__construct($data);
         $this->type = 'courseheading';
         $this->fields = array();        
-        
+
         $field = new StdClass;
         $field->name = 'showdescription';
         $field->type = 'choiceyesno';
@@ -29,6 +31,37 @@ class customlabel_type_courseheading extends customlabel_type{
         $field->type = 'choiceyesno';
         $this->fields['showcategory'] = $field;
         
+		$field = new StdClass;
+        $field->name = 'imageurl';
+        $field->type = 'textfield';
+        $field->size = 60;
+        if (!is_file($CFG->dirroot.'/theme/'.current_theme().'/pix/customlabel_icons/defaultcourseheading.jpg')){
+	        $field->default = $CFG->wwwroot.'/mod/customlabel/type/courseheading/defaultheading.jpg';
+	    } else {
+	        $field->default = $CFG->wwwroot.'/theme/'.current_theme().'/pix/customlabel_icons/defaultcourseheading.jpg';
+	    }
+        $this->fields['imageurl'] = $field;
+
+		$field = new StdClass();
+        $field->name = 'overimagetext';
+        $field->type = 'textfield';
+        $field->size = 20;
+        $field->default = $COURSE->shortname;
+        $this->fields['overimagetext'] = $field;
+
+		$field = new StdClass();
+        $field->name = 'imageposition';
+        $field->type = 'list';
+        $field->options = array('none', 'left', 'right');
+        $field->default = 'left';
+        $this->fields['imageposition'] = $field;
+
+		$field = new StdClass;
+        $field->name = 'moduletype';
+        $field->type = 'textfield';
+        $field->size = 40;
+        $field->default = get_string('trainingmodule', 'customlabeltype_courseheading');
+        $this->fields['moduletype'] = $field;
     }
 
     /**
@@ -43,16 +76,21 @@ class customlabel_type_courseheading extends customlabel_type{
         
         // get virtual fields from course title.
         $this->data->courseheading = str_replace("'", "\\'", $course->fullname);
-        if (@$this->data->showdescription){
-	        $this->data->coursedesc = '<div class="custombox-description courseheading">'.str_replace("'", "\\'", $course->summary).'</div>';
+        $this->data->coursedesc = str_replace("'", "\\'", $course->summary);
+        $this->data->idnumber = $course->idnumber;
+        $imageurl = (empty($this->data->imageurl)) ? $this->fields['imageurl']->default : $this->data->imageurl ;
+    	if ($this->data->imagepositionoption == 'left'){
+	        $this->data->imageL = "<td width=\"100\" class=\"custombox-icon-left courseheading\" align=\"center\" style=\"background:url({$imageurl}) 50% 50% no-repeat transparent\">{$this->data->overimagetext}</td>";
+	        $this->data->imageR = '';
+	    } else if ($this->data->imagepositionoption == 'right'){
+	        $this->data->imageL = '';
+	        $this->data->imageR = "<td width=\"100\" class=\"custombox-icon-right courseheading\" align=\"center\" style=\"background:url({$imageurl}) 50% 50% no-repeat transparent\">{$this->data->overimagetext}</td>";
+	    } else {
+	        $this->data->imageL = '';
+	        $this->data->imageR = '';
 	    }
-        if (@$this->data->showidnumber){
-	        $this->data->idnumber = '<div class="custombox-idnumber courseheading">['.$course->idnumber.']</div>';
-	    }
-        if (@$this->data->showcategory){
-        	$cat = $DB->get_record('course_categories', array('id' => $course->category));
-	        $this->data->category = '<div class="custombox-category courseheading">'.$cat->name.'</div>';
-	    }
+    	$cat = $DB->get_record('course_categories', array('id' => $course->category));
+        $this->data->category = $cat->name;
     }
 }
  
