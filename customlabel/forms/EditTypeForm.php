@@ -30,7 +30,7 @@ class EditTypeForm extends moodleform{
         $this->add_action_buttons(false);
     }
     
-    function validation(&$data){
+    function validation($data, $files = null){
         $errors = array();
 
         if (empty($data['name'])){

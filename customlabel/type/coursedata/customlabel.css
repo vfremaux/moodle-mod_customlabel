@@ -1,29 +1,32 @@
-.custombox-coursedata 
-{
+.custombox-coursedata {
    width: 100%;
-   border:1px solid #686868;
+   border:1px solid #000000;
 }
 
-.custombox-title.coursedata 
-{
-   background-color: #6A6A6A;
-   color: #FEFEFE;
+.custombox-coursedata p {
+	padding-top:0px;
+	margin-top:0px;
+}
+
+.custombox-title.coursedata {
+   background-color: #000000;
+   color: #F0F0F0;
    font-size: 15px;
    text-align: left;
    padding: 5px;
 }
 
-.custombox-param.coursedata
-{
-   background-color: #B7B7B7;
+.custombox-param.coursedata {
+   background-color: #606060;
+   color: #FFFFFF;
    font-weight: bold;
    padding: 5px;
-   width:30%;
+   border:#ffffff 1px solid;
 }
 
-.coursedata-value.coursedata
-{
-   background-color: #D5D5D5;
+.custombox-coursedata td.custombox-value.coursedata {
+   background-color: #E0E0E0;
+   color: #404040;
    padding: 5px;
-   width:70%;
+   border:#A0A0A0 1px solid !important;
 }

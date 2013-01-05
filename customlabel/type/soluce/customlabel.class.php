@@ -14,12 +14,13 @@ class customlabel_type_soluce extends customlabel_type{
         $this->type = 'soluce';
         $this->fields = array();
         
+		$field = new StdClass;
         $field->name = 'soluce';
         $field->type = 'textarea';
         $field->rows = 20;
         $this->fields['soluce'] = $field;
 
-		$field = new Stdclass;
+		$field = new StdClass;
         $field->type = 'choiceyesno';
         $field->name = 'initiallyvisible';
         $field->default = 1;

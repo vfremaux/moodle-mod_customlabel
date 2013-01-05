@@ -14,12 +14,13 @@ class customlabel_type_authornote extends customlabel_type{
         $this->type = 'authornote';
         $this->fields = array();
         
+		$field = new StdClass;
         $field->name = 'authornote';
         $field->type = 'textarea';
         $field->rows = 20;
         $this->fields['authornote'] = $field;
 
-		$field = new Stdclass;
+		$field = new StdClass;
         $field->type = 'choiceyesno';
         $field->name = 'initiallyvisible';
         $field->default = 1;

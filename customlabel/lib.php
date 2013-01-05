@@ -32,7 +32,6 @@ require_once ($CFG->dirroot.'/mod/customlabel/locallib.php');
  * @return string
  */
 function customlabel_get_name($customlabel) {
-    $textlib = textlib_get_instance();
 
     $name = format_string($customlabel->name, true);
 
@@ -207,10 +206,10 @@ function customlabel_get_coursemodule_info($coursemodule) {
     global $CFG, $DB;
     
     if ($customlabel = $DB->get_record('customlabel', array('id' => $coursemodule->instance), 'id, labelclass, intro, title, name, content, processedcontent')) {
-        $info = new stdClass();
 
         $instance = customlabel_load_class($customlabel, $customlabel->labelclass);
 
+        $info = new stdClass();
         $info->name = $customlabel->name;
         $info->extra = '';
         // $customcontent = json_decode(base64_decode($customlabel->content));
@@ -229,6 +228,7 @@ function customlabel_get_coursemodule_info($coursemodule) {
 function customlabel_cm_info_dynamic(&$cminfo){
 	global $DB, $PAGE;
 	static $customlabelscriptsloaded = false;
+	static $customlabelcssloaded = array();
 
     // load some js sripts once
     if (!$customlabelscriptsloaded){
@@ -252,9 +252,13 @@ function customlabel_cm_info_dynamic(&$cminfo){
 	}
 	
 	if ($customlabel = $DB->get_record('customlabel', array('id' => $cminfo->instance))){
+		//
+		$PAGE->requires->css('/mod/customlabel/type/'.$customlabel->labelclass.'/customlabel.css');
+
 		// disable url form of the course module representation
 		$cminfo->set_no_view_link();
 		$cminfo->set_content($customlabel->processedcontent);
+		$cminfo->set_extra_classes('label'); // important, or customlabel WILL NOT be deletable in topic/week course
 	}
 
 	// print_object($cminfo);

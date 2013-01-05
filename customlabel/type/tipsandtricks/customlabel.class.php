@@ -14,15 +14,10 @@ class customlabel_type_tipsandtricks extends customlabel_type{
         $this->type = 'tipsandtricks';
         $this->fields = array();
         
+		$field = new StdClass;
         $field->name = 'tipsandtricks';
         $field->type = 'textarea';
         $this->fields['tipsandtricks'] = $field;
-    }
-
-    function postprocess_data($course = null){
-        global $CFG;
-
-        $this->data->headerimage = $CFG->wwwroot.'/mod/customlabel/type/tipsandtricks/thumb.jpg';
     }
 }
  

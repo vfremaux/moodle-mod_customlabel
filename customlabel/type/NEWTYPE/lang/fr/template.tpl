@@ -3,7 +3,6 @@
 <!-- Remind : Template must be UTF8 encoded -->
 
 <!-- The first line calls the customization CSS -->
-<link href="<%%customlabelcss%%>" rel="stylesheet" type="text/css" />
 <div class="labelcontent">
 <table class="customlabeldemo">
     <tr>

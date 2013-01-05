@@ -1,16 +1,16 @@
-table.localgoals {
+table.custombox.localgoals {
    width: 100%;
 }
 
-td.custombox-header-thumb.localgoals {
+.custombox-header-thumb.localgoals {
    width:40px;
    padding-right:8px;
-   border-right:1px solid #E0E0E0 !important;
+   border-right:1px solid #9B5992 !important;
 }
 
 td.custombox-header-thumb.localgoals{
     width:25px;
-	background-image: url("type/localgoals/icon_goals_small.png"); 
+	background-image: url("/mod/customlabel/type/localgoals/icon_goals_small.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
@@ -18,7 +18,7 @@ td.custombox-header-thumb.localgoals{
 #region-main td.custombox-header-thumb.localgoals{
     width:65px;
     min-width:65px;
-	background-image: url("type/localgoals/icon_goals.png"); 
+	background-image: url("/mod/customlabel/type/localgoals/icon_goals.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
@@ -32,7 +32,7 @@ td.custombox-header-caption.localgoals {
 
 td.custombox-content.localgoals {
     padding-left:8px;
-    min-height:100Px;
+    min-height:100px;
 }
 
 td.custombox-content.localgoals h1,

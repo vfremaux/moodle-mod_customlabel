@@ -2,8 +2,14 @@
 
 include_once $CFG->dirroot.'/mod/customlabel/locallib.php';
 
+$systemcontext = context_system::instance();
 $classes = customlabel_get_classes(null, false);
-$roles = $DB->get_records_menu ('role', array(), 'name', 'id,name') ;
+$roles = role_fix_names(get_all_roles(), $systemcontext, ROLENAME_ORIGINAL);
+
+$rolemenu = array();
+foreach($roles as $rid => $role){
+	$rolemenu[$rid] = $role->localname ;
+}
 
 $settings->add(new admin_setting_heading('regeneration', get_string('regeneration', 'customlabel'), "<a href=\"{$CFG->wwwroot}/mod/customlabel/admin_updateall.php\">".get_string('regenerate', 'customlabel')."</a>"));
 
@@ -18,7 +24,7 @@ foreach($classes as $class){
     $description = get_string('hiddenrolesfor', 'customlabel') . ' ' . get_string('typename', 'customlabeltype_'.$class->id);
     $parmname = "customlabel_{$class->id}_hiddenfor";
     $selection = explode(',', @$CFG->$parmname);
-    $settings->add (new admin_setting_configmultiselect("$parmname", "customlabel_{$class->id}_hiddenfor", $description, $selection, $roles));
+    $settings->add (new admin_setting_configmultiselect("$parmname", "customlabel_{$class->id}_hiddenfor", $description, $selection, $rolemenu));
 }
 
 

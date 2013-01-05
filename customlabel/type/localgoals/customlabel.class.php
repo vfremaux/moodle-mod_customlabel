@@ -14,6 +14,7 @@ class customlabel_type_localgoals extends customlabel_type{
         $this->type = 'localgoals';
         $this->fields = array();
         
+		$field = new StdClass;
         $field->name = 'localgoals';
         $field->type = 'textarea';
         $field->rows = 20;

@@ -1,8 +1,9 @@
-<table class="custombox-sequenceheading">
-<tr valign="top">
+<table class="custombox-sequenceheading" width="100%">
+<tr valign="<%%verticalalignoption%%>" class="custombox-icon sequenceheading">
 <%%imageL%%>
-<td><div class="custombox-heading sequenceheading"><h2><%%heading%%></h2></div>
-<div class="custombox-description sequenceheading"><%%shortdesc%%></div>
+<td>
+<h2 class="sequenceheading"><%%heading%%></h2>
+<p class="sequenceheading"><%%shortdesc%%></p>
 </td>
 <%%imageR%%>
 </tr>

@@ -1,16 +1,14 @@
-#region-main td.custombox-thumb.pedagogicadvice 
-{
+#region-main td.custombox-thumb.pedagogicadvice {
     width:65px;
     min-width:65px;
-	background-image: url("type/pedagogicadvice/icon_infop.png"); 
+	background-image: url("/mod/customlabel/type/pedagogicadvice/icon_infop.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
 
-td.custombox-thumb.pedagogicadvice 
-{
+td.custombox-thumb.pedagogicadvice {
     width:25px;
-	background-image: url("type/pedagogicadvice/icon_infop_small.png"); 
+	background-image: url("/mod/customlabel/type/pedagogicadvice/icon_infop_small.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
@@ -21,16 +19,15 @@ td.custombox-thumb.pedagogicadvice
 }
 
 .custombox-content.pedagogicadvice,
-.custombox-control.pedagogicadvice
-{
+.custombox-control.pedagogicadvice {
    width: 98%;
-   border: 1px solid #378A39;
-   background-color: #E7E8E6;
-   color: #609957;
+   border: 1px solid #d0d0d0;
+   background-color: #f8e0f8;
+   color: #404040;
    padding: 3px;
 }
 
 .custombox-helper.pedagogicadvice {
-   font-size:0.8em;
-   color: #58AD5A;
+   font-size:80%
+   color: #606060;
 }
