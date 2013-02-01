@@ -11,3 +11,4 @@ $module->component = 'mod_customlabel';   // Full name of the plugin (used for d
 $module->cron     = 0;           // Period for cron to check this module (secs)
 $module->maturity = MATURITY_RC;           // Maturity 
 $module->release = "2.2.0 (Build 2012062400)"; // Release
+$module->dependancies = array('filter_multilangenhanced' => 2012101000); // Dependancies

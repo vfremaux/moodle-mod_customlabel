@@ -12,5 +12,6 @@ $string['right'] = 'Right';
 $string['showcategory'] = 'Show category';
 $string['showdescription'] = 'Show description';
 $string['showidnumber'] = 'Show idnumber';
+$string['showshortname'] = 'Show shortname';
 $string['typename'] = 'Course Heading';
 $string['trainingmodule'] = 'Training Module';

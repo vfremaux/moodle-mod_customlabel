@@ -34,6 +34,7 @@ $PAGE->requires->yui2_lib('yui_utilities');
 $PAGE->requires->yui2_lib('yui_connection');
 $PAGE->requires->yui2_lib('yui_json');
 $PAGE->requires->js('/mod/customlabel/js/applyconstraints.js', false); // needs being in footer to get oldtype
+$PAGE->requires->js('/mod/customlabel/js/modform.js', false); // needs being in footer to get oldtype
 
 class mod_customlabel_mod_form extends moodleform_mod {
 
@@ -84,7 +85,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
         if (has_capability('mod/customlabel:fullaccess', $context) || $customclass->fullaccess){
         	$onchangeadvicestr = str_replace("'", "\'", get_string('changetypeadvice', 'customlabel'));
 			// $mform->addElement('select', 'labelclass', get_string('labelclass', 'customlabel'), $qoptions, array('onchange' => "type_change_submit(this,'$onchangeadvicestr')", 'id' => 'menulabelclass'));
-			$mform->addElement('select', 'labelclass', get_string('labelclass', 'customlabel'), $qoptions, array('onchange' => "type_change_submit2('$onchangeadvicestr', '$COURSE->id', '$section', '$returntomod', '".sesskey()."')", 'id' => 'menulabelclass'));
+			$mform->addElement('select', 'labelclass', get_string('labelclass', 'customlabel'), $qoptions, array('onchange' => "type_change_submit('$onchangeadvicestr', '$COURSE->id', '$section', '$returntomod', '".sesskey()."')", 'id' => 'menulabelclass'));
 			$mform->setDefault('labelclass', 'text');
 		} else {
 			$mform->addElement('static', 'labelclassname', get_string('labelclass', 'customlabel'));
