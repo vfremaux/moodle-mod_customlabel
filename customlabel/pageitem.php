@@ -15,7 +15,7 @@ function customlabel_set_instance(&$block){
     $block->title = '';
 
     // fake unpacks object's load
-    if (empty($block->usesafe)){
+    if (empty($block->moduleinstance->usesafe)){
 	    $data = json_decode($block->moduleinstance->content);
 	} else {
 	    $data = json_decode(base64_decode($block->moduleinstance->safecontent));
@@ -28,6 +28,7 @@ function customlabel_set_instance(&$block){
     
     // realize a pseudo update
     $data->content = $block->moduleinstance->content;
+    $data->safecontent = $block->moduleinstance->safecontent;
     $data->labelclass = $block->moduleinstance->labelclass; // fixes broken serialized contents
     if (!isset($block->moduleinstance->title)) $block->moduleinstance->title = ''; // fixes broken serialized contents
     $instance = customlabel_load_class($data);
@@ -40,6 +41,8 @@ function customlabel_set_instance(&$block){
     $block->moduleinstance = customlabel_addslashes_fields($block->moduleinstance);
     $block->moduleinstance->title = str_replace("'", "''", $block->moduleinstance->title);
     $result = update_record('customlabel', $block->moduleinstance);
+    
+    $block->content->text = filter_text(stripslashes($block->moduleinstance->name));
     
     return true;    
 }

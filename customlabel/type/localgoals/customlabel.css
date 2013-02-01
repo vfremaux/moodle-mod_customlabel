@@ -1,29 +1,30 @@
-table.localgoals {
+table.custombox-localgoals {
    width: 100%;
 }
 
-td.custombox-header-thumb.localgoals {
-   width:40px;
+.custombox-header-thumb.localgoals {
+   width:65px;
    padding-right:8px;
-   border-right:8px solid #9B5992 !important;
+   border-right:1px solid #9B5992 !important;
 }
 
-#middle-column td.custombox-header-thumb.localgoals{
-    width:40px;
-	background-image: url("icon_goals.png"); 
+#middle-column .custombox-header-thumb.localgoals{
+    min-width:65px;
+	background-image: url("/mod/customlabel/type/localgoals/icon_goals.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
 
-#left-column td.custombox-header-thumb.localgoals,
-#right-column td.custombox-header-thumb.localgoals{
+#left-column .custombox-header-thumb.localgoals,
+#right-column .custombox-header-thumb.localgoals{
     width:25px;
-	background-image: url("icon_goals_small.png"); 
+    min-width:25px;
+	background-image: url("/mod/customlabel/type/localgoals/icon_goals_small.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
 
-td.custombox-header-caption.localgoals {
+.custombox-header-caption.localgoals {
     color:#9B5992;
     font-weight:bolder;
     font-size:1.3em;
@@ -32,14 +33,13 @@ td.custombox-header-caption.localgoals {
 
 td.custombox-content.localgoals {
     padding-left:8px;
-    min-height:100Px;
+    min-height:100px;
 }
 
 td.custombox-content.localgoals h1,
 td.custombox-content.localgoals h2,
 td.custombox-content.localgoals h3{
-    background-image:none !important;
-    padding-left:0px !important;
-    color:#9B5992 !important;
-    font-weight:bolder !important;
+    background-image:none;
+    padding-left:0px;
+    font-weight:bolder;
 }

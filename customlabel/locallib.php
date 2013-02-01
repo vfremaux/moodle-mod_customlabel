@@ -7,6 +7,17 @@
 * @date 15/07/2008
 */
 
+// TODO : check if there is not a legacy post install function in module API
+if (!isset($CFG->classification_type_table)){
+	set_config('classification_type_table', 'customlabel_mtd_type');
+	set_config('classification_value_table', 'customlabel_mtd_value');
+	set_config('classification_value_type_key', 'typeid');
+	set_config('classification_constraint_table', 'customlabel_mtd_constraint');
+	set_config('course_metadata_table', 'customlabel_course_metadata');
+	set_config('course_metadata_value_key', 'valueid');
+	set_config('course_metadata_course_key', 'courseid');
+}
+
 /**
 * returns all available classes for a customlabel
 * @uses $CFG
@@ -14,7 +25,7 @@
 *                     roles held by the current user. Returns all types otherwise.
 * @return a sorted array of class definitions as objects
 */
-function customlabel_get_classes($context=null){
+function customlabel_get_classes($context=null, $allclasses = false){
     global $CFG;
     
     $classes = array();
@@ -27,9 +38,9 @@ function customlabel_get_classes($context=null){
         if (!is_dir($basetypedir.'/'.$entry)) continue; // ignore real files
         if (preg_match('/^CVS$/', $entry)) continue; // ignore versionning files
         if ($entry == 'NEWTYPE') continue; // discard plugin prototype
-        $hideparamkey = 'list_customlabel_hide_'.$entry;
-        if (!empty($CFG->{$hideparamkey})) continue; // ignore hidden by config plugins
-        unset($obj);
+        $enableparamkey = 'list_customlabel_'.$entry.'_enabled';
+        if (!$allclasses && empty($CFG->{$enableparamkey})) continue; // ignore hidden by config plugins
+        $obj = new StdClass;
         $obj->id = $entry;
         $obj->name = get_string($entry, 'customlabel');
         $classes[] = $obj;
@@ -117,9 +128,14 @@ function customlabel_load_class($customlabel, $quiet = false){
         $instance = new $constructorfunction($customlabel);
         return $instance;
     } else {
-        if (!$quiet)
-            error("Failed loading class for custom label {$customlabel->labelclass}. Reverting to \"text\" customlabel.", me().'&amp;what=changetype&amp;to=text');
-        return NULL;
+    	$classfile = $CFG->dirroot."/mod/customlabel/type/text/customlabel.class.php";
+        if (!$quiet){
+            notify("Failed loading class for custom label {$customlabel->labelclass}. Reverting to \"text\" customlabel.", me().'&amp;what=changetype&amp;to=text');
+        }
+        include_once $classfile;
+        $constructorfunction = "customlabel_type_text";
+        $instance = new $constructorfunction($customlabel);
+        return $instance;
     }
 }
 

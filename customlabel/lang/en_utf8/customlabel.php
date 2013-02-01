@@ -7,6 +7,7 @@ $string['customlabel:fullaccess'] = 'Full access to all fields ';
 $string['customlabeltools'] = 'Mass tools for custom labels';
 $string['doupdate'] = 'Update !!';
 $string['exportdata'] = 'Export data to XML';
+$string['enabletype'] = 'Enable type ';
 $string['hiddenrolesfor'] = 'Roles that CANNOT USE ';
 $string['labelclass'] = 'Label type';
 $string['labelclasses'] = 'Element classes';

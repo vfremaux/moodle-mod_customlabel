@@ -15,8 +15,15 @@ $string['concepts'] = 'Key concepts ';
 $string['teachingorganization'] = 'Pedagogic organisation';
 $string['objectives'] = 'Learner\'s objectives';
 $string['duration'] = 'Duration ';
-$string['prerequisite'] = 'Prerequisites';
+$string['prerequisites'] = 'Prerequisites';
 $string['learningmethod'] = 'Learning method ';
-$string['learningmethod'] = 'Following courses ';
+$string['followers'] = 'Following courses ';
+$string['showgoals'] = 'Show Goals ';
+$string['showconcepts'] = 'Show Key concepts ';
+$string['showteachingorganization'] = 'Show Pedagogic organisation';
+$string['showobjectives'] = 'Show Learner\'s objectives';
+$string['showduration'] = 'Show Duration ';
+$string['showprerequisites'] = 'Show Prerequisites';
+$string['showlearningmethod'] = 'Show Learning method ';
+$string['showfollowers'] = 'Show Following courses ';
 
-?>

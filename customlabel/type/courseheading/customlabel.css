@@ -1,25 +1,40 @@
-div.courseheading h1 {
-   font-size: 24px !important;
-   line-height: 26px !important;
-   padding-top: 80px !important;
-   padding-left: 160px !important;
-   margin-bottom: 50px !important;
-   margin-top: 0em !important;
-   color:rgb(65,111,186);
+table.custombox-courseheading {
+	width:100%;
+   	background: none;
+   	margin-top: 0em !important;
+   	padding-left: 0px !important;
 }
 
-div.custombox.heading {
-   min-height:150px;
+.custombox-preheading.courseheading{
+   	font-size: 13px;
+   	color: #EEB35F;
 }
 
-div.courseheading {
-   background-image: url("courseheading.jpg");
-   background-repeat : no-repeat;
-   margin-top: 0em !important;
-   padding-left: 10px !important;
+.custombox-heading.courseheading {
+   /* width: 550px; */
+   margin-top:10px;
+   font-size: 24px;
+   line-height: 26px;
+   color: #951E1E;
+   font-style: italic;
 }
 
-div.courseheading div.description {
-   width: 550px;
-   padding-left : 10px;
+.custombox-description.courseheading {
+   color: #808080;
+   text-align:justify;
 } 
+
+tr.custombox-icon.courseheading{
+	min-height:125px;
+	height:125px;
+}
+
+td.custombox-icon-left.courseheading{
+	min-width:80px;
+	padding-right:20px;
+}
+
+td.custombox-icon-right.courseheading{
+	min-width:80px;
+	padding-left:20px;
+}

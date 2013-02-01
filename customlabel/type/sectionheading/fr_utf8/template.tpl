@@ -1,10 +1,10 @@
-<link href="<%%customlabelcss%%>" rel="stylesheet" type="text/css" />
-<table class="sectionheading" width="100%">
-<td id="left">
-<h1 class="sectionheading"><%%heading%%></h1>
-<p class="sectionheading"><%%shortdesc%%></p>
+<table class="custombox-sectionheading" width="100%">
+<tr valign="middle" class="custombox-icon sectionheading">
+<%%imageL%%>
+<td>
+<h1 class="custombox-sectionheading"><%%heading%%></h1>
+<p class="custombox-sectionheading"><%%shortdesc%%></p>
 </td>
-<td id="right">
-&nbsp;
-</td>
+<%%imageR%%>
+</tr>
 </table>

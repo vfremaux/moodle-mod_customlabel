@@ -1,18 +1,21 @@
 <?php
 
+$valuetypekey = $CFG->classification_value_type_key;
+
 /************************************* Add ******************/
 if ($action == 'add'){
+	
     $data = $mform->get_data();
-    $metadatavalue->typeid = clean_param($data->typeid, PARAM_INT);
+    $metadatavalue->$valuetypekey = clean_param($data->typeid, PARAM_INT);
     $metadatavalue->code = addslashes(clean_param($data->code, PARAM_ALPHANUM));
     $metadatavalue->value = addslashes(clean_param($data->value, PARAM_CLEANHTML));
     
     // get max ordering
-    $maxordering = get_field('customlabel_mtd_value', ' MAX(ordering)', 'typeid', $data->typeid);
-    $metadatavalue->ordering = 1 + @$maxordering;
+    $maxordering = get_field($CFG->classification_value_table, ' MAX(sortorder)', $valuetypekey, $data->typeid);
+    $metadatavalue->sortorder = 1 + @$maxordering;
     
-    if (!insert_record('customlabel_mtd_value', $metadatavalue)){
-        error('Could not insert a new value');
+    if (!insert_record($CFG->classification_value_table, $metadatavalue)){
+        error('Could not insert a new value', $url."?view=qualifiers&typeid={$data->typeid}");
     }
     redirect($url."?view=qualifiers&typeid={$data->typeid}");
 }
@@ -20,12 +23,13 @@ if ($action == 'add'){
 /************************************* Update ******************/
 if ($action == 'update'){
     $data = $mform->get_data();
-    $metadatatype->id = clean_param('valueid', PARAM_INT);
-    $metadatavalue->code = addslashes(clean_param($data->code, PARAM_ALPHANUM));
-    $metadatatype->value = addslashes(clean_param('value', PARAM_CLEANHTML));
-    
-    if (!update_record('customlabel_mtd_type', $metadatatype)){
-        error('Could not update a new value');
+    $metadatavalue->id = clean_param($data->id, PARAM_INT);
+    $metadatavalue->$valuetypekey = addslashes(clean_param($data->typeid, PARAM_ALPHANUM));
+    $metadatavalue->code = addslashes(clean_param($data->code, PARAM_TEXT));
+    $metadatavalue->value = addslashes(clean_param($data->value, PARAM_CLEANHTML));
+
+    if (!update_record($CFG->classification_value_table, $metadatavalue)){
+        error('Could not update the value', $url."?view=qualifiers&typeid={$data->typeid}");
     }
     redirect($url."?view=qualifiers&typeid={$data->typeid}");
 }
@@ -33,7 +37,7 @@ if ($action == 'update'){
 /*********************************** get a value for editing ************************/
 if ($action == 'edit'){
     $valueid = required_param('valueid', PARAM_INT);
-    $data = get_record('customlabel_mtd_value', 'id', $valueid);
+    $data = get_record($CFG->classification_value_table, 'id', $valueid);
 }
 /*********************************** moves up ************************/
 if ($action == 'up'){
@@ -59,14 +63,14 @@ if ($action == 'delete'){
 if ($action == 'forcedelete'){
     $id = required_param('valueid', PARAM_INT);
     
-    $value = get_record('customlabel_mtd_value', 'id', $id);
+    $value = get_record($CFG->classification_value_table, 'id', $id);
 
     if ($value){
         // delete related constraints
-        delete_records('customlabel_mtd_constraint', 'value1', $id);        
-        delete_records('customlabel_mtd_constraint', 'value2', $id);        
+        delete_records($CFG->classification_constraint_table, 'value1', $id);        
+        delete_records($CFG->classification_constraint_table, 'value2', $id);        
 
-        delete_records('customlabel_mtd_value', 'id', $id);        
+        delete_records($CFG->classification_value_table, 'id', $id);        
     }
 }
 
@@ -78,37 +82,37 @@ if ($action == 'forcedelete'){
 */
 function classification_tree_updateordering($id, $type){
 
-	// getting ordering value of the current node
+	// getting sortorder value of the current node
 	global $CFG;
 
-	$res =  get_record('customlabel_mtd_value', 'id', $id);
-	if (!$res) { // fallback : we give the ordering
-	    $res->ordering = $id;
+	$res =  get_record($CFG->classification_value_table, 'id', $id);
+	if (!$res) { // fallback : we give the sortorder
+	    $res->sortorder = $id;
 	};
 	
-	// start reorder from the immediate lower (works from ordering = 0)
-	$prev = $res->ordering - 1;
+	// start reorder from the immediate lower (works from sortorder = 0)
+	$prev = $res->sortorder - 1;
 
 	// getting subsequent nodes
 	$query = "
 	    SELECT 
 	        id   
 	    FROM 
-	        {$CFG->prefix}customlabel_mtd_value
+	        {$CFG->prefix}{$CFG->classification_value_table}
 	    WHERE 
-	        ordering > {$prev} AND
-	        typeid = $type
+	        sortorder > {$prev} AND
+	        {$CFG->classification_value_type_key} = $type
 	    ORDER BY 
-	        ordering
+	        sortorder
 	";
 
 	// reordering subsequent nodes using an object
 	if( $nextsubs = get_records_sql($query)) {
-	    $ordering = $res->ordering;
+	    $ordering = $res->sortorder;
 		foreach($nextsubs as $asub){
 			$objet->id = $asub->id;
-			$objet->ordering = $ordering;
-			update_record('customlabel_mtd_value', $objet);
+			$objet->sortorder = $ordering;
+			update_record($CFG->classification_value_table, $objet);
 			$ordering++;
 		}
 	}
@@ -123,20 +127,20 @@ function classification_tree_updateordering($id, $type){
 function classification_tree_up($id, $type){
 	global $CFG;
 
-	$res = get_record('customlabel_mtd_value', 'id', $id);
+	$res = get_record($CFG->classification_value_table, 'id', $id);
 	if (!$res) return;
 
-	if($res->ordering >= 1){
-		$newordering = $res->ordering - 1;
+	if($res->sortorder >= 1){
+		$newordering = $res->sortorder - 1;
 
 		$query = "
 		    SELECT 
 		        id
 		    FROM 
-		        {$CFG->prefix}customlabel_mtd_value
+		        {$CFG->prefix}{$CFG->classification_value_table}
 		    WHERE 
-		        ordering = $newordering AND
-		        typeid = $type
+		        sortorder = $newordering AND
+		        {$CFG->classification_value_type_key} = $type
 		";
 		
 		// echo $query;
@@ -146,12 +150,12 @@ function classification_tree_up($id, $type){
 
         // swapping
 		$objet->id = $resid;
-		$objet->ordering = $res->ordering;
-		update_record('customlabel_mtd_value', $objet);
+		$objet->sortorder = $res->sortorder;
+		update_record($CFG->classification_value_table, $objet);
 
 		$objet->id = $id;
-		$objet->ordering = $newordering;
-		update_record('customlabel_mtd_value', $objet);
+		$objet->sortorder = $newordering;
+		update_record($CFG->classification_value_table, $objet);
 	}
 }
 
@@ -163,45 +167,45 @@ function classification_tree_up($id, $type){
 function classification_tree_down($id, $type){
 	global $CFG;
 
-	$res =  get_record('customlabel_mtd_value', 'id', $id);
+	$res =  get_record($CFG->classification_value_table, 'id', $id);
 
 	$query = "
 	    SELECT 
-	        MAX(ordering) AS ordering
+	        MAX(sortorder) AS sortorder
 	    FROM 
-	        {$CFG->prefix}customlabel_mtd_value
+	        {$CFG->prefix}{$CFG->classification_value_table}
 	    WHERE
-	        typeid = $type
+	        {$CFG->classification_value_type_key} = $type
 	";
 	
 	// echo $query;
 
 	$resmaxordering = get_record_sql($query);
-	$maxordering = $resmaxordering->ordering;
+	$maxordering = $resmaxordering->sortorder;
 
-	if($res->ordering < $maxordering){
-		$newordering = $res->ordering + 1;
+	if($res->sortorder < $maxordering){
+		$newordering = $res->sortorder + 1;
 
 		$query = "
 		    SELECT 
 		        id
 		    FROM    
-		        {$CFG->prefix}customlabel_mtd_value
+		        {$CFG->prefix}{$CFG->classification_value_table}
 		    WHERE 
-		        ordering = $newordering AND
-		        typeid = $type
+		        sortorder = $newordering AND
+		        {$CFG->classification_value_type_key} = $type
 		";
 		$result = get_record_sql($query);
 		$resid = $result->id;
 
         // swapping
 		$objet->id = $resid;
-		$objet->ordering = $res->ordering;
-		update_record('customlabel_mtd_value', $objet);
+		$objet->sortorder = $res->sortorder;
+		update_record($CFG->classification_value_table, $objet);
 
 		$objet->id = $id;
-		$objet->ordering = $newordering;
-		update_record('customlabel_mtd_value', $objet);
+		$objet->sortorder = $newordering;
+		update_record($CFG->classification_value_table, $objet);
 	}
 }
 

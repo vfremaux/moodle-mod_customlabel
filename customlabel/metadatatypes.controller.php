@@ -7,9 +7,9 @@ if ($action == 'add'){
     $metadatatype->code = clean_param($data->code, PARAM_ALPHANUM);
     $metadatatype->name = addslashes(clean_param($data->name, PARAM_CLEANHTML));
     $metadatatype->description = addslashes(clean_param($data->description, PARAM_CLEANHTML));
-    $maxordering = get_field('customlabel_mtd_type', ' MAX(sortorder) ', '', '');
+    $maxordering = get_field($CFG->classification_type_table, ' MAX(sortorder) ', '', '');
     $metadatatype->sortorder = $maxordering + 1;
-    if (!insert_record('customlabel_mtd_type', $metadatatype)){
+    if (!insert_record($CFG->classification_type_table, $metadatatype)){
         error('Could not insert a new type');
     }
     redirect($url.'?view=classifiers');
@@ -18,12 +18,13 @@ if ($action == 'add'){
 /************************************* Update ******************/
 if ($action == 'update'){
     $data = $mform->get_data();
+    $metadatatype->id = clean_param($data->id, PARAM_INT);
     $metadatatype->type = clean_param($data->type, PARAM_TEXT);
     $metadatatype->code = clean_param($data->code, PARAM_ALPHANUM);
-    $metadatatype->name = addslashes(clean_param($data->name, PARAM_CLEANHYML));
-    $metadatatype->description = addslashes(clean_param($data->description, PARAM_CLEANHTML));
+    $metadatatype->name = addslashes(clean_param($data->name, PARAM_TEXT));
+    $metadatatype->description = addslashes(clean_param($data->description, PARAM_TEXT));
     
-    if (!update_record('customlabel_mtd_type', $metadatatype)){
+    if (!update_record($CFG->classification_type_table, $metadatatype)){
         error('Could not insert a new type');
     }
     redirect($url.'?view=classifiers');
@@ -32,7 +33,7 @@ if ($action == 'update'){
 /*********************************** get a type for editing ************************/
 if ($action == 'edit'){
     $typeid = required_param('typeid', PARAM_INT);
-    $data = get_record('customlabel_mtd_type', 'id', $typeid);    
+    $data = get_record($CFG->classification_type_table, 'id', $typeid);    
 }
 /*********************************** moves up ************************/
 if ($action == 'up'){
@@ -48,24 +49,24 @@ if ($action == 'down'){
 /************************************* Delete safe (only if not used) ******************/
 if ($action == 'delete'){
     $id = required_param('typeid', PARAM_INT);
-    $typeorder = get_field('customlabel_mtd_type', 'sortorder', 'id', $id);
+    $typeorder = get_field($CFG->classification_type_table, 'sortorder', 'id', $id);
         
-    if (!delete_records('customlabel_mtd_type', 'id', $id)){
+    if (!delete_records($CFG->classification_type_table, 'id', $id)){
         print_error('could not delete classifier');
     }
     
     // clear all sub values
-    if ($valueids = get_records_menu('customlabel_mtd_type', 'type', $id, 'id,id')){
+    if ($valueids = get_records_menu($CFG->classification_type_table, 'type', $id, 'id,id')){
 
-	    delete_records('customlabel_mtd_value', 'type', $id);
+	    delete_records($CFG->classification_value_table, $CFG->classification_value_type_key, $id);
 	
 	    // clear constraint records
 	    $valueidslist = implode("','", array_keys($valueids));
-	    delete_records_select('customlabel_mtd_constraint', "value1 IN ('$valueidslist') ");
-	    delete_records_select('customlabel_mtd_constraint', "value2 IN ('$valueidslist') ");
+	    delete_records_select($CFG->classification_constraint_table, "value1 IN ('$valueidslist') ");
+	    delete_records_select($CFG->classification_constraint_table, "value2 IN ('$valueidslist') ");
 	
 	    // clear course assignations
-	    delete_records_select('customlabel_course_metadata', "value IN ('$valueidslist') " );
+	    delete_records_select($CFG->course_metadata_table, $CFG->course_metadata_value_key." IN ('$valueidslist') " );
 	}
 
     classification_tree_updateordering($typeorder);
@@ -82,7 +83,7 @@ function classification_tree_updateordering($id){
 	// getting ordering type of the current node
 	global $CFG;
 
-	$res =  get_record('customlabel_mtd_type', 'id', $id);
+	$res =  get_record($CFG->classification_type_table, 'id', $id);
 	if (!$res) { // fallback : we give the ordering
 	    $res->sortorder = $id;
 	};
@@ -95,7 +96,7 @@ function classification_tree_updateordering($id){
 	    SELECT 
 	        id   
 	    FROM 
-	        {$CFG->prefix}customlabel_mtd_type
+	        {$CFG->prefix}{$CFG->classification_type_table}
 	    WHERE 
 	        sortorder > {$prev}
 	    ORDER BY 
@@ -108,7 +109,7 @@ function classification_tree_updateordering($id){
 		foreach($nextsubs as $asub){
 			$objet->id = $asub->id;
 			$objet->sortorder = $ordering;
-			update_record('customlabel_mtd_type', $objet);
+			update_record($CFG->classification_type_table, $objet);
 			$ordering++;
 		}
 	}
@@ -123,7 +124,7 @@ function classification_tree_updateordering($id){
 function classification_tree_up($id){
 	global $CFG;
 
-	$res = get_record('customlabel_mtd_type', 'id', $id);
+	$res = get_record($CFG->classification_type_table, 'id', $id);
 	if (!$res) return;
 
 	if($res->sortorder >= 1){
@@ -133,7 +134,7 @@ function classification_tree_up($id){
 		    SELECT 
 		        id
 		    FROM 
-		        {$CFG->prefix}customlabel_mtd_type
+		        {$CFG->prefix}{$CFG->classification_type_table}
 		    WHERE 
 		        sortorder = $newordering
 		";
@@ -146,11 +147,11 @@ function classification_tree_up($id){
         // swapping
 		$objet->id = $resid;
 		$objet->sortorder = $res->sortorder;
-		update_record('customlabel_mtd_type', $objet);
+		update_record($CFG->classification_type_table, $objet);
 
 		$objet->id = $id;
 		$objet->sortorder = $newordering;
-		update_record('customlabel_mtd_type', $objet);
+		update_record($CFG->classification_type_table, $objet);
 	}
 }
 
@@ -162,13 +163,13 @@ function classification_tree_up($id){
 function classification_tree_down($id){
 	global $CFG;
 
-	$res =  get_record('customlabel_mtd_type', 'id', $id);
+	$res =  get_record($CFG->classification_type_table, 'id', $id);
 
 	$query = "
 	    SELECT 
 	        MAX(sortorder) AS sortorder
 	    FROM 
-	        {$CFG->prefix}customlabel_mtd_type
+	        {$CFG->prefix}{$CFG->classification_type_table}
 	";
 	
 	// echo $query;
@@ -183,7 +184,7 @@ function classification_tree_down($id){
 		    SELECT 
 		        id
 		    FROM    
-		        {$CFG->prefix}customlabel_mtd_type
+		        {$CFG->prefix}{$CFG->classification_type_table}
 		    WHERE 
 		        sortorder = $newordering
 		";
@@ -193,11 +194,11 @@ function classification_tree_down($id){
         // swapping
 		$objet->id = $resid;
 		$objet->sortorder = $res->sortorder;
-		update_record('customlabel_mtd_type', $objet);
+		update_record($CFG->classification_type_table, $objet);
 
 		$objet->id = $id;
 		$objet->sortorder = $newordering;
-		update_record('customlabel_mtd_type', $objet);
+		update_record($CFG->classification_type_table, $objet);
 	}
 }
 

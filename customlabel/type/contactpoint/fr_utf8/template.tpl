@@ -1,10 +1,10 @@
-<table class="contactpoint" cellspacing="0" width="100%">
+<table class="custombox-contactpoint" cellspacing="0" width="100%">
 <tr valign="middle">
     <td class="custombox-header-thumb contactpoint <%%contacttypeoption%%>" width="2%" rowspan="4">
     </td>
     <td class="custombox-header-caption contactpoint" width="98%" colspan="2">
         Point de contact...<br/>
-        <span class="custombox-header-caption contacttype">Méthode : <%%contacttype%%></span>
+        <span class="custombox-header-method contacttype">Méthode : <%%contacttype%%></span>
     </td>
 </tr>
 <tr>

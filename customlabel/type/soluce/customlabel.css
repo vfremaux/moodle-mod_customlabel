@@ -1,28 +1,28 @@
-table.soluce {
+table.custombox-soluce {
    width: 100%;
 }
 
-td.custombox-header-thumb.soluce {
-   width:40px;
-   padding-right:8px;
-   border-right:8px solid #76F451 !important;
+.custombox-header-thumb.soluce {
+	width:65px;
+	padding-right:8px;
+	border-right:1px solid #76F451 !important;
 }
 
-#middle-column td.custombox-header-thumb.soluce {
-    width:40px;
-	background-image: url("icon_solution.png"); 
+#middle-column .custombox-header-thumb.soluce {
+    min-width:65px;
+	background-image: url("/mod/customlabel/type/soluce/icon_solution.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
 
-#left-column td.custombox-header-thumb.soluce,
-#right-column td.custombox-header-thumb.soluce {
+#left-column .custombox-header-thumb.soluce,
+#right-column .custombox-header-thumb.soluce {
     width:25px;
-	background-image: url("icon_solution_small.png"); 
+    min-width:25px;
+	background-image: url("/mod/customlabel/type/soluce/icon_solution_small.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
-
 
 td.custombox-header-caption.soluce {
     color:#1EB31A;

@@ -31,17 +31,19 @@ function applyconstraints(wwwroot, typestr, selector, targets){
 	for (target in targetsarr){
 		targetname = targetsarr[target];
 		targetsel = document.getElementById('menu'+targetname);
-		selectedtargetopts[i] = targetname;
-		i++;
-		selectedtargetopts[i] = [];
-		k = 0;	
-		for (j = 0 ; j < targetsel.options.length ; j++) {
-			if (targetsel.options[j].selected){
-				selectedtargetopts[i][k] = targetsel.options[j].value;
-				k++;
+		if (targetsel){
+			selectedtargetopts[i] = targetname;
+			i++; // ?
+			selectedtargetopts[i] = [];
+			k = 0;	
+			for (j = 0 ; j < targetsel.options.length ; j++) {
+				if (targetsel.options[j].selected){
+					selectedtargetopts[i][k] = targetsel.options[j].value;
+					k++;
+				}
 			}
+			i++;
 		}
-		i++;
 	}
 
 	YAHOO.lang.JSON.useNativeStringify = true;
@@ -49,7 +51,9 @@ function applyconstraints(wwwroot, typestr, selector, targets){
 	
 	for(target in targetsarr){
 		targetseldiv = document.getElementById('div_menu_'+targetsarr[target]);
-		targetseldiv.innerHTML = '<img src="'+wwwroot+'/theme/pairformance/pix/ajax-loader.gif" hspace="10" vspace="10" />';		
+		if (targetseldiv){
+			targetseldiv.innerHTML = '<img src="'+wwwroot+'/mod/customlabel/pix/ajax-loader.gif" hspace="10" vspace="10" />';
+		}
 	}
 	
 	params = "selector="+selector.name+"&targets="+targets+"&type="+typestr+"&constraints="+optionstring+'&selection='+formvaluestring;

@@ -1,9 +1,19 @@
-<?php  // $Id: lib.php,v 1.5 2011-07-12 21:42:39 vf Exp $
+<?php  // $Id: lib.php,v 1.4 2012-12-28 22:53:38 vf Exp $
 
 /// Library of functions and constants for module label
 
-// TAO : disabled length limitation for labels
+// disabled length limitation for labels
 // define("LABEL_MAX_NAME_LENGTH", 50);
+
+if (!isset($CFG->classification_type_table)){
+	set_config('classification_type_table', 'customlabel_mtd_type');
+	set_config('classification_value_table', 'customlabel_mtd_value');
+	set_config('classification_value_type_key', 'typeid');
+	set_config('classification_constraint_table', 'customlabel_mtd_constraint');
+	set_config('course_metadata_table', 'customlabel_course_metadata');
+	set_config('course_metadata_value_key', 'valueid');
+	set_config('course_metadata_course_key', 'courseid');
+}
 
 /**
 * make the name (printable in course summary) from real content of the label
@@ -16,8 +26,18 @@
 */
 require_once ($CFG->dirroot.'/mod/customlabel/locallib.php');
 require_once($CFG->libdir.'/pear/HTML/AJAX/JSON.php');
-// include "debugging.php";
 
+// check table mapping and ensure there is a table set
+// TODO : check if there is not a legacy post install function in module API
+if (!isset($CFG->classification_type_table)){
+	set_config('classification_type_table', 'customlabel_mtd_type');
+	set_config('classification_value_table', 'customlabel_mtd_value');
+	set_config('classification_value_type_key', 'typeid');
+	set_config('classification_constraint_table', 'customlabel_mtd_constraint');
+	set_config('course_metadata_table', 'customlabel_course_metadata');
+	set_config('course_metadata_value_key', 'valueid');
+	set_config('course_metadata_course_key', 'courseid');
+}
 
 /**
 * Given an object containing all the necessary data, 
@@ -42,6 +62,10 @@ function customlabel_add_instance($customlabel) {
     $customlabel = customlabel_addslashes_fields($customlabel);
     $customlabel->usesafe = 1;
     
+    // this saves into readable data information about which legacy type to use
+    // if this record is restored on a platform that do not implement the actual labelclass.
+    $customlabel->fallbacktype = ''.@$instance->fallbacktype; //needs to be an initialized string
+    
     return insert_record('customlabel', $customlabel);
 }
 
@@ -63,6 +87,7 @@ function customlabel_update_instance($customlabel) {
         $customlabel->content = '';
         $customlabel->name = '';
         $customlabel->usesafe = 1;
+		$customlabel->fallbacktype = ''.@$instance->fallbacktype;
     } else {
         $customlabel->safecontent = base64_encode(json_encode($customlabel));
         $customlabel->content = json_encode($customlabel); // (force old storage to clear when recoded to safe mode)
@@ -73,6 +98,7 @@ function customlabel_update_instance($customlabel) {
         $instance->process_datasource_fields();
         $instance->postprocess_data();
         $customlabel->name = $instance->get_name();
+    	$customlabel->fallbacktype = ''.@$instance->fallbacktype; // needs to be a initialized string
     }
     $customlabel->timemodified = time();
     $customlabel->id = $customlabel->instance;
@@ -105,8 +131,9 @@ function customlabel_delete_instance($id) {
 
     // call subtype delete handler
 
-	$instance = customlabel_load_class($customlabel, true);
-	$instance->on_delete();
+	if ($instance = customlabel_load_class($customlabel, true)){
+		$instance->on_delete();
+	}
 
 	// delete the module 
 	
@@ -287,7 +314,7 @@ function customlabel_is_hidden_byrole(&$block, $cmid = 0){
                 }
             }
             $hidden = true;
-            $cfgkey = "list_customlabel_{$customlabel->labelclass}_hiddenfor";
+            $cfgkey = "customlabel_{$customlabel->labelclass}_hiddenfor";
             $hiddenforroles = explode(',', @$CFG->{$cfgkey});
             
             if (empty($CFG->{$cfgkey})){

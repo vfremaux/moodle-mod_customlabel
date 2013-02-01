@@ -2,4 +2,3 @@
 
 $string['example'] = 'Example';
 
-?>

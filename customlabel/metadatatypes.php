@@ -38,14 +38,19 @@
 
     $url = $CFG->wwwroot.'/mod/customlabel/adminmetadata.php';
 
-    $types = get_records('customlabel_mtd_type', '', '', 'sortorder');
-    $mform = new EditTypeForm($view, 'add', $url);
+	if ($action == 'edit'){
+	    $mform = new EditTypeForm($view, 'update', $url);
+	} else {
+	    $mform = new EditTypeForm($view, 'add', $url);
+	}
 
     if (!$mform->is_cancelled()){
         if ($action){
             include_once 'metadatatypes.controller.php';
         }
     }
+
+    $types = get_records($CFG->classification_type_table, '', '', 'sortorder');
         
     print_heading(get_string('classifierstypes', 'customlabel'));
         
@@ -74,12 +79,12 @@
 		            COUNT(c.id)
 		        FROM
 		            {$CFG->prefix}course c,
-		            {$CFG->prefix}customlabel_course_metadata ccm,
-		            {$CFG->prefix}customlabel_mtd_value v
+		            {$CFG->prefix}{$CFG->course_metadata_table} ccm,
+		            {$CFG->prefix}{$CFG->classification_value_table} v
 		        WHERE
-		            c.id = ccm.courseid AND
-		            ccm.valueid = v.id AND
-		            v.typeid = '{$atype->id}'
+		            c.id = ccm.{$CFG->course_metadata_course_key} AND
+		            ccm.{$CFG->course_metadata_value_key} = v.id AND
+		            v.{$CFG->classification_value_type_key} = '{$atype->id}'
 		        GROUP BY 
 		            v.id
 		    ";

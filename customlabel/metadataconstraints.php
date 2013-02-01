@@ -26,6 +26,9 @@
  *
  */
 
+define('MTD_CONSTRAINT_EXCLUDE', 0);
+define('MTD_CONSTRAINT_INCLUDE', 1);
+
 $value1 = optional_param('value1', '', PARAM_TEXT);
 $value2 = optional_param('value2', '', PARAM_TEXT);
 
@@ -42,18 +45,18 @@ if ($value1 < $value2){
     $value2 = $tmp;
 }
 
-$value1types = get_records_menu('customlabel_mtd_type', '', '', 'name', 'id,name');
-$value2types = get_records_menu('customlabel_mtd_type', '', '', 'name', 'id,name');
+$value1types = get_records_menu($CFG->classification_type_table, '', '', 'name', 'id,name');
+$value2types = get_records_menu($CFG->classification_type_table, '', '', 'name', 'id,name');
 
-$valueset1 = get_records('customlabel_mtd_value', 'typeid', $value1);
-$valueset2 = get_records('customlabel_mtd_value', 'typeid', $value2);
+$valueset1 = get_records($CFG->classification_value_table, $CFG->classification_value_type_key, $value1);
+$valueset2 = get_records($CFG->classification_value_table, $CFG->classification_value_type_key, $value2);
 
 if ($action != ''){
     include $CFG->dirroot."/mod/customlabel/metadataconstraints.controller.php";
 }
 
 
-$constraints = get_records('customlabel_mtd_constraint');
+$constraints = get_records($CFG->classification_constraint_table);
 if ($constraints){
     foreach($constraints as $constraint){
         $values[$constraint->value1][$constraint->value2] = $constraint->const;
@@ -107,9 +110,8 @@ if($valueset1){
 ?>
     </tr>
 <?php
-$options[0] = get_string('none', 'customlabel');
-$options[1] = get_string('include', 'customlabel');
-$options[2] = get_string('exclude', 'customlabel');
+$options[MTD_CONSTRAINT_INCLUDE] = get_string('include', 'customlabel');
+$options[MTD_CONSTRAINT_EXCLUDE] = get_string('exclude', 'customlabel');
 
 $i = 0;
 if($valueset2){
@@ -120,7 +122,7 @@ if($valueset2){
         if($valueset1){
             foreach($valueset1 as $avalue1){        
                 echo "<td align=\"center\">";
-                choose_from_menu($options, "ct_{$avalue1->id}_{$avalue2->id}", @$values[$avalue1->id][$avalue2->id]);        
+                choose_from_menu($options, "ct_{$avalue1->id}_{$avalue2->id}",  0 + @$values[$avalue1->id][$avalue2->id], '');        
                 echo "</td>";
                 $j++;
             }

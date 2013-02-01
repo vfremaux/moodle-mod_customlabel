@@ -1,4 +1,4 @@
-<?php  //$Id: upgrade.php,v 1.7 2011-09-28 23:06:12 vf Exp $
+<?php  //$Id: upgrade.php,v 1.5 2012-12-28 22:53:39 vf Exp $
 
 // This file keeps track of upgrades to 
 // the customlabel module
@@ -66,7 +66,7 @@ if ($result && $oldversion < 2008112600) {
         $table->addFieldInfo('code', XMLDB_TYPE_CHAR, '255', null, null, null, null, null, null);
         $table->addFieldInfo('value', XMLDB_TYPE_CHAR, '255', null, null, null, null, null, null);
         $table->addFieldInfo('translatable', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null, '0');
-        $table->addFieldInfo('ordering', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null, '0');
+        $table->addFieldInfo('sortorder', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null, '0');
         $table->addFieldInfo('parent', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null, '0');
 
     /// Adding keys to table customlabel_metadata_value
@@ -142,7 +142,7 @@ if ($result && $oldversion < 2008112600) {
     /// Launch add field safecontent
         $result = $result && add_field($table, $field);
 
-        $field = new XMLDBField('ordering');
+        $field = new XMLDBField('sortorder');
         $field->setAttributes(XMLDB_TYPE_INTEGER, 4, null, null, null, null, null, 0, 'value');
 
     /// Launch add field safecontent
@@ -153,6 +153,30 @@ if ($result && $oldversion < 2008112600) {
 
     /// Launch add field safecontent
         $result = $result && add_field($table, $field);
+    }
+
+	if ($result && $oldversion < 2012122800) {
+    
+    // add fallbacktype to improve content transportation
+
+    /// Define table customlabel to be altered
+        $table = new XMLDBTable('customlabel');
+        $field = new XMLDBField('fallbacktype');
+        $field->setAttributes(XMLDB_TYPE_CHAR, 32, null, null, null, null, null, '', 'labelclass');
+
+
+    /// Launch add field fallbacktype
+        $result = $result && add_field($table, $field);
+
+	// check ordering existance and rename if necessary
+    /// Rename field ordering on table customlabel_mtd_value to sortorder
+        $table = new XMLDBTable('customlabel_mtd_value');
+        $field = new XMLDBField('ordering');
+        $field->setAttributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, null, null, null, null, null, 'translatable');
+
+    /// Launch rename field ordering
+        @rename_field($table, $field, 'sortorder');
+        // dont care if fails.
     }
 
     return $result;

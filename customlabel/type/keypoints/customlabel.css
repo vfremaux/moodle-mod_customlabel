@@ -1,23 +1,25 @@
-table.keypoints {
-   width: 100%;
+table.custombox-keypoints {
+	width: 100%;
 }
 
 td.custombox-header-thumb.keypoints {
-   padding-right:8px;
-   border-right:8px solid #F88A1D !important;
+    width:65px;
+   	padding-right:8px;
+   	border-right:1px solid #F88A1D !important;
 }
 
-#middle-column td.custombox-header-thumb.keypoints {
-    width:40px;
-	background-image: url("icon_reminder.png"); 
+#middle-column .custombox-header-thumb.keypoints {
+    min-width:65px;
+	background-image: url("/mod/customlabel/type/keypoints/icon_reminder.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
 
-#left-column td.custombox-header-thumb.keypoints,
-#right-column td.custombox-header-thumb.keypoints {
+#left-column .custombox-header-thumb.keypoints,
+#right-column .custombox-header-thumb.keypoints {
     width:25px;
-	background-image: url("icon_reminder_small.png"); 
+    min-width:25px;
+	background-image: url("/mod/customlabel/type/keypoints/icon_reminder_small.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }

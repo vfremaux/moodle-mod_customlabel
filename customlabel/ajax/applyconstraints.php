@@ -49,7 +49,7 @@
 		while($constraint = array_pop($constraintsarr)){
 			if (empty($constraint)) continue;
 			$used[] = $constraint;
-			if ($constraintpeerrecs = get_records_select('classification_constraint', " value1 = '$constraint' OR value2 = '$constraint' ")){
+			if ($constraintpeerrecs = get_records_select($CFG->classification_constraint_table, " value1 = '$constraint' OR value2 = '$constraint' ")){
 				foreach($constraintpeerrecs as $apeer){
 					if ($apeer->value1 == $constraint){
 						$peervalue = $apeer->value2;
@@ -58,20 +58,27 @@
 					}
 					if ($apeer->const == 1){
 						$included[$peervalue] = 1;
-						$peer = get_field('classification_value', 'value', 'id', $peervalue);
-						$includedtrace["$peervalue - $peer"] = 1;
-						if (!in_array($peervalue, $used)) $constraintsarr[] = $peervalue; // aggregate for recursion accepting all newly linked item
+						$peer = get_field($CFG->classification_value_table, 'value', 'id', $peervalue);
+						$includedtrace[] = "$peervalue - $peer by $constraint";
+						// add to many values
+						// if (!in_array($peervalue, $used)) $constraintsarr[] = $peervalue; // aggregate for recursion accepting all newly linked item
 					}
 				}
+			} else {
+				debug_trace("no linked options for constraint : $constraint ");
 			}
 		}
 	}
+	
+	// debug_trace(implode(',', $includedtrace));
 
 	$listvalues	= array();
-
+	
 	foreach ($targets as $target){
 
 		// this filters option lists againt constraints
+		if (!@$instance->fields[$target]) continue;
+		if (@$instance->fields[$target]->type == '_error_') continue;
 		if ($typevalues = $instance->get_datasource_options($instance->fields[$target])){	
 			
 			$options = array();
@@ -102,7 +109,6 @@
 		}
 
 	}	
-
 	echo json_encode($return);
 
 ?>

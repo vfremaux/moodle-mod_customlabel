@@ -1,66 +1,87 @@
-<link href="<%%customlabelcss%%>" rel="stylesheet" type="text/css" />
-<div class="coursedata">
-<table class="coursedata">
+<table class="custombox-coursedata">
     <tr valign="top">
-        <th class="title" colspan="2">
-            <%%title%%>
+        <th class="custombox-title coursedata" colspan="2">
+            <%%tablecaption%%>
         </th>
     </tr>
+	<%if %%showidnumber%% %>
     <tr valign="top">
-        <td class="param" width="30%">
-            Code formation :
+        <td class="custombox-param coursedata">
+            Numéro d'identification :
         </td>
-        <td class="value" width="70%">
-            <%%coursecode%%>
+        <td class="custombox-value coursedata">
+            <%%idnumber%%>
         </td>
     </tr>
+	<%endif %>
+	<%if %%showgoals%% %>
     <tr valign="top">
-        <td class="param" width="30%">
+        <td class="custombox-param coursedata">
             Objectifs :
         </td>
-        <td class="value" width="70%">
+        <td class="custombox-value coursedata">
             <%%goals%%>
         </td>
     </tr>
+	<%endif %>
+	<%if %%showobjectives%% %>
     <tr valign="top">
-        <td class="param" width="30%">
+        <td class="custombox-param coursedata">
             Acquisitions :
         </td>
-        <td class="value" width="70%">
+        <td class="custombox-value coursedata">
             <%%objectives%%>
         </td>
     </tr>
+	<%endif %>
+	<%if %%showconcepts%% %>
     <tr valign="top">
-        <td class="param" width="30%">
-            Durée du cours :
+        <td class="custombox-param coursedata">
+            Concepts :
         </td>
-        <td class="value" width="70%">
+        <td class="custombox-value coursedata">
+            <%%concepts%%>
+        </td>
+    </tr>
+	<%endif %>
+	<%if %%showduration%% %>
+    <tr valign="top">
+        <td class="custombox-param coursedata">
+            Durée :
+        </td>
+        <td class="custombox-value coursedata">
             <%%duration%%>
         </td>
     </tr>
+	<%endif %>
+	<%if %%showteachingorganization%% %>
     <tr valign="top">
-        <td class="param" width="30%">
+        <td class="custombox-param coursedata">
             Organisation de l'enseignement :
         </td>
-        <td class="value" width="70%">
+        <td class="custombox-value coursedata">
             <%%teachingorganization%%>
         </td>
     </tr>
+	<%endif %>
+	<%if %%showprerequisites%% %>
     <tr valign="top">
-        <td class="param" width="30%">
-            Prérequis du stagiaire :
+        <td class="custombox-param coursedata">
+            Prérequis :
         </td>
-        <td class="value" width="70%">
-            <%%prerequisite%%>
+        <td class="custombox-value coursedata">
+            <%%prerequisites%%>
         </td>
     </tr>
+	<%endif %>
+	<%if %%showfollowers%% %>
     <tr valign="top">
-        <td class="param" width="30%">
-            Suites possibles :
+        <td class="custombox-param coursedata">
+            Cours suivants :
         </td>
-        <td class="value" width="70%">
+        <td class="custombox-value coursedata">
             <%%followers%%>
         </td>
     </tr>
+	<%endif %>
 </table>
-</div>

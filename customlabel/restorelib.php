@@ -1,4 +1,4 @@
-<?php //$Id: restorelib.php,v 1.3 2011-07-07 14:01:22 vf Exp $
+<?php //$Id: restorelib.php,v 1.4 2012-12-29 21:59:41 vf Exp $
     /**
     * This php script contains all the stuff to backup/restore
     * customlabel mods
@@ -48,7 +48,21 @@
             $customlabel->name = backup_todb($info['MOD']['#']['NAME']['0']['#']);
             $customlabel->title = backup_todb($info['MOD']['#']['TITLE']['0']['#']);
             $customlabel->labelclass = backup_todb($info['MOD']['#']['LABELCLASS']['0']['#']);
+            if (isset($info['MOD']['#']['FALLBACKTYPE']['0']['#'])){
+	            $customlabel->fallbacktype = backup_todb($info['MOD']['#']['FALLBACKTYPE']['0']['#']);
+	        } else {
+	        	$customlabel->fallbacktype = '';
+	        }
             $customlabel->content = backup_todb($info['MOD']['#']['CONTENT']['0']['#']);
+            
+            // secure restore using fallbacktype if needed. This might loose data, but most of part of 
+            // restored data that can be used will try to be.
+            if (! is_dir($CFG->dirroot.'/mod/customlabel/type/'.$customlabel->labelclass)){
+            	if (debugging()){
+            		notify($customlabel->labelclass.' label type not installed. Falling back to '.$customlabel->fallbacktype.'.');
+            	}
+            	$customlabel->labelclass = $customlabel->fallbacktype;
+            }
             
             // deals with old unsecured format
             if (isset($info['MOD']['#']['SAFECONTENT']['0']['#'])){
@@ -64,6 +78,7 @@
                 $customlabel->title = '';
             } 
             //The structure is equal to the db, so insert the customlabel
+            if (is_null($customlabel->fallbacktype)) $customlabel->fallbacktype = ''; // weird case on restore
             $newid = insert_record ('customlabel', $customlabel);
 
             //Do some output     

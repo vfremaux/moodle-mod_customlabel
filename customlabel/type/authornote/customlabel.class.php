@@ -32,6 +32,7 @@ class customlabel_type_authornote extends customlabel_type{
 
         $this->data->customid = $customid;
         set_config('custom_unique_id', $customid);
+        $this->data->initalcontrolimage = '/mod/customlabel/pix/neutral.gif';
         
     }
 }

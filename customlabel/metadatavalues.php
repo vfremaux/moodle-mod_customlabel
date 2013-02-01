@@ -35,7 +35,7 @@
 
     $url = $CFG->wwwroot.'/mod/customlabel/adminmetadata.php';
 
-    $types = get_records_menu('customlabel_mtd_type', '', '', 'name', 'id, name');
+    $types = get_records_menu($CFG->classification_type_table, '', '', 'name', 'id, name');
 
     if (!$types) {
         notice(get_string('noclassifiers', 'customlabel'));
@@ -45,7 +45,11 @@
 
 /// form and controller
 
-    $mform = new EditValueForm($view, 'add', $type, $url);
+	if ($valueid = optional_param('valueid', PARAM_INT)){
+	    $mform = new EditValueForm($view, 'update', $type, $url);
+	} else {
+	    $mform = new EditValueForm($view, 'add', $type, $url);
+	}
 
     if (!$mform->is_cancelled()){
         if ($action){
@@ -61,7 +65,7 @@
     print_heading(get_string('metadataset', 'customlabel'));
     
     
-    if (!$values = get_records('customlabel_mtd_value', 'typeid', $type, 'ordering')) {
+    if (!$values = get_records($CFG->classification_value_table, $CFG->classification_value_type_key, $type, 'sortorder')) {
         $values = array();
     }
     
@@ -87,14 +91,14 @@
 	            SELECT
 	                COUNT(ccm.id) ".sql_as()." courses
 	            FROM
-	                {$CFG->prefix}customlabel_course_metadata ccm
+	                {$CFG->prefix}{$CFG->course_metadata_table} ccm
 	            JOIN
 	                {$CFG->prefix}course c
 	            WHERE
-	                ccm.valueid = {$avalue->id} AND
-	                (ccm.courseid = c.id OR ccm.courseid IS NULL)
+	                ccm.{$CFG->course_metadata_value_key} = {$avalue->id} AND
+	                (ccm.{$CFG->course_metadata_course_key} = c.id OR ccm.{$CFG->course_metadata_course_key} IS NULL)
 	            GROUP BY
-	                ccm.valueid
+	                ccm.{$CFG->course_metadata_value_key}
 	        ";
 	        $avalue->courses = count_records_sql($sql);
 

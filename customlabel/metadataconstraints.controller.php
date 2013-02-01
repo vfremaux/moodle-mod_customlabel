@@ -25,8 +25,7 @@ if ($action == 'save'){
                 notify("Could not insert constraint");
             }
         }
-    } 
-    
+    }
 }
 
 ?>

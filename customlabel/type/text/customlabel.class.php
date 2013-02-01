@@ -14,10 +14,11 @@ class customlabel_type_text extends customlabel_type{
         $this->type = 'text';
         $this->fields = array();
         
+        $field = new StdClass;
         $field->name = 'textcontent';
         $field->type = 'textarea';
         $field->lines = 20;
-        $this->fields[] = $field;
+        $this->fields['textcontent'] = $field;
     }
 }
  

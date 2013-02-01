@@ -57,6 +57,7 @@ $string['notypes'] = 'Aucun classifieur défini';
 
 
 // known types
+$string['enabletype'] = 'Activer le type ';
 $string['text'] = 'Texte';
 $string['content'] = 'Contenu ';
 

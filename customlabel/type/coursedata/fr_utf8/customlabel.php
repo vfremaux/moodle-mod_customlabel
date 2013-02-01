@@ -15,9 +15,15 @@ $string['concepts'] = 'concepts clefs ';
 $string['teachingorganization'] = 'Organisation pédagogique ';
 $string['objectives'] = 'Acquisitions';
 $string['duration'] = 'Durée du parcours ';
-$string['prerequisite'] = 'Pré requis nécessaires';
+$string['prerequisites'] = 'Pré requis nécessaires';
 $string['learningmethod'] = 'Méthode(s) d\'enseignement ';
 $string['followers'] = 'Suites possibles ';
-
-
-?>
+$string['tablecaption'] = 'Titre de la table';
+$string['showgoals'] = 'Afficher les objectifs';
+$string['showconcepts'] = 'Afficher les concepts clefs ';
+$string['showteachingorganization'] = 'Afficher l\'Organisation pédagogique ';
+$string['showobjectives'] = 'Afficher les acquisitions';
+$string['showduration'] = 'Afficher la durée du parcours ';
+$string['showprerequisites'] = 'Afficher les pré requis nécessaires';
+$string['showlearningmethod'] = 'Afficher les méthode(s) d\'enseignement ';
+$string['showfollowers'] = 'Afficher les suites possibles ';

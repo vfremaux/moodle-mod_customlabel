@@ -1,28 +1,29 @@
-#middle-column td.custombox-header-thumb.pedagogicnote {
-    width:40px;
-	background-image: url("icon_infop.png"); 
+#middle-column .custombox-header-thumb.pedagogicadvice {
+    width:76px;
+	background-image: url("/mod/customlabel/type/pedagogicadvice/icon_infop.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
 
-#left-column td.custombox-header-thumb.pedagogicnote,
-#right-column td.custombox-header-thumb.pedagogicnote {
+#left-column .custombox-header-thumb.pedagogicadvice,
+#right-column .custombox-header-thumb.pedagogicadvice {
     width:25px;
-	background-image: url("icon_infop_small.png"); 
+	background-image: url("/mod/customlabel/type/pedagogicadvice/icon_infop_small.png"); 
 	background-repeat: no-repeat;
     height:73px;
+    float:left;
 }
 
-.custom-advicecontent,
-.custom-advicecontrol
- {
+.custombox-content.pedagogicadvice,
+.custombox-control.pedagogicadvice {
    width: 98%;
-   border: 1px solid #378A39;
-   background-color: #E4EEE3;
-   color: #609957;
+   border: 1px solid #d0d0d0;
+   background-color: #f8e0f8;
+   color: #404040;
    padding: 3px;
 }
-.custom-advicehelper {
+
+.custombox-helper.pedagogicadvice {
    font-size:80%
-   color: #58AD5A;
+   color: #606060;
 }

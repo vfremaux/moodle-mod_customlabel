@@ -14,8 +14,7 @@ class customlabel_type_keypoints extends customlabel_type{
         $this->type = 'keypoints';
         $this->fields = array();
         
-        $storeddata = json_decode(base64_decode($this->data->safecontent));
-        
+        $storeddata = json_decode(base64_decode($this->data->safecontent));        
         $keypointnum = (!empty($storeddata->keypointnum)) ? $storeddata->keypointnum : 3 ;
         
         $field->name = 'keypointnum';
@@ -35,8 +34,6 @@ class customlabel_type_keypoints extends customlabel_type{
     
     function postprocess_data($course = null){
         global $CFG;
-
-        $this->data->headerimage = $CFG->wwwroot.'/mod/customlabel/type/keypoints/thumb.jpg';
 
 		$this->data->keypointslist = "<ul class=\"customlabel keypoints\">\n";
 		for($i = 0 ; $i < $this->data->keypointnum; $i++){		

@@ -1,15 +1,15 @@
-table.seealso {
+table.custombox-seealso {
    width: 100%;
 }
 
 td.custombox-header-thumb.seealso {
    padding-right:8px;
-   border-right:8px solid #ECEDBA !important;
+   border-right:1px solid #ECEDBA !important;
 }
 
 #middle-column td.custombox-header-thumb.seealso {
-    width:40px;
-	background-image: url("icon_seealso.png"); 
+    width:65px;
+	background-image: url("/mod/customlabel/type/seealso/icon_seealso.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
@@ -17,7 +17,8 @@ td.custombox-header-thumb.seealso {
 #left-column td.custombox-header-thumb.seealso,
 #right-column td.custombox-header-thumb.seealso {
     width:25px;
-	background-image: url("icon_seealso_small.png"); 
+    min-width:25px;
+	background-image: url("/mod/customlabel/type/seealso/icon_seealso_small.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
@@ -31,7 +32,7 @@ td.custombox-header-caption.seealso {
 
 td.custombox-content.seealso {
     padding-left:8px;
-    min-height:100Px;
+    min-height:100px;
 }
 
 td.custombox-content.seealso h1,

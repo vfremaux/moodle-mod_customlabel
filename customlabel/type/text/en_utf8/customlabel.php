@@ -1,4 +1,4 @@
 <?php
 
-$string['content'] = 'Text';
-?>
+$string['text'] = 'Simple text';
+$string['textcontent'] = 'Text';

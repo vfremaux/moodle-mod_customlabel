@@ -9,6 +9,17 @@
 * A generic class for collecting all that is common to all elements
 */
 
+// TODO : check if there is not a legacy post install function in module API
+if (!isset($CFG->classification_type_table)){
+	set_config('classification_type_table', 'customlabel_mtd_type');
+	set_config('classification_value_table', 'customlabel_mtd_value');
+	set_config('classification_value_type_key', 'typeid');
+	set_config('classification_constraint_table', 'customlabel_mtd_constraint');
+	set_config('course_metadata_table', 'customlabel_course_metadata');
+	set_config('course_metadata_value_key', 'valueid');
+	set_config('course_metadata_course_key', 'courseid');
+}
+
 class customlabel_type{
     var $title;
     var $type;
@@ -45,7 +56,11 @@ class customlabel_type{
         //get all code / translations for the option list
         $options = array();
         foreach($this->fields[$fieldname]->options as $option){
-            $options[$option] = get_string($option, 'customlabel');
+        	if (@$this->fields[$fieldname]->straightoptions){
+        		$options[$option] = $option;
+        	} else {
+	            $options[$option] = get_string($option, 'customlabel');
+	        }
         }
         return $options;
     }
@@ -181,7 +196,6 @@ class customlabel_type{
     function get_name($lang='') {
         // $textlib = textlib_get_instance();
     
-        // $this->data->customlabelcss = customlabel_get_stylesheet($this->type);
         $this->data->currenttheme = current_theme();
         $this->data->title = $this->title;        
         
@@ -203,23 +217,6 @@ class customlabel_type{
         global $CFG, $USER;
         
         $content = '';
-
-        /*
-        if (empty($lang)) $lang = current_language($USER);
-        $template = $CFG->dirroot ."/mod/customlabel/type/{$this->type}/{$lang}/template.tpl";
-        if (file_exists($template)){
-            $content = implode('', file($template));
-            $content = str_replace("'", "\\'", $content);
-            if (!empty($this->data)){
-                foreach($this->data as $key => $value){
-                    $content = str_replace("<%%{$key}%%>", $value, $content);
-                }
-            }
-        } else {
-            error("Template $template not found");
-        }
-        return $content;
-        */
         
         if (!empty($lang)){
              $languages[] = $lang;
@@ -241,7 +238,7 @@ class customlabel_type{
 
             if ($template){
                 $contentlang = "<span class=\"multilang\" lang=\"$multilang\" >";
-                $contentlang .= $template;
+                $contentlang .= $this->process_conditional($template);
                 $contentlang .= "</span>";
                 $contentlang = str_replace("'", "\\'", $contentlang);
                 if (!empty($this->data)){
@@ -271,6 +268,7 @@ class customlabel_type{
     
         // assembles multiple list answers
         foreach($this->fields as $key => $field){
+            $name = str_replace('[]', '', $field->name);
             if (preg_match("/list$/", $field->type)){
                 if (@$field->multiple){
     
@@ -280,7 +278,6 @@ class customlabel_type{
                         }
                     }
     
-                    $name = str_replace('[]', '', $field->name);
                     $valuearray = @$this->data->{$name};
                     if (is_array($valuearray)){
                         if (!empty($valuearray)){
@@ -298,10 +295,15 @@ class customlabel_type{
                 } else {
                     $name = $field->name;
                     $nameoption = "{$name}option";
-                    $this->data->{$nameoption} = $this->data->{$name};
-                    $this->data->{$name} = get_string($this->data->{$name}, 'customlabel');
+                    if (!empty($this->data->{$name})){
+	                    $this->data->{$nameoption} = $this->data->{$name};
+	                    $this->data->{$name} = get_string($this->data->{$name}, 'customlabel');
+	                } else {
+	                    $this->data->{$nameoption} = '';
+	                    $this->data->{$name} = '';
+	                }
                 }
-                $this->data->{$name} = str_replace("'", "\\'", $this->data->{$name});
+                $this->data->{$name} = str_replace("'", "\\'", @$this->data->{$name});
             }
         }
     }
@@ -349,9 +351,9 @@ class customlabel_type{
                 } else {
                     $name = $field->name;
                     $nameoption = "{$name}option";
-                    $this->data->{$nameoption} = $this->data->{$name};
+                    $this->data->{$nameoption} = @$this->data->{$name};
                     if ($field->source == 'dbfieldkeyed') {
-                        $this->data->{$name} = $this->get_datasource_values($field, $this->data->{$name});
+                        $this->data->{$name} = $this->get_datasource_values($field, @$this->data->{$name});
                     } else if ($field->source == 'dbfieldkey') {
                         $this->data->{$name} = get_string($this->data->{$name}, $domain);
                     } else if ($field->source == 'function') {
@@ -434,6 +436,87 @@ class customlabel_type{
     }
 
     function post_update(){
+    }
+
+    function process_conditional($template){
+    	
+    	if (!preg_match('/<%if /', $template)) return $template; // quick return for unconditional templates
+    	
+        $search = '/(.*?)<%if %%(.*?)%%\s+%>(.*?)<%endif\s+%>(.*)$/is';
+        $buffer = '';
+        $matches = array();
+        $matches[4] = '';
+    	while (preg_match($search, $template, $matches)){
+    		$buffer .= $matches[1]; // prefix
+    		$test = $matches[2]; // test variable
+    		$casecontent = $matches[3];
+    		$suffix = $matches[4];
+    		if ($test){
+    			// form 1 : simple boolean form
+    			if (preg_match('/[a-z_]+[0-9a-z_]*/', $test)){
+
+					// fix testvar name for lists
+    				if (@$this->fields[$test]->type == 'list'){
+    					$testvar = $test.'option';
+    				} else {
+    					$testvar = $test;
+    				}
+    				
+		    		if (!empty($this->data->$testvar)){
+		    			$buffer .= $casecontent;
+		    		}
+		    	}
+    			// form 2 : numeric comparisons
+    			if (preg_match('/([a-z_]+[0-9a-z_])*\s*([>=<]+)\s*(.*)/', $test, $matches)){
+    				$testvar = $matches[1];
+    				$testop = $matches[2];
+    				$testarg = $matches[3];
+    				
+					// fix testvar name for lists
+    				if (@$this->fields[$testvar]->type == 'list'){
+    					$testvar = $testvar.'option';
+    				}
+    				
+    				//fix string argument: eliminates quoting
+    				preg_replace('/[\'"](.*)[\'"]/', "$1", $testarg);
+    				
+    				// make test
+    				$accept = false;
+					debug_trace("check : {$this->data->$testvar} $testop $testarg ");
+    				switch($testop){
+    					case '==' :{
+    						$accept = (@$this->data->$testvar == $testarg);
+    						break;
+    					}
+    					case '<=' :{
+    						$accept = (@$this->data->$testvar <= $testarg);
+    						break;
+    					}
+    					case '>=' :{
+    						$accept = (@$this->data->$testvar >= $testarg);
+    						break;
+    					}
+    					case '<' :{
+    						$accept = (@$this->data->$testvar < $testarg);
+    						break;
+    					}
+    					case '>' :{
+    						$accept = (@$this->data->$testvar > $testarg);
+    						break;
+    					}
+    				}
+    				
+		    		if ($accept){
+		    			$buffer .= $casecontent;
+		    		}
+		    	}
+	    	}
+    		$test = $casecontent; // conditional content
+    		$template = $suffix;
+    	}
+		$buffer .= $template;
+
+		return $buffer;
     }
 }
 

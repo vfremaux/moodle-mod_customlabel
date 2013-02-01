@@ -14,13 +14,14 @@ class customlabel_type_worktodo extends customlabel_type{
         $this->type = 'worktodo';
         $this->fields = array();
         $this->allowedpageformats = 'page';
-        
+
+		$field = new StdClass;
         $field->name = 'worktodo';
         $field->type = 'textarea';
         $field->rows = 20;
         $this->fields['worktodo'] = $field;
 
-		$field = new Stdclass;
+		$field = new StdClass;
         $field->name = 'estimatedworktime';
         $field->type = 'textfield';
         $field->size = 10;
@@ -28,7 +29,7 @@ class customlabel_type_worktodo extends customlabel_type{
 
         if ($fieldid = get_field('customlabel_mtd_type', 'id', 'code', 'WORKTYPE')){
 
-			$field = new Stdclass;
+			$field = new StdClass;
 	        $field->name = 'worktype';
 	        $field->type = 'vdatasource';
 	        $field->source = 'dbfieldkeyed';
@@ -44,7 +45,7 @@ class customlabel_type_worktodo extends customlabel_type{
 
       	if ($fieldid = get_field('customlabel_mtd_type', 'id', 'code', 'WORKEFFORT')){
 
-			$field = new Stdclass;
+			$field = new StdClass;
 	        $field->name = 'workeffort';
 	        $field->type = 'vdatasource';
 	        $field->source = 'dbfieldkeyed';
@@ -60,7 +61,7 @@ class customlabel_type_worktodo extends customlabel_type{
 
     	if ($fieldid = get_field('customlabel_mtd_type', 'id', 'code', 'WORKMODE')){
 
-			$field = new Stdclass;
+			$field = new StdClass;
 	        $field->name = 'workmode';
 	        $field->type = 'vdatasource';
 	        $field->source = 'dbfieldkeyed';
@@ -114,10 +115,9 @@ class customlabel_type_worktodo extends customlabel_type{
         }
         */
 
-        $this->data->headerimage = $CFG->wwwroot.'/mod/customlabel/type/worktodo/thumb.jpg';
-        if (is_array(@$this->data->worktype)) $this->data->worktype = implode(', ',@$this->data->worktype); 
-        if (is_array(@$this->data->workeffort)) $this->data->workeffort = implode(', ',@$this->data->workeffort); 
-        if (is_array(@$this->data->workmode)) $this->data->workmode = implode(', ',@$this->data->workmode); 
+        if (is_array($this->data->worktype)) $this->data->worktype = implode(', ',$this->data->worktype); 
+        if (is_array($this->data->workeffort)) $this->data->workeffort = implode(', ',$this->data->workeffort); 
+        if (is_array($this->data->workmode)) $this->data->workmode = implode(', ',$this->data->workmode); 
     }
 }
  

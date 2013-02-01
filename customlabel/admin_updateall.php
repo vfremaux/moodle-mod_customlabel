@@ -1,4 +1,4 @@
-<?php  // $Id: admin_updateall.php,v 1.2 2012-01-08 23:43:38 vf Exp $
+<?php  // $Id: admin_updateall.php,v 1.4 2012-12-28 22:53:37 vf Exp $
 
     /**
     * this admin screen allows updating massively all customlabels when a change has been proceeded
@@ -86,7 +86,7 @@
 					    if (empty($block->usesafe)){
                         	$data = json_decode($customlabel->content);                        
 						} else {
-						    $data = json_decode(base64_decode($customlabel->->safecontent));
+						    $data = json_decode(base64_decode($customlabel->safecontent));
 						}
                         
                         if (is_null($data)) $data = new StdClass;

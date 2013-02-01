@@ -21,6 +21,7 @@ class EditTypeForm extends moodleform{
         
         $mform->addElement('hidden', 'view', $this->view);
         $mform->addElement('hidden', 'what', $this->action);
+        $mform->addElement('hidden', 'id');
         $mform->addElement('select', 'type', get_string('typetype', 'customlabel'), $options);
         $mform->addElement('text', 'code', get_string('code', 'customlabel'), array('size' => 15));
         $mform->addElement('text', 'name', get_string('name'), array('size' => 30));

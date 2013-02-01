@@ -1,5 +1,5 @@
-<table class="soluce" cellspacing="0" width="100%">
-<tr valign="middle">
+<table class="custombox-soluce" cellspacing="0" width="100%">
+<tr valign="top">
     <td class="custombox-header-thumb soluce" width="2%" rowspan="2">
         <img id="custom-thumb<%%customid%%>" src="<%%headerimage%%>" />
     </td>
@@ -11,14 +11,8 @@
     </td>
 </tr>
 <tr>
-	<td colspan="2">
-		<table id="custom<%%customid%%>" cellspacing="0" width="100%">
-		<tr>
-		    <td class="custombox-content soluce" colspan="2">
+	<td colspan="2" class="custombox-content soluce" width="98%" id="custom<%%customid%%>">
 		        <%%soluce%%>
-		    </td>
-		</tr>
-		</table>
 	</td>
 </tr>
 </table>

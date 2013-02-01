@@ -23,7 +23,6 @@ class customlabel_type_example extends customlabel_type{
     function postprocess_data($course = null){
         global $CFG;
 
-        $this->data->headerimage = $CFG->wwwroot.'/mod/customlabel/type/example/thumb.jpg';
     }
 }
  

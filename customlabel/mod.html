@@ -70,7 +70,7 @@
     }
     
     $mandatories = array();
-
+    
     // mounts dynamically the label's form
     if ($form->labelclass == 'text'){
         $content = @$customlabel->textcontent;
@@ -145,6 +145,7 @@
     <td>
         <?php 
            print_textarea($usehtmleditor, 10, 50, 680, 400, 'textcontent', $content);
+           $hastextareas = true;
         ?>
     </td>
 </tr>
@@ -216,6 +217,10 @@
                 echo '</div>';
             } elseif (preg_match("/^coursefile$/", $field->type)) {
             	// implement a course file chooser.
+            } elseif ($field->type == '_error_') {
+            	echo "<div id=\"div_menu_{$field->name}\">";
+            	echo notify($field->error, 'notifyproblem', 'left', true);
+                echo '</div>';
             } else {
             	echo "Unknown or unsupported type";
             }

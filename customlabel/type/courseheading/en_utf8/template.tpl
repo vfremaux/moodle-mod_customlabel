@@ -1,5 +1,12 @@
-<link href="<%%customlabelcss%%>" rel="stylesheet" type="text/css" />
-<div class="courseheading">
-<h1><%%courseheading%%></h1>
-<div class="description"><%%coursedesc%%></div>
-</div>
+<table class="custombox-courseheading">
+<tr valign="middle" class="custombox-icon courseheading">
+<%%imageL%%>
+<td width="*">
+<%if %%showcategory%% %><div class="custombox-category courseheading"><%%category%%></div><%endif %>
+<div class="custombox-preheading courseheading"><%%moduletype%%></div>
+<div class="custombox-heading courseheading"><%if %%showshortname%% %><%%shortname%%> - <%endif %> <%%courseheading%%> <%if %%showidnumber%% %>(<%%idnumber%%>)<%endif %></div>
+<%if %%showdescription%% %><div class="custombox-description courseheading"><%%coursedesc%%></div><%endif %>
+</td>
+<%%imageR%%>
+</tr>
+</table>

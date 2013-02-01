@@ -10,8 +10,8 @@ require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
 class customlabel_type_sequenceheading extends customlabel_type{
 
     function __construct($data){
-    	global $CFG;
-    	
+		global $CFG;
+
         parent::__construct($data);
         $this->type = 'sequenceheading';
         $this->fields = array();        
@@ -31,7 +31,11 @@ class customlabel_type_sequenceheading extends customlabel_type{
         $field->name = 'imageurl';
         $field->type = 'textfield';
         $field->size = 60;
-        $field->default = $CFG->wwwroot.'/mod/customlabel/type/sequenceheading/defaultsequenceheading.jpg';
+        if (!is_file($CFG->dirroot.'/theme/'.current_theme().'/pix/customlabel_icons/defaultsequenceheading.jpg')){
+	        $field->default = $CFG->wwwroot.'/mod/customlabel/type/sequenceheading/defaultsequenceheading.jpg';
+	    } else {
+	    	$field->default = $CFG->wwwroot.'/theme/'.current_theme().'/pix/customlabel_icons/defaultsequenceheading.jpg';
+	    }
         $this->fields['imageurl'] = $field;
 
 		$field = new StdClass();
@@ -46,6 +50,13 @@ class customlabel_type_sequenceheading extends customlabel_type{
         $field->options = array('none', 'left', 'right');
         $field->default = 'left';
         $this->fields['imageposition'] = $field;
+
+		$field = new StdClass();
+        $field->name = 'verticalalign';
+        $field->type = 'list';
+        $field->options = array('top', 'middle', 'bottom');
+        $field->default = 'top';
+        $this->fields['verticalalign'] = $field;
     }
 
     /**
@@ -57,13 +68,26 @@ class customlabel_type_sequenceheading extends customlabel_type{
         global $CFG;
 
         // get virtual fields from course title.
-        $imageurl = (empty($this->data->imageurl)) ? $CFG->wwwroot.'/mod/customlabel/type/sectionheading/defaultsectionheading.jpg' : $this->data->imageurl ;
-    	if (@$this->data->imagepositionoption == 'left'){
-	        $this->data->imageL = "<td width=\"100\" class=\"custombox-sequenceheading-icon-left\" align=\"center\" style=\"background:url({$imageurl}) 50% 0% no-repeat transparent\">{$this->data->overimagetext}</td>";
+        $imageurl = (empty($this->data->imageurl)) ? $this->fields['imageurl']->default : $this->data->imageurl ;
+        if ($this->data->verticalalignoption == 'bottom'){
+        	$valign = "50% 100%";
+        	$valigncontent = "bottom";
+        	$padding = 'padding-bottom:20px;';
+        } elseif ($this->data->verticalalignoption == 'middle'){
+        	$valign = "50% 50%";
+        	$valigncontent = "middle";
+        	$padding = '';
+        } else {
+        	$valign = "50% 0%";
+        	$valigncontent = "top";
+        	$padding = 'padding-top:20px;';
+        }
+    	if ($this->data->imagepositionoption == 'left'){
+	        $this->data->imageL = "<td width=\"100\" class=\"custombox-icon-left sequenceheading\" align=\"center\" valign=\"$valigncontent\" style=\"$padding background:url({$imageurl}) $valign no-repeat transparent\">{$this->data->overimagetext}</td>";
 	        $this->data->imageR = '';
-	    } else if (@$this->data->imagepositionoption == 'right'){
+	    } else if ($this->data->imagepositionoption == 'right'){
 	        $this->data->imageL = '';
-	        $this->data->imageR = "<td width=\"100\" class=\"custombox-sequenceheading-icon-right\" align=\"center\" style=\"background:url({$imageurl}) 50% 0% no-repeat transparent\">{$this->data->overimagetext}</td>";
+	        $this->data->imageR = "<td width=\"100\" class=\"custombox-icon-right sequenceheading\" align=\"center\" valign=\"$valigncontent\" style=\"$padding background:url({$imageurl}) $valign no-repeat transparent\">{$this->data->overimagetext}</td>";
 	    } else {
 	        $this->data->imageL = '';
 	        $this->data->imageR = '';

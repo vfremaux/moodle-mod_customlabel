@@ -14,23 +14,23 @@ class customlabel_type_soluce extends customlabel_type{
         $this->type = 'soluce';
         $this->fields = array();
         
+		$field = new StdClass;
         $field->name = 'soluce';
         $field->type = 'textarea';
         $field->rows = 20;
         $this->fields['soluce'] = $field;
 
-		$field = new Stdclass;
+		$field = new StdClass;
         $field->type = 'choiceyesno';
         $field->name = 'initiallyvisible';
         $field->default = 1;
         $this->fields['initiallyvisible'] = $field;
     }
     
-    function postprocess_data($course = null){
+    function preprocess_data($course = null){
         global $CFG;
         $customid = @$CFG->custom_unique_id + 1;
 
-        $this->data->headerimage = $CFG->wwwroot.'/mod/customlabel/type/soluce/thumb.jpg';
         $this->data->initialcontrolimage = ($this->data->initiallyvisible) ? $CFG->wwwroot.'/mod/customlabel/pix/minus.gif' : $CFG->wwwroot.'/mod/customlabel/pix/plus.gif' ;
         $this->data->customid = $customid;
         set_config('custom_unique_id', $customid);

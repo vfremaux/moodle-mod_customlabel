@@ -20,11 +20,6 @@ class customlabel_type_seealso extends customlabel_type{
         $this->fields['seealso'] = $field;
     }
     
-    function postprocess_data($course = null){
-        global $CFG;
-
-        $this->data->headerimage = $CFG->wwwroot.'/mod/customlabel/type/seealso/thumb.jpg';
-    }
 }
  
 ?>

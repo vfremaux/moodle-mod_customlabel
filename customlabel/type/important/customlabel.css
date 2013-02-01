@@ -1,16 +1,17 @@
-table.important {
+table.custombox-important {
    width: 100%;
+	margin-top:2px;
 }
 
 td.custombox-header-thumb.important {
-   width:40px;
+   width:65px;
    padding-right:8px;
-   border-right:8px solid #EBBCBC !important;
+   border-right:1px solid #f00000 !important;
 }
 
 #middle-column td.custombox-header-thumb.important {
-    width:40px;
-	background-image: url("icon_important.png"); 
+    min-width:65px;
+	background-image: url("/mod/customlabel/type/important/icon_important.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
@@ -18,9 +19,10 @@ td.custombox-header-thumb.important {
 #left-column td.custombox-header-thumb.important,
 #right-column td.custombox-header-thumb.important {
     width:25px;
-	background-image: url("icon_important_small.png"); 
+    min-width:25px;
+	background-image: url("/mod/customlabel/type/important/icon_important_small.png"); 
 	background-repeat: no-repeat;
-    height:73px;
+    height:25px;
 }
 
 td.custombox-header-caption.important {
@@ -32,7 +34,7 @@ td.custombox-header-caption.important {
 
 td.custombox-content.important {
     padding-left:8px;
-    min-height:100Px;
+    min-height:100px;
 }
 
 td.custombox-content.important h1,

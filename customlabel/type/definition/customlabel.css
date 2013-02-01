@@ -1,0 +1,61 @@
+table.custombox-definition {
+   width: 100%;
+}
+
+td.custombox-header-thumb.definition {
+   padding-right:8px;
+   border-right:1px solid #f00000 !important;
+}
+
+#middle-column .custombox-header-thumb.definition {
+    width:65px;
+    min-width:65px;
+	background-image: url("/mod/customlabel/type/definition/icon_definition.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+#left-column .custombox-header-thumb.definition,
+#right-column .custombox-header-thumb.definition  {
+    width:25px;
+	background-image: url("/mod/customlabel/type/definition/icon_definition_small.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+td.custombox-header-caption.definition {
+    color:#DB3333;
+    font-weight:bolder;
+    font-size:1.5em;
+    padding-left:8px;
+}
+
+td.custombox-content.definition {
+    padding-left:8px;
+    min-height:100Px;
+}
+
+td.custombox-content.definition h1,
+td.custombox-content.definition h2,
+td.custombox-content.definition h3{
+    background-image:none !important;
+    padding-left:0px !important;
+    color:#8B8B8B !important;
+    font-weight:bolder !important;
+}
+
+td.custombox-subdefinitions.definition {
+	padding-left:20px;
+}
+
+.custombox-subdefinition.definition {
+	padding-top:5px;
+}
+
+.custombox-subdefinition-caption.definition {
+    color:#DB3333;
+    font-weight:bolder;
+    font-size:1.3em;
+    padding-left:8px;
+    margin-top:4px;
+}

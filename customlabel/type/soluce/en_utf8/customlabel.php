@@ -1,5 +1,4 @@
 <?php
 
-$string['worktodo'] = 'Work to perform';
-$string['worktype'] = 'Work type';
-$string['estimatedworktime'] = 'Estimated time';
+$string['soluce'] = 'Soluce';
+$string['initiallyvisible'] = 'Initally visible when page loads';
