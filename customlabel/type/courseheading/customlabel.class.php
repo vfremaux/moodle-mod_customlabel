@@ -22,6 +22,11 @@ class customlabel_type_courseheading extends customlabel_type{
         $this->fields['showdescription'] = $field;
 
         $field = new StdClass;
+        $field->name = 'showshortname';
+        $field->type = 'choiceyesno';
+        $this->fields['showshortname'] = $field;
+
+        $field = new StdClass;
         $field->name = 'showidnumber';
         $field->type = 'choiceyesno';
         $this->fields['showidnumber'] = $field;
@@ -78,6 +83,7 @@ class customlabel_type_courseheading extends customlabel_type{
         $this->data->courseheading = str_replace("'", "\\'", $course->fullname);
         $this->data->coursedesc = str_replace("'", "\\'", $course->summary);
         $this->data->idnumber = $course->idnumber;
+        $this->data->shortname = $course->shortname;
         $imageurl = (empty($this->data->imageurl)) ? $this->fields['imageurl']->default : $this->data->imageurl ;
     	if ($this->data->imagepositionoption == 'left'){
 	        $this->data->imageL = "<td width=\"100\" class=\"custombox-icon-left courseheading\" align=\"center\" style=\"background:url({$imageurl}) 50% 50% no-repeat transparent\">{$this->data->overimagetext}</td>";

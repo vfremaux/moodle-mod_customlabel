@@ -8,13 +8,13 @@
 */
 
 function customlabel_set_instance(&$block){
-    global $USER, $CFG, $COURSE;
+    global $USER, $CFG, $COURSE, $DB;
     // transfer content from title to content    
     $block->content->text = $block->title;
     $block->title = '';
 
     // fake unpacks object's load
-    $data = json_decode($block->moduleinstance->content);
+    $data = json_decode(base64_decode($block->moduleinstance->content));
 
     // If failed in getting content. It happens sometimes, ... do nothing to let content be safed manually
     if (is_null($data) || !is_object($data)){

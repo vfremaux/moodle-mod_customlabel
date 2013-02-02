@@ -134,7 +134,7 @@ function customlabel_load_class($customlabel, $quiet = false){
     if (file_exists($classfile)){
         include_once $classfile;
         $constructorfunction = "customlabel_type_{$customlabel->labelclass}";
-        $instance = new $constructorfunction($customlabel, $customlabel->labelclass, $customlabel->processedcontent);
+        $instance = new $constructorfunction($customlabel, $customlabel->labelclass, @$customlabel->processedcontent);
         return $instance;
     } else {
         if (!$quiet)
