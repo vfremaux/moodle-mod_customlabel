@@ -72,6 +72,7 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
         $metadatatypes->add_child($metadatatype);
         $metadatatype->add_child($metadatavalues);
         $metadatavalues->add_child($metadatavalue);
+
         $metadataconstraints->add_child($metadataconstraint);
 
         $metadata->add_child($metadatacourse);
@@ -84,7 +85,7 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
 
         $metadatavalue->set_source_table('customlabel_mtd_value', array('typeid' => backup::VAR_PARENTID));
 
-        $metadatacontraint->set_source_table('customlabel_mtd_constraint', array('courseid' => backup::VAR_COURSEID));
+        $metadataconstraint->set_source_table('customlabel_mtd_constraint', array());
 
         $metadatacoursedatum->set_source_table('customlabel_course_metadata', array('courseid' => backup::VAR_COURSEID));
 

@@ -104,7 +104,7 @@ function customlabel_add_instance($customlabel) {
 */
 function customlabel_update_instance($customlabel) {
     global $CFG, $USER, $DB;
-        
+    
     // check if type changed
     $oldinstance = $DB->get_record('customlabel', array('id' => $customlabel->instance));
 	$typechanged = false;
@@ -145,7 +145,7 @@ function customlabel_update_instance($customlabel) {
     	$customlabeldata->{$field->name} = @$customlabel->{$field->name};
     	unset($customlabel->{$field->name});
     }
-
+	
     $customlabel->content = base64_encode(json_encode($customlabeldata));
 	$instance->data = $customlabeldata;
 	$processedcontent = $instance->make_content();
@@ -253,7 +253,14 @@ function customlabel_cm_info_dynamic(&$cminfo){
 	
 	if ($customlabel = $DB->get_record('customlabel', array('id' => $cminfo->instance))){
 		//
-		$PAGE->requires->css('/mod/customlabel/type/'.$customlabel->labelclass.'/customlabel.css');
+		$cssurl = '/mod/customlabel/type/'.$customlabel->labelclass.'/customlabel.css';
+		if (!$PAGE->requires->is_head_done()){
+			$PAGE->requires->css($cssurl);
+		} else {
+			// late loading
+			// less clean but no other way in some cases
+			echo "<link rel=\"stylesheet\" href=\"{$CFG->wwwroot}{$cssurl}\" />\n";
+		}
 
 		// disable url form of the course module representation
 		$cminfo->set_no_view_link();

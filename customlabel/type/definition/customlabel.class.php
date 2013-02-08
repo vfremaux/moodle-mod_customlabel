@@ -28,7 +28,7 @@ class customlabel_type_definition extends customlabel_type{
 	    	$subdefsnum = $data->subdefsnum;
 	    }
 
-		$field = new StdClass;        
+		$field = new StdClass;
         $field->name = 'subdefsnum';
         $field->type = 'list';
         $field->options = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10');
@@ -45,7 +45,7 @@ class customlabel_type_definition extends customlabel_type{
     }
     
     function preprocess_data(){
-    	
+		
 		$this->data->subdeflist = "<ul class=\"customlabel-subdefinition definition\">\n";
 		for ($i = 0 ; $i < $this->data->subdefsnum; $i++){		
 			$key = 'subdef'.$i;
