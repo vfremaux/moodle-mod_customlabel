@@ -5,9 +5,9 @@
 ///  This fragment is called by moodle_needs_upgrading() and /admin/index.php
 /////////////////////////////////////////////////////////////////////////////////
 
-$module->version  = 2012062401;  // The current module version (Date: YYYYMMDDXX)
-$module->requires = 2012061700;
+$module->version  = 2013010400;  // The current module version (Date: YYYYMMDDXX)
+$module->requires = 2012120300;
 $module->component = 'mod_customlabel';   // Full name of the plugin (used for diagnostics)
 $module->cron     = 0;           // Period for cron to check this module (secs)
 $module->maturity = MATURITY_RC;           // Maturity 
-$module->release = "2.3.0 (Build 2012062401)"; // Release
+$module->release = "2.4.0 (Build 2012062401)"; // Release

@@ -23,7 +23,23 @@ function xmldb_customlabel_upgrade($oldversion=0) {
 
     $result = true;
 
+	$dbman = $DB->get_manager();
+
 //===== 1.9.0 upgrade line ======//
+
+    if ($result && $oldversion < 2012062401) {
+    
+    /// Define field fallbacktype to be added to customlabel
+        $table = new XMLDBTable('customlabel');
+        $field = new XMLDBField('fallbacktype');
+        $field->set_attributes(XMLDB_TYPE_CHAR, '32', null, null, null, null, null, null, 'labelclass');
+
+    /// Launch add field parent
+        $result = $result || $dbman->add_field($table, $field);
+
+        /// tracker savepoint reached
+        upgrade_mod_savepoint($result, 2012062401, 'customlabel');
+    }
 
     return $result;
 }
