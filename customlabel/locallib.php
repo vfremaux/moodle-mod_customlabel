@@ -7,6 +7,7 @@
 * @date 15/07/2008
 */
 
+// TODO : check if there is not a legacy post install function in module API
 if (!isset($CFG->classification_type_table)){
 	set_config('classification_type_table', 'customlabel_mtd_type');
 	set_config('classification_value_table', 'customlabel_mtd_value');
@@ -22,19 +23,21 @@ if (!isset($CFG->classification_type_table)){
 * @uses $CFG
 * @param int $context if a context is given, filters out any type that is not allowed against 
 *                     roles held by the current user. Returns all types otherwise.
+* @param bool $ignoredisabled 
 * @return a sorted array of class definitions as objects
 */
-function customlabel_get_classes($context = null, $ignoredisabled = true){
+function customlabel_get_classes($context = null, $ignoredisabled = true, $asarray = false){
     global $CFG;
 
     static $classes = array();
+	static $classarr = array();	   
 
 	if (empty($classes)){
 	    $basetypedir = $CFG->dirroot."/mod/customlabel/type";
 	    
 	    $disabled = @$CFG->list_customlabel_disabled;
 	    $disabledarr = explode(',', $disabled);
-	    
+
 	    $classdir = opendir($basetypedir);
 	    while ($entry = readdir($classdir)){
 	        if (preg_match("/^[.!]/", $entry)) continue; // ignore what needs to be ignored
@@ -49,15 +52,18 @@ function customlabel_get_classes($context = null, $ignoredisabled = true){
 	        $obj->id = $entry;
 	        $obj->name = get_string('typename', 'customlabeltype_'.$entry);
 	        $classes[] = $obj;
+	        $classarr[$obj->id] = $obj->name;
 	    }
+	}
+	
+	if ($asarray){
+		return $classarr;
 	}
 
     // sort result against localized names
     $function = create_function('$a, $b', 'return strnatcmp($a->name, $b->name);');
     uasort($classes, $function);
     
-    // print_object($classes);
-        
     if ($context){
         customlabel_filter_role_disabled($classes, $context); // filter against roles
     }
@@ -89,7 +95,6 @@ function customlabel_filter_role_disabled(&$classes, $context){
         $diff = array_diff($roleids, $disabledrolelist);
         // if all roles held by user here are in disabled list, put it out.
         if (!empty($roleids) && empty($diff)){
-        	echo "disengaging $typename"; 
             unset($classes[$i]);
         }
     }    
@@ -134,7 +139,7 @@ function customlabel_load_class($customlabel, $quiet = false){
     if (file_exists($classfile)){
         include_once $classfile;
         $constructorfunction = "customlabel_type_{$customlabel->labelclass}";
-        $instance = new $constructorfunction($customlabel, $customlabel->labelclass, $customlabel->processedcontent);
+        $instance = new $constructorfunction($customlabel, $customlabel->labelclass, @$customlabel->processedcontent);
         return $instance;
     } else {
         if (!$quiet)

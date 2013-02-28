@@ -1,0 +1,48 @@
+table.custombox-theorema {
+   width: 100%;
+}
+
+td.custombox-header-thumb.theorema {
+   padding-right:8px;
+   border-right:1px solid #f00000 !important;
+}
+
+#region-main td.custombox-header-thumb.theorema {
+    width:65px;
+    min-width:65px;
+	background-image: url("/mod/customlabel/type/theorema/icon_theorema.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+td.custombox-header-thumb.thorema {
+    width:25px;
+	background-image: url("/mod/customlabel/type/theorema/icon_theorema_small.png"); 
+	background-repeat: no-repeat;
+    height:73px;
+}
+
+td.custombox-header-caption.theorema {
+    color:#DB3333;
+    font-weight:bolder;
+    font-size:1.3em;
+    padding-left:8px;
+}
+
+td.custombox-content.theorema {
+    padding-left:8px;
+    min-height:100Px;
+}
+
+td.custombox-content.theorema h1,
+td.custombox-content.theorema h2,
+td.custombox-content.theorema h3{
+    background-image:none !important;
+    padding-left:0px !important;
+    color:#8B8B8B !important;
+    font-weight:bolder !important;
+}
+
+td.custombox-subdefinitions.theorema {
+	padding-left:50px;
+}

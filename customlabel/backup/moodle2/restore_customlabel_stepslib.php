@@ -60,6 +60,19 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $data->course = $this->get_courseid();
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
+        // check the label subclass and fallback if not available here
+        // disabled classes are still restored
+        $classes = customlabel_get_classes(null, false, true);
+	    if (!array_key_exists($data->labelclass, $classes)){
+	    	if (!empty($data->fallbacktype)){
+		    	$data->labelclass = $data->fallbacktype;
+		    	$data->fallbacktype = '';
+		    } else {
+		    	$data->labelclass = 'text';
+		    	$data->fallbacktype = '';
+		    }
+	    }
+
         // insert the data record
         $newitemid = $DB->insert_record('customlabel', $data);
         $this->apply_activity_instance($newitemid);

@@ -37,8 +37,6 @@ class customlabel_type_keypoints extends customlabel_type{
     function preprocess_data($course = null){
         global $CFG;
 
-        $this->data->headerimage = $CFG->wwwroot.'/mod/customlabel/type/keypoints/thumb.jpg';
-
 		$this->data->keypointslist = "<ul class=\"customlabel keypoints\">\n";
 		for($i = 0 ; $i < $this->data->keypointnum; $i++){		
 			$key = 'keypointitem'.$i;

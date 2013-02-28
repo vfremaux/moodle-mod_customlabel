@@ -39,7 +39,7 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
 
         // Define each element separated
         $customlabel = new backup_nested_element('customlabel', array('id'), array(
-            'name', 'title', 'labelclass', 'safecontent', 'timemodified'));
+            'name', 'title', 'labelclass', 'fallbacktype', 'intro', 'introformat', 'timemodified', 'content', 'processedcontent'));
 
         $metadata = new backup_nested_element('metadata');
 
@@ -72,6 +72,7 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
         $metadatatypes->add_child($metadatatype);
         $metadatatype->add_child($metadatavalues);
         $metadatavalues->add_child($metadatavalue);
+
         $metadataconstraints->add_child($metadataconstraint);
 
         $metadata->add_child($metadatacourse);
@@ -84,7 +85,7 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
 
         $metadatavalue->set_source_table('customlabel_mtd_value', array('typeid' => backup::VAR_PARENTID));
 
-        $metadatacontraint->set_source_table('customlabel_mtd_constraint', array('courseid' => backup::VAR_COURSEID));
+        $metadataconstraint->set_source_table('customlabel_mtd_constraint', array());
 
         $metadatacoursedatum->set_source_table('customlabel_course_metadata', array('courseid' => backup::VAR_COURSEID));
 
