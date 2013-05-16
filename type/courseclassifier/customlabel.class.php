@@ -105,7 +105,7 @@ class customlabel_type_courseclassifier extends customlabel_type{
     }
     
     function on_delete(){
-    	global $CFG, $DB;
+    	global $CFG, $DB, $COURSE;
     	
         // remove all old classification
         $DB->delete_records($CFG->course_metadata_table, array($CFG->course_metadata_course_key => $COURSE->id));
