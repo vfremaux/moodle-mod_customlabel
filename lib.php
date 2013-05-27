@@ -118,7 +118,7 @@ function customlabel_add_instance($customlabel) {
 
     // this saves into readable data information about which legacy type to use
     // if this record is restored on a platform that do not implement the actual labelclass.
-    $customlabel->fallbacktype = @$instance->fallbacktype;
+    $customlabel->fallbacktype = ''.@$instance->fallbacktype;
     
     $customlabel->content = base64_encode(json_encode($customlabeldata));
     $instance->data = $customlabeldata; // load data into instance
@@ -171,7 +171,7 @@ function customlabel_update_instance($customlabel) {
     $customlabel->processedcontent = '';
 
     $instance = customlabel_load_class($customlabel);
-	$customlabel->fallbacktype = @$instance->fallbacktype;
+	$customlabel->fallbacktype = ''.@$instance->fallbacktype;
     $customlabeldata = new StdClass();
     foreach($instance->fields as $field){
     	if (preg_match('/editor|textarea/',$field->type)){
@@ -338,6 +338,7 @@ function customlabel_get_post_actions() {
 * TODO : check relevance
 *
 */
+/*
 function customlabel_get_types() {
     $types = array();
 
@@ -349,6 +350,7 @@ function customlabel_get_types() {
 
     return $types;
 }
+*/
 
 /**
  * This function is used by the reset_course_userdata function in moodlelib.

@@ -6,8 +6,8 @@ if ($action == 'add'){
     $metadatatype = new StdClass;
     $metadatatype->type = clean_param($data->type, PARAM_TEXT);
     $metadatatype->code = clean_param($data->code, PARAM_ALPHANUM);
-    $metadatatype->name = addslashes(clean_param($data->name, PARAM_CLEANHTML));
-    $metadatatype->description = addslashes(clean_param($data->description, PARAM_CLEANHTML));
+    $metadatatype->name = clean_param($data->name, PARAM_CLEANHTML);
+    $metadatatype->description = clean_param($data->description, PARAM_CLEANHTML);
     $maxordering = $DB->get_field($CFG->classification_type_table, ' MAX(sortorder) ', array());
     $metadatatype->sortorder = $maxordering + 1;
     if (!$DB->insert_record($CFG->classification_type_table, $metadatatype)){
