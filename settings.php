@@ -18,7 +18,7 @@ foreach($classes as $class){
     $description = get_string('hiddenrolesfor', 'customlabel') . ' ' . get_string('typename', 'customlabeltype_'.$class->id);
     $parmname = "customlabel_{$class->id}_hiddenfor";
     $selection = explode(',', @$CFG->$parmname);
-    $settings->add (new admin_setting_configmultiselect("$parmname", "customlabel_{$class->id}_hiddenfor", $description, $selection, $roles));
+    $settings->add (new admin_setting_configmultiselect("$parmname", "customlabel_{$class->id}_hiddenfor", $description, $selection, $rolemenu));
 }
 
 

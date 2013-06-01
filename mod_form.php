@@ -35,7 +35,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
 	var $editoroptions;
 
     function definition() {
-    	global $COURSE, $DB;
+    	global $COURSE, $DB, $CFG;
 
     	$context = get_context_instance(CONTEXT_COURSE, $COURSE->id);
 
@@ -110,7 +110,11 @@ class mod_customlabel_mod_form extends moodleform_mod {
 	            } elseif ($field->type == 'editor' || $field->type == 'textarea') {
 	            	$mform->addElement('htmleditor', $field->name.'_editor', $fieldlabel, $this->editoroptions);
 	            } elseif (preg_match("/list$/", $field->type)) {
-	                $options = $customclass->get_options($fieldname);
+	            	if (empty($field->straightoptions)){
+		                $options = $customclass->get_options($fieldname);
+		            } else {
+		            	$options = array_combine($field->options, $field->options);
+		            }
 	                $select = &$mform->addElement('select', $field->name, $fieldlabel, $options);
 	                if (!empty($field->multiple)){
 	                	$select->setMultiple(true);

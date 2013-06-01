@@ -3,7 +3,7 @@
     <td class="custombox-header-thumb worktodo" width="2%" rowspan="3">
     </td>
     <td class="custombox-worktype worktodo">
-        <b>Nature: </b> <span class="custom-worktype"><%%worktype%%></span>
+        <b>Nature: </b> <span class="custom-worktype"><%%worktypefield%%></span>
     </td>
     <td class="custombox-timeexpected worktodo" align="right">
         <img src="/mod/customlabel/type/worktodo/clock.jpg" /> <%%estimatedworktime%%>
@@ -11,10 +11,10 @@
 </tr>
 <tr valign="top">
     <td class="custombox-worktype worktodo">
-        <b>Effort: </b> <span class="custombox-workeffort"><%%workeffort%%></span>
+        <b>Effort: </b> <span class="custombox-workeffort"><%%workeffortfield%%></span>
     </td>
     <td class="custombox-workmode worktodo" align="right">
-        <b>Mode: </b> <span class="custombox-workmode"><%%workmode%%></span>
+        <b>Mode: </b> <span class="custombox-workmode"><%%workmodefield%%></span>
     </td>
 </tr>
 <tr>

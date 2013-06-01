@@ -281,9 +281,14 @@ class customlabel_type{
                     }
                 } else {
                     $name = $field->name;
-                    $nameoption = "{$name}option";
-                    $this->data->{$nameoption} = $this->data->{$name};
-                    $this->data->{$name} = get_string($this->data->{$name}, 'customlabeltype_'.$this->type);
+                    $optionkey = "{$name}option";
+                	$option = @$this->data->{$optionkey};
+                    $this->data->{$optionkey} = $this->data->{$name};
+                    if ($option){
+	                    $this->data->{$name} = get_string(@$option, 'customlabeltype_'.$this->type);
+	                } else {
+	                	$this->data->{$name} = '';
+	                }
                 }
                 $this->data->{$name} = str_replace("'", "\\'", $this->data->{$name});
             }
@@ -315,6 +320,7 @@ class customlabel_type{
             if (preg_match("/datasource$/", $field->type)) {
                 if (@$field->multiple){    
                     $name = str_replace('[]', '', $field->name);
+                    $name = $name.'opt';
                     $valuearray = @$this->data->{$name};
                     if (is_array($valuearray)){
                         if (!empty($valuearray)){
