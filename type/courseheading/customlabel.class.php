@@ -80,8 +80,8 @@ class customlabel_type_courseheading extends customlabel_type{
         if (is_null($course)) $course = &$COURSE;
         
         // get virtual fields from course title.
-        $this->data->courseheading = format_string($course->fullname);
-        $this->data->coursedesc = format_string($course->summary);
+        $this->data->courseheading = format_string(str_replace("'", "\\'", $course->fullname));
+        $this->data->coursedesc = format_string(str_replace("'", "\\'", $course->summary));
         $this->data->idnumber = $course->idnumber;
         $this->data->shortname = $course->shortname;
         $imageurl = (empty($this->data->imageurl)) ? $this->fields['imageurl']->default : $this->data->imageurl ;
