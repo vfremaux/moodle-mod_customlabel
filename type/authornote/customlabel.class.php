@@ -27,13 +27,18 @@ class customlabel_type_authornote extends customlabel_type{
         $this->fields['initiallyvisible'] = $field;
     }
 
-    function postprocess_data($course = null){
-        global $CFG;
+    function preprocess_data($course = null){
+    	global $CFG;
+
         $customid = @$CFG->custom_unique_id + 1;
 
         $this->data->customid = $customid;
         set_config('custom_unique_id', $customid);
         
+        $this->data->initialcontrolimage = ($this->data->initiallyvisible) ? $CFG->wwwroot.'/mod/customlabel/pix/minus.gif' : $CFG->wwwroot.'/mod/customlabel/pix/plus.gif' ;
+
+		// for passing to javascript    	
+    	$this->data->wwwroot = $CFG->wwwroot;
     }
 }
  

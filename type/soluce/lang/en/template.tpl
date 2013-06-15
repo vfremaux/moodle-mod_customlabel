@@ -6,7 +6,7 @@
         Soluce...
     </td>
     <td class="custombox-header-collapser soluce" align="right" width="2%">
-        <a href="javascript:togglecustom('<%%customid%%>')"><img id="customctl<%%customid%%>" src="<%%initialcontrolimage%%>" /></a>
+        <a href="javascript:togglecustom('<%%customid%%>', '<%%wwwroot%%>')"><img id="customctl<%%customid%%>" src="<%%initialcontrolimage%%>" /></a>
     </td>
 </tr>
 <tr>
@@ -22,5 +22,5 @@
 </tr>
 </table>
 <script type="text/javascript">
-setupcustom("<%%customid%%>", "<%%initiallyvisible%%>");
+setupcustom("<%%customid%%>", "<%%initiallyvisible%%>", "<%%wwwroot%%>");
 </script>

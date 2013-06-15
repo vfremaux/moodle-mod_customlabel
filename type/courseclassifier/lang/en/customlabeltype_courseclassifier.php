@@ -2,6 +2,7 @@
 
 $string['pluginname'] = 'Course element : Course classifier';
 $string['courseclassifier'] = 'Course classifier';
+$string['tablecaption'] = 'Table caption';
 $string['typename'] = 'Course classifier';
 $string['configtypename'] = 'Enable subtype Course Classifier';
 $string['level0'] = 'Classification level 1';

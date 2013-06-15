@@ -40,10 +40,10 @@ class customlabel_type_courseheading extends customlabel_type{
         $field->name = 'imageurl';
         $field->type = 'textfield';
         $field->size = 60;
-        if (!is_file($CFG->dirroot.'/theme/'.current_theme().'/pix/customlabel_icons/defaultcourseheading.jpg')){
-	        $field->default = $CFG->wwwroot.'/mod/customlabel/type/courseheading/defaultheading.jpg';
+        if (!is_file($CFG->dirroot.'/theme/'.$CFG->theme.'/pix/customlabel_icons/defaultcourseheading.png')){
+	        $field->default = $CFG->wwwroot.'/mod/customlabel/type/courseheading/defaultheading.png';
 	    } else {
-	        $field->default = $CFG->wwwroot.'/theme/'.current_theme().'/pix/customlabel_icons/defaultcourseheading.jpg';
+	        $field->default = $CFG->wwwroot.'/theme/'.$CFG->theme.'/pix/customlabel_icons/defaultcourseheading.png';
 	    }
         $this->fields['imageurl'] = $field;
 
@@ -80,8 +80,8 @@ class customlabel_type_courseheading extends customlabel_type{
         if (is_null($course)) $course = &$COURSE;
         
         // get virtual fields from course title.
-        $this->data->courseheading = str_replace("'", "\\'", $course->fullname);
-        $this->data->coursedesc = str_replace("'", "\\'", $course->summary);
+        $this->data->courseheading = format_string(str_replace("'", "\\'", $course->fullname));
+        $this->data->coursedesc = format_string(str_replace("'", "\\'", $course->summary));
         $this->data->idnumber = $course->idnumber;
         $this->data->shortname = $course->shortname;
         $imageurl = (empty($this->data->imageurl)) ? $this->fields['imageurl']->default : $this->data->imageurl ;

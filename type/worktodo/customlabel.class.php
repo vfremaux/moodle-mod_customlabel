@@ -32,7 +32,7 @@ class customlabel_type_worktodo extends customlabel_type{
         if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKTYPE'))){
 
 			$field = new StdClass;
-	        $field->name = 'worktype';
+	        $field->name = 'worktypefield';
 	        $field->type = 'vdatasource';
 	        $field->source = 'dbfieldkeyed';
 	        $field->table = 'customlabel_mtd_value';
@@ -40,7 +40,7 @@ class customlabel_type_worktodo extends customlabel_type{
 	        $field->key = 'code';
 	        $field->select = " typeid = $fieldid ";
 	        // $field->multiple = 'multiple';
-	        $this->fields['worktype'] = $field;
+	        $this->fields['worktypefield'] = $field;
 	    } else {
 	    	// echo "no field for WORKTYPE ";
 	    }
@@ -48,7 +48,7 @@ class customlabel_type_worktodo extends customlabel_type{
       	if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKEFFORT'))){
 
 			$field = new StdClass;
-	        $field->name = 'workeffort';
+	        $field->name = 'workeffortfield';
 	        $field->type = 'vdatasource';
 	        $field->source = 'dbfieldkeyed';
 	        $field->table = 'customlabel_mtd_value';
@@ -56,7 +56,7 @@ class customlabel_type_worktodo extends customlabel_type{
 	        $field->key = 'code';
 	        $field->select = " typeid = $fieldid ";
 	        // $field->multiple = 'multiple';
-	        $this->fields['workeffort'] = $field;
+	        $this->fields['workeffortfield'] = $field;
 	    } else {
 	    	// echo "no field for WORKEFFORT ";
 	    }
@@ -64,7 +64,7 @@ class customlabel_type_worktodo extends customlabel_type{
     	if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKMODE'))){
 
 			$field = new StdClass;
-	        $field->name = 'workmode';
+	        $field->name = 'workmodefield';
 	        $field->type = 'vdatasource';
 	        $field->source = 'dbfieldkeyed';
 	        $field->table = 'customlabel_mtd_value';
@@ -72,7 +72,7 @@ class customlabel_type_worktodo extends customlabel_type{
 	        $field->key = 'code';
 	        $field->select = " typeid = $fieldid ";
 	        // $field->multiple = 'multiple';
-	        $this->fields['workmode'] = $field;
+	        $this->fields['workmodefield'] = $field;
 	    } else {
 	    	// echo "no field for WORKMODE ";
 	    }

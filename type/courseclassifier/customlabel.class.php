@@ -30,7 +30,7 @@ class customlabel_type_courseclassifier extends customlabel_type{
         $field = new StdClass;
         $field->name = 'uselevels';
         $field->type = 'list';
-        $field->options = array(1, 2, 3);
+        $field->options = array('1', '2', '3');
         $field->straightoptions = true;
         $field->mandatory = true;
         $this->fields['uselevels'] = $field;
@@ -126,17 +126,18 @@ class customlabel_type_courseclassifier extends customlabel_type{
         $DB->delete_records($CFG->course_metadata_table, array($CFG->course_metadata_course_key => $COURSE->id));
 
         // add updated level0
+        $cc = new StdClass;
         $cc->$coursekey = $COURSE->id;
-        if (!empty($this->data->level0)){
-            if (is_array($this->data->level0)){
-                foreach($this->data->level0 as $method){
+        if (!empty($this->data->level0opt)){
+            if (is_array($this->data->level0opt)){
+                foreach($this->data->level0opt as $method){
                     $cc->$valuekey = $method;
                     if (!$DB->insert_record($CFG->course_metadata_table, $cc)){
                         $OUTPUT->notification("Could not classify course");
                     }
                 }
             } else {
-                $cc->$valuekey = $this->data->level0;
+                $cc->$valuekey = $this->data->level0opt;
                 if (!$DB->insert_record($CFG->course_metadata_table, $cc)){
                     $OUTPUT->notification("Could not classify course");
                 }
@@ -145,16 +146,16 @@ class customlabel_type_courseclassifier extends customlabel_type{
 
         // add updated level1
         $cc->$coursekey = $COURSE->id;
-        if (!empty($this->data->level1)){
-            if (is_array($this->data->level1)){
-                foreach($this->data->level1 as $method){
+        if (!empty($this->data->level1opt)){
+            if (is_array($this->data->level1opt)){
+                foreach($this->data->level1opt as $method){
                     $cc->$valuekey = $method;
                     if (!$DB->insert_record($CFG->course_metadata_table, $cc)){
                         $OUTPUT->notification("Could not classify course");
                     }
                 }
             } else {
-                $cc->$valuekey = $this->data->level1;
+                $cc->$valuekey = $this->data->level1opt;
                 if (!$DB->insert_record($CFG->course_metadata_table, $cc)){
                     $OUTPUT->notification("Could not classify course");
                 }
@@ -163,16 +164,16 @@ class customlabel_type_courseclassifier extends customlabel_type{
 
         // add updated level2 
         $cc->$coursekey = $COURSE->id;
-        if (!empty($this->data->level2)){
-            if (is_array($this->data->level2)){
-                foreach($this->data->level2 as $method){
+        if (!empty($this->data->level2opt)){
+            if (is_array($this->data->level2opt)){
+                foreach($this->data->level2opt as $method){
                     $cc->$valuekey = $method;
                     if (!$DB->insert_record($CFG->course_metadata_table, $cc)){
                         $OUTPUT->notification("Could not classify course");
                     }
                 }
             } else {
-                $cc->$valuekey = $this->data->level2;
+                $cc->$valuekey = $this->data->level2opt;
                 if (!$DB->insert_record('customlabel_course_metadata', $cc)){
                     $OUTPUT->notification("Could not classify course");
                 }

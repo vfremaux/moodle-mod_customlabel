@@ -3,6 +3,7 @@
 /************************************* Add ******************/
 if ($action == 'add'){
     $data = $mform->get_data();
+    $metadatavalue = new StdClass;
     $metadatavalue->typeid = clean_param($data->typeid, PARAM_INT);
     $metadatavalue->code = clean_param($data->code, PARAM_ALPHANUM);
     $metadatavalue->value = clean_param($data->value, PARAM_CLEANHTML);
@@ -10,7 +11,7 @@ if ($action == 'add'){
     $maxordering = $DB->get_field($CFG->classification_value_table, ' MAX(sortorder)', array($CFG->classification_value_type_key => $data->typeid));
     $metadatavalue->sortorder = 1 + @$maxordering;
     if (!$DB->insert_record($CFG->classification_value_table, $metadatavalue)){
-        error('Could not insert a new value');
+        print_error('errorinservalue', 'customlabel');
     }
     redirect($url."?view=qualifiers&typeid={$data->typeid}");
 }
@@ -18,11 +19,12 @@ if ($action == 'add'){
 /************************************* Update ******************/
 if ($action == 'update'){
     $data = $mform->get_data();
-    $metadatatype->id = clean_param('valueid', PARAM_INT);
+    $metadatavalue = new StdClass;
+    $metadatavalue->id = clean_param('valueid', PARAM_INT);
     $metadatavalue->code = clean_param($data->code, PARAM_ALPHANUM);
-    $metadatatype->value = clean_param('value', PARAM_CLEANHTML);
-    if (!$DB->update_record($CFG->classification_type_table, $metadatatype)){
-        error('Could not update a new value');
+    $metadatavalue->value = clean_param('value', PARAM_CLEANHTML);
+    if (!$DB->update_record($CFG->classification_value_table, $metadatavalue)){
+        print_error('errorupdatevalue', 'customlabel');
     }
     redirect($url."?view=qualifiers&typeid={$data->typeid}");
 }

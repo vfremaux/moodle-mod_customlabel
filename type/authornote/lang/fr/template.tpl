@@ -1,4 +1,4 @@
-<div class="custombox-control authornote"><a href="javascript:togglecustom('<%%customid%%>')"><img id="customctl<%%customid%%>" src="/mod/customlabel/pix/neutral.gif" /></a>
+<div class="custombox-control authornote"><a href="javascript:togglecustom('<%%customid%%>', '<%%wwwroot%%>')"><img id="customctl<%%customid%%>" src="<%%initialcontrolimage%%>" /></a>
 <span class="custombox-head authornote"><b>Note de conception</b></span>
 </div>
 <div class="custombox-content authornote" id="custom<%%customid%%>">
@@ -7,5 +7,5 @@
 <%%authornote%%>
 </div>
 <script type="text/javascript">
-setupcustom("<%%customid%%>", "<%%initiallyvisible%%>");
+setupcustom("<%%customid%%>", "<%%initiallyvisible%%>", "<%%wwwroot%%>");
 </script>
