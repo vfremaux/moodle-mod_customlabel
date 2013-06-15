@@ -19,7 +19,7 @@ function type_change_submit(advicetext, courseid, section, returntomod, sesskey)
 		if (!typeselobj){
 			typeselobj = document.getElementById('menulabelclass');
 		}
-        url = '/course/mod.php?id='+courseid+'&section='+section+'&sesskey='+sesskey+'&add=customlabel&returntomod='+returntomod+'&type='+ typeselobj.options[typeselobj.selectedIndex].value;
+        url = './mod.php?id='+courseid+'&section='+section+'&sesskey='+sesskey+'&add=customlabel&returntomod='+returntomod+'&type='+ typeselobj.options[typeselobj.selectedIndex].value;
         document.location.href = url;
 	}
 }

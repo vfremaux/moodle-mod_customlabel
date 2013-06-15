@@ -26,14 +26,20 @@ class customlabel_type_pedagogicadvice extends customlabel_type{
         $this->fields['initiallyvisible'] = $field;
     }
 
-    function postprocess_data($course = null){
-        global $CFG;
+    function preprocess_data($course = null){
+    	global $CFG;
+
         $customid = @$CFG->custom_unique_id + 1;
+        set_config('custom_unique_id', $customid);
 
         $this->data->customid = $customid;
+
         $this->data->initialcontrolimage = ($this->data->initiallyvisible) ? $CFG->wwwroot.'/mod/customlabel/pix/minus.gif' : $CFG->wwwroot.'/mod/customlabel/pix/plus.gif' ;
-        set_config('custom_unique_id', $customid);
+		// for passing to javascript    	
+		
+    	$this->data->wwwroot = $CFG->wwwroot;
     }
+
 }
  
 ?>
