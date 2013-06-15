@@ -3,6 +3,7 @@ global $CFG;
 
 $string['configusesafestorage'] = 'Si activé, le contenu des étiquettes sera converti en stockage sûr au moment de leur édition. Le nouveau stockage sera utilisé à partir de ce moment.';
 $string['changetypeadvice'] = 'Vous allez changer la structure de cet élement.\\\\nLes anciennes données ne peuvent être conservées.\\\\nVoulez-vous continuer ?';
+$string['customlabel:addinstance'] = 'Peut ajouter une instance';
 $string['customlabel:fullaccess'] = 'Accès total ';
 $string['customlabeltools'] = 'Outils de masse pour les éléments personnalisables';
 $string['doupdate'] = 'Régénérer !!';

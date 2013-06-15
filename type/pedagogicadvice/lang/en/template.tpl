@@ -1,4 +1,4 @@
-<div class="custombox-control pedagogicadvice"><a href="javascript:togglecustom('<%%customid%%>')"><img id="customctl<%%customid%%>" src="<%%initialcontrolimage%%>" /></a>
+<div class="custombox-control pedagogicadvice"><a href="javascript:togglecustom('<%%customid%%>', '<%%wwwroot%%>')"><img id="customctl<%%customid%%>" src="<%%initialcontrolimage%%>" /></a>
 <span class="custombox-header-caption pedagogicadvice"><b>Pedagogic advice</b></span></div>
 <div class="custombox-content pedagogicadvice" id="custom<%%customid%%>">
 <p class="custombox-helper pedagogicadvice"><b>(This note is only visible for trainers)</b></p>
@@ -10,6 +10,6 @@
 </table>
 </div>
 <script type="text/javascript">
-setupcustom("<%%customid%%>", "<%%initiallyvisible%%>");
+setupcustom("<%%customid%%>", "<%%initiallyvisible%%>", "<%%wwwroot%%>");
 </script>
 

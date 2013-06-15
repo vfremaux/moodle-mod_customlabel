@@ -27,6 +27,37 @@ if (!isset($CFG->classification_type_table)){
 require_once ($CFG->dirroot.'/mod/customlabel/locallib.php');
 // include "debugging.php";
 
+
+/**
+ * @uses FEATURE_IDNUMBER
+ * @uses FEATURE_GROUPS
+ * @uses FEATURE_GROUPINGS
+ * @uses FEATURE_GROUPMEMBERSONLY
+ * @uses FEATURE_MOD_INTRO
+ * @uses FEATURE_COMPLETION_TRACKS_VIEWS
+ * @uses FEATURE_GRADE_HAS_GRADE
+ * @uses FEATURE_GRADE_OUTCOMES
+ * @param string $feature FEATURE_xx constant for requested feature
+ * @return bool|null True if module supports feature, false if not, null if doesn't know
+ */
+function customlabel_supports($feature) {
+    switch($feature) {
+        case FEATURE_IDNUMBER:                return false;
+        case FEATURE_GROUPS:                  return false;
+        case FEATURE_GROUPINGS:               return false;
+        case FEATURE_GROUPMEMBERSONLY:        return true;
+        case FEATURE_MOD_INTRO:               return false;
+        case FEATURE_COMPLETION_TRACKS_VIEWS: return false;
+        case FEATURE_GRADE_HAS_GRADE:         return false;
+        case FEATURE_GRADE_OUTCOMES:          return false;
+        case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_RESOURCE;
+        case FEATURE_BACKUP_MOODLE2:          return true;
+        case FEATURE_NO_VIEW_LINK:            return true;
+
+        default: return null;
+    }
+}
+
 /**
  * @param object $customlabel
  * @return string
@@ -84,16 +115,15 @@ function customlabel_add_instance($customlabel) {
     	$customlabeldata->{$field->name} = @$customlabel->{$field->name};
     	unset($customlabel->{$field->name});
     }
+
+    // this saves into readable data information about which legacy type to use
+    // if this record is restored on a platform that do not implement the actual labelclass.
+    $customlabel->fallbacktype = ''.@$instance->fallbacktype;
     
     $customlabel->content = base64_encode(json_encode($customlabeldata));
     $instance->data = $customlabeldata; // load data into instance
     $customlabel->processedcontent = $instance->make_content();
-    // $customlabel->name = $instance->get_name(); // do not try to cache content anymore
     $customlabel->timemodified = time();
-    // $customlabel = customlabel_addslashes_fields($customlabel);
-
-    // print_object($customlabel);
-    // print_object($customlabeldata);
     return $DB->insert_record('customlabel', $customlabel);
 }
 
@@ -108,10 +138,24 @@ function customlabel_update_instance($customlabel) {
     // check if type changed
     $oldinstance = $DB->get_record('customlabel', array('id' => $customlabel->instance));
 	$typechanged = false;
+    
     if ($oldinstance->labelclass != $customlabel->labelclass){
 		$instance = customlabel_load_class($oldinstance, true);
     	$instance->pre_update();
     	$typechanged = true;
+        $customlabel->content = '';
+        $customlabel->name = '';
+		$customlabel->fallbacktype = @$instance->fallbacktype;
+    } else {
+        $customlabel->safecontent = base64_encode(json_encode($customlabel));
+        $customlabel->content = json_encode($customlabel); // (force old storage to clear when recoded to safe mode)
+        $instance = customlabel_load_class($customlabel);
+        $instance->preprocess_data();
+        $instance->process_form_fields();
+        $instance->process_datasource_fields();
+        $instance->postprocess_data();
+        $customlabel->name = $instance->title;
+    	$customlabel->fallbacktype = @$instance->fallbacktype;
     }
 
 	/*
@@ -127,6 +171,7 @@ function customlabel_update_instance($customlabel) {
     $customlabel->processedcontent = '';
 
     $instance = customlabel_load_class($customlabel);
+	$customlabel->fallbacktype = ''.@$instance->fallbacktype;
     $customlabeldata = new StdClass();
     foreach($instance->fields as $field){
     	if (preg_match('/editor|textarea/',$field->type)){
@@ -178,6 +223,7 @@ function customlabel_delete_instance($id) {
 	$instance->on_delete();
 
 	// delete the module 
+	
     $result = true;
 
     if (! $DB->delete_records('customlabel', array('id' => "$customlabel->id"))) {
@@ -226,7 +272,8 @@ function customlabel_get_coursemodule_info($coursemodule) {
 * can tweek some information to force cminfo behave like some label kind
 */
 function customlabel_cm_info_dynamic(&$cminfo){
-	global $DB, $PAGE;
+	global $DB, $PAGE, $CFG;
+
 	static $customlabelscriptsloaded = false;
 	static $customlabelcssloaded = array();
 
@@ -360,6 +407,7 @@ function customlabel_is_hidden_byrole(&$block, $cmid = 0){
     if (!is_null($block)){
 	    $pageitem = $DB->get_record('format_page_items', array('id' => $block->pageitemid)); 
 	} else {
+		$pageitem = new StdClass();
 		$pageitem->cmid = $cmid;
 	}
     if ($pageitem->cmid){
@@ -395,14 +443,17 @@ function customlabel_is_hidden_byrole(&$block, $cmid = 0){
             $hidden = true;
             $cfgkey = "customlabel_{$customlabel->labelclass}_hiddenfor";
             $hiddenforroles = explode(',', @$CFG->{$cfgkey});
+            
             if (empty($CFG->{$cfgkey})){
                 // no restriction applies 
                 return false;
             }
+            
             if (empty($roleids)){
                 $guestroleid = $DB->get_field('role', 'id', array('shortname' => 'guest'));
                 $roleids[] = $guestroleid;
             }
+            
             foreach($roleids as $aroleid){
                 if (!in_array($aroleid, $hiddenforroles)){
                     $hidden = false;
@@ -412,36 +463,6 @@ function customlabel_is_hidden_byrole(&$block, $cmid = 0){
         }
     }
     return $hidden;
-}
-
-/**
- * @uses FEATURE_IDNUMBER
- * @uses FEATURE_GROUPS
- * @uses FEATURE_GROUPINGS
- * @uses FEATURE_GROUPMEMBERSONLY
- * @uses FEATURE_MOD_INTRO
- * @uses FEATURE_COMPLETION_TRACKS_VIEWS
- * @uses FEATURE_GRADE_HAS_GRADE
- * @uses FEATURE_GRADE_OUTCOMES
- * @param string $feature FEATURE_xx constant for requested feature
- * @return bool|null True if module supports feature, false if not, null if doesn't know
- */
-function customlabel_supports($feature) {
-    switch($feature) {
-        case FEATURE_IDNUMBER:                return false;
-        case FEATURE_GROUPS:                  return false;
-        case FEATURE_GROUPINGS:               return false;
-        case FEATURE_GROUPMEMBERSONLY:        return true;
-        case FEATURE_MOD_INTRO:               return false;
-        case FEATURE_COMPLETION_TRACKS_VIEWS: return false;
-        case FEATURE_GRADE_HAS_GRADE:         return false;
-        case FEATURE_GRADE_OUTCOMES:          return false;
-        case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_RESOURCE;
-        case FEATURE_BACKUP_MOODLE2:          return true;
-        case FEATURE_NO_VIEW_LINK:            return true;
-
-        default: return null;
-    }
 }
 
 ?>

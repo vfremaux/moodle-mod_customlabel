@@ -39,7 +39,7 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
 
         // Define each element separated
         $customlabel = new backup_nested_element('customlabel', array('id'), array(
-            'name', 'title', 'labelclass', 'safecontent', 'timemodified'));
+            'name', 'title', 'labelclass', 'fallbacktype', 'intro', 'introformat', 'timemodified', 'content', 'processedcontent'));
 
         $metadata = new backup_nested_element('metadata');
 

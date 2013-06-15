@@ -10,8 +10,9 @@
         <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="name"/>
         <FIELD NAME="name" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" PREVIOUS="course" NEXT="title"/>
         <FIELD NAME="title" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" PREVIOUS="name" NEXT="labelclass"/>
-        <FIELD NAME="labelclass" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" PREVIOUS="title" NEXT="intro"/>
-        <FIELD NAME="intro" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" PREVIOUS="labelclass" NEXT="introformat"/>
+        <FIELD NAME="labelclass" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" PREVIOUS="title" NEXT="fallbacktype"/>
+        <FIELD NAME="fallbacktype" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" PREVIOUS="labelclass" NEXT="intro"/>
+        <FIELD NAME="intro" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" PREVIOUS="fallbacktype" NEXT="introformat"/>
         <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false" PREVIOUS="intro" NEXT="timemodified"/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="introformat" NEXT="content" />
         <FIELD NAME="content" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false" PREVIOUS="timemodified" NEXT="processedcontent"/>
