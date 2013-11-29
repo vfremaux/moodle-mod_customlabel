@@ -1,5 +1,7 @@
 <?php
 
+require_once $CFG->dirroot.'/mod/customlabel/locallib.php';
+
 /**
 * implements a hook for the page_module block to add
 * the link allowing live refreshing of the content

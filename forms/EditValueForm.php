@@ -22,11 +22,17 @@ class EditValueForm extends moodleform{
         $options[1] = get_string('filter', 'customlabel');
         
         $mform->addElement('hidden', 'view', $this->view);
+        $mform->setType('view', PARAM_TEXT);
         $mform->addElement('hidden', 'what', $this->action);
+        $mform->setType('what', PARAM_TEXT);
         $mform->addElement('hidden', 'typeid', $this->type);
+        $mform->setType('typeid', PARAM_INT);
         $mform->addElement('hidden', 'id', '');
+        $mform->setType('id', PARAM_INT);
         $mform->addElement('text', 'code', get_string('code', 'customlabel'), array('size' => 15));
+        $mform->setType('code', PARAM_TEXT);
         $mform->addElement('text', 'value', get_string('name'), array('size' => 60));
+        $mform->setType('value', PARAM_TEXT);
 
         $this->add_action_buttons(false);
     }

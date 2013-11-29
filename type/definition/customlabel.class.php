@@ -32,7 +32,7 @@ class customlabel_type_definition extends customlabel_type{
         $field->name = 'subdefsnum';
         $field->type = 'list';
         $field->options = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10');
-        $field->translatable = false;
+        $field->straightoptions = true;
         $this->fields['subdefsnum'] = $field;
 
 		for($i = 0 ; $i < $subdefsnum; $i++){

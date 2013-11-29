@@ -20,6 +20,7 @@ class EditTypeForm extends moodleform{
         $options['filter'] = get_string('filter', 'customlabel');
         
         $mform->addElement('hidden', 'view', $this->view);
+        $mform->setType('view', PARAM_TEXT);
         $mform->addElement('hidden', 'what', $this->action);
         $mform->addElement('hidden', 'id');
         $mform->addElement('select', 'type', get_string('typetype', 'customlabel'), $options);

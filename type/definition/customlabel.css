@@ -7,17 +7,18 @@ td.custombox-header-thumb.definition {
    border-right:1px solid #f00000 !important;
 }
 
-#region-main td.custombox-header-thumb.definition {
-    width:65px;
-    min-width:65px;
-	background-image: url("/mod/customlabel/type/definition/icon_definition.png"); 
+td.custombox-header-thumb.definition {
+    width:25px;
+    min-width:25px;
+	background-image: url("/mod/customlabel/type/definition/icon_definition_small.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
 
-td.custombox-header-thumb.definition {
-    width:25px;
-	background-image: url("/mod/customlabel/type/definition/icon_definition_small.png"); 
+#region-main td.custombox-header-thumb.definition {
+    width:65px;
+    min-width:65px;
+	background-image: url("/mod/customlabel/type/definition/icon_definition.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }

@@ -74,23 +74,31 @@ class mod_customlabel_mod_form extends moodleform_mod {
 		}
 	    $customclass = customlabel_load_class($customlabel);
 
+		$mform->addElement('hidden', 'intro', '');
+		$mform->setType('intro', PARAM_TEXT);
+		$mform->addElement('hidden', 'introformat', 0);
+		$mform->setType('introformat', PARAM_INT);
+
 	    $section     = optional_param('section', 0, PARAM_INT);
 	    $returntomod = optional_param('return', 0, PARAM_BOOL);
         if (has_capability('mod/customlabel:fullaccess', $context) || $customclass->fullaccess){
         	$onchangeadvicestr = str_replace("'", "\'", get_string('changetypeadvice', 'customlabel'));
 			// $mform->addElement('select', 'labelclass', get_string('labelclass', 'customlabel'), $qoptions, array('onchange' => "type_change_submit(this,'$onchangeadvicestr')", 'id' => 'menulabelclass'));
 			$mform->addElement('select', 'labelclass', get_string('labelclass', 'customlabel'), $qoptions, array('onchange' => "type_change_submit('$onchangeadvicestr', '$COURSE->id', '$section', '$returntomod', '".sesskey()."')", 'id' => 'menulabelclass'));
+			$mform->setType('labelclass', PARAM_TEXT);
 			$mform->setDefault('labelclass', 'text');
 		} else {
 			$mform->addElement('static', 'labelclassname', get_string('labelclass', 'customlabel'));
 			$mform->addElement('hidden', 'labelclass');
+			$mform->setType('labelclass', PARAM_TEXT);
 		}
 
 		$mform->addElement('text', 'title', get_string('title', 'customlabel'));
 		$customlabel_next_id = $DB->get_field('customlabel', 'MAX(id)', array()) + 1; 
 		$mform->setDefault('title', $customlabel->labelclass.'_'.$customlabel_next_id);
+        $mform->setType('title', PARAM_TEXT);
         
-    	if ($customlabel->labelclass == 'text'){    		    		
+    	if ($customlabel->labelclass == 'text'){
     		$mform->addElement('htmleditor', 'textcontent_editor', get_string('content', 'customlabel'));
     	} else {
 	        if (!$customclass){
@@ -104,9 +112,11 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
 	            if ($field->type == 'choiceyesno') {
 	            	$mform->addElement('selectyesno', $field->name, $fieldlabel);
+					$mform->setType($field->name, PARAM_BOOL);
 	            } elseif ($field->type == 'textfield') {
 	            	$attrs = array('size' => @$field->size, 'maxlength' => @$field->maxlength);
 	            	$mform->addElement('text', $field->name, $fieldlabel, $attrs);
+					$mform->setType($field->name, PARAM_CLEANHTML);
 	            } elseif ($field->type == 'editor' || $field->type == 'textarea') {
 	            	$mform->addElement('htmleditor', $field->name.'_editor', $fieldlabel, $this->editoroptions);
 	            } elseif (preg_match("/list$/", $field->type)) {
@@ -119,6 +129,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
 	                if (!empty($field->multiple)){
 	                	$select->setMultiple(true);
 	                }
+					$mform->setType($field->name, PARAM_TEXT);
 	            } elseif (preg_match("/datasource$/", $field->type)) {
 	                // Very similar to lists, except options come from an external datasource
 	                $options = $customclass->get_datasource_options($field);
@@ -133,6 +144,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
 	                if (!empty($field->multiple)){
 	                	$select->setMultiple(true);
 	                }
+					$mform->setType($field->name, PARAM_TEXT);
 	            } else {
 	            	echo "Unknown or unsupported type : $field->type";
 	            }

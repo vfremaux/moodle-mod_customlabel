@@ -189,8 +189,12 @@ function customlabel_update_instance($customlabel) {
    		}
     	$customlabeldata->{$field->name} = @$customlabel->{$field->name};
     	unset($customlabel->{$field->name});
+
+    	if ($field->type == 'list'){
+			$customlabeldata->{$field->name} = $_POST[$field->name]; // odd thing when bouncing
+    	}
     }
-	
+    
     $customlabel->content = base64_encode(json_encode($customlabeldata));
 	$instance->data = $customlabeldata;
 	$processedcontent = $instance->make_content();
@@ -268,7 +272,7 @@ function customlabel_get_coursemodule_info($coursemodule) {
 
 /**
 * this function makes a last post process of the cminfo information
-* for module info caching in memory when course displays. HEre we
+* for module info caching in memory when course displays. Here we
 * can tweek some information to force cminfo behave like some label kind
 */
 function customlabel_cm_info_dynamic(&$cminfo){
