@@ -31,10 +31,10 @@ class customlabel_type_sequenceheading extends customlabel_type{
         $field->name = 'imageurl';
         $field->type = 'textfield';
         $field->size = 60;
-        if (!is_file($CFG->dirroot.'/theme/'.current_theme().'/pix/customlabel_icons/defaultsequenceheading.jpg')){
+        if (!is_file($CFG->dirroot.'/theme/'.current_theme().'/pix/customlabel_icons/defaultsequenceheading.png')){
 	        $field->default = $CFG->wwwroot.'/mod/customlabel/type/sequenceheading/defaultsequenceheading.jpg';
 	    } else {
-	    	$field->default = $CFG->wwwroot.'/theme/'.current_theme().'/pix/customlabel_icons/defaultsequenceheading.jpg';
+	    	$field->default = $CFG->wwwroot.'/theme/'.current_theme().'/pix/customlabel_icons/defaultsequenceheading.png';
 	    }
         $this->fields['imageurl'] = $field;
 

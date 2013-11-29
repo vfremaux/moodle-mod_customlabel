@@ -32,10 +32,10 @@ class customlabel_type_sectionheading extends customlabel_type{
         $field->name = 'imageurl';
         $field->type = 'textfield';
         $field->size = 60;
-        if (!is_file($CFG->dirroot.'/theme/'.current_theme().'/pix/customlabel_icons/defaultsectionheading.jpg')){
+        if (!is_file($CFG->dirroot.'/theme/'.current_theme().'/pix/customlabel_icons/defaultsectionheading.png')){
 	        $field->default = $CFG->wwwroot.'/mod/customlabel/type/sectionheading/defaultsectionheading.jpg';
 	    } else {
-	        $field->default = $CFG->wwwroot.'/theme/'.current_theme().'/pix/customlabel_icons/defaultsectionheading.jpg';
+	        $field->default = $CFG->wwwroot.'/theme/'.current_theme().'/pix/customlabel_icons/defaultsectionheading.png';
 	    }
         $this->fields['imageurl'] = $field;
 
