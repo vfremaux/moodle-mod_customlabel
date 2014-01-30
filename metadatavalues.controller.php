@@ -20,9 +20,9 @@ if ($action == 'add'){
 if ($action == 'update'){
     $data = $mform->get_data();
     $metadatavalue = new StdClass;
-    $metadatavalue->id = clean_param('valueid', PARAM_INT);
+    $metadatavalue->id = clean_param($data->id, PARAM_INT);
     $metadatavalue->code = clean_param($data->code, PARAM_ALPHANUM);
-    $metadatavalue->value = clean_param('value', PARAM_CLEANHTML);
+    $metadatavalue->value = clean_param($data->value, PARAM_CLEANHTML);
     if (!$DB->update_record($CFG->classification_value_table, $metadatavalue)){
         print_error('errorupdatevalue', 'customlabel');
     }

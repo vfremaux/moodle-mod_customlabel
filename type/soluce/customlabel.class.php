@@ -29,7 +29,6 @@ class customlabel_type_soluce extends customlabel_type{
     
     function preprocess_data($course = null){
         global $CFG;
-        
         $customid = @$CFG->custom_unique_id + 1;
 
         $this->data->initialcontrolimage = ($this->data->initiallyvisible) ? $CFG->wwwroot.'/mod/customlabel/pix/minus.gif' : $CFG->wwwroot.'/mod/customlabel/pix/plus.gif' ;

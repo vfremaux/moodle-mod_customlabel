@@ -45,7 +45,11 @@
 
 /// form and controller
 
-    $mform = new EditValueForm($view, 'add', $type, $url);
+	if ($action == 'edit'){
+	    $mform = new EditValueForm($view, 'update', $type, $url);
+	} else {
+	    $mform = new EditValueForm($view, 'add', $type, $url);
+	}
 
     if (!$mform->is_cancelled()){
         if ($action){
@@ -130,4 +134,3 @@
         $mform->display();
         echo $OUTPUT->box_end();
     }
-?>

@@ -121,7 +121,7 @@ class customlabel_type{
         } else {
             $valuelist = $values;
         }
-        $table = '{'.$field->table.'}';
+        $table = $CFG->prefix.$field->table;
         $fieldname = $field->field;
         $fieldkey = (empty($field->key)) ? 'id' : $field->key ;
         $fieldselect = (@$field->select) ? "AND $field->select" : '' ;
@@ -134,7 +134,7 @@ class customlabel_type{
                 {$fieldkey},
                 {$fieldname}
             FROM
-                $table
+                {$table}
                 $select
         ";
         $results = $DB->get_records_sql_menu($sql);

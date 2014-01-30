@@ -169,6 +169,8 @@ function customlabel_update_instance($customlabel) {
     $customlabel->timemodified = time();
     $customlabel->id = $customlabel->instance;
     $customlabel->processedcontent = '';
+    
+    print_object($customlabel);
 
     $instance = customlabel_load_class($customlabel);
 	$customlabel->fallbacktype = ''.@$instance->fallbacktype;
@@ -272,7 +274,7 @@ function customlabel_get_coursemodule_info($coursemodule) {
 
 /**
 * this function makes a last post process of the cminfo information
-* for module info caching in memory when course displays. Here we
+* for module info caching in memory when course displays. HEre we
 * can tweek some information to force cminfo behave like some label kind
 */
 function customlabel_cm_info_dynamic(&$cminfo){

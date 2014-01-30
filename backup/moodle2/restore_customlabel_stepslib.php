@@ -45,7 +45,6 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         return $this->prepare_activity_structure($paths);
     }
 
-
     protected function after_execute() {
         // Add customlabel related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_customlabel', 'safecontent', null);

@@ -8,6 +8,7 @@ class ModelForm extends moodleform{
         $mform = & $this->_form;
 
 		$mform->addElement('hidden', 'view');
+        $mform->setType('view', PARAM_TEXT);
 
 		$mform->addElement('text', 'classification_type_table', get_string('classificationtypetable', 'customlabel'), array('size' => 28, 'maxlength' => 28));
 		$mform->setDefault('classification_type_table', 'customlabel_mtd_type');

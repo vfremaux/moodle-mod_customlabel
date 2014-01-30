@@ -95,9 +95,9 @@ class customlabel_type_worktodo extends customlabel_type{
     function postprocess_data($course = null){
         global $CFG, $COURSE;
 
-        if (is_array(@$this->data->worktype)) $this->data->worktype = implode(', ',@$this->data->worktype); 
-        if (is_array(@$this->data->workeffort)) $this->data->workeffort = implode(', ',@$this->data->workeffort); 
-        if (is_array(@$this->data->workmode)) $this->data->workmode = implode(', ',@$this->data->workmode); 
+        if (is_array(@$this->data->worktypefield)) $this->data->worktypefield = implode(', ',@$this->data->worktypefield); 
+        if (is_array(@$this->data->workeffortfield)) $this->data->workeffortfield = implode(', ',@$this->data->workeffortfield); 
+        if (is_array(@$this->data->workmodefield)) $this->data->workmodefield = implode(', ',@$this->data->workmodefield); 
     }
 }
 ?>

@@ -41,7 +41,7 @@ class customlabel_type_courseheading extends customlabel_type{
         $field->type = 'textfield';
         $field->size = 60;
         if (!is_file($CFG->dirroot.'/theme/'.$CFG->theme.'/pix/customlabel_icons/defaultcourseheading.png')){
-	        $field->default = $CFG->wwwroot.'/mod/customlabel/type/courseheading/defaultheading.jpg';
+	        $field->default = $CFG->wwwroot.'/mod/customlabel/type/courseheading/defaultheading.png';
 	    } else {
 	        $field->default = $CFG->wwwroot.'/theme/'.$CFG->theme.'/pix/customlabel_icons/defaultcourseheading.png';
 	    }

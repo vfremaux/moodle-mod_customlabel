@@ -8,14 +8,14 @@ table.custombox.localgoals {
    border-right:1px solid #9B5992 !important;
 }
 
-.custombox-header-thumb.localgoals{
+td.custombox-header-thumb.localgoals{
     width:25px;
 	background-image: url("/mod/customlabel/type/localgoals/icon_goals_small.png"); 
 	background-repeat: no-repeat;
     height:73px;
 }
 
-#region-main .custombox-header-thumb.localgoals{
+#region-main td.custombox-header-thumb.localgoals{
     width:65px;
     min-width:65px;
 	background-image: url("/mod/customlabel/type/localgoals/icon_goals.png"); 
@@ -23,21 +23,21 @@ table.custombox.localgoals {
     height:73px;
 }
 
-.custombox-header-caption.localgoals {
+td.custombox-header-caption.localgoals {
     color:#9B5992;
     font-weight:bolder;
     font-size:1.3em;
     padding-left:8px;
 }
 
-.custombox-content.localgoals {
+td.custombox-content.localgoals {
     padding-left:8px;
     min-height:100px;
 }
 
-.custombox-content.localgoals h1,
-.custombox-content.localgoals h2,
-.custombox-content.localgoals h3{
+td.custombox-content.localgoals h1,
+td.custombox-content.localgoals h2,
+td.custombox-content.localgoals h3{
     background-image:none !important;
     padding-left:0px !important;
     color:#9B5992 !important;

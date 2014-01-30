@@ -187,4 +187,3 @@ function customlabel_addslashes_fields($customlabel){
     }
     return $customlabel;
 }
-?>
