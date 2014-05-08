@@ -71,6 +71,8 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
 		    	$data->fallbacktype = '';
 		    }
 	    }
+    	$data->intro = '';
+    	$data->introformat = 0;
 
         // insert the data record
         $newitemid = $DB->insert_record('customlabel', $data);

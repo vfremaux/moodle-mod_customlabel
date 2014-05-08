@@ -6,7 +6,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 $plugin = new stdclass;
-$plugin->version  = 2013041300;  // The current module version (Date: YYYYMMDDXX)
+$plugin->version  = 2013063001;  // The current module version (Date: YYYYMMDDXX)
 $plugin->component = 'customlabeltype_authordata';   // Full name of the plugin (used for diagnostics)
 
-?>

@@ -22,6 +22,8 @@ table.custombox-courseheading {
 .custombox-description.courseheading {
    color: #808080;
    text-align:justify;
+   padding-right:20px;
+   padding-top:20px;
 } 
 
 tr.custombox-icon.courseheading{

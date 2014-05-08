@@ -169,8 +169,6 @@ function customlabel_update_instance($customlabel) {
     $customlabel->timemodified = time();
     $customlabel->id = $customlabel->instance;
     $customlabel->processedcontent = '';
-    
-    print_object($customlabel);
 
     $instance = customlabel_load_class($customlabel);
 	$customlabel->fallbacktype = ''.@$instance->fallbacktype;
