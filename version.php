@@ -6,8 +6,8 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 $plugin->version  = 2013041802; // The current module version (Date: YYYYMMDDXX)
-$plugin->requires = 2014050800;
+$plugin->requires = 2014110400;
 $plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics)
 $plugin->cron     = 0; // Period for cron to check this module (secs)
 $plugin->maturity = MATURITY_STABLE; // Maturity
-$plugin->release = "2.7.0 (Build 2012062402)"; // Release
+$plugin->release = "2.8.0 (Build 2012062402)"; // Release
