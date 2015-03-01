@@ -1,30 +1,11 @@
 <?php
 
-include_once $CFG->dirroot.'/mod/customlabel/locallib.php';
-
-$systemcontext = context_system::instance();
-$classes = customlabel_get_classes(null, false);
-$roles = role_fix_names(get_all_roles(), $systemcontext, ROLENAME_ORIGINAL);
-
-$rolemenu = array();
-foreach($roles as $rid => $role){
-	$rolemenu[$rid] = $role->localname ;
-}
-
 $settings->add(new admin_setting_heading('regeneration', get_string('regeneration', 'customlabel'), "<a href=\"{$CFG->wwwroot}/mod/customlabel/admin_updateall.php\">".get_string('regenerate', 'customlabel')."</a>"));
 
 $settings->add(new admin_setting_heading('classification', get_string('classification', 'customlabel'), "<a href=\"{$CFG->wwwroot}/mod/customlabel/adminmetadata.php\">".get_string('classification', 'customlabel')."</a>"));
 
-$settings->add(new admin_setting_heading('roleaccesstoelements', get_string('roleaccesstoelements', 'customlabel'), ''));
+$settings->add(new admin_setting_heading('apparence', get_string('apparence', 'customlabel'), ''));
 
-foreach($classes as $class){
-    $parmname = "customlabel_{$class->id}_enabled";
-    $description = get_string('enabletype', 'customlabel') . ' ' . get_string('typename', 'customlabeltype_'.$class->id);
-	$settings->add(new admin_setting_configcheckbox("list_$parmname", get_string('typename', 'customlabeltype_'.$class->id), get_string('configtypename', 'customlabeltype_'.$class->id), 1));
-    $description = get_string('hiddenrolesfor', 'customlabel') . ' ' . get_string('typename', 'customlabeltype_'.$class->id);
-    $parmname = "customlabel_{$class->id}_hiddenfor";
-    $selection = explode(',', @$CFG->$parmname);
-    $settings->add (new admin_setting_configmultiselect("$parmname", "customlabel_{$class->id}_hiddenfor", $description, $selection, $rolemenu));
-}
+$settings->add(new admin_setting_configtextarea("customlabel/cssoverrides", get_string('cssoverrides', 'customlabel'), get_string('cssoverridesdesc', 'customlabel'), '', PARAM_RAW, 80, 10));
 
-
+$settings->add(new admin_setting_configtextarea("customlabel/disabled", get_string('disabledsubtypes', 'customlabel'), get_string('disabledsubtypesdesc', 'customlabel'), '', PARAM_RAW, 80, 10));

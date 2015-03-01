@@ -6,22 +6,22 @@ table.custombox-unitheading h1 {
 }
 
 table.custombox-unitheading p {
-	font-size:12pt;
+    font-size:12pt;
     width:95%;
     line-height:1.5em;
 }
 
-tr.custombox-icon.unitheading{
-	min-height:85px;
-	height:85px;
+tr.custombox-icon.unitheading {
+    min-height:85px;
+    height:85px;
 }
 
-td.custombox-icon-left.unitheading{
-	min-width:80px;
-	padding-right:20px;
+td.custombox-icon-left.unitheading {
+    min-width:80px;
+    padding-right:20px;
 }
 
-td.custombox-icon-right.unitheading{
-	min-width:80px;
-	padding-left:20px;
+td.custombox-icon-right.unitheading {
+    min-width:80px;
+    padding-left:20px;
 }

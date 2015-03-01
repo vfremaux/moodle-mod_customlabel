@@ -3,22 +3,24 @@ table.custombox-soluce {
 }
 
 .custombox-header-thumb.soluce {
-	padding-right:8px;
-	border-right:1px solid #76F451 !important;
+    padding-right:8px;
+    border-right:1px solid #76F451 !important;
 }
 
 .custombox-header-thumb.soluce {
+    min-width:25px;
     width:25px;
-	background-image: url("/mod/customlabel/type/soluce/icon_solution_small.png"); 
-	background-repeat: no-repeat;
+    background-image: url("/mod/customlabel/type/soluce/icon_solution_small.png"); 
+    background-repeat: no-repeat;
     height:73px;
 }
 
-#region-main .custombox-header-thumb.soluce {
+#region-main .custombox-header-thumb.soluce,
+#page-region-main .custombox-header-thumb.soluce {
     width:65px;
     min-width:65px;
-	background-image: url("/mod/customlabel/type/soluce/icon_solution.png"); 
-	background-repeat: no-repeat;
+    background-image: url("/mod/customlabel/type/soluce/icon_solution.png"); 
+    background-repeat: no-repeat;
     height:73px;
 }
 

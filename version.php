@@ -1,13 +1,13 @@
-<?php // $Id: version.php,v 1.6 2011-10-15 12:03:18 vf Exp $
+<?php
 
 /////////////////////////////////////////////////////////////////////////////////
 ///  Code fragment to define the version of customlabel
 ///  This fragment is called by moodle_needs_upgrading() and /admin/index.php
 /////////////////////////////////////////////////////////////////////////////////
 
-$module->version  = 2013010400;  // The current module version (Date: YYYYMMDDXX)
-$module->requires = 2012120300;
-$module->component = 'mod_customlabel';   // Full name of the plugin (used for diagnostics)
-$module->cron     = 0;           // Period for cron to check this module (secs)
-$module->maturity = MATURITY_RC;           // Maturity 
-$module->release = "2.4.0 (Build 2012062401)"; // Release
+$plugin->version  = 2013041802; // The current module version (Date: YYYYMMDDXX)
+$plugin->requires = 2013101800;
+$plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics)
+$plugin->cron     = 0; // Period for cron to check this module (secs)
+$plugin->maturity = MATURITY_STABLE; // Maturity
+$plugin->release = "2.6.0 (Build 2012062402)"; // Release

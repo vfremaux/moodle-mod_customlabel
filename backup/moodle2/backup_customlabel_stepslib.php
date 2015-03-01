@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -68,7 +67,7 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
         $customlabel->add_child($metadata);
         $metadata->add_child($metadatatypes);
         $metadata->add_child($metadataconstraints);
-        
+
         $metadatatypes->add_child($metadatatype);
         $metadatatype->add_child($metadatavalues);
         $metadatavalues->add_child($metadatavalue);
@@ -93,7 +92,7 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
         // (none)
 
         // Define file annotations
-        $customlabel->annotate_files('mod_customlabel', 'safecontent', null); // This file area hasn't itemid
+        $customlabel->annotate_files('mod_customlabel', 'contentfiles', null); // This file area hasn't itemid
 
         // Return the root element (customlabel), wrapped into standard activity structure
         return $this->prepare_activity_structure($customlabel);

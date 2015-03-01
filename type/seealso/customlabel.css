@@ -8,18 +8,19 @@ td.custombox-header-thumb.seealso {
    border-right:1px solid #ECEDBA !important;
 }
 
-#region-main td.custombox-header-thumb.seealso {
-    width:65px;
-    min-width:65px;
-	background-image: url("/mod/customlabel/type/seealso/icon_seealso.png"); 
-	background-repeat: no-repeat;
+td.custombox-header-thumb.seealso {
+    width:25px;
+    background-image: url("/mod/customlabel/type/seealso/icon_seealso_small.png"); 
+    background-repeat: no-repeat;
     height:73px;
 }
 
-td.custombox-header-thumb.seealso {
-    width:25px;
-	background-image: url("/mod/customlabel/type/seealso/icon_seealso_small.png"); 
-	background-repeat: no-repeat;
+#region-main td.custombox-header-thumb.seealso,
+#page-region-main td.custombox-header-thumb.seealso {
+    width:65px;
+    min-width:65px;
+    background-image: url("/mod/customlabel/type/seealso/icon_seealso.png"); 
+    background-repeat: no-repeat;
     height:73px;
 }
 

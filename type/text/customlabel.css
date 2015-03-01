@@ -1,4 +1,8 @@
 .custombox-text{
-	font-size:1.1em;
-	margin-left:128px;
+    font-size:1.1em;
+    margin-left:65px;
+}
+
+.custombox-text ul {
+    margin-left:10px;
 }

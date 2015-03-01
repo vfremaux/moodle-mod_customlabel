@@ -7,18 +7,20 @@ td.custombox-header-thumb.important {
    border-right:1px solid #f00000 !important;
 }
 
-#region-main td.custombox-header-thumb.important {
-    width:65px;
-    min-width:65px;
-	background-image: url("/mod/customlabel/type/important/icon_important.png"); 
-	background-repeat: no-repeat;
+td.custombox-header-thumb.important {
+    width:25px;
+    min-width:25px;
+    background-image: url("/mod/customlabel/type/important/icon_important_small.png"); 
+    background-repeat: no-repeat;
     height:73px;
 }
 
-td.custombox-header-thumb.important {
-    width:25px;
-	background-image: url("/mod/customlabel/type/important/icon_important_small.png"); 
-	background-repeat: no-repeat;
+#region-main td.custombox-header-thumb.important,
+#page-region-main td.custombox-header-thumb.important {
+    width:65px;
+    min-width:65px;
+    background-image: url("/mod/customlabel/type/important/icon_important.png"); 
+    background-repeat: no-repeat;
     height:73px;
 }
 

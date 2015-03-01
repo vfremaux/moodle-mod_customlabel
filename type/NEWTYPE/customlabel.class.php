@@ -10,12 +10,12 @@ include $CFG->dirroot."/mod/customlabel/type/customtype.class.php";
 
 class customlabel_type_NEWTYPE extends customlabel_type{
 
-    function __construct($data){
+    function __construct($data) {
         parent::__construct($data);
         $this->type = 'NEWTYPE';
         $this->fields = array();
 
-		$field = new StdClass;        
+        $field = new StdClass;        
         $field->name = 'smalltext';
         $field->type = 'textfield';
         $field->maxlength = 80;
@@ -52,4 +52,3 @@ class customlabel_type_NEWTYPE extends customlabel_type{
     }
 }
  
-?>

@@ -8,14 +8,14 @@ class EditValueForm extends moodleform{
     private $action;
     private $type;
     
-    function __construct($view, $action, $type, $url){
+    function __construct($view, $action, $type, $url) {
         $this->view = $view;
         $this->action = $action;
         $this->type = $type;
         parent::moodleform($url);
     }
 
-    function definition(){
+    function definition() {
         $mform = & $this->_form;
         
         $options[0] = get_string('category', 'customlabel');
@@ -42,10 +42,10 @@ class EditValueForm extends moodleform{
         $this->add_action_buttons(false);
     }
     
-    function validation($data, $files = null){
+    function validation($data, $files = null) {
         $errors = array();
         
-        if (empty($data['value'])){
+        if (empty($data['value'])) {
             $errors['value'] = get_string('emptyvalueerror', 'customlabel');
         }
         

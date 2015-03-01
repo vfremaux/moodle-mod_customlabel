@@ -9,7 +9,7 @@ require_once ($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 class customlabel_type_text extends customlabel_type{
 
-    function __construct($data){
+    function __construct($data) {
         parent::__construct($data);
         $this->type = 'text';
         $this->fields = array();
@@ -21,8 +21,7 @@ class customlabel_type_text extends customlabel_type{
         $this->fields['textcontent'] = $field;
     }
     
-    function preprocess_data(){
+    function preprocess_data() {
     }
 }
  
-?>

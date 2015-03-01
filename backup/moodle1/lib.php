@@ -58,11 +58,11 @@ class moodle1_mod_customlabel_handler extends moodle1_mod_handler {
                 'customlabel', '/MOODLE_BACKUP/COURSE/MODULES/MOD/CUSTOMLABEL',
                 array(
                     'dropfields' => array(
-                        'content',
+//                         'content',   // Do not remove all fields at start or u loose some valuable content before processing.
                         'usesafe'
                     ),
                     'renamefields' => array(
-                        'safecontent' => 'content'
+//                      'safecontent' => 'content' // Do not remove all fields at start or u loose some valuable content before processing.
                     ),
                     'newfields' => array(
                         'intro' => '',
@@ -85,27 +85,37 @@ class moodle1_mod_customlabel_handler extends moodle1_mod_handler {
         $moduleid   = $cminfo['id'];
         $contextid  = $this->converter->get_contextid(CONTEXT_MODULE, $moduleid);
 
-		// shifts content from name (moodle 1.9 label hacking location) to processed content and
-		// computes a new explicit name
-        $storedcontent = base64_decode($data['content']);
-        $customlabel = json_decode($storedcontent);        
+        // shifts content from name (moodle 1.9 label hacking location) to processed content and
+        // computes a new explicit name
+        if (!empty($data['safecontent'])) {
+            $storedcontent = base64_decode($data['safecontent']);
+            // unset($data['safecontent']);
+        } else {
+            if (!empty($data['content'])) {
+                $storedcontent = $data['content'];
+            } else {
+                // loose the item
+                return;
+            }
+        }
+        $customlabel = json_decode($storedcontent);
         $data['processedcontent'] = $data['name'];
         $data['name'] = $customlabel->labelclass.$data['id'];
 
-        // get a fresh new file manager for this instance
+        // Get a fresh new file manager for this instance.
         $this->fileman = $this->converter->get_file_manager($contextid, 'mod_customlabel');
 
-        // convert course files embedded into the content
+        // Convert course files embedded into the content.
         $this->fileman->filearea = 'content';
         $this->fileman->itemid   = 0;
 
-		// try get files and reencode from stored content stub.        
+        // Try get files and reencode from stored content stub.
         $storedcontent = moodle1_converter::migrate_referenced_files($storedcontent, $this->fileman);
-		$data['content'] = base64_encode($storedcontent);
+        $data['content'] = base64_encode($storedcontent);
 
         $data['processedcontent'] = moodle1_converter::migrate_referenced_files($data['processedcontent'], $this->fileman);
 
-        // write inforef.xml
+        // write inforef.xml.
         $this->open_xml_writer("activities/customlabel_{$moduleid}/inforef.xml");
         $this->xmlwriter->begin_tag('inforef');
         $this->xmlwriter->begin_tag('fileref');
@@ -116,7 +126,7 @@ class moodle1_mod_customlabel_handler extends moodle1_mod_handler {
         $this->xmlwriter->end_tag('inforef');
         $this->close_xml_writer();
 
-        // write customlabel.xml
+        // Write customlabel.xml.
         $this->open_xml_writer("activities/customlabel_{$moduleid}/customlabel.xml");
         $this->xmlwriter->begin_tag('activity', array('id' => $instanceid, 'moduleid' => $moduleid, 'modulename' => 'customlabel', 'contextid' => $contextid));
 

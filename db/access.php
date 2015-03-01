@@ -33,7 +33,7 @@
 
 $capabilities = array(
 
-	// Controls creation of customlabel
+    // Controls creation of customlabel.
     'mod/customlabel:addinstance' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
@@ -54,4 +54,3 @@ $capabilities = array(
     )
 );
 
-?>

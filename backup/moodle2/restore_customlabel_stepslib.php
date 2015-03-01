@@ -36,11 +36,11 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $paths = array();
 
         $paths[] = new restore_path_element('customlabel', '/activity/customlabel');
-    	$paths[] = new restore_path_element('metadatatype', '/activity/customlabel/types/type');
-    	$paths[] = new restore_path_element('metadatavalue', '/activity/customlabel/types/type/values/value');
-    	$paths[] = new restore_path_element('metadataconstraint', '/activity/customlabel/constraints/constraint');
-    	$paths[] = new restore_path_element('coursemetadata', '/activity/customlabel/metadatacourse/metadatacoursedatum');
-        
+        $paths[] = new restore_path_element('metadatatype', '/activity/customlabel/types/type');
+        $paths[] = new restore_path_element('metadatavalue', '/activity/customlabel/types/type/values/value');
+        $paths[] = new restore_path_element('metadataconstraint', '/activity/customlabel/constraints/constraint');
+        $paths[] = new restore_path_element('coursemetadata', '/activity/customlabel/metadatacourse/metadatacoursedatum');
+
         // Return the paths wrapped into standard activity structure
         return $this->prepare_activity_structure($paths);
     }
@@ -49,40 +49,54 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         // Add customlabel related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_customlabel', 'safecontent', null);
     }
-    
-    
-    protected function process_customlabel($data){
-    	global $DB;
 
-        $data = (object)$data;        
+    protected function process_customlabel($data) {
+        global $DB;
+        static $classes = null;
+        static $systemcontext = null;
+
+        // always restore at system level context. Everything should pass.
+        if (is_null($systemcontext)) {
+            $systemcontext = context_system::instance();
+        }
+
+        if (is_null($classes)) {
+            $classes = customlabel_get_classes($systemcontext, false, 'names');
+        }
+
+        $data = (object)$data;
         $oldid = $data->id;
         $data->course = $this->get_courseid();
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
         // check the label subclass and fallback if not available here
         // disabled classes are still restored
-        $classes = customlabel_get_classes(null, false, true);
-	    if (!array_key_exists($data->labelclass, $classes)){
-	    	if (!empty($data->fallbacktype)){
-		    	$data->labelclass = $data->fallbacktype;
-		    	$data->fallbacktype = '';
-		    } else {
-		    	$data->labelclass = 'text';
-		    	$data->fallbacktype = '';
-		    }
-	    }
-    	$data->intro = '';
-    	$data->introformat = 0;
+        if (!in_array($data->labelclass, $classes)) {
+            if (!empty($data->fallbacktype)) {
+                $data->labelclass = $data->fallbacktype;
+                $data->fallbacktype = '';
+            } else {
+                $data->labelclass = 'text';
+                $data->fallbacktype = '';
+            }
+        }
+        $data->intro = '';
+        $data->introformat = 0;
 
         // insert the data record
         $newitemid = $DB->insert_record('customlabel', $data);
+
+        // postupdate name
+        $this->__postupdate($data, 'name', $oldid, $newitemid);
+        $this->__postupdate($data, 'title', $oldid, $newitemid);
+
         $this->apply_activity_instance($newitemid);
     }
 
     protected function process_metadatatype($data) {
-    	global $DB;
-    	
-        $data = (object)$data;        
+        global $DB;
+
+        $data = (object)$data;
         $oldid = $data->id;
 
         // The data is actually inserted into the database later in inform_new_usage_id.
@@ -91,9 +105,9 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
     }
 
     protected function process_metadatavalue($data) {
-    	global $DB;
-    	
-        $data = (object)$data;        
+        global $DB;
+
+        $data = (object)$data;
         $oldid = $data->id;
 
         $data->typeid = $this->get_mappingid('customlabel_mtd_type', $data->typeid);
@@ -104,9 +118,9 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
     }
 
     protected function process_metadataconstraint($data) {
-    	global $DB;
-    	
-        $data = (object)$data;        
+        global $DB;
+
+        $data = (object)$data;
         $oldid = $data->id;
 
         $data->value1 = $this->get_mappingid('customlabel_mtd_value', $data->value1);
@@ -118,8 +132,8 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
     }
 
     protected function process_coursemetadata($data) {
-    	global $DB;
-    	
+        global $DB;
+
         $data = (object)$data;
         $oldid = $data->id;
 
@@ -131,4 +145,15 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $this->set_mapping('customlabel_course_metadata', $oldid, $newitemid, false); // Has no related files
     }
 
+
+    private function __postupdate(&$data, $fieldname, $oldid, $newid) {
+        global $DB;
+        
+        if (preg_match('/^(.*)_(\\d+)$/', $data->$fieldname, $matches)) {
+            if ($matches[2] == $oldid) {
+                $newname = $matches[1].'_'.$newid;
+                $DB->set_field('customlabel', $fieldname, $newname, array('id' => $newid));
+            }
+        }
+    }
 }

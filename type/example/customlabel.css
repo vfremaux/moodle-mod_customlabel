@@ -9,17 +9,19 @@ table.custombox-example {
 }
 
 td.custombox-header-thumb.example {
+    min-width:25px;
     width:25px;
-	background-image: url("/mod/customlabel/type/example/icon_example_small.png"); 
-	background-repeat: no-repeat;
+    background-image: url("/mod/customlabel/type/example/icon_example_small.png"); 
+    background-repeat: no-repeat;
     height:73px;
 }
 
-#region-main td.custombox-header-thumb.example {
+#region-main td.custombox-header-thumb.example,
+#page-region-main td.custombox-header-thumb.example {
     width:65px;
     min-width:65px;
-	background-image: url("/mod/customlabel/type/example/icon_example.png"); 
-	background-repeat: no-repeat;
+    background-image: url("/mod/customlabel/type/example/icon_example.png"); 
+    background-repeat: no-repeat;
     height:73px;
 }
 

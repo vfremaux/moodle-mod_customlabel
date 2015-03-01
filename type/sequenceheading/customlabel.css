@@ -6,21 +6,21 @@ div.custombox-sequenceheading h2.custombox-sequenceheader {
 }
 
 div.custombox-sequenceheading p {
-	font-size:12pt;
+    font-size:12pt;
     width:100%;
 }
 
 tr.custombox-icon.sequenceheading{
-	min-height:85px;
-	height:85px;
+    min-height:85px;
+    height:85px;
 }
 
 .custombox-icon-left.sequenceheading{
-	min-width:80px;
-	padding-right:20px;
+    min-width:80px;
+    padding-right:20px;
 }
 
 .custombox-icon-right.sequenceheading{
-	min-width:80px;
-	padding-left:20px;
+    min-width:80px;
+    padding-left:20px;
 }

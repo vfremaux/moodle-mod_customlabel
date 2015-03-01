@@ -1,5 +1,8 @@
 <?php
 
+$string['worktodo:view'] = 'Can view the content';
+$string['worktodo:addinstance'] = 'Can add an indstance';
+
 $string['pluginname'] = 'Course element : Work to Do';
 $string['typename'] = 'Work to do';
 $string['configtypename'] = 'Enable subtype Work to do';
@@ -8,6 +11,7 @@ $string['worktypefield'] = 'Work type';
 $string['workeffortfield'] = 'Work effort';
 $string['workmodefield'] = 'Work mode';
 $string['estimatedworktime'] = 'Estimated time';
+$string['linktomodule'] = 'Related Activity Module';
 
 // Qualifier values
 
@@ -41,3 +45,36 @@ $string['EXERCISE'] = 'Exercising on a sample';
 $string['PROJECT'] = 'Driving a project';
 $string['EXPERIMENT'] = 'Experimenting and discovering';
 $string['SYNTHESIS'] = 'Writing a synthesis';
+
+$string['template'] = '
+<table class="custombox-worktodo" cellspacing="0" width="100%">
+<tr valign="top">
+    <td class="custombox-header-thumb worktodo" width="2%" rowspan="3">
+    </td>
+    <td class="custombox-header-caption worktodo" width="98%" colspan="2">
+        Work to do
+    </td>
+</tr>
+<tr valign="top">
+    <td class="custombox-worktype worktodo" colspan="2">
+        <span class="custombox-param worktodo">Nature: </span> <span class="custombox-value worktodo"><%%worktypefield%%></span>
+    </td>
+    <td class="custombox-timeexpected worktodo" align="right" width="40">
+        <img src="/mod/customlabel/type/worktodo/clock.jpg" /> <%%estimatedworktime%%>
+    </td>
+</tr>
+<tr valign="top">
+    <td class="custombox-worktype worktodo">
+        <span class="custombox-param worktodo">Effort: </span> <span class="custombox-value worktodo"><%%workeffortfield%%></span>
+    </td>
+    <td class="custombox-workmode worktodo" align="right" colspan="3">
+        <span class="custombox-param worktodo">Mode: </span> <span class="custombox-value worktodo"><%%workmodefield%%></span>
+    </td>
+</tr>
+<tr>
+    <td class="custombox-content worktodo" colspan="2">
+        <%%worktodo%%>
+    </td>
+</tr>
+</table>
+';

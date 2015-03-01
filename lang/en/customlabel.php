@@ -1,33 +1,37 @@
 <?php
-global $CFG;
 
-$string['configusesafestorage'] = 'If enabled, any old storage will be converted when edited. New storage will be used for converted items.';
-$string['changetypeadvice'] = "You are about to thange the internal data structure of this element. Old content cannot be maintained. Continue?";
 $string['customlabel:addinstance'] = 'Can add an instance';
 $string['customlabel:fullaccess'] = 'Full access to all fields ';
+
+$string['apparence'] = 'Apparence';
+$string['changetypeadvice'] = "You are about to thange the internal data structure of this element. Old content cannot be maintained. Continue?";
+$string['cleararea'] = 'Clear this file area';
+$string['cssoverrides'] = 'CSS Overrides';
+$string['cssoverridesdesc'] = 'If this field is used, Styling rules herein written will be appended to the global stylesheet to alter customlabel apparence. this needs your theme has been tuned to define the insertion point. See README.txt.';
 $string['customlabeltools'] = 'Mass tools for custom labels';
+$string['disabledsubtypes'] = 'Disabled subtypes';
+$string['disabledsubtypesdesc'] = 'Any subtype mentionned in this field will be globally disabled for the whole site.';
 $string['doupdate'] = 'Update !!';
-$string['enabletype'] = 'Enable subtype';
+$string['editvalues'] = 'Edit values';
 $string['errorclassloading'] = 'Error loading : Null class';
 $string['errorfailedloading'] = 'Failed loading class for custom label {$a}. Reverting to "text" customlabel.';
 $string['errorinsertvalue'] = 'Could not insert a new value';
 $string['errorupdatevalue'] = 'Could not update a new value';
 $string['exportdata'] = 'Export data to XML';
-$string['editvalues'] = 'Edit values';
-$string['hiddenrolesfor'] = 'Roles that CANNOT USE ';
 $string['labelclass'] = 'Label type';
 $string['labelclasses'] = 'Element classes';
 $string['labelupdater'] = '{$a} Regeneration Tool';
 $string['languages'] = 'Language';
 $string['missingfields'] = 'Mandatory fields have not been defined';
 $string['modulename'] = 'Course element';
-$string['pluginname'] = 'Course element';
 $string['modulenameplural'] = 'Course elements';
 $string['name'] = 'Label';
 $string['nocontentforthislanguage'] = 'No content available for this language<br/>';
-$string['resourcetypecustomlabel'] = 'Course element';
+$string['pluginadministration'] = 'Course element administration';
+$string['pluginname'] = 'Course element';
 $string['regenerate'] = 'Regenerate';
 $string['regeneration'] = 'Content mass regeneration';
+$string['resourcetypecustomlabel'] = 'Course element';
 $string['roleaccesstoelements'] = 'Access per role';
 $string['sametypes'] = 'You cannot constraint twice the same type';
 $string['storage'] = 'Storage model';
@@ -36,7 +40,6 @@ $string['updateall'] = 'Update all instances';
 $string['updatelabels'] = 'Regenerate instances of {$a}';
 $string['updatescope'] = 'Updating scope';
 $string['usesafestorage'] = 'Use safe storage for content (base64)';
-$string['pluginadministration'] = 'Course element administration';
 $string['modulename_help'] = "Course Elements provide you with pedagogic modules that are already layout and
 designed for serving some high level pedagogic needs. Course elements have subtypes that address common
 learning actions : work to do, soluce, see also (optional reference), local goals, reminder, and some 
@@ -96,37 +99,3 @@ $string['templatenotfound'] = 'Template {$a} not found';
 $string['text'] = 'Text';
 $string['content'] = 'Content';
 
-/*
-// this language files loads dynamically discovered label types
-if (!function_exists('local_customlabel_get_classes')){
-    function local_customlabel_get_classes(){
-        global $CFG;
-        
-        $classes = array();
-        $basetypedir = $CFG->dirroot."/mod/customlabel/type";
-        
-        $classdir = opendir($basetypedir);
-        while ($entry = readdir($classdir)){
-            if (preg_match("/^[.!]/", $entry)) continue; // ignore what need to be ignored
-            if (!is_dir($basetypedir.'/'.$entry)) continue; // ignore real files
-            unset($obj);
-            $obj->id = $entry;
-            $classes[] = $obj;
-        }
-        closedir($classdir);
-        return $classes;
-    }
-}
-
-
-// get strings for known types
-$classes = local_customlabel_get_classes();
-if (!empty($classes)){
-    foreach($classes as $atype){
-        $typelangfile = $CFG->dirroot."/mod/customlabel/type/{$atype->id}/en/customlabel.php";
-        if (file_exists($typelangfile)){
-            include_once($typelangfile);
-        }
-    }
-}
-*/

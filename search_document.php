@@ -54,11 +54,11 @@ class CustomLabelSearchDocument extends SearchDocument {
         $additionalKeys = NULL;
 
         // scan field and get as much searchable fields
-        foreach($class->fields as $afield){
-            if (preg_match("/list$/", $afield->type)){
-                if (!isset($afield->multiple)){
+        foreach ($class->fields as $afield) {
+            if (preg_match("/list$/", $afield->type)) {
+                if (!isset($afield->multiple)) {
                     $fieldname = $afield->name;
-                    if (!empty($content->{$fieldname})){
+                    if (!empty($content->{$fieldname})) {
                         $additionalKeys[$fieldname] = $content->{$fieldname};
                     }
                 }
@@ -109,7 +109,7 @@ function customlabel_get_content_for_index(&$customlabel) {
     $cm = $DB->get_record('course_modules', array('course' => $customlabel->course, 'module' => $coursemodule, 'instance' => $customlabel->id));
     $context = context_module::instance($cm->id);
     $customclass = customlabel_load_class($customlabel, true);
-    if ($customclass){
+    if ($customclass) {
         $documents[] = new CustomLabelSearchDocument(get_object_vars($customlabel), $customclass, $context->id);
         mtrace("finished label {$customlabel->id}");
     } else {
@@ -128,7 +128,7 @@ function customlabel_single_document($id, $itemtype) {
     global $CFG;
     $customlabel = $DB->get_record('customlabel', array('id' => $id));
 
-    if ($customlabel){
+    if ($customlabel) {
         $coursemodule = $DB->get_field('modules', 'id', array('name' => 'customlabel'));
         $cm = $DB->get_record('course_modules', array('module' => $coursemodule, 'instance' => $customlabel->id));
         $customclass = customlabel_load_class($customlabel, true);
@@ -161,11 +161,11 @@ function customlabel_db_names() {
 /**
 * customlabel points actually the complete course content and not the customlabel item
 */
-function customlabel_search_get_objectinfo($itemtype, $this_id, $context_id = null){
+function customlabel_search_get_objectinfo($itemtype, $this_id, $context_id = null) {
 
     if (!$course = $DB->get_record('course', array('id' => $this_id))) return false;
 
-    if ($context_id){
+    if ($context_id) {
         // We still need this case for the global search engine being able to operate.
         $info->context = $DB->get_record('context', array('id' => $context_id));
         $info->cm = $DB->get_record('course_modules', array('id' => $info->context->instanceid));
@@ -193,7 +193,7 @@ function customlabel_search_get_objectinfo($itemtype, $this_id, $context_id = nu
 * @param group_id the current group used by the user when searching
 * @return true if access is allowed, false elsewhere
 */
-function customlabel_check_text_access($path, $itemtype, $this_id, $user, $group_id, $context_id){
+function customlabel_check_text_access($path, $itemtype, $this_id, $user, $group_id, $context_id) {
     global $CFG;
 
     // $this_id binds to $course->id, but course check where already performed
@@ -203,7 +203,7 @@ function customlabel_check_text_access($path, $itemtype, $this_id, $user, $group
     $instance = $info->instance;
     //check if found course module is visible
     // we cannot consider a content in hidden labels 
-    if (!$cm->visible and !has_capability('moodle/course:viewhiddenactivities', $context)){
+    if (!$cm->visible and !has_capability('moodle/course:viewhiddenactivities', $context)) {
         return false;
     }
     return true;
@@ -213,11 +213,10 @@ function customlabel_check_text_access($path, $itemtype, $this_id, $user, $group
 * post processes the url for cleaner output.
 * @param string $title
 */
-function customlabel_link_post_processing($title){
+function customlabel_link_post_processing($title) {
     global $CFG;
-    if ($CFG->block_search_utf8dir){
+    if ($CFG->block_search_utf8dir) {
         return mb_convert_encoding("(".shorten_text(clean_text($title), 60)."...) ", 'UTF-8', 'auto');
     }
     return mb_convert_encoding("(".shorten_text(clean_text($title), 60)."...) ", 'auto', 'UTF-8');
 }
-?>

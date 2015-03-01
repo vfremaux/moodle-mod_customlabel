@@ -1,10 +1,20 @@
-<?php // $Id: index.php,v 1.3 2011-07-07 14:01:21 vf Exp $
+<?php
+// This file is part of Moodle - http://moodle.org/
+// // Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// // Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// // You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-    require_once("../../config.php");
-    // require_once($CFG->dirroot.'/mod/customlabel/lib.php');
+require('../../config.php');
+// require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 
-    $id = required_param('id', PARAM_INT);   // course
+$id = required_param('id', PARAM_INT);   // Course ID
 
-    redirect($CFG->wwwroot."/course/view.php?id=$id");
+redirect(new moodle_url('/course/view.php', array('id' => $id)));
 
-?>

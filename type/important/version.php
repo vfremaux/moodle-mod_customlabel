@@ -1,4 +1,4 @@
-<?php // $Id: version.php,v 1.6 2011-10-15 12:03:18 vf Exp $
+<?php
 
 /////////////////////////////////////////////////////////////////////////////////
 ///  Code fragment to define the version of customlabel
@@ -6,7 +6,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 $plugin = new stdclass;
-$plugin->version  = 2012062400;  // The current module version (Date: YYYYMMDDXX)
+$plugin->version  = 2015012300;  // The current module version (Date: YYYYMMDDXX)
 $plugin->component = 'customlabeltype_important';   // Full name of the plugin (used for diagnostics)
 
-?>

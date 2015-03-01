@@ -1,13 +1,15 @@
 <?php
 
 /**
-* This is a local class contextual translation file for field names and 
-* list options.
-* this file is automatically loaded by the 
-* /mod/customlabel/lang/xx_utf8/customlabel.php
-* module language file.
-*
-*/
+ * This is a local class contextual translation file for field names and 
+ * list options.
+ * this file is automatically loaded by the 
+ * /mod/customlabel/lang/xx_utf8/customlabel.php
+ * module language file.
+ */
+
+$string['coursedata:view'] = 'Peut voir le contenu';
+$string['coursedata:addinstance'] = 'Peut ajouter une instance';
 
 $string['pluginname'] = 'Elément de cours : Information sur le cours';
 $string['typename'] = 'Information sur le cours';
@@ -29,3 +31,93 @@ $string['showduration'] = 'Afficher la durée du parcours ';
 $string['showprerequisites'] = 'Afficher les pré requis nécessaires';
 $string['showlearningmethod'] = 'Afficher les méthode(s) d\'enseignement ';
 $string['showfollowers'] = 'Afficher les suites possibles ';
+$string['leftcolumnratio'] = 'Largeur colonne gauche';
+
+$string['template'] = '
+<table class="custombox-coursedata">
+    <tr valign="top">
+        <th class="custombox-title coursedata" colspan="2">
+            <%%tablecaption%%>
+        </th>
+    </tr>
+    <%if %%showidnumber%% %>
+    <tr valign="top">
+        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
+            Numéro d\'identification :
+        </td>
+        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
+            <%%idnumber%%>
+        </td>
+    </tr>
+    <%endif %>
+    <%if %%showgoals%% %>
+    <tr valign="top">
+        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
+            Objectifs :
+        </td>
+        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
+            <%%goals%%>
+        </td>
+    </tr>
+    <%endif %>
+    <%if %%showobjectives%% %>
+    <tr valign="top">
+        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
+            Acquisitions :
+        </td>
+        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
+            <%%objectives%%>
+        </td>
+    </tr>
+    <%endif %>
+    <%if %%showconcepts%% %>
+    <tr valign="top">
+        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
+            Concepts :
+        </td>
+        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
+            <%%concepts%%>
+        </td>
+    </tr>
+    <%endif %>
+    <%if %%showduration%% %>
+    <tr valign="top">
+        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
+            Durée :
+        </td>
+        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
+            <%%duration%%>
+        </td>
+    </tr>
+    <%endif %>
+    <%if %%showteachingorganization%% %>
+    <tr valign="top">
+        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
+            Organisation de l\'enseignement :
+        </td>
+        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
+            <%%teachingorganization%%>
+        </td>
+    </tr>
+    <%endif %>
+    <%if %%showprerequisites%% %>
+    <tr valign="top">
+        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
+            Prérequis :
+        </td>
+        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
+            <%%prerequisites%%>
+        </td>
+    </tr>
+    <%endif %>
+    <%if %%followers%% %>
+    <tr valign="top">
+        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
+            Cours suivants :
+        </td>
+        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
+            <%%followers%%>
+        </td>
+    </tr>
+    <%endif %>
+</table>';

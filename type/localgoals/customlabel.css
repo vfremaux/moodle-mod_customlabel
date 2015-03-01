@@ -8,18 +8,20 @@ table.custombox.localgoals {
    border-right:1px solid #9B5992 !important;
 }
 
-td.custombox-header-thumb.localgoals{
+td.custombox-header-thumb.localgoals {
+    min-width:25px;
     width:25px;
-	background-image: url("/mod/customlabel/type/localgoals/icon_goals_small.png"); 
-	background-repeat: no-repeat;
+    background-image: url("/mod/customlabel/type/localgoals/icon_goals_small.png"); 
+    background-repeat: no-repeat;
     height:73px;
 }
 
-#region-main td.custombox-header-thumb.localgoals{
+#region-main td.custombox-header-thumb.localgoals,
+#page-region-main td.custombox-header-thumb.localgoals {
     width:65px;
     min-width:65px;
-	background-image: url("/mod/customlabel/type/localgoals/icon_goals.png"); 
-	background-repeat: no-repeat;
+    background-image: url("/mod/customlabel/type/localgoals/icon_goals.png"); 
+    background-repeat: no-repeat;
     height:73px;
 }
 

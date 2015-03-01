@@ -1,11 +1,17 @@
 <?php
-global $CFG;
 
-$string['configusesafestorage'] = 'Si activé, le contenu des étiquettes sera converti en stockage sûr au moment de leur édition. Le nouveau stockage sera utilisé à partir de ce moment.';
-$string['changetypeadvice'] = 'Vous allez changer la structure de cet élement.\\\\nLes anciennes données ne peuvent être conservées.\\\\nVoulez-vous continuer ?';
 $string['customlabel:addinstance'] = 'Peut ajouter une instance';
 $string['customlabel:fullaccess'] = 'Accès total ';
+
+$string['apparence'] = 'Apparence';
+$string['configusesafestorage'] = 'Si activé, le contenu des étiquettes sera converti en stockage sûr au moment de leur édition. Le nouveau stockage sera utilisé à partir de ce moment.';
+$string['changetypeadvice'] = 'Vous allez changer la structure de cet élement.\\\\nLes anciennes données ne peuvent être conservées.\\\\nVoulez-vous continuer ?';
+$string['cleararea'] = 'Vider cette zone de fichiers';
 $string['customlabeltools'] = 'Outils de masse pour les éléments personnalisables';
+$string['cssoverrides'] = 'Surcharges CSS';
+$string['cssoverridesdesc'] = 'Si ce champ est rempli avec des règles de style, alors ces règles seront rajoutées à la feuille de style générale pour modifier l\'apparence des elements de cours. Ceci nécessite une intervention dans le theme pour définir le point d\'insertion. Voir le fichier README.txt';
+$string['disabledsubtypes'] = 'Types d\'éléments désactivés';
+$string['disabledsubtypesdesc'] = 'Tout type mentionné dans ce champ sera désactivé au niveau site. Les contenus existants pour ce type d\'éléments seront ignorés.';
 $string['doupdate'] = 'Régénérer !!';
 $string['exportdata'] = 'Exporter les données en XML';
 $string['hiddenrolesfor'] = 'Rôles n\'ayant pas accès au(x) ';
@@ -86,35 +92,3 @@ $string['text'] = 'Texte';
 $string['content'] = 'Contenu ';
 
 $string['exportdata'] = 'Exporter les données';
-
-if (!function_exists('local_customlabel_get_classes')){
-    function local_customlabel_get_classes(){
-        global $CFG;
-        
-        $classes = array();
-        $basetypedir = $CFG->dirroot."/mod/customlabel/type";
-        
-        $classdir = opendir($basetypedir);
-        while ($entry = readdir($classdir)){
-            if (preg_match("/^[.!]/", $entry)) continue; // ignore what need to be ignored
-            if (!is_dir($basetypedir.'/'.$entry)) continue; // ignore real files
-            $obj = new StdClass;
-            $obj->id = $entry;
-            $classes[] = $obj;
-        }
-        closedir($classdir);
-        return $classes;
-    }
-}
-
-
-// get strings for known types
-$classes = local_customlabel_get_classes();
-if (!empty($classes)){
-    foreach($classes as $atype){
-        $typelangfile = $CFG->dirroot."/mod/customlabel/type/{$atype->id}/fr/customlabel.php";
-        if (file_exists($typelangfile)){
-            include_once($typelangfile);
-        }
-    }
-}

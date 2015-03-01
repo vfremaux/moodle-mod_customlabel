@@ -1,32 +1,41 @@
 <?php
 
-require_once $CFG->dirroot.'/mod/customlabel/locallib.php';
+require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
 /**
-* implements a hook for the page_module block to add
-* the link allowing live refreshing of the content
-*
-*
-*/
-
-function customlabel_set_instance(&$block){
+ * implements a hook for the page_module block to add
+ * the link allowing live refreshing of the content
+ *
+ *
+ */
+function customlabel_set_instance(&$block) {
     global $USER, $CFG, $COURSE, $DB;
-    // transfer content from title to content    
+
+    // Transfer content from title to content.
     $block->title = '';
 
-    // fake unpacks object's load
+    // Fake unpacks object's load.
     $data = json_decode(base64_decode($block->moduleinstance->content));
 
     // If failed in getting content. It happens sometimes, ... do nothing to let content be safed manually
-    if (is_null($data) || !is_object($data)){
+    if (is_null($data) || !is_object($data)) {
         return false;
     }
     
-    // realize a pseudo update
+    // Realize a pseudo update.
     $data->title = $block->moduleinstance->title;
     $data->content = $block->moduleinstance->content;
     $data->labelclass = $block->moduleinstance->labelclass; // fixes broken serialized contents
-    if (!isset($block->moduleinstance->title)) $block->moduleinstance->title = ''; // fixes broken serialized contents
+
+    $context = context_module::instance($block->cm->id);
+    if (!has_capability('customlabeltype/'.$data->labelclass.':view', $context)) {
+        return false;
+    }
+    
+    if (!isset($block->moduleinstance->title)) {
+        // Fixes broken serialized contents.
+        $block->moduleinstance->title = '';
+    }
     $instance = customlabel_load_class($data);
     $block->moduleinstance->processedcontent = $instance->make_content();
     $block->moduleinstance->name = $instance->title; // this realizes the template
@@ -34,7 +43,10 @@ function customlabel_set_instance(&$block){
     $block->content->text = $block->moduleinstance->processedcontent;
     $block->moduleinstance->title = str_replace("'", "''", $block->moduleinstance->title);
     $result = $DB->update_record('customlabel', $block->moduleinstance);
-    return true;    
+
+    $context = context_module::instance($block->cm->id);
+    $block->content->text = file_rewrite_pluginfile_urls($block->content->text, 'pluginfile.php', $context->id, 'mod_customlabel', 'contentfiles', 0);
+
+    return true;
 }
 
-?>

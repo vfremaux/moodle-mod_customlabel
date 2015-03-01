@@ -10,16 +10,17 @@ table.custombox-worktodo {
 .custombox-header-thumb.worktodo {
     width:25px;
     min-width:25px;
-	background-image: url("/mod/customlabel/type/worktodo/icon_todo_small.png"); 
-	background-repeat: no-repeat;
+    background-image: url("/mod/customlabel/type/worktodo/icon_todo_small.png"); 
+    background-repeat: no-repeat;
     height:73px;
 }
 
-#region-main td.custombox-header-thumb.worktodo {
+#region-main td.custombox-header-thumb.worktodo,
+#page-region-main td.custombox-header-thumb.worktodo {
     width:65px;
     min-width:65px;
-	background-image: url("/mod/customlabel/type/worktodo/icon_todo.png");
-	background-repeat: no-repeat;
+    background-image: url("/mod/customlabel/type/worktodo/icon_todo.png");
+    background-repeat: no-repeat;
     height:73px;
 }
 
@@ -39,7 +40,15 @@ td.custombox-content.worktodo p {
     line-height:1.5em;
 }
 
-td.custombox-worktype.worktodo {
+.custombox-param.worktodo {
+    font-weight:bold !important;
+}
+
+.custombox-worktype .custombox-param.worktodo {
+    padding-left:10px;
+}
+
+.custombox-worktype .custombox-value {
     padding-left:8px;
     height:20px;
 }
@@ -47,19 +56,19 @@ td.custombox-worktype.worktodo {
 td.custombox-content.worktodo h1,
 td.custombox-content.worktodo h2,
 td.custombox-content.worktodo h3{
-    background-image:none !important;
-    padding-left:0px !important;
-    color:#91571E !important;
-    font-weight:bolder !important;
+    background-image:none;
+    padding-left:0px;
+    color:#999999;
+    font-weight:bolder;
 }
 
-span.custom-worktype{
-	font-style:italic;
-	color:#8C919B;
-	font-size:0.95em;
+span.custombox-value.worktype {
+    font-style:italic;
+    color:#8C919B;
+    font-size:0.95em;
 }
 
-div.custom-clockimage{
-	background:url('/mod/customlabel/pix/clock.jpg') no-repeat;
+div.custom-clockimage {
+    background:url('/mod/customlabel/pix/clock.jpg') no-repeat;
 }
 

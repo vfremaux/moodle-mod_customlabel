@@ -7,13 +7,13 @@ class EditTypeForm extends moodleform{
     private $view;
     private $action;
     
-    function __construct($view, $action, $url){
+    function __construct($view, $action, $url) {
         $this->view = $view;
         $this->action = $action;
         parent::moodleform($url);
     }
 
-    function definition(){
+    function definition() {
         $mform = & $this->_form;
         
         $options['category'] = get_string('category', 'customlabel');
@@ -43,10 +43,10 @@ class EditTypeForm extends moodleform{
         $this->add_action_buttons(false);
     }
     
-    function validation($data, $files = null){
+    function validation($data, $files = null) {
         $errors = array();
 
-        if (empty($data['name'])){
+        if (empty($data['name'])) {
             echo "is empty ?";
             $errors['name'] = get_string('emptytypenameerror', 'customlabel');
         }

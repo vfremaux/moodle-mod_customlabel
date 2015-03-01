@@ -1,1 +1,8 @@
-@import url(../mod/customlabel/styles.php);
+.editing li.activity.customlabel .contentwithoutlink {
+    padding-right:  20px !important;
+    padding-top:  30px !important;
+}
+
+.editing li.activity.customlabel.label * {
+    font-weight:normal;
+}

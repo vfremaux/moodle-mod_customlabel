@@ -1,67 +1,63 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Moodle - Modular Object-Oriented Dynamic Learning Environment
- *          http://moodle.org
- * Copyright (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @package    mod
  * @subpackage customlabel
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
- *
  */
 
-	$value1 = optional_param('value1', '', PARAM_TEXT);
-	$value2 = optional_param('value2', '', PARAM_TEXT);
+$value1 = optional_param('value1', '', PARAM_TEXT);
+$value2 = optional_param('value2', '', PARAM_TEXT);
 
-	if ($value1 == $value2){
-	    $noticesametypes = true;
-	    $value1 = '';
-	    $value2 = '';
-	}
-	
-	// swap to avoid inverted map
-	if ($value1 < $value2){
-	    $tmp = $value1;
-	    $value1 = $value2;
-	    $value2 = $tmp;
-	}
-	
-	$value1types = $DB->get_records_menu($CFG->classification_type_table, array(), 'name', 'id,name');
-	$value2types = $DB->get_records_menu($CFG->classification_type_table, array(), 'name', 'id,name');
-	
-	$valueset1 = $DB->get_records($CFG->classification_value_table, array($CFG->classification_value_type_key => $value1));
-	$valueset2 = $DB->get_records($CFG->classification_value_table, array($CFG->classification_value_type_key => $value2));
-	
-	if ($action != ''){
-	    include $CFG->dirroot."/mod/customlabel/metadataconstraints.controller.php";
-	}
-	
-	$constraints = $DB->get_records($CFG->classification_constraint_table);
-	if ($constraints){
-	    foreach($constraints as $constraint){
-	        $values[$constraint->value1][$constraint->value2] = $constraint->const;
-	    }
-	}
+if ($value1 == $value2) {
+    $noticesametypes = true;
+    $value1 = '';
+    $value2 = '';
+}
 
-/// Print table
+// Swap to avoid inverted map.
+if ($value1 < $value2) {
+    $tmp = $value1;
+    $value1 = $value2;
+    $value2 = $tmp;
+}
 
-	echo $deferredheader;
+$value1types = $DB->get_records_menu($CFG->classification_type_table, array(), 'name', 'id,name');
+$value2types = $DB->get_records_menu($CFG->classification_type_table, array(), 'name', 'id,name');
+
+$valueset1 = $DB->get_records($CFG->classification_value_table, array($CFG->classification_value_type_key => $value1));
+$valueset2 = $DB->get_records($CFG->classification_value_table, array($CFG->classification_value_type_key => $value2));
+
+if ($action != '') {
+    include $CFG->dirroot."/mod/customlabel/metadataconstraints.controller.php";
+}
+
+$constraints = $DB->get_records($CFG->classification_constraint_table);
+if ($constraints) {
+    foreach ($constraints as $constraint) {
+        $values[$constraint->value1][$constraint->value2] = $constraint->const;
+    }
+}
+
+// Print table.
+
+echo $deferredheader;
 
 ?>
 <form name="choosesets" method="POST" action="<?php echo $CFG->wwwroot."/mod/customlabel/adminmetadata.php" ?>">
@@ -82,7 +78,7 @@
 </form>
 
 <?php
-if (isset($noticesametypes)){
+if (isset($noticesametypes)) {
     echo "<br/>";
     notice(get_string('sametypes', 'customlabel'));
     echo "<br/>";
@@ -102,8 +98,8 @@ if (isset($noticesametypes)){
         </td>
 <?php
 // generate first row
-if($valueset1){
-    foreach($valueset1 as $avalue1){
+if ($valueset1) {
+    foreach ($valueset1 as $avalue1) {
         echo "<td align=\"center\"><b>{$avalue1->value}</b></td>";
     }
 }
@@ -115,13 +111,13 @@ $options[1] = get_string('include', 'customlabel');
 $options[2] = get_string('exclude', 'customlabel');
 
 $i = 0;
-if($valueset2){
-    foreach($valueset2 as $avalue2){
+if ($valueset2) {
+    foreach ($valueset2 as $avalue2) {
         $j = 0;
         echo '<tr valign="top">';
         echo "<td align=\"center\">{$avalue2->value}</td>";
-        if($valueset1){
-            foreach($valueset1 as $avalue1){        
+        if ($valueset1) {
+            foreach ($valueset1 as $avalue1) {        
                 echo "<td align=\"center\">";
                 echo html_writer::select($options, "ct_{$avalue1->id}_{$avalue2->id}", @$values[$avalue1->id][$avalue2->id]);        
                 echo "</td>";

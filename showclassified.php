@@ -35,7 +35,7 @@ $url = $CFG->wwwroot . '/mod/customlabel/adminmetadata.php';
 $value = optional_param('value', 0, PARAM_INT);
 $type = optional_param('typeid', 0, PARAM_INT);
 
-if ($value == 0 && $type == 0){
+if ($value == 0 && $type == 0) {
     echo "<br/>";
     notice("no input given");
     echo "<br/>";
@@ -43,7 +43,7 @@ if ($value == 0 && $type == 0){
     exit;
 }
 
-if ($value != 0){
+if ($value != 0) {
     $sql = "
         SELECT
             c.id,
@@ -64,7 +64,7 @@ if ($value != 0){
     if (!$courses = $DB->get_records_sql($sql)) {
         $courses = array();
     }
-} else if ($type != 0){
+} elseif ($type != 0) {
     $sql = "
         SELECT
             c.id,
@@ -89,7 +89,7 @@ if ($value != 0){
     }
 }
 
-if (!empty($courses)){
+if (!empty($courses)) {
     $strcourse = get_string('course');
     $strstatus = get_string('status');
 
@@ -97,12 +97,12 @@ if (!empty($courses)){
     $table->size = array('70%', '30%');
     $table->width = array('570px');
     $table->align = array('left', 'center');    
-    foreach($courses as $acourse){
+    foreach ($courses as $acourse) {
         $courselink = "<a href=\"{$CFG->wwwroot}/course/view.php?id={$acourse->id}\">".format_string($acourse->fullname).'</a>';
         $table->data[] = array($courselink, course_status_get_desc($acourse));
     }
     echo html_writer::table($table);
-    if ($value != 0){
+    if ($value != 0) {
         echo $OUTPUT->continue_button($url."?view=metadata&amp;type={$type}");
     } else {
         echo $OUTPUT->continue_button($url."?view=classifiers");
@@ -113,4 +113,3 @@ if (!empty($courses)){
 
 echo $OUTPUT->footer();
 
-?>
