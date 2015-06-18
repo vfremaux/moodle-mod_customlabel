@@ -9,6 +9,8 @@ $string['authornote'] = 'Authoring note';
 $string['initiallyvisible'] = 'Initially visible';
 $string['configtypename'] = 'Enable subtype Authoring note';
 
+$string['family'] = 'meta';
+
 $string['template'] = '
 <div class="custombox-control authornote"><a href="javascript:togglecustom(\'<%%customid%%>\', \'<%%wwwroot%%>\')"><img id="customctl<%%customid%%>" src="<%%initialcontrolimage%%>" /></a>
 <span class="custombox-header-caption authornote"><b>Authoring note</b></span></div>

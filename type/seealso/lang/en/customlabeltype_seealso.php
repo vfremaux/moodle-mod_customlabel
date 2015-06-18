@@ -8,6 +8,8 @@ $string['typename'] = 'See Also';
 $string['configtypename'] = 'Enable subtype See Also';
 $string['seealso'] = 'See also';
 
+$string['family'] = 'pedagogic';
+
 $string['template'] = '
 <table class="custombox-seealso" cellspacing="0" width="100%">
 <tr valign="top">

@@ -107,10 +107,18 @@ function customlabel_add_instance($customlabel) {
     $context = context_module::instance($customlabel->coursemodule);
 
     foreach ($instance->fields as $field) {
+        $fieldname = $field->name;
         if (!isset($customlabel->{$field->name})) {
             $customlabel->{$field->name} = @$_REQUEST[$field->name]; // odd thing when bouncing
         }
-        $fieldname = $field->name;
+        if ($field->type == 'date') {
+            $timestamp = mktime(0,0,0,$customlabel->{$field->name}['month'], $customlabel->{$field->name}['day'], $customlabel->{$field->name}['year']);
+            $customlabel->{$field->name} = $timestamp;
+        }
+        if ($field->type == 'datetime') {
+            $timestamp = mktime($customlabel->{$field->name}['hour'],$customlabel->{$field->name}['min'],$customlabel->{$field->name}['sec'],$customlabel->{$field->name}['month'], $customlabel->{$field->name}['day'], $customlabel->{$field->name}['year']);
+            $customlabel->{$field->name} = $timestamp;
+        }
         if (preg_match('/editor|textarea/', $field->type)) {
             $editorname = $fieldname.'_editor';
             if (!isset($customlabel->$editorname)) {
@@ -170,6 +178,7 @@ function customlabel_update_instance($customlabel) {
         $instance->postprocess_data();
         $customlabel->name = $instance->title;
         $customlabel->fallbacktype = @$instance->fallbacktype;
+        $instance->posttemplate_data();
     }
     
     $customlabel->introformat = 0;
@@ -329,12 +338,24 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         if (!is_dir($CFG->dirroot.'/mod/customlabel/type/'.$customlabel->labelclass)) {
             return;
         }
-        if (!has_capability('customlabeltype/'.$customlabel->labelclass.':view', $cminfo->context)) {
-            // Set no chance to see anything from it.
-            $cminfo->set_no_view_link();
-            $cminfo->set_content('');
-            $cminfo->set_user_visible(false);
-            return;
+        if (!isloggedin()) {
+            // check capability to see on user role
+            $userrole = $DB->get_record('role', array('shortname' => 'user'));
+            if (!$DB->get_record('role_capabilities', array('contextid' => system_context::instance()->id, 'roleid' => $userrole->id, 'capability' => 'customlabeltype/'.$customlabel->labelclass.':view', 'permission' => CAP_ALLOW))) {
+                // Set no chance to see anything from it.
+                $cminfo->set_no_view_link();
+                $cminfo->set_content('');
+                $cminfo->set_user_visible(false);
+                return;
+            }
+        } else {
+            if (!has_capability('customlabeltype/'.$customlabel->labelclass.':view', $cminfo->context)) {
+                // Set no chance to see anything from it.
+                $cminfo->set_no_view_link();
+                $cminfo->set_content('');
+                $cminfo->set_user_visible(false);
+                return;
+            }
         }
 
         $cssurl = '/mod/customlabel/type/'.$customlabel->labelclass.'/customlabel.css';

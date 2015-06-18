@@ -20,6 +20,8 @@ $string['showshortname'] = 'Show shortname';
 $string['typename'] = 'Course Heading';
 $string['trainingmodule'] = 'Training Module';
 
+$string['family'] = 'structure';
+
 $string['template'] = '
 <table class="custombox-courseheading">
 <tr valign="middle" class="custombox-icon courseheading">

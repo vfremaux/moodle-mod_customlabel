@@ -92,7 +92,7 @@ function customlabel_course_preprocess_filepickers($c) {
                     mtrace("preprocessing filepicker $f->name ");
                     $oldname = $f->name.'url';
                     $content = json_decode(base64_decode($c->content));
-                    mtrace("checking field content : {$content->$oldname} ");
+                    mtrace("checking field content : ".@$content->$oldname);
                     if (!empty($content->$oldname)) {
                         // We have an old data there, we need get the file record it and add it to the filestore
                         if (preg_match('#^http#', $content->$oldname)) {

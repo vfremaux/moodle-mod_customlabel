@@ -15,3 +15,5 @@ $string['typename'] = 'Unit title';
 $string['imageurl'] = 'Alternate Image URL';
 $string['image'] = 'Alternate Image File';
 $string['overimagetext'] = 'Text over image';
+
+$string['family'] = 'structure';

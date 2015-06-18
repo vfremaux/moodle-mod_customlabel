@@ -58,9 +58,16 @@ class customlabel_type {
         if (empty($this->fields[$fieldname]->options)) {
             return array();
         }
+        
+        if (is_string($this->fields[$fieldname]->options)) {
+            $optionsource = explode(',', $this->fields[$fieldname]->options);
+        } else {
+            $optionsource = $this->fields[$fieldname]->options;
+        }
+        
         // Get all code / translations for the option list.
         $options = array();
-        foreach ($this->fields[$fieldname]->options as $option) {
+        foreach ($optionsource as $option) {
             $options[$option] = get_string($option, 'customlabeltype_'.$this->type);
         }
         return $options;
@@ -75,7 +82,7 @@ class customlabel_type {
 
         $options = array();
         switch ($field->source) {
-            case 'dbfieldkeyed': {
+            case 'dbfieldkeyed':
                 $table = '{'.$field->table.'}';
                 $fieldname = $field->field;
                 $fieldkey = (empty($field->key)) ? 'id' : $field->key ;
@@ -91,9 +98,9 @@ class customlabel_type {
                     $ordering
                 ";
                 $options = $DB->get_records_sql_menu($sql);
-            }
-            break;
-            case 'dbfieldkey':{
+                break;
+
+            case 'dbfieldkey':
                 $table = '{'.$field->table.'}';
                 $fieldname = $field->field;
                 $select = (!empty($field->select)) ? " WHERE {$field->select} " : '';
@@ -112,16 +119,15 @@ class customlabel_type {
                 foreach (array_values($keys) as $key) {
                     $options[$key] = get_string($key, $domain);
                 }
-            }
-            break;
-            case 'function' : {
+                break;
+
+            case 'function':
                 if (!empty($field->file) && file_exists($CFG->dirroot.$field->file)) {
                     include_once($CFG->dirroot.$field->file);
                 }
                 $functionname = $field->function;
                 $options = $functionname();
-            }
-            break;
+                break;
         }
 
         return $options;
@@ -182,9 +188,16 @@ class customlabel_type {
      * Usual customlabels will not overload this function, unless
      * some form information must be fetched or computed after
      * internal standard transforms have been processed such as final formatting.
-     *
      */
     public function postprocess_data($course = null) {
+    }
+
+    /**
+     * postprocesses data stub after template has been rendered. usually
+     * this is used by some types that use date or datetime fields and
+     * need to revert orginal timestamp format for storage
+     */
+    public function posttemplate_data() {
     }
 
     public function get_content() {
@@ -206,6 +219,7 @@ class customlabel_type {
         $this->data->currenttheme = $PAGE->theme->name;
         $this->data->title = $this->title;
         $this->content = $this->make_template($lang);
+        $this->posttemplate_data();
 
         if (empty($this->content)) {
             // Arbitrary name if missing.
@@ -224,6 +238,7 @@ class customlabel_type {
         global $CFG, $USER, $COURSE;
 
         $content = '';
+        $context = context_course::instance($COURSE->id);
 
         if (!empty($lang)) {
              $languages[] = $lang;
@@ -248,14 +263,12 @@ class customlabel_type {
                 if (!empty($this->data)) {
                     $CFG->multilang_target_language = $lang;
                     foreach ($this->data as $key => $value) {
-                        if (is_array($value)) {
+                        if (is_array($value) || is_object($value)) {
                             continue;
                         }
-                        if (is_object($value)) {
-                            continue;
-                        }
-                        if (file_exists($CFG->wwwroot.'/filter/multilangenhanced/filter.php')) {
-                            include_once($CFG->wwwroot.'/filter/multilangenhanced/filter.php');
+                        if (file_exists($CFG->dirroot.'/filter/multilangenhanced/filter.php')) {
+                            include_once($CFG->dirroot.'/filter/multilangenhanced/filter.php');
+                            $filter = new filter_multilangenhanced($context, array());
                             $formattedvalue = (preg_match('/option$/', $key) || preg_match('/^http?:\/\//', $value)) ? $value : $filter->filter($value) ;
                         } else {
                             $formattedvalue = $value;
@@ -283,7 +296,6 @@ class customlabel_type {
      * post processes fields for rendering in templates
      */
     public function process_form_fields() {
-
         foreach ($this->fields as $key => $field) {
             // Assembles multiple list answers.
             if (preg_match("/list$/", $field->type)) {

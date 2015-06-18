@@ -8,6 +8,8 @@ $string['typename'] = 'Goals';
 $string['localgoals'] = 'Goals';
 $string['configtypename'] = 'Enable subtype Goals';
 
+$string['family'] = 'pedagogic';
+
 $string['template'] = '
 <table class="custombox-localgoals" cellspacing="0" width="100%">
 <tr valign="top">

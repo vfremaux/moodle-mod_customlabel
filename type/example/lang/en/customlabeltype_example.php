@@ -8,6 +8,8 @@ $string['typename'] = 'Example';
 $string['configtypename'] = 'Enable subtype Example';
 $string['example'] = 'Example';
 
+$string['family'] = 'pedagogic';
+
 $string['template'] = '
 <table class="custombox-example" cellspacing="0" width="100%">
 <tr valign="top">

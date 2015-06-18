@@ -25,6 +25,8 @@ $string['opt3'] = 'Choice 3';
 $string['lockedfield'] = 'Locked field';
 $string['lockedsample'] = 'Only designated roles can modifiy the content of these fields ';
 
+$string['family'] = 'generic';
+
 $string['template'] = '
 <!-- This is a layout template for the custom type NEWTYPE -->
 <!-- There should be a template for all used languages -->

@@ -9,6 +9,8 @@ $string['configtypename'] = 'Enable subtype Pedagogic advice';
 $string['advice'] = 'Advising ';
 $string['initiallyvisible'] = 'Initially visible';
 
+$string['family'] = 'meta';
+
 $string['template'] = '
 <div class="custombox-control pedagogicadvice"><a href="javascript:togglecustom(\'<%%customid%%>\', \'<%%wwwroot%%>\')"><img id="customctl<%%customid%%>" src="<%%initialcontrolimage%%>" /></a>
 <span class="custombox-header-caption pedagogicadvice"><b>Pedagogic advice</b></span></div>

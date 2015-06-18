@@ -20,6 +20,17 @@ class customlabel_type_coursedata extends customlabel_type{
         $this->fields['tablecaption'] = $field;
 
         $field = new StdClass;
+        $field->name = 'showtarget';
+        $field->type = 'choiceyesno';
+        $this->fields['showtarget'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'target';
+        $field->type = 'textarea';
+        $this->fields['target'] = $field;
+
+
+        $field = new StdClass;
         $field->name = 'showgoals';
         $field->type = 'choiceyesno';
         $this->fields['showgoals'] = $field;

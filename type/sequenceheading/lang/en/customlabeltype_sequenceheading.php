@@ -20,6 +20,8 @@ $string['top'] = 'Top';
 $string['middle'] = 'Middle';
 $string['bottom'] = 'Bottom';
 
+$string['family'] = 'structure';
+
 $string['template'] = '
 <table class="custombox-sequenceheading" width="100%">
 <tr valign="<%%verticalalignoption%%>" class="custombox-icon sequenceheading">

@@ -8,6 +8,8 @@ $string['typename'] = 'Simple Text';
 $string['configtypename'] = 'Enable subtype Simple Text';
 $string['textcontent'] = 'Content';
 
+$string['family'] = 'generic';
+
 $string['template'] = '
 <!-- standard default template for unclassed label. Don\'t change -->
 <div class="custombox-text">

@@ -16,6 +16,8 @@ $string['imageurl'] = 'Alternate Image URL';
 $string['image'] = 'Image file';
 $string['overimagetext'] = 'Text over image';
 
+$string['family'] = 'structure';
+
 $string['template'] = '
 <table class="custombox-sectionheading" width="100%">
 <tr valign="top" class="custombox-icon sectionheading">
