@@ -21,6 +21,8 @@ $string['corollary8'] = 'Corollary 9';
 $string['showdemonstration'] = 'Show demonstration';
 $string['demonstration'] = 'Demonstration';
 
+$string['family'] = 'pedagogic';
+
 $string['template'] = '
 <table class="custombox-theorema" cellspacing="0" width="100%">
 <tr valign="top">

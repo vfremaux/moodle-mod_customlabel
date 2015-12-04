@@ -99,3 +99,9 @@ $string['templatenotfound'] = 'Template {$a} not found';
 $string['text'] = 'Text';
 $string['content'] = 'Content';
 
+// Kown families
+$string['familystructure'] = 'Structural elements';
+$string['familygeneric'] = 'Generic elements';
+$string['familypedagogic'] = 'Pedagogy elements';
+$string['familymeta'] = 'Meta-Pedagogy elements';
+$string['familyspecial'] = 'Special elements';

@@ -31,6 +31,8 @@ $string['showduration'] = 'Afficher la durée du parcours ';
 $string['showprerequisites'] = 'Afficher les pré requis nécessaires';
 $string['showlearningmethod'] = 'Afficher les méthode(s) d\'enseignement ';
 $string['showfollowers'] = 'Afficher les suites possibles ';
+$string['showtarget'] = 'Afficher le public ';
+$string['target'] = 'Public cible ';
 $string['leftcolumnratio'] = 'Largeur colonne gauche';
 
 $string['template'] = '
@@ -43,17 +45,27 @@ $string['template'] = '
     <%if %%showidnumber%% %>
     <tr valign="top">
         <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Numéro d\'identification :
+            Numéro d\'identification&nbsp;:
         </td>
         <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
             <%%idnumber%%>
         </td>
     </tr>
     <%endif %>
+    <%if %%showtarget%% %>
+    <tr valign="top">
+        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
+            Public&nbsp;:
+        </td>
+        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
+            <%%target%%>
+        </td>
+    </tr>
+    <%endif %>
     <%if %%showgoals%% %>
     <tr valign="top">
         <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Objectifs :
+            Objectifs&nbsp;:
         </td>
         <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
             <%%goals%%>
@@ -63,7 +75,7 @@ $string['template'] = '
     <%if %%showobjectives%% %>
     <tr valign="top">
         <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Acquisitions :
+            Acquisitions&nbsp;:
         </td>
         <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
             <%%objectives%%>
@@ -73,7 +85,7 @@ $string['template'] = '
     <%if %%showconcepts%% %>
     <tr valign="top">
         <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Concepts :
+            Concepts&nbsp;:
         </td>
         <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
             <%%concepts%%>
@@ -93,7 +105,7 @@ $string['template'] = '
     <%if %%showteachingorganization%% %>
     <tr valign="top">
         <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Organisation de l\'enseignement :
+            Organisation de l\'enseignement&nbsp;:
         </td>
         <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
             <%%teachingorganization%%>
@@ -103,7 +115,7 @@ $string['template'] = '
     <%if %%showprerequisites%% %>
     <tr valign="top">
         <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Prérequis :
+            Prérequis&nbsp;:
         </td>
         <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
             <%%prerequisites%%>
@@ -113,7 +125,7 @@ $string['template'] = '
     <%if %%followers%% %>
     <tr valign="top">
         <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Cours suivants :
+            Cours suivants&nbsp;:
         </td>
         <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
             <%%followers%%>

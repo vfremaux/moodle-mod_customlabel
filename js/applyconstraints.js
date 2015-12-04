@@ -64,4 +64,3 @@ function applyconstraints(wwwroot, typestr, selector, targets) {
         }
     });
 }
-

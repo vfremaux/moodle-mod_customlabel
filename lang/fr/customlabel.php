@@ -92,3 +92,10 @@ $string['text'] = 'Texte';
 $string['content'] = 'Contenu ';
 
 $string['exportdata'] = 'Exporter les données';
+
+// Kown families
+$string['familystructure'] = 'Eléments de structure';
+$string['familygeneric'] = 'Eléments génériques';
+$string['familypedagogic'] = 'Eléments pédagogiques';
+$string['familymeta'] = 'Eléments méta';
+$string['familyspecial'] = 'Eléments spéciaux';

@@ -57,7 +57,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
         $qoptions = array();
         foreach ($labelclasses as $labelclass) {
-            $qoptions[$labelclass->id] = $labelclass->name;
+            $qoptions[$labelclass->family][$labelclass->id] = $labelclass->name;
         }
         asort($qoptions);
 
@@ -97,7 +97,21 @@ class mod_customlabel_mod_form extends moodleform_mod {
             $onchangeadvicestr = str_replace("'", "\'", get_string('changetypeadvice', 'customlabel'));
             // $mform->addElement('select', 'labelclass', get_string('labelclass', 'customlabel'), $qoptions, array('onchange' => "type_change_submit(this,'$onchangeadvicestr')", 'id' => 'menulabelclass'));
             $labelid = 0 + @$this->current->update;
-            $mform->addElement('select', 'labelclass', get_string('labelclass', 'customlabel'), $qoptions, array('onchange' => "type_change_submit('$onchangeadvicestr', '$COURSE->id', '$section', '$returntomod', '".sesskey()."', '".$labelid."')", 'id' => 'menulabelclass'));
+            $typeselect = & $mform->addElement('select', 'labelclass', get_string('labelclass', 'customlabel'), array(), array('onchange' => "type_change_submit('$onchangeadvicestr', '$COURSE->id', '$section', '$returntomod', '".sesskey()."', '".$labelid."')", 'id' => 'menulabelclass'));
+            foreach ($qoptions as $family => $options) {
+                if (!empty($family)) {
+                    if (!preg_match('/^\[.*\]$/', $family)) {
+                        $strkey = 'family'.$family;
+                        $familyname = get_string($strkey, 'customlabel');
+                        $typeselect->addOption('--- '.$familyname.' ---', '', array('disabled' => 'disabled'));
+                    } else {
+                        // Possible unclassified element. Should we notice that ?
+                    }
+                }
+                foreach ($options as $opt => $optlabel) {
+                    $typeselect->addOption($optlabel, $opt);
+                }
+            }
             $mform->setType('labelclass', PARAM_TEXT);
             $mform->setDefault('labelclass', 'text');
         } else {

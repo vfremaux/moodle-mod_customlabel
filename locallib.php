@@ -68,6 +68,8 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
                 $obj->id = $entry;
                 $classnames[] = $entry;
                 $obj->name = get_string('typename', 'customlabeltype_'.$entry);
+                $obj->family = get_string('family', 'customlabeltype_'.$entry);
+                if (empty($obj->family)) $obj->family = 'default';
                 $classes[] = $obj;
                 $classarr[$obj->id] = $obj->name;
             }
@@ -88,33 +90,6 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
 
     return $classes;
 }
-
-/**
- * get a suitable CSS for a class after checking it exists.
- * @param string $classname
- * @return a suitable url for getting this local sheet
- * @uses $CFG
- */
- /*
-function customlabel_get_stylesheet($classname) {
-    global $CFG, $PAGE;
-
-    $theme = $PAGE->theme->name;
-    $css = $CFG->themewww ."/{$theme}/customlabel/{$classname}/customlabel.css";
-    $cssloc = $CFG->dirroot."/theme/{$theme}/customlabel/{$classname}/customlabel.css";
-    if (file_exists($cssloc)) {
-        return $css;
-    }
-
-    $css = $CFG->wwwroot."/mod/customlabel/type/{$classname}/customlabel.css";
-    $cssloc = $CFG->dirroot ."/mod/customlabel/type/{$classname}/customlabel.css";
-    if (file_exists($cssloc)) {
-        return $css;
-    }
-
-    return '';
-}
-*/
 
 /**
  * makes an instance of the customlabel description object
