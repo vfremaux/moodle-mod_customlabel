@@ -10,4 +10,4 @@ $plugin->requires = 2014050800;
 $plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics)
 $plugin->cron     = 0; // Period for cron to check this module (secs)
 $plugin->maturity = MATURITY_STABLE; // Maturity
-$plugin->release = "2.7.0 (Build 2012062402)"; // Release
+$plugin->release = "2.7.0 (Build 2013041802)"; // Release

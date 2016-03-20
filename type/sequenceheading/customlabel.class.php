@@ -34,6 +34,7 @@ class customlabel_type_sequenceheading extends customlabel_type {
         $field = new StdClass;
         $field->name = 'shortdesc';
         $field->type = 'textarea';
+        $field->itemid = 0;
         $this->fields['shortdesc'] = $field;
 
         $field = new StdClass();

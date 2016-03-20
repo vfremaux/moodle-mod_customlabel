@@ -20,3 +20,7 @@
 .custombox-commentbox > p{
     /* display:inline; */
 }
+
+.custombox-commentbox.readmorelink {
+    text-align : right;
+}

@@ -6,3 +6,7 @@
 .custombox-text ul {
     margin-left:10px;
 }
+
+.custombox-text.readmorelink {
+    text-align : right;
+}

@@ -15,7 +15,7 @@ class customlabel_type_NEWTYPE extends customlabel_type{
         $this->type = 'NEWTYPE';
         $this->fields = array();
 
-        $field = new StdClass;        
+        $field = new StdClass;
         $field->name = 'smalltext';
         $field->type = 'textfield';
         $field->maxlength = 80;
@@ -24,6 +24,7 @@ class customlabel_type_NEWTYPE extends customlabel_type{
         unset($field);
         $field->name = 'parag';
         $field->type = 'textarea';
+        $field->itemid = 0;
         $field->rows = 5;
         $field->cols = 40;
         $this->fields['parag'] = $field;

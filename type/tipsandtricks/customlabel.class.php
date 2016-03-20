@@ -17,6 +17,7 @@ class customlabel_type_tipsandtricks extends customlabel_type{
         $field = new StdClass;
         $field->name = 'tipsandtricks';
         $field->type = 'textarea';
+        $field->itemid = 0;
         $this->fields['tipsandtricks'] = $field;
     }
 }

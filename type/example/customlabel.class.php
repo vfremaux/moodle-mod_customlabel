@@ -14,9 +14,10 @@ class customlabel_type_example extends customlabel_type{
         $this->type = 'example';
         $this->fields = array();
 
-        $field = new StdClass;        
+        $field = new StdClass;
         $field->name = 'example';
         $field->type = 'textarea';
+        $field->itemid = 0;
         $field->rows = 20;
         $this->fields['example'] = $field;
     }

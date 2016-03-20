@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod-customlabel
+ * @package mod_customlabel
  * @category mod
  * @author Valery Fremaux
  * @date 02/12/2007
@@ -58,13 +58,13 @@ class customlabel_type {
         if (empty($this->fields[$fieldname]->options)) {
             return array();
         }
-        
+
         if (is_string($this->fields[$fieldname]->options)) {
             $optionsource = explode(',', $this->fields[$fieldname]->options);
         } else {
             $optionsource = $this->fields[$fieldname]->options;
         }
-        
+
         // Get all code / translations for the option list.
         $options = array();
         foreach ($optionsource as $option) {
@@ -86,8 +86,8 @@ class customlabel_type {
                 $table = '{'.$field->table.'}';
                 $fieldname = $field->field;
                 $fieldkey = (empty($field->key)) ? 'id' : $field->key ;
-                $select = (!empty($field->select)) ? " WHERE {$field->select} " : '' ;
-                $ordering = (!empty($field->ordering)) ? " ORDER BY $field->ordering " : '' ;
+                $select = (!empty($field->select)) ? " WHERE {$field->select} " : '';
+                $ordering = (!empty($field->ordering)) ? " ORDER BY $field->ordering " : '';
                 $sql = "
                     SELECT
                         `$fieldkey`,
@@ -131,6 +131,42 @@ class customlabel_type {
         }
 
         return $options;
+    }
+
+    /**
+     * checks the visibility of the current instance.
+     */
+    public function is_visible($cm) {
+        $capability = 'customlabeltype/'.$this->type.':view';
+        $context = context_module::instance($cm->id);
+        return has_capability($capability, $context);
+    }
+
+    /**
+     * Given a course module supposed to be a courselabel, checks
+     * the visibility.
+     */
+    public static function module_is_visible($cm, $instance) {
+        global $DB;
+
+        $context = context_module::instance($cm->id);
+
+        if (!isloggedin() || is_guest($context)) {
+            // check capability to see on user role
+            $userrole = $DB->get_record('role', array('shortname' => 'guest'));
+            if (!$DB->get_record('role_capabilities', array('contextid' => context_system::instance()->id, 'roleid' => $userrole->id, 'capability' => 'customlabeltype/'.$instance->labelclass.':view', 'permission' => CAP_ALLOW))) {
+                // Set no chance to see anything from it.
+                // debug_trace("Fail CL {$instance->labelclass}:{$instance->id} on guest access in pageitem ");
+                return false;
+            }
+        } else {
+            if (!has_capability('customlabeltype/'.$instance->labelclass.':view', $context)) {
+                // debug_trace("Fail CL {$instance->labelclass}:{$instance->id} on guest access in pageitem ");
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -257,9 +293,9 @@ class customlabel_type {
             }
 
             if ($template) {
-                $contentlang = "<span class=\"multilang\" lang=\"$lang\" >";
+                $contentlang = '<span class="multilang" lang="'.$lang.'" >';
                 $contentlang .= $this->process_conditional($template);
-                $contentlang .= "</span>";
+                $contentlang .= '</span>';
                 if (!empty($this->data)) {
                     $CFG->multilang_target_language = $lang;
                     foreach ($this->data as $key => $value) {
@@ -283,9 +319,9 @@ class customlabel_type {
                     unset($CFG->multilang_target_language);
                 }
             } else {
-                $contentlang = "<span class=\"multilang\" lang=\"$multilang\" >";
+                $contentlang = '<span class="multilang" lang="'.$multilang.'" >';
                 $contentlang .= get_string('nocontentforthislanguage', 'customlabel');
-                $contentlang .= "</span>";
+                $contentlang .= '</span>';
             }
             $content .= $contentlang;
         }
@@ -562,7 +598,7 @@ class customlabel_type {
         $file = array_pop($files);
 
         $fileurl = moodle_url::make_pluginfile_url($file->get_contextid(), 'mod_customlabel', $file->get_filearea(),
-            0, $file->get_filepath(), $file->get_filename());
+            0 + @$field->itemid, $file->get_filepath(), $file->get_filename());
 
         if (empty($field->destination) || $field->destination == 'url') {
             return $fileurl;
@@ -581,5 +617,25 @@ class customlabel_type {
             $fieldlabel = get_string($field->name, 'customlabeltype_'.$this->type);
             return '<a href="'.$fileurl.'" title="'.$fieldlabel.'" alt="'.$fieldlabel.'" '.$classes.' />'.$file->get_filename().'</a>';
         }
+    }
+
+    function get_data($field) {
+        $internaldata = json_decode(base64_decode($this->data->content));
+        if (!array_key_exists($field, $this->fields)) {
+            return null;
+        }
+        return $internaldata->$field;
+    }
+
+    function update_data($field, $value) {
+        global $DB;
+
+        $internaldata = json_decode(base64_decode($this->data->content));
+        $internaldata->$field = $value;
+        $this->data->$field = $value;
+        $this->data->content = base64_encode(json_encode($internaldata));
+        $processedcontent = $this->make_content();
+        $this->data->processedcontent = $processedcontent;
+        $result = $DB->update_record('customlabel', $this->data);
     }
 }

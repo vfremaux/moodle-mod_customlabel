@@ -124,7 +124,7 @@ if ($types) {
         $link = "<a href=\"{$url}?view=qualifiers&typeid={$atype->id}\">{$atype->name}</a> ";
         $counturl = new moodle_url('/mod/customlabel/showclassified.php', array('typeid' => $atype->id));
         $coursecount = ($atype->courses) ? '<a href="'.$counturl.'">'.$atype->courses.' <img src="'.$OUTPUT->pix_url('/t/hide').'"></a>' : 0 ;
-        $table->data[] = array($link, get_string($atype->type, 'customlabel'), $atype->code, $atype->description, $coursecount, $cmds);
+        $table->data[] = array($link, get_string($atype->type, 'customlabel'), $atype->code, format_string($atype->description), $coursecount, $cmds);
         $i++;
     }
 

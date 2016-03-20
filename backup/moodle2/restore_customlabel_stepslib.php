@@ -21,13 +21,14 @@
  * @copyright 2010 onwards Valery Fremaux (valery.freamux@club-internet.fr)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
 /**
  * Define all the restore steps that will be used by the restore_url_activity_task
  */
 
 /**
- * Structure step to restore one vodeclic activity
+ * Structure step to restore one customlabel resource
  */
 class restore_customlabel_activity_structure_step extends restore_activity_structure_step {
 
@@ -48,6 +49,14 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
     protected function after_execute() {
         // Add customlabel related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_customlabel', 'safecontent', null);
+        $this->add_related_files('mod_customlabel', 'contentfiles', null);
+
+        $areas = customlabel_get_fileareas();
+        if (!empty($areas)) {
+            foreach ($areas as $a) {
+                $this->add_related_files('mod_customlabel', $a, null);
+            }
+        }
     }
 
     protected function process_customlabel($data) {

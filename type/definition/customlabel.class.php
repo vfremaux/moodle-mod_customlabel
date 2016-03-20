@@ -17,6 +17,7 @@ class customlabel_type_definition extends customlabel_type{
         $field = new StdClass;
         $field->name = 'definition';
         $field->type = 'textarea';
+        $field->itemid = 0;
         $field->rows = 20;
         $this->fields['definition'] = $field;
 
@@ -39,6 +40,7 @@ class customlabel_type_definition extends customlabel_type{
             $field = new StdClass;
             $field->name = 'subdef'.$i;
             $field->type = 'textarea';
+            $field->itemid = $i + 1;
             $field->size = 60;
             $this->fields['subdef'.$i] = $field;
         }

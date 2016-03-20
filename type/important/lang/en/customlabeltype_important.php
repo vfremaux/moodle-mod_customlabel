@@ -24,4 +24,5 @@ $string['template'] = '
         <%%importantnote%%>
     </td>
 </tr>
-</table>';
+</table>
+';
