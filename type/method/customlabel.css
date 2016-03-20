@@ -1,0 +1,37 @@
+table.custombox-method {
+   width: 100%;
+}
+
+td.custombox-header-thumb.method {
+   padding-right:8px;
+   border-right:1px solid #f00000 !important;
+}
+
+td.custombox-header-thumb.method {
+    min-width:25px;
+    width:25px;
+    background-image: url("/mod/customlabel/type/method/icon_method_small.png"); 
+    background-repeat: no-repeat;
+    height:73px;
+}
+
+#region-main td.custombox-header-thumb.method,
+#page-region-main td.custombox-header-thumb.method {
+    width:65px;
+    min-width:65px;
+    background-image: url("/mod/customlabel/type/method/icon_method.png"); 
+    background-repeat: no-repeat;
+    height:73px;
+}
+
+td.custombox-header-caption.method {
+    color:#DB3333;
+    font-weight:bolder;
+    font-size:1.3em;
+    padding-left:8px;
+}
+
+td.custombox-content.methodtext {
+    padding-left:8px;
+    min-height:100Px;
+}

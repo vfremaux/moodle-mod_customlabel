@@ -1,0 +1,37 @@
+table.custombox-information {
+   width: 100%;
+}
+
+td.custombox-header-thumb.information {
+   padding-right:8px;
+   border-right:1px solid #f00000 !important;
+}
+
+td.custombox-header-thumb.information {
+    min-width:25px;
+    width:25px;
+    background-image: url("/mod/customlabel/type/information/icon_information_small.png"); 
+    background-repeat: no-repeat;
+    height:73px;
+}
+
+#region-main td.custombox-header-thumb.information,
+#page-region-main td.custombox-header-thumb.information {
+    width:65px;
+    min-width:65px;
+    background-image: url("/mod/customlabel/type/information/icon_information.png"); 
+    background-repeat: no-repeat;
+    height:73px;
+}
+
+td.custombox-header-caption.information {
+    color:#DB3333;
+    font-weight:bolder;
+    font-size:1.3em;
+    padding-left:8px;
+}
+
+td.custombox-content.informationtext {
+    padding-left:8px;
+    min-height:100Px;
+}

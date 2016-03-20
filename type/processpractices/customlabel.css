@@ -1,0 +1,15 @@
+
+table.processpractices td.leftmargin {
+   background-color : #A8A8A8;
+   min-width:30px;
+}
+
+table.processpractices td.practicecontent {
+   padding-left: 25px;
+}
+
+table.processpractices td.practicecontent ul li {
+   font-size : 18px;
+   font-family : "verdana";
+   line-height : 1.4em;
+}

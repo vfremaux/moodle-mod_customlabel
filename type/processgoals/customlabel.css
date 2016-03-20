@@ -1,0 +1,15 @@
+
+div.content table.processgoals td.leftmargin {
+   background-color : #F9E300;
+   min-width:30px;
+}
+
+div.content table.processgoals td.goalcontent {
+   padding-left: 25px;
+}
+
+div.content table.processgoals td.goalcontent ul li {
+   font-size : 18px;
+   font-family : "verdana";
+   line-height : 1.4em;
+}
