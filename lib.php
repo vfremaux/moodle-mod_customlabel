@@ -355,9 +355,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
 
     // Load some js scripts once.
     if (!$customlabelscriptsloaded) {
-        if ($PAGE->state == moodle_page::STATE_BEFORE_HEADER) {
-            $PAGE->requires->jquery();
-        }
+        $PAGE->requires->jquery();
         $PAGE->requires->js('/mod/customlabel/js/custombox.js', true);
         $customlabelscriptsloaded = true;
     }

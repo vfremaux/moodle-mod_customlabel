@@ -15,22 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ *  Version details.
  *
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux (valery.fremaux@gmail.com)
+ * @copyright  2013 onwards Valery Fremaux (valery.fremaux@gmail.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->version  = 2016070100; // The current module version (Date: YYYYMMDDXX)
-$plugin->requires = 2015111100;
+$plugin->requires = 2016052300;
 $plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics)
-$plugin->cron     = 0; // Period for cron to check this module (secs)
 $plugin->maturity = MATURITY_STABLE; // Maturity
-$plugin->release = "3.0.0 (Build 2013041802)"; // Release
+$plugin->release = "3.1.0 (Build 2016070100)"; // Release
 
-// Non Moodle attributes.
-$plugin->codeincrement = '3.0.0000';
+// Not moodle attributes.
+$plugin->codeincrement = '3.1.0000';
