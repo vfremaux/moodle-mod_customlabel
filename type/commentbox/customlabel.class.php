@@ -38,7 +38,7 @@ class customlabel_type_commentbox extends customlabel_type{
         global $CFG;
 
         $customid = @$CFG->custom_unique_id + 1;
-        if ($this->data->initiallyvisible) {
+        if (@$this->data->initiallyvisible) {
             $this->data->initialstring = get_string('readless', 'customlabeltype_text');
         } else {
             $this->data->initialstring = get_string('readmore', 'customlabeltype_text');

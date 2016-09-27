@@ -18,8 +18,8 @@
  * @package    mod_customlabel
  * @category   mod
  * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  */
 
 require('../../config.php');
@@ -31,8 +31,10 @@ $view = optional_param('view', 'metadata', PARAM_ALPHA);
 
 $url = new moodle_url('/mod/customlabel/adminmetadata.php?view='.$view);
 $PAGE->navbar->add(get_string('administration'), '');
-$PAGE->navbar->add(get_string('modulenameplural', 'customlabel'), new moodle_url('/admin/settings.php?section=modsettingcustomlabel'));
-$PAGE->navbar->add(get_string('classification', 'customlabel'), new moodle_url('/mod/customlabel/adminmetadata.php'));
+$settingsurl = new moodle_url('/admin/settings.php', array('section' => 'modsettingcustomlabel'));
+$PAGE->navbar->add(get_string('modulenameplural', 'customlabel'), $settingsurl);
+$metaurl = new moodle_url('/mod/customlabel/adminmetadata.php');
+$PAGE->navbar->add(get_string('classification', 'customlabel'), $metaurl);
 $PAGE->navbar->add(get_string($view, 'customlabel'), $url);
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url($url);
@@ -46,37 +48,36 @@ $action = optional_param('what', '', PARAM_ALPHA);
 
 if (!preg_match("/classifiers|metadata|constraints|model/", $view)) $view = 'metadata';
 $tabname = get_string('classifiers', 'customlabel');
-$row[] = new tabobject('classifiers', $CFG->wwwroot."/mod/customlabel/adminmetadata.php?view=classifiers", $tabname);
-$tabname = get_string('classification', 'customlabel');
-$row[] = new tabobject('metadata', $CFG->wwwroot."/mod/customlabel/adminmetadata.php?view=metadata", $tabname);
+$taburl = new moodle_url('/mod/customlabel/adminmetadata.php', array('view' => 'classifiers'));
+$row[] = new tabobject('classifiers', $taburl, $tabname);
+$tabname = get_string('classificationvalues', 'customlabel');
+$taburl = new moodle_url('/mod/customlabel/adminmetadata.php', array('view' => 'metadata'));
+$row[] = new tabobject('metadata', $taburl, $tabname);
 $tabname = get_string('constraints', 'customlabel');
-$row[] = new tabobject('constraints', $CFG->wwwroot."/mod/customlabel/adminmetadata.php?view=constraints", $tabname);
+$taburl = new moodle_url('/mod/customlabel/adminmetadata.php', array('view' => 'constraints'));
+$row[] = new tabobject('constraints', $taburl, $tabname);
 $tabname = get_string('classificationmodel', 'customlabel');
-$row[] = new tabobject('model', $CFG->wwwroot."/mod/customlabel/adminmetadata.php?view=model", $tabname);
+$taburl = new moodle_url('/mod/customlabel/adminmetadata.php', array('view' => 'model'));
+$row[] = new tabobject('model', $taburl, $tabname);
 $tabrows[] = $row;
 $deferredheader .= print_tabs($tabrows, $view, '', '', true);
 
-// MVC debug
-// echo "[$view : $action]";
-
 switch ($view) {
     case 'classifiers':
-        include $CFG->dirroot.'/mod/customlabel/metadatatypes.php';
+        include($CFG->dirroot.'/mod/customlabel/metadatatypes.php';
         break;
 
     case 'metadata':
-        include $CFG->dirroot."/mod/customlabel/metadatavalues.php";
+        include($CFG->dirroot.'/mod/customlabel/metadatavalues.php');
         break;
 
     case 'constraints':
-        include $CFG->dirroot."/mod/customlabel/metadataconstraints.php";
+        include($CFG->dirroot.'/mod/customlabel/metadataconstraints.php');
         break;
 
     case 'model':
-        include $CFG->dirroot."/mod/customlabel/metadatamodel.php";
+        include($CFG->dirroot.'/mod/customlabel/metadatamodel.php');
         break;
-
 }
 
 echo $OUTPUT->footer();
-

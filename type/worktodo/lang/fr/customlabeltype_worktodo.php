@@ -12,6 +12,7 @@ $string['workmodefield'] = 'Modalité';
 $string['estimatedworktime'] = 'Durée estimée';
 $string['worktodo'] = 'Travail à effectuer';
 $string['linktomodule'] = 'Activité liée';
+$string['unassigned'] = '--- non assigné ---';
 
 // Qualifier values
 

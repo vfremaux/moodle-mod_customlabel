@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * @package mod_customlabel
  * @category mod
@@ -134,6 +136,31 @@ class customlabel_type {
     }
 
     /**
+     * Given a possibly list of values, get an array of ids
+     */
+    function get_current_options($options, $value, $multiple = false) {
+
+        if (is_array($value)) return $value;
+        if (is_object($value)) return (array)$value;
+
+        $result = array();
+        $optionsparts = preg_split('/; |<br\/>/', $value);
+        foreach ($optionsparts as $part) {
+            foreach ($options as $key => $val) {
+                if (trim($part) == $val) {
+                    if ($multiple) {
+                        $result[] = $key;
+                        break;
+                    } else {
+                        return $key;
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+
+    /**
      * checks the visibility of the current instance.
      */
     public function is_visible($cm) {
@@ -156,13 +183,15 @@ class customlabel_type {
             $userrole = $DB->get_record('role', array('shortname' => 'guest'));
             if (!$DB->get_record('role_capabilities', array('contextid' => context_system::instance()->id, 'roleid' => $userrole->id, 'capability' => 'customlabeltype/'.$instance->labelclass.':view', 'permission' => CAP_ALLOW))) {
                 // Set no chance to see anything from it.
-                // debug_trace("Fail CL {$instance->labelclass}:{$instance->id} on guest access in pageitem ");
+                // debug_trace("Fail CL {$instance->labelclass}:{$instance->id} on guest access ");
                 return false;
             }
         } else {
             if (!has_capability('customlabeltype/'.$instance->labelclass.':view', $context)) {
-                // debug_trace("Fail CL {$instance->labelclass}:{$instance->id} on guest access in pageitem ");
+                // debug_trace("Fail CL {$instance->labelclass}:{$instance->id} on access");
                 return false;
+            } else {
+                // debug_trace("Pass CL {$instance->labelclass}:{$instance->id} on access");
             }
         }
 
@@ -394,7 +423,7 @@ class customlabel_type {
     public function process_datasource_fields() {
         global $CFG;
         static $processed = false;
-        
+
         if ($processed) return;
 
         // Assembles multiple list answers.
@@ -402,7 +431,7 @@ class customlabel_type {
 
             // Check string domain if inexistant.
             $domain = (empty($field->domain)) ? 'customlabel' : $field->domain;
-            $sep = ($field->type == 'vdatasource') ? '<br/>' : ', ';
+            $sep = ($field->type == 'vdatasource') ? '<br/>' : '; ';
 
             if (preg_match("/datasource$/", $field->type)) {
                 if (@$field->multiple) {
@@ -415,6 +444,10 @@ class customlabel_type {
                     }
 
                     $valuearray = @$this->data->{$optionname};
+
+                    if (is_string($valuearray) && !empty($valuearray)) {
+                        $valuearray = explode(',', $valuearray);
+                    }
 
                     if (is_array($valuearray)) {
                         if (!empty($valuearray)) {
@@ -434,8 +467,15 @@ class customlabel_type {
                             }
                         }
                     } else {
-                        if (!empty($this->data->{$name})) {
-                            $this->data->{$name} = get_string($this->data->{$name}, 'customlabel');
+                        if ($field->source == 'dbfieldkeyed') {
+                            // fake a one value array
+                            $this->data->{$name} = implode($sep, $this->get_datasource_values($field, array($valuearray)));
+                        } else {
+                            if (!empty($this->data->{$name})) {
+                                $key = ''.$this->data->{$name};
+                                if (preg_match('/^_/', $key)) continue;
+                                $this->data->{$name} = get_string($key, 'customlabel');
+                            }
                         }
                     }
                 } else {

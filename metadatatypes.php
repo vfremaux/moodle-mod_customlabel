@@ -17,22 +17,20 @@
 /**
  *
  * @package    mod_customlabel
- * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @category   mod
+ * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  *
  * @see Acces from adminmetadata.php
  */
-
-if (!defined('MOODLE_INTERNAL')) {
-    die('Sorry, You cannot use this script this way');
-}
+defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/customlabel/forms/EditTypeForm.php');
 
-// Get parms.
-
 $type = optional_param('type', 0, PARAM_INT);
+
+$config = get_config('customlabel');
 
 // Get necessary data.
 
@@ -53,7 +51,7 @@ if (!$mform->is_cancelled()) {
 // Print page start (after controller).
 echo $deferredheader;
 
-$types = $DB->get_records($CFG->classification_type_table, null, 'sortorder');
+$types = $DB->get_records($config->classification_type_table, null, 'sortorder');
 
 echo $OUTPUT->heading(get_string('classifierstypes', 'customlabel'));
 // Make the type form.
@@ -64,7 +62,8 @@ $struseas = get_string('usedas', 'customlabel');
 $strdesc = get_string('description');
 $strcommands = get_string('commands', 'customlabel');
 $table = new html_table();
-$table->head = array("<b>$strname</b>", "<b>$struseas</b>", "<b>$strcode</b>", "<b>$strdesc</b>", "<b>$strcourses</b>", "<b>$strcommands</b>");
+$table->head = array("<b>$strname</b>", "<b>$struseas</b>", "<b>$strcode</b>", "<b>$strdesc</b>",
+                     "<b>$strcourses</b>", "<b>$strcommands</b>");
 $table->size = array('20%', '5%', '10%', '50%', '5%', '10%');
 $table->align = array('left', 'center', 'center', 'center', 'right');
 $table->width = '95%'; 
@@ -79,20 +78,20 @@ if ($types) {
     foreach ($types as $atype) {
 
         $sql = "
-            SELECT 
+            SELECT
                 COUNT(c.id)
             FROM
-                {{$CFG->classification_value_table}} v
+                {{$config->classification_value_table}} v
             LEFT JOIN
-                {{$CFG->course_metadata_table}} ccm
+                {{$config->course_metadata_table}} ccm
             ON
-                ccm.{$CFG->course_metadata_value_key} = v.id
+                ccm.{$config->course_metadata_value_key} = v.id
             LEFT JOIN
                 {course} c
             ON
-                c.id = ccm.{$CFG->course_metadata_course_key}
+                c.id = ccm.{$config->course_metadata_course_key}
             WHERE
-                v.{$CFG->classification_value_type_key} = ?
+                v.{$config->classification_value_type_key} = ?
         ";
         $atype->courses = $DB->count_records_sql($sql, array($atype->id));
 
@@ -123,8 +122,11 @@ if ($types) {
         }
         $link = "<a href=\"{$url}?view=qualifiers&typeid={$atype->id}\">{$atype->name}</a> ";
         $counturl = new moodle_url('/mod/customlabel/showclassified.php', array('typeid' => $atype->id));
-        $coursecount = ($atype->courses) ? '<a href="'.$counturl.'">'.$atype->courses.' <img src="'.$OUTPUT->pix_url('/t/hide').'"></a>' : 0 ;
-        $table->data[] = array($link, get_string($atype->type, 'customlabel'), $atype->code, format_string($atype->description), $coursecount, $cmds);
+        $coursecount = ($atype->courses) ?
+            '<a href="'.$counturl.'">'.$atype->courses.' <img src="'.$OUTPUT->pix_url('/t/hide').'"></a>' :
+            0;
+        $typestr = get_string($atype->type, 'customlabel');
+        $table->data[] = array($link, $typestr, $atype->code, format_string($atype->description), $coursecount, $cmds);
         $i++;
     }
 
@@ -138,5 +140,7 @@ echo $OUTPUT->box_start('addform');
 if (isset($data)) {
     $mform->set_data($data);
 }
+
 $mform->display();
+
 echo $OUTPUT->box_end();

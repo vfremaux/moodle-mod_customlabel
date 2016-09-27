@@ -11,7 +11,7 @@ function customlabel_get_candidate_modules() {
     }
 
     $modinfo = get_fast_modinfo($COURSE);
-    $modules = array();
+    $modules = array('0' => get_string('unassigned', 'customlabeltype_worktodo'));
 
     foreach ($modinfo->get_cms() as $cminfo) {
         if (!$cminfo->visible) continue;

@@ -12,6 +12,7 @@ $string['workeffortfield'] = 'Work effort';
 $string['workmodefield'] = 'Work mode';
 $string['estimatedworktime'] = 'Estimated time';
 $string['linktomodule'] = 'Related Activity Module';
+$string['unassigned'] = '--- unassigned ---';
 
 $string['family'] = 'pedagogic';
 

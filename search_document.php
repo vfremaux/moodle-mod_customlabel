@@ -1,40 +1,52 @@
 <?php
-/**
-* Global Search Engine for Moodle
-*
-* @package customlabel
-* @category mod
-* @subpackage document_wrappers
-* @author Valery Fremaux [valery.fremaux@club-internet.fr] > 1.9
-* @date 2008/03/31
-* @license http://www.gnu.org/copyleft/gpl.html GNU Public License
-*
-* document handling for all resources
-* This file contains the mapping between a resource and it's indexable counterpart,
-*
-* Functions for iterating and retrieving the necessary records are now also included
-* in this file, rather than mod/resource/lib.php
-*/
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-* requires and includes
-*/
+ * Global Search Engine for Moodle
+ *
+ * @package customlabel
+ * @category mod
+ * @subpackage document_wrappers
+ * @author Valery Fremaux [valery.fremaux@club-internet.fr] > 1.9
+ * @date 2008/03/31
+ * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
+ *
+ * document handling for all resources
+ * This file contains the mapping between a resource and it's indexable counterpart,
+ *
+ * Functions for iterating and retrieving the necessary records are now also included
+ * in this file, rather than mod/resource/lib.php
+ */
+
 require_once("$CFG->dirroot/local/search/documents/document.php");
 require_once("$CFG->dirroot/mod/customlabel/locallib.php");
 
 /**
-* constants for document definition
-*/
+ * constants for document definition
+ */
 define('X_SEARCH_TYPE_CUSTOMLABEL', 'customlabel');
 
-/* *
-* a class for representing searchable information
-* 
-*/
+/**
+ * a class for representing searchable information
+ *
+ */
 class CustomLabelSearchDocument extends SearchDocument {
 
     public function __construct(&$customlabel, &$class, $context_id) {
-        // generic information; required
+        // Generic information; required.
         $doc = new StdClass();
         $doc->docid     = $customlabel['course'];
         $doc->documenttype = X_SEARCH_TYPE_CUSTOMLABEL;
@@ -44,16 +56,17 @@ class CustomLabelSearchDocument extends SearchDocument {
         $doc->date      = $customlabel['timemodified'];
         $doc->author    = '';
         $doc->contents  = strip_tags($customlabel['name']);
-        // echo "indexing ".strip_tags($customlabel['name']);
         $doc->url       = customlabel_make_link($customlabel['course']);
 
-        // module specific information : extract fields from serialized content. Add those who are
-        // lists as keyfields
+        /*
+         * module specific information : extract fields from serialized content. Add those who are
+         * lists as keyfields
+         */
         $content = json_decode(base64_decode($customlabel['processedcontent']));
 
         $additionalKeys = NULL;
 
-        // scan field and get as much searchable fields
+        // Scan field and get as much searchable fields.
         foreach ($class->fields as $afield) {
             if (preg_match("/list$/", $afield->type)) {
                 if (!isset($afield->multiple)) {
@@ -64,46 +77,48 @@ class CustomLabelSearchDocument extends SearchDocument {
                 }
             }
         }
-        // construct the parent class
+
         parent::__construct($doc, $data, $customlabel['course'], 0, 0, 'mod/'.X_SEARCH_TYPE_CUSTOMLABEL, $additionalKeys);
     } //constructor
 }
 
 /**
-* constructs valid access links to information
-* @param resourceId the of the resource 
-* @return a full featured link element as a string
-*/
+ * constructs valid access links to information
+ * @param resourceId the of the resource 
+ * @return a full featured link element as a string
+ */
 function customlabel_make_link($course_id) {
     global $CFG;
     return $CFG->wwwroot.'/course/view.php?id='.$course_id;
 }
 
 /**
-* part of standard API
-*
-*/
+ * part of standard API
+ *
+ */
 function customlabel_iterator() {
     global $DB;
-    //trick to leave search indexer functionality intact, but allow
-    //this document to only use the below function to return info
-    //to be searched
+    /*
+     * trick to leave search indexer functionality intact, but allow
+     * this document to only use the below function to return info
+     * to be searched
+     */
     $labels = $DB->get_records('customlabel');
     return $labels;
 }
 
 /**
-* part of standard API
-* this function does not need a content iterator, returns all the info
-* itself;
-* @param notneeded to comply API, remember to fake the iterator array though
-* @uses CFG
-* @return an array of searchable documents
-*/
+ * part of standard API
+ * this function does not need a content iterator, returns all the info
+ * itself;
+ * @param notneeded to comply API, remember to fake the iterator array though
+ * @uses CFG
+ * @return an array of searchable documents
+ */
 function customlabel_get_content_for_index(&$customlabel) {
     global $CFG, $DB;
 
-    // starting with Moodle native resources
+    // Starting with Moodle native resources.
     $documents = array();
 
     $coursemodule = $DB->get_field('modules', 'id', array('name' => 'customlabel'));
@@ -121,11 +136,11 @@ function customlabel_get_content_for_index(&$customlabel) {
 }
 
 /**
-* part of standard API.
-* returns a single resource search document based on a label id
-* @param id the id of the accessible document
-* @return a searchable object or null if failure
-*/
+ * part of standard API.
+ * returns a single resource search document based on a label id
+ * @param id the id of the accessible document
+ * @return a searchable object or null if failure
+ */
 function customlabel_single_document($id, $itemtype) {
     global $CFG, $DB;
 
@@ -142,28 +157,26 @@ function customlabel_single_document($id, $itemtype) {
 }
 
 /**
-* dummy delete function that aggregates id with itemtype.
-* this was here for a reason, but I can't remember it at the moment.
-*
-*/
+ * dummy delete function that aggregates id with itemtype.
+ * this was here for a reason, but I can't remember it at the moment.
+ */
 function customlabel_delete($info, $itemtype) {
     $object->id = $info;
     $object->itemtype = $itemtype;
     return $object;
-} //resource_delete
+}
 
 /**
-* returns the var names needed to build a sql query for addition/deletions
-*
-*/
+ * returns the var names needed to build a sql query for addition/deletions
+ *
+ */
 function customlabel_db_names() {
-    //[primary id], [table name], [time created field name], [time modified field name], [docsubtype], [additional where conditions for sql]
     return array(array('id', 'customlabel', 'timemodified', 'timemodified', 'customlabel', ''));
 }
 
 /**
-* customlabel points actually the complete course content and not the customlabel item
-*/
+ * customlabel points actually the complete course content and not the customlabel item
+ */
 function customlabel_search_get_objectinfo($itemtype, $this_id, $context_id = null) {
     global $DB;
 
@@ -174,7 +187,7 @@ function customlabel_search_get_objectinfo($itemtype, $this_id, $context_id = nu
         $info->context = $DB->get_record('context', array('id' => $context_id));
         $info->cm = $DB->get_record('course_modules', array('id' => $info->context->instanceid));
     } else {
-        // this case IS NOT consistant for extracting object information
+        // This case IS NOT consistant for extracting object information.
         return false;
     }
     $info->instance = $course;
@@ -187,36 +200,40 @@ function customlabel_search_get_objectinfo($itemtype, $this_id, $context_id = nu
 }
 
 /**
-* this function handles the access policy to contents indexed as searchable documents. If this 
-* function does not exist, the search engine assumes access is allowed.
-* @param path the access path to the module script code
-* @param itemtype the information subclassing (usefull for complex modules, defaults to 'standard')
-* @param this_id the item id within the information class denoted by itemtype. In resources, this id 
-* points to the resource record and not to the module that shows it.
-* @param user the user record denoting the user who searches
-* @param group_id the current group used by the user when searching
-* @return true if access is allowed, false elsewhere
-*/
-function customlabel_check_text_access($path, $itemtype, $this_id, $user, $group_id, $context_id) {
+ * handles the access policy to contents indexed as searchable documents. If this
+ * function does not exist, the search engine assumes access is allowed.
+ * @param path the access path to the module script code
+ * @param itemtype the information subclassing (usefull for complex modules, defaults to 'standard')
+ * @param this_id the item id within the information class denoted by itemtype. In resources, this id
+ * points to the resource record and not to the module that shows it.
+ * @param user the user record denoting the user who searches
+ * @param group_id the current group used by the user when searching
+ * @return true if access is allowed, false elsewhere
+ */
+function customlabel_check_text_access($path, $itemtype, $thisid, $user, $groupid, $contextid) {
     global $CFG;
 
-    // $this_id binds to $course->id, but course check where already performed
-    if (!$info = customlabel_search_get_objectinfo($itemtype, $this_id, $context_id)) return false;
+    // this_id binds to $course->id, but course check where already performed
+    if (!$info = customlabel_search_get_objectinfo($itemtype, $thisid, $contextid)) {
+        return false;
+    }
     $cm = $info->cm;
     $context = $info->context;
     $instance = $info->instance;
-    //check if found course module is visible
-    // we cannot consider a content in hidden labels 
-    if (!$cm->visible and !has_capability('moodle/course:viewhiddenactivities', $context)) {
+    /*
+     * check if found course module is visible
+     * we cannot consider a content in hidden labels
+     */
+    if (!$cm->visible && !has_capability('moodle/course:viewhiddenactivities', $context)) {
         return false;
     }
     return true;
 }
 
 /**
-* post processes the url for cleaner output.
-* @param string $title
-*/
+ * post processes the url for cleaner output.
+ * @param string $title
+ */
 function customlabel_link_post_processing($title) {
     global $CFG;
 

@@ -15,13 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod-customlabel
- * @category mod
- * @author Valery Fremaux for Pairformance/TAO
- * @date 15/07/2008
+ * @package    mod_customlabel
+ * @category   mod
+ * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  *
  * TODO : check if there is not a legacy post install function in module API
  */
+
+defined('MOODLE_INTERNAL') || die();
+
 if (!isset($CFG->classification_type_table)) {
     set_config('classification_type_table', 'customlabel_mtd_type');
     set_config('classification_value_table', 'customlabel_mtd_value');
@@ -51,19 +55,31 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
 
     $classnames = array();
     if (empty($classes)) {
-        $basetypedir = $CFG->dirroot."/mod/customlabel/type";
+        $basetypedir = $CFG->dirroot.'/mod/customlabel/type';
 
-        // these may be disabled from config.php setup
+        // These may be disabled from config.php setup.
         $disabledtypes = @$config->disabled;
 
         $classdir = opendir($basetypedir);
         while ($entry = readdir($classdir)) {
-            if (preg_match("/^[.!]/", $entry)) continue; // Ignore what needs to be ignored.
-            if (!is_dir($basetypedir.'/'.$entry)) continue; // Ignore real files.
-            if (preg_match('/^CVS$/', $entry)) continue; // Ignore versionning files.
-            if ($entry == 'NEWTYPE') continue; // Discard plugin prototype.
-            if ($ignoredisabled && preg_match('/\\b'.$entry.'\\b/', $disabledtypes)) continue;
-            if (!is_null($context) && (has_capability('customlabeltype/'.$entry.':addinstance', $context) || ($context->contextlevel == CONTEXT_SYSTEM))) {
+            if (preg_match("/^[.!]/", $entry)) {
+                continue; // Ignore what needs to be ignored.
+            }
+            if (!is_dir($basetypedir.'/'.$entry)) {
+                continue; // Ignore real files.
+            }
+            if (preg_match('/^CVS$/', $entry)) {
+                continue; // Ignore versionning files.
+            }
+            if ($entry == 'NEWTYPE') {
+                continue; // Discard plugin prototype.
+            }
+            if ($ignoredisabled && preg_match('/\\b'.$entry.'\\b/', $disabledtypes)) {
+                continue;
+            }
+            if (!is_null($context) &&
+                    (has_capability('customlabeltype/'.$entry.':addinstance', $context) ||
+                            ($context->contextlevel == CONTEXT_SYSTEM))) {
                 $obj = new StdClass;
                 $obj->id = $entry;
                 $classnames[] = $entry;
@@ -100,16 +116,24 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
 function customlabel_get_fileareas() {
     global $CFG;
 
-    $basetypedir = $CFG->dirroot."/mod/customlabel/type";
+    $basetypedir = $CFG->dirroot.'/mod/customlabel/type';
 
     $areas = array();
 
     $classdir = opendir($basetypedir);
     while ($entry = readdir($classdir)) {
-        if (preg_match("/^[.!]/", $entry)) continue; // Ignore what needs to be ignored.
-        if (!is_dir($basetypedir.'/'.$entry)) continue; // Ignore real files.
-        if (preg_match('/^CVS$/', $entry)) continue; // Ignore versionning files.
-        if ($entry == 'NEWTYPE') continue; // Discard plugin prototype.
+        if (preg_match("/^[.!]/", $entry)) {
+            continue; // Ignore what needs to be ignored.
+        }
+        if (!is_dir($basetypedir.'/'.$entry)) {
+            continue; // Ignore real files.
+        }
+        if (preg_match('/^CVS$/', $entry)) {
+            continue; // Ignore versionning files.
+        }
+        if ($entry == 'NEWTYPE') {
+            continue; // Discard plugin prototype.
+        }
         require_once($basetypedir.'/'.$entry.'/customlabel.class.php');
         $classname = 'customlabel_type_'.$entry;
         $class = new $classname(null);
@@ -251,7 +275,7 @@ function customlabel_save_draft_file(&$customlabel, $filearea) {
  * @param array $options text and file options ('forcehttps'=>false)
  * @return string the processed text.
  */
-function customlabel_file_rewrite_pluginfile_urls($text, $file, $contextid, $component, $filearea, $itemid, array $options=null) {
+function customlabel_file_rewrite_pluginfile_urls($text, $file, $contextid, $component, $filearea, $itemid, array $options = null) {
     global $CFG;
 
     $options = (array)$options;
@@ -299,19 +323,22 @@ function customlabel_file_rewrite_urls_to_pluginfile($text, $draftitemid, $field
         $wwwroot = str_replace('http://', 'https://', $wwwroot);
     }
 
-    // relink embedded files if text submitted - no absolute links allowed in database!
-    $text = str_ireplace("$wwwroot/draftfile.php/$usercontext->id/user/draft/$draftitemid/", '@@PLUGINFILE::'.$fielditemid.'@@/', $text);
+    // Relink embedded files if text submitted - no absolute links allowed in database!
+    $pattern = "!$wwwroot/draftfile.php/$usercontext->id/user/draft/$draftitemid/!i";
+    $text = preg_replace($pattern, '@@PLUGINFILE::'.$fielditemid.'@@/', $text);
 
     if (strpos($text, 'draftfile.php?file=') !== false) {
         $matches = array();
-        preg_match_all("!$wwwroot/draftfile.php\?file=%2F{$usercontext->id}%2Fuser%2Fdraft%2F{$draftitemid}%2F[^'\",&<>|`\s:\\\\]+!iu", $text, $matches);
+        $pattern = "!$wwwroot/draftfile.php\?file=%2F{$usercontext->id}%2Fuser%2Fdraft%2F{$draftitemid}%2F[^'\",&<>|`\s:\\\\]+!iu";
+        preg_match_all($pattern, $text, $matches);
         if ($matches) {
             foreach ($matches[0] as $match) {
                 $replace = str_ireplace('%2F', '/', $match);
                 $text = str_replace($match, $replace, $text);
             }
         }
-        $text = str_ireplace("$wwwroot/draftfile.php?file=/$usercontext->id/user/draft/$draftitemid/", '@@PLUGINFILE::'.$fielditemid.'@@/', $text);
+        $pattern= "!$wwwroot/draftfile.php?file=/$usercontext->id/user/draft/$draftitemid/!i";
+        $text = preg_replace($pattern, '@@PLUGINFILE::'.$fielditemid.'@@/', $text);
     }
 
     return $text;
@@ -336,7 +363,7 @@ function customlabel_regenerate(&$customlabel, $labelclassname, &$course) {
         $data = new StdClass;
     }
     if (!is_object($data)) {
-        $data = new StdClass; // reset old serialized data
+        $data = new StdClass; // Reset old serialized data.
     };
 
     // Realize a pseudo update.
@@ -375,7 +402,8 @@ function customlabel_course_regenerate(&$course, $labelclasses = '') {
 
     foreach ($labelclasses as $labelclassname) {
         mtrace("   processing class '$labelclassname'");
-        $customlabels = $DB->get_records_select('customlabel', " course = ? AND labelclass = ? ", array($course->id, $labelclassname));
+        $select = " course = ? AND labelclass = ? ";
+        $customlabels = $DB->get_records_select('customlabel', $select, array($course->id, $labelclassname));
         if ($customlabels) {
             foreach ($customlabels as $customlabel) {
                 customlabel_regenerate($customlabel, $labelclassname, $course);

@@ -10,3 +10,21 @@
 .customlabel.label {
     font-weight:initial;
 }
+
+.constraint-cell {
+    text-align:center;
+}
+
+.constraint-cell.included select {
+    color:#800000;
+    background-color:#FFA0A0;
+}
+
+.constraint-cell.included select {
+    color:#008000;
+    background-color:#A0FFA0;
+}
+
+.constraint-form-table td {
+    padding: 5px;
+}

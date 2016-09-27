@@ -17,7 +17,7 @@
 /**
  * this page is a proxy to course/mod.php in order to setup
  * a potential customlabel type change in session memory so passing
- * thru the standard modedit.php path.
+ * through the standard modedit.php path.
  */
 require('../../config.php');
 
@@ -30,5 +30,6 @@ require_sesskey();
 
 $SESSION->customlabel = new StdClass();
 $SESSION->customlabel->update_type_change = $labelclass;
-$redirect = new moodle_url('/course/modedit.php', array('update' => $update, 'sr' => $sectionreturn, 'sesskey' => sesskey(), 'type' => $labelclass));
+$params = array('update' => $update, 'sr' => $sectionreturn, 'sesskey' => sesskey(), 'type' => $labelclass);
+$redirect = new moodle_url('/course/modedit.php', $params);
 redirect($redirect);

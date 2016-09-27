@@ -53,19 +53,30 @@ require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
  */
 function customlabel_supports($feature) {
     switch ($feature) {
-        case FEATURE_IDNUMBER:                return false;
-        case FEATURE_GROUPS:                  return false;
-        case FEATURE_GROUPINGS:               return false;
-        case FEATURE_GROUPMEMBERSONLY:        return true;
-        case FEATURE_MOD_INTRO:               return false;
-        case FEATURE_COMPLETION_TRACKS_VIEWS: return false;
-        case FEATURE_GRADE_HAS_GRADE:         return false;
-        case FEATURE_GRADE_OUTCOMES:          return false;
-        case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_RESOURCE;
-        case FEATURE_BACKUP_MOODLE2:          return true;
-        case FEATURE_NO_VIEW_LINK:            return true;
-
-        default: return null;
+        case FEATURE_IDNUMBER:
+            return false;
+        case FEATURE_GROUPS:
+            return false;
+        case FEATURE_GROUPINGS:
+            return false;
+        case FEATURE_GROUPMEMBERSONLY:
+            return true;
+        case FEATURE_MOD_INTRO:
+            return false;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:
+            return false;
+        case FEATURE_GRADE_HAS_GRADE:
+            return false;
+        case FEATURE_GRADE_OUTCOMES:
+            return false;
+        case FEATURE_MOD_ARCHETYPE:
+            return MOD_ARCHETYPE_RESOURCE;
+        case FEATURE_BACKUP_MOODLE2:
+            return true;
+        case FEATURE_NO_VIEW_LINK:
+            return true;
+        default:
+            return null;
     }
 }
 
@@ -78,7 +89,7 @@ function customlabel_get_name($customlabel) {
     $name = format_string($customlabel->name, true);
 
     if (empty($name)) {
-        // arbitrary name
+        // Arbitrary name.
         $name = get_string('modulename','customlabel');
     }
 
@@ -86,10 +97,12 @@ function customlabel_get_name($customlabel) {
 }
 
 /**
- * Given an object containing all the necessary data, 
- * (defined by the form in mod.html) this function 
- * will create a new instance and return the id number 
+ * Given an object containing all the necessary data,
+ * (defined by the form in mod.html) this function
+ * will create a new instance and return the id number
  * of the new instance.
+ * @param object $customlabel
+ * @return int instance id when created
  */
 function customlabel_add_instance($customlabel) {
     global $CFG, $DB;
@@ -114,12 +127,21 @@ function customlabel_add_instance($customlabel) {
         }
 
         if ($field->type == 'date') {
-            $timestamp = mktime(0,0,0,$customlabel->{$field->name}['month'], $customlabel->{$field->name}['day'], $customlabel->{$field->name}['year']);
+            $m = $customlabel->{$field->name}['month'];
+            $d = $customlabel->{$field->name}['day'];
+            $y = $customlabel->{$field->name}['year'];
+            $timestamp = mktime(0, 0, 0, $m, $d, $y);
             $customlabel->{$field->name} = $timestamp;
         }
 
         if ($field->type == 'datetime') {
-            $timestamp = mktime($customlabel->{$field->name}['hour'],$customlabel->{$field->name}['min'],$customlabel->{$field->name}['sec'],$customlabel->{$field->name}['month'], $customlabel->{$field->name}['day'], $customlabel->{$field->name}['year']);
+            $h = $customlabel->{$field->name}['hour'];
+            $m = $customlabel->{$field->name}['min'];
+            $s = $customlabel->{$field->name}['sec'];
+            $mo = $customlabel->{$field->name}['month'];
+            $d = $customlabel->{$field->name}['day'];
+            $y = $customlabel->{$field->name}['year'];
+            $timestamp = mktime($h, $m, $s, $mo, $d, $y);
             $customlabel->{$field->name} = $timestamp;
         }
 
@@ -132,7 +154,8 @@ function customlabel_add_instance($customlabel) {
             }
             // Saves all embdeded images or files into elements in a single text area.
             file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
-            $customlabel->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($editordata['text'], $editordata['itemid'], $field->itemid);
+            $t = $editordata['text'];
+            $customlabel->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($t, $editordata['itemid'], $field->itemid);
         }
 
         if ($field->type == 'filepicker') {
@@ -143,12 +166,14 @@ function customlabel_add_instance($customlabel) {
         unset($customlabel->{$fieldname});
     }
 
-    // this saves into readable data information about which legacy type to use
-    // if this record is restored on a platform that do not implement the actual labelclass.
+    /*
+     * this saves into readable data information about which legacy type to use
+     * if this record is restored on a platform that do not implement the actual labelclass.
+     */
     $customlabel->fallbacktype = ''.@$instance->fallbacktype;
 
     $customlabel->content = base64_encode(json_encode($customlabeldata));
-    $instance->data = $customlabeldata; // load data into instance
+    $instance->data = $customlabeldata; // Load data into instance.
     $customlabel->processedcontent = $instance->make_content();
     $customlabel->timemodified = time();
     return $DB->insert_record('customlabel', $customlabel);
@@ -160,9 +185,9 @@ function customlabel_add_instance($customlabel) {
  * will update an existing instance with new data.
  */
 function customlabel_update_instance($customlabel) {
-    global $CFG, $USER, $DB;
+    global $CFG, $DB;
 
-    // check if type changed
+    // Check if type changed.
     $oldinstance = $DB->get_record('customlabel', array('id' => $customlabel->instance));
     $typechanged = false;
 
@@ -222,14 +247,20 @@ function customlabel_update_instance($customlabel) {
         $customlabeldata->{$field->name} = @$customlabel->{$field->name};
         unset($customlabel->{$field->name});
 
-        if ($field->type == 'vdatasource') {
+        if (preg_match('/datasource$/', $field->type)) {
             $fieldoption = $field->name.'option';
-            $customlabeldata->{$fieldoption} = @$customlabel->{$fieldoption};
+            if (!empty($field->multiple)) {
+                if (!empty($customlabel->{$fieldoption})) {
+                    $customlabeldata->{$fieldoption} = implode(',', $customlabel->{$fieldoption});
+                }
+            } else {
+                $customlabeldata->{$fieldoption} = @$customlabel->{$fieldoption};
+            }
             unset($customlabel->{$fieldoption});
         }
 
         if ($field->type == 'list') {
-            $customlabeldata->{$field->name} = $_POST[$field->name]; // odd thing when bouncing
+            $customlabeldata->{$field->name} = $_POST[$field->name]; // Odd thing when bouncing.
         }
     }
 
@@ -353,6 +384,8 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         }
     }
 
+    // debug_trace('standard view for CL '.$cminfo->id. '=> '.$cminfo->instance);
+
     // Apply role restriction here.
     if ($customlabel = $DB->get_record('customlabel', array('id' => $cminfo->instance))) {
 
@@ -374,24 +407,11 @@ function customlabel_cm_info_dynamic(&$cminfo) {
 
         $instance = customlabel_load_class($customlabel, true);
 
-        if (!isloggedin() || is_guest($context)) {
-            // check capability to see on user role
-            $userrole = $DB->get_record('role', array('shortname' => 'guest'));
-            if (!$DB->get_record('role_capabilities', array('contextid' => context_system::instance()->id, 'roleid' => $userrole->id, 'capability' => 'customlabeltype/'.$customlabel->labelclass.':view', 'permission' => CAP_ALLOW))) {
-                // Set no chance to see anything from it.
-                $cminfo->set_no_view_link();
-                $cminfo->set_content('');
-                $cminfo->set_user_visible(false);
-                return;
-            }
-        } else {
-            if (!has_capability('customlabeltype/'.$customlabel->labelclass.':view', $cminfo->context)) {
-                // Set no chance to see anything from it.
-                $cminfo->set_no_view_link();
-                $cminfo->set_content('');
-                $cminfo->set_user_visible(false);
-                return;
-            }
+        if (!customlabel_type::module_is_visible($cminfo, $customlabel)) {
+            $cminfo->set_no_view_link();
+            $cminfo->set_content('');
+            $cminfo->set_user_visible(false);
+            return;
         }
 
         $context = context_module::instance($cminfo->id);
@@ -466,8 +486,8 @@ function customlabel_reset_userdata($data) {
  *
  */
 function customlabel_get_xml($clid) {
-    global $CFG, $DB;
-    
+    global $DB;
+
     if ($customlabel = $DB->get_record('customlabel', array('id' => "$clid"))) {
         $content = json_decode(base64_decode($customlabel->content));
         $xml = "<datablock>\n";
@@ -496,7 +516,7 @@ function customlabel_get_xml($clid) {
  * @param $cmid, an alternative to give directly the course module id
  */
 function customlabel_is_hidden_byrole(&$block, $cmid = 0) {
-    global $COURSE, $CFG, $USER, $DB;
+    global $COURSE, $USER, $DB;
 
     // Some admin situation needs view all.
     if (has_capability('moodle/site:config', context_system::instance(), $USER->id, false)) {
@@ -505,7 +525,7 @@ function customlabel_is_hidden_byrole(&$block, $cmid = 0) {
 
     $capability = 'customlabeltype/'.$customlabel->labelclass.':view';
 
-    // Trap the unlogged or guest case
+    // Trap the unlogged or guest case.
     $guestrole = $DB->get_record('roles', array('name' => 'guest'));
     if ($rolesforcap = get_roles_with_capability($capability, CAP_ALLOW)) {
         $allowedroleids = array_keys($rolesforcap);
@@ -542,8 +562,10 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
     }
 
     if ($course->format == 'page') {
-        // In page format, some pages may not require login. Just check the customlabel
-        // is accessible to the user (no mater pages are or not).
+        /*
+         * In page format, some pages may not require login. Just check the customlabel
+         * is accessible to the user (no mater pages are or not).
+         */
         require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
         if (!customlabel_type::module_is_visible($cm, $customlabel)) {
             return false;
@@ -557,16 +579,16 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
     $fs = get_file_storage();
     $relativepath = implode('/', $args);
     $fullpath = "/$context->id/mod_customlabel/{$filearea}/$relativepath";
-    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
+    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) || $file->is_directory()) {
         return false;
     }
 
     // Nasty hack because we do not have file revisions in customlabels yet.
     $lifetime = 0 + @$CFG->filelifetime;
-    if ($lifetime > 60*10) {
-        $lifetime = 60*10;
+    if ($lifetime > 60 * 10) {
+        $lifetime = 60 * 10;
     }
 
-    // finally send the file
+    // Finally send the file.
     send_stored_file($file, $lifetime, 0, $forcedownload, $options);
 }

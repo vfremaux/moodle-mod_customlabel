@@ -3,7 +3,7 @@
 $string['instructions:view'] = 'Peut voir le contenu';
 $string['instructions:addinstance'] = 'Peut ajouter une instance';
 
-$string['pluginname'] = 'Elément de cours : Instrutions';
+$string['pluginname'] = 'Elément de cours : Instructions';
 $string['typename'] = 'Instructions';
 $string['configtypename'] = 'Active le type Instructions';
 $string['instructions'] = 'Texte de l\'instructions';
