@@ -63,7 +63,7 @@ if ($alltypes) {
 $form = new customlabel_updateall_form($url, array('courses' => $allcourses, 'types' => $types));
 
 if ($form->is_cancelled()) {
-    redirect(new moodle_url('/admin/settings.php', array('section' => 'modsettingcustomlabel'));
+    redirect(new moodle_url('/admin/settings.php', array('section' => 'modsettingcustomlabel')));
 }
 
 echo $OUTPUT->header();

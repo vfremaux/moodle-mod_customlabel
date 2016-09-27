@@ -50,7 +50,7 @@ class customlabeltype extends base {
             if (empty($conf->value)) {
                 continue;
             }
-            list($type, $name) = explode('_', $conf->plugin, 2);
+            list($unused, $name) = explode('_', $conf->plugin, 2);
             unset($plugins[$name]);
         }
 
@@ -79,8 +79,6 @@ class customlabeltype extends base {
      * @private
      */
     public function uninstall_cleanup() {
-        global $DB;
-
         parent::uninstall_cleanup();
     }
 
@@ -95,11 +93,12 @@ class customlabeltype extends base {
      * Alternatively it can create a link to some settings page (instance of admin_externalpage)
      *
      * @param \part_of_admin_tree $adminroot
-     * @param string $parentnodename
+     * @param string $unused Not used
      * @param bool $hassiteconfig whether the current user has moodle/site:config capability
      */
-    public function load_settings(\part_of_admin_tree $adminroot, $parentnodename, $hassiteconfig) {
+    public function load_settings(\part_of_admin_tree $adminroot, $unused, $hassiteconfig) {
         global $CFG, $USER, $DB, $OUTPUT, $PAGE; // In case settings.php wants to refer to them.
+
         $ADMIN = $adminroot; // May be used in settings.php.
         $plugininfo = $this; // Also can be used inside settings.php.
 

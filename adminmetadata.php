@@ -64,7 +64,7 @@ $deferredheader .= print_tabs($tabrows, $view, '', '', true);
 
 switch ($view) {
     case 'classifiers':
-        include($CFG->dirroot.'/mod/customlabel/metadatatypes.php';
+        include($CFG->dirroot.'/mod/customlabel/metadatatypes.php');
         break;
 
     case 'metadata':

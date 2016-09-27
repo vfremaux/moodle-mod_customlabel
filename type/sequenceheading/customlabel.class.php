@@ -15,8 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype_heading.trait.php');
 
 class customlabel_type_sequenceheading extends customlabel_type {
+
+    use customlabel_trait_heading;
 
     function __construct($data) {
         global $CFG, $PAGE;
@@ -25,17 +28,7 @@ class customlabel_type_sequenceheading extends customlabel_type {
         $this->type = 'sequenceheading';
         $this->fields = array();
 
-        $field = new StdClass;
-        $field->name = 'heading';
-        $field->size = 80;
-        $field->type = 'textfield';
-        $this->fields['heading'] = $field;
-
-        $field = new StdClass;
-        $field->name = 'shortdesc';
-        $field->type = 'textarea';
-        $field->itemid = 0;
-        $this->fields['shortdesc'] = $field;
+        $this->standard_name_fields();
 
         $field = new StdClass();
         $field->name = 'image';
