@@ -1,8 +1,7 @@
-
 /*
-* launch a call for targets renegociation
-*
-*/
+ * launch a call for targets renegociation
+ *
+ */
 
 function urlencode(str) {
     return escape(str).replace(/\+/g,'%2B').replace(/%20/g, '+').replace(/\*/g, '%2A').replace(/\//g, '%2F').replace(/@/g, '%40');
@@ -82,7 +81,7 @@ function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
     }
     optionstring = selectedopts.join(',');
 
-    // get selection constraints in targets select
+    // Get selection constraints in targets select.
     selectedtargetopts = [];
     i = 0;
     for (target in targetsarr) {
@@ -111,7 +110,7 @@ function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
 
         targetsarr = targets.split(',');
 
-        // dispatch in selectors
+        // Dispatch in selectors.
         for (target in targetsarr) {
             if (selectors[targetsarr[target]]) {
                 str = '<input type="hidden" name="'+targetsarr[target]+'" value="_qf__force_multiselect_submission">';

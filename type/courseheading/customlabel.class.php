@@ -42,12 +42,12 @@ class customlabel_type_courseheading extends customlabel_type {
         $field->destination = 'url';
         if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
             if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultcourseheading.png')){
-                $field->default = $CFG->wwwroot.'/mod/customlabel/type/courseheading/defaultheading.png';
+                $field->default = $OUTPUT->pix_url('defaultheading', 'customlabeltype_courseheading');
             } else {
                 $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultcourseheading.png';
             }
         } else {
-            $field->default = $CFG->wwwroot.'/mod/customlabel/type/courseheading/defaultheading.png';
+            $field->default = $OUTPUT->pix_url('defaultheading', 'customlabeltype_courseheading');
         }
         $this->fields['image'] = $field;
 
@@ -79,7 +79,7 @@ class customlabel_type_courseheading extends customlabel_type {
      * Type information structure and application context dependant.
      */
     public function postprocess_data($course = null) {
-        global $CFG, $COURSE, $DB;
+        global $COURSE, $DB;
 
         if (is_null($course)) $course = &$COURSE;
 
@@ -91,11 +91,21 @@ class customlabel_type_courseheading extends customlabel_type {
         $storedimage = $this->get_file_url('image');
         $imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
         if ($this->data->imagepositionoption == 'left') {
-            $this->data->imageL = "<td width=\"100\" class=\"custombox-icon-left courseheading\" align=\"center\" style=\"background:url({$imageurl}) 50% 50% no-repeat transparent\">{$this->data->overimagetext}</td>";
+            $this->data->imageL = '<td width="100"
+                                       class="custombox-icon-left courseheading"
+                                       align="center"
+                                       style="background:url('.$imageurl.') 50% 50% no-repeat transparent">';
+            $this->data->imageL .= $this->data->overimagetext;
+            $this->data->imageL .= '</td>';
             $this->data->imageR = '';
         } elseif ($this->data->imagepositionoption == 'right') {
             $this->data->imageL = '';
-            $this->data->imageR = "<td width=\"100\" class=\"custombox-icon-right courseheading\" align=\"center\" style=\"background:url({$imageurl}) 50% 50% no-repeat transparent\">{$this->data->overimagetext}</td>";
+            $this->data->imageR = '<td width="100"
+                                       class="custombox-icon-right courseheading"
+                                       align="center"
+                                       style="background:url('.$imageurl.') 50% 50% no-repeat transparent">';
+            $this->data->imageR .= $this->data->overimagetext;
+            $this->data->imageR .= '</td>';
         } else {
             $this->data->imageL = '';
             $this->data->imageR = '';

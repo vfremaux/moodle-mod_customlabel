@@ -15,20 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod
- * @subpackage customlabel
- * @copyright  2010 onwards Valery Fremaux {valery.fremaux@club-internet.fr}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_customlabel
+ * @category    mod
+ * @copyright   2010 onwards Valery Fremaux {valery.fremaux@club-internet.fr}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
 /**
  * Define all the backup steps that will be used by the backup_vodclic_activity_task
  */
 
-/**
- * Define the complete label structure for backup, with file and id annotations
- */
 class backup_customlabel_activity_structure_step extends backup_activity_structure_step {
 
     protected function define_structure() {
@@ -63,8 +63,7 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
         $metadatacoursedatum = new backup_nested_element('metadatacoursedatum', array('id'), array(
             'courseid', 'valueid'));
 
-        // Build the tree
-        // (love this)
+        // Build the tree.
         $customlabel->add_child($metadata);
         $metadata->add_child($metadatatypes);
         $metadata->add_child($metadataconstraints);
@@ -78,7 +77,7 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
         $metadata->add_child($metadatacourse);
         $metadatacourse->add_child($metadatacoursedatum);
 
-        // Define sources
+        // Define sources.
         $customlabel->set_source_table('customlabel', array('id' => backup::VAR_ACTIVITYID));
 
         $metadatatype->set_source_table('customlabel_mtd_type', array('id' => backup::VAR_ACTIVITYID));
@@ -89,21 +88,20 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
 
         $metadatacoursedatum->set_source_table('customlabel_course_metadata', array('courseid' => backup::VAR_COURSEID));
 
-        // Define id annotations
-        // (none)
+        // Define id annotations.
 
-        // Define file annotations
-        $customlabel->annotate_files('mod_customlabel', 'contentfiles', null); // Get all itemids you can find (subids of internal fields)
+        // Define file annotations.
+        $customlabel->annotate_files('mod_customlabel', 'contentfiles', null); // Get all itemids you can find (subids of internal fields).
 
-        // This will scan every type of label to find filepickers elements
+        // This will scan every type of label to find filepickers elements.
         $areas = customlabel_get_fileareas();
         if (!empty($areas)) {
             foreach ($areas as $a) {
-                $customlabel->annotate_files('mod_customlabel', $a, null); // This file area hasn't itemid
+                $customlabel->annotate_files('mod_customlabel', $a, null); // This file area hasn't itemid.
             }
         }
 
-        // Return the root element (customlabel), wrapped into standard activity structure
+        // Return the root element (customlabel), wrapped into standard activity structure.
         return $this->prepare_activity_structure($customlabel);
     }
 }

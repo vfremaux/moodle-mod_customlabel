@@ -1,7 +1,29 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * @package    mod_customlabel
+ * @category   mod
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
+ */
 
 $string['customlabel:addinstance'] = 'Can add an instance';
-$string['customlabel:fullaccess'] = 'Full access to all fields ';
+$string['customlabel:fullaccess'] = 'Full access to all fields';
 
 $string['apparence'] = 'Apparence';
 $string['changetypeadvice'] = "You are about to thange the internal data structure of this element. Old content cannot be maintained. Continue?";
@@ -65,10 +87,10 @@ $string['typename'] = 'Name';
 $string['typetype'] = 'Type';
 $string['noclassifiers'] = 'No classifier';
 $string['metadata :'] = 'Metadata:';
-$string['editclass'] = 'Update classifier class ';
+$string['editclass'] = 'Update classifier class';
 $string['category'] = 'Category';
 $string['filter'] = 'Filter';
-$string['usedas'] = 'Use as ';
+$string['usedas'] = 'Use as';
 $string['none'] = 'Undefined';
 $string['include'] = 'Include';
 $string['exclude'] = 'Exclude';
@@ -80,7 +102,7 @@ $string['up'] = 'Up';
 $string['down'] = 'Down';
 $string['model'] = 'Data Model';
 $string['typecode'] = 'Code';
-$string['show'] = 'Show ';
+$string['show'] = 'Show';
 $string['typecode_help'] = '
 <p>This will help for matching data with external system when extracting data with custom queries in blocks of type
 Custom Reports or Dashboard.</p>
@@ -155,11 +177,11 @@ $string['configclassificationconstrainttable_desc'] = 'This table holds the cons
 
 $string['templatenotfound'] = 'Template {$a} not found';
 
-// known types
+// Known types.
 $string['text'] = 'Text';
 $string['content'] = 'Content';
 
-// Kown families
+// Kown families.
 $string['familystructure'] = 'Structural elements';
 $string['familygeneric'] = 'Generic elements';
 $string['familypedagogic'] = 'Pedagogy elements';

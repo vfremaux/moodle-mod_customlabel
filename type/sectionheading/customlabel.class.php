@@ -21,7 +21,7 @@ class customlabel_type_sectionheading extends customlabel_type {
     use customlabel_trait_heading;
 
     function __construct($data) {
-        global $CFG, $COURSE, $PAGE;
+        global $CFG, $PAGE, $OUTPUT;
 
         parent::__construct($data);
         $this->type = 'sectionheading';
@@ -35,12 +35,12 @@ class customlabel_type_sectionheading extends customlabel_type {
         $field->destination = 'url';
         if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
             if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultsectionheading.png')) {
-                $field->default = $CFG->wwwroot.'/mod/customlabel/type/sectionheading/defaultsectionheading.jpg';
+                $field->default = $OUTPUT->pix_url('defaultsectionheading', 'customlabeltype_sectionheading');
             } else {
                 $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultsectionheading.png';
             }
         } else {
-            $field->default = $CFG->wwwroot.'/mod/customlabel/type/sectionheading/defaultsectionheading.jpg';
+            $field->default = $OUTPUT->pix_url('defaultsectionheading', 'customlabeltype_sectionheading');
         }
         $this->fields['image'] = $field;
 
@@ -65,17 +65,24 @@ class customlabel_type_sectionheading extends customlabel_type {
      * Type information structure and application context dependant.
      */
     function postprocess_data($course = null) {
-        global $CFG;
 
         // Get virtual fields from course title.
         $storedimage = $this->get_file_url('image');
         $imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
         if ($this->data->imagepositionoption == 'left') {
-            $this->data->imageL = "<td class=\"custombox-icon-left sectionheading\" align=\"center\" style=\"background:url({$imageurl}) 50% 50% no-repeat transparent\">{$this->data->overimagetext}</td>";
+            $this->data->imageL = "<td class=\"custombox-icon-left sectionheading\"
+                                       align=\"center\"
+                                       style=\"background:url({$imageurl}) 50% 50% no-repeat transparent\">";
+            $this->data->imageL .= $this->data->overimagetext;
+            $this->data->imageL .= '</td>';
             $this->data->imageR = '';
-        } elseif ($this->data->imagepositionoption == 'right') {
+        } else if ($this->data->imagepositionoption == 'right') {
             $this->data->imageL = '';
-            $this->data->imageR = "<td class=\"custombox-icon-right sectionheading\" align=\"center\" style=\"background:url({$imageurl}) 50% 50%  no-repeat transparent\">{$this->data->overimagetext}</td>";
+            $this->data->imageR = "<td class=\"custombox-icon-right sectionheading\"
+                                       align=\"center\"
+                                       style=\"background:url({$imageurl}) 50% 50% no-repeat transparent\">";
+            $this->data->imageR .= $this->data->overimagetext;
+            $this->data->imageR .= '</td>';
         } else {
             $this->data->imageL = '';
             $this->data->imageR = '';

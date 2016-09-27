@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -19,10 +18,10 @@
  * Provides support for the conversion of moodle1 backup to the moodle2 format
  * Based off of a template @ http://docs.moodle.org/dev/Backup_1.9_conversion_for_developers
  *
- * @package    mod
- * @subpackage customlabel
- * @copyright  2011 Valery Fremaux <valery.fremaux@club-internet.fr>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_customlabel
+ * @category    mod
+ * @copyright   2011 Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -58,11 +57,9 @@ class moodle1_mod_customlabel_handler extends moodle1_mod_handler {
                 'customlabel', '/MOODLE_BACKUP/COURSE/MODULES/MOD/CUSTOMLABEL',
                 array(
                     'dropfields' => array(
-//                         'content',   // Do not remove all fields at start or u loose some valuable content before processing.
                         'usesafe'
                     ),
                     'renamefields' => array(
-//                      'safecontent' => 'content' // Do not remove all fields at start or u loose some valuable content before processing.
                     ),
                     'newfields' => array(
                         'intro' => '',
@@ -79,22 +76,23 @@ class moodle1_mod_customlabel_handler extends moodle1_mod_handler {
      * data available
      */
     public function process_customlabel($data) {
-        // get the course module id and context id
+        // Get the course module id and context id.
         $instanceid = $data['id'];
         $cminfo     = $this->get_cminfo($instanceid);
         $moduleid   = $cminfo['id'];
         $contextid  = $this->converter->get_contextid(CONTEXT_MODULE, $moduleid);
 
-        // shifts content from name (moodle 1.9 label hacking location) to processed content and
-        // computes a new explicit name
+        /*
+         * shifts content from name (moodle 1.9 label hacking location) to processed content and
+         * computes a new explicit name
+         */
         if (!empty($data['safecontent'])) {
             $storedcontent = base64_decode($data['safecontent']);
-            // unset($data['safecontent']);
         } else {
             if (!empty($data['content'])) {
                 $storedcontent = $data['content'];
             } else {
-                // loose the item
+                // Loose the item.
                 return;
             }
         }
@@ -115,7 +113,7 @@ class moodle1_mod_customlabel_handler extends moodle1_mod_handler {
 
         $data['processedcontent'] = moodle1_converter::migrate_referenced_files($data['processedcontent'], $this->fileman);
 
-        // write inforef.xml.
+        // Write inforef.xml.
         $this->open_xml_writer("activities/customlabel_{$moduleid}/inforef.xml");
         $this->xmlwriter->begin_tag('inforef');
         $this->xmlwriter->begin_tag('fileref');
@@ -128,7 +126,8 @@ class moodle1_mod_customlabel_handler extends moodle1_mod_handler {
 
         // Write customlabel.xml.
         $this->open_xml_writer("activities/customlabel_{$moduleid}/customlabel.xml");
-        $this->xmlwriter->begin_tag('activity', array('id' => $instanceid, 'moduleid' => $moduleid, 'modulename' => 'customlabel', 'contextid' => $contextid));
+        $params = array('id' => $instanceid, 'moduleid' => $moduleid, 'modulename' => 'customlabel', 'contextid' => $contextid);
+        $this->xmlwriter->begin_tag('activity', $params);
 
         $this->xmlwriter->begin_tag('customlabel', array('id' => $instanceid));
 
@@ -138,7 +137,7 @@ class moodle1_mod_customlabel_handler extends moodle1_mod_handler {
             }
         }
 
-        // finish writing customlabel.xml
+        // Finish writing customlabel.xml.
         $this->xmlwriter->end_tag('customlabel');
         $this->xmlwriter->end_tag('activity');
         $this->close_xml_writer();

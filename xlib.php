@@ -17,21 +17,10 @@
 /**
  * xlib.php is a cross-components library for functions that are required
  * from elsewhere in Moodle and not part of the standard Core API
- *
- * When a component wants to have a direct interaction with this module the right way
- * to use is : 
- *
- * if (file_exists($CFG->dirroot.'/path/to/component/xlib.php')) {
- *    include_once($CFG->dirroot.'/path/to/component/xlib.php');
- *    $call_api_xlib_function = 'somefunction';
- *    $call_api_xlib_function();
- * }
- *
- * @author Valery Fremaux (valery.fremaux@gmail.com)
  */
- 
+
 /**
- * this function for use in theme_xxx_process_css() function in coordination with a 
+ * this function for use in theme_xxx_process_css() function in coordination with a
  * [[customlabel|overrides]] tag placed into any stylesheet of the theme.
  */
 function theme_set_customlabelcss($css) {

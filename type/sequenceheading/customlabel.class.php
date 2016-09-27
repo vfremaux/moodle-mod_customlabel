@@ -22,7 +22,7 @@ class customlabel_type_sequenceheading extends customlabel_type {
     use customlabel_trait_heading;
 
     function __construct($data) {
-        global $CFG, $PAGE;
+        global $CFG, $PAGE, $OUTPUT;
 
         parent::__construct($data);
         $this->type = 'sequenceheading';
@@ -36,12 +36,12 @@ class customlabel_type_sequenceheading extends customlabel_type {
         $field->destination = 'url';
         if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
             if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultsequenceheading.png')) {
-                $field->default = $CFG->wwwroot.'/mod/customlabel/type/sequenceheading/defaultsequenceheading.jpg';
+                $field->default = $OUTPUT->pix_url('defaultsequenceheading', 'customlabeltype_sequenceheading');
             } else {
                 $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultsequenceheading.png';
             }
         } else {
-            $field->default = $CFG->wwwroot.'/mod/customlabel/type/sequenceheading/defaultsequenceheading.jpg';
+            $field->default = $OUTPUT->pix_url('defaultsequenceheading', 'customlabeltype_sequenceheading');
         }
         $this->fields['image'] = $field;
 
@@ -68,13 +68,12 @@ class customlabel_type_sequenceheading extends customlabel_type {
 
     /**
      * If exists, this method can process local alternative values for
-     * realizing the template, after all standard translations have been performed. 
+     * realizing the template, after all standard translations have been performed.
      * Type information structure and application context dependant.
      */
     function postprocess_data($course = null) {
-        global $CFG;
 
-        // get virtual fields from course title.
+        // Get virtual fields from course title.
         $storedimage = $this->get_file_url('image');
         $imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
         if ($this->data->verticalalignoption == 'bottom') {
@@ -91,15 +90,26 @@ class customlabel_type_sequenceheading extends customlabel_type {
             $padding = 'padding-top:20px;';
         }
         if ($this->data->imagepositionoption == 'left') {
-            $this->data->imageL = "<td width=\"100\" class=\"custombox-icon-left sequenceheading\" align=\"center\" valign=\"$valigncontent\" style=\"$padding background:url({$imageurl}) $valign no-repeat transparent\">{$this->data->overimagetext}</td>";
+            $this->data->imageL = '<td width="100"
+                                       class="custombox-icon-left sequenceheading"
+                                       align="center"
+                                       valign="'.$valigncontent.'"
+                                       style="'.$padding.' background:url('.$imageurl.') '.$valign.' no-repeat transparent">';
+            $this->data->imageL .= $this->data->overimagetext;
+            $this->data->imageL .= '</td>';
             $this->data->imageR = '';
         } elseif ($this->data->imagepositionoption == 'right') {
             $this->data->imageL = '';
-            $this->data->imageR = "<td width=\"100\" class=\"custombox-icon-right sequenceheading\" align=\"center\" valign=\"$valigncontent\" style=\"$padding background:url({$imageurl}) $valign no-repeat transparent\">{$this->data->overimagetext}</td>";
+            $this->data->imageR = '<td width="100"
+                                       class="custombox-icon-right sequenceheading"
+                                       align="center"
+                                       valign="'.$valigncontent.'"
+                                       style="'.$padding.' background:url('.$imageurl.') '.$valign.' no-repeat transparent">';
+            $this->data->imageR .= .$this->data->overimagetext;
+            $this->data->imageR .= '</td>';
         } else {
             $this->data->imageL = '';
             $this->data->imageR = '';
         }
     }
 }
-

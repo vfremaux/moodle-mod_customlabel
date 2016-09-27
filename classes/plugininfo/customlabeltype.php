@@ -71,7 +71,7 @@ class customlabeltype extends base {
      * @return moodle_url
      */
     public static function get_manage_url() {
-        return new moodle_url('/mod/customlabel/adminmanageplugins.php', array('subtype'=>'customlabeltype'));
+        return new moodle_url('/mod/customlabel/adminmanageplugins.php', array('subtype' => 'customlabeltype'));
     }
 
     /**
