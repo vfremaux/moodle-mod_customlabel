@@ -51,7 +51,7 @@ $string['SYNTHESIS'] = 'Writing a synthesis';
 $string['template'] = '
 <table class="custombox-worktodo" cellspacing="0" width="100%">
 <tr valign="top">
-    <td class="custombox-header-thumb worktodo" width="2%" rowspan="3">
+    <td class="custombox-header-thumb worktodo" style="background-image : url(<%%icon%%>);" width="2%" rowspan="3">
     </td>
     <td class="custombox-header-caption worktodo" width="98%" colspan="2">
         Work to do
@@ -62,7 +62,7 @@ $string['template'] = '
         <span class="custombox-param worktodo">Nature: </span> <span class="custombox-value worktodo"><%%worktypefield%%></span>
     </td>
     <td class="custombox-timeexpected worktodo" align="right" width="40">
-        <img src="/mod/customlabel/type/worktodo/clock.jpg" /> <%%estimatedworktime%%>
+        <img src="<%%clock%%>" /> <%%estimatedworktime%%>
     </td>
 </tr>
 <tr valign="top">

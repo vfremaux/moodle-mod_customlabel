@@ -39,6 +39,7 @@ $string['updatelabels'] = 'Régénération des instances de {$a}';
 $string['updatescope'] = 'Portée de la mise à jour';
 $string['usesafestorage'] = 'Utiliser le stockage sûr (base64)';
 $string['typecode'] = 'Code';
+$string['show'] = 'Montrer ';
 $string['typetype'] = 'Type';
 
 $string['typecode_help'] = '

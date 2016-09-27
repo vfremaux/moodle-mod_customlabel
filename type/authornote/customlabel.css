@@ -1,7 +1,7 @@
 td.custombox-thumb.authornote {
     min-width:25px;
     width:25px;
-    background-image: url("/mod/customlabel/type/authornote/icon_info_small.png"); 
+    background-image: url("/mod/customlabel/type/authornote/pix/icon_info_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -10,7 +10,6 @@ td.custombox-thumb.authornote {
 #region-main td.custombox-thumb.authornote {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/authornote/icon_info.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

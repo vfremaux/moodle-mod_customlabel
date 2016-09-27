@@ -10,7 +10,7 @@ td.custombox-header-thumb.definition {
 td.custombox-header-thumb.definition {
     min-width:25px;
     width:25px;
-    background-image: url("/mod/customlabel/type/definition/icon_definition_small.png"); 
+    background-image: url("/mod/customlabel/type/definition/pix/icon_definition_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -19,7 +19,6 @@ td.custombox-header-thumb.definition {
 #page-region-main td.custombox-header-thumb.definition {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/definition/icon_definition.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -33,7 +32,7 @@ td.custombox-header-caption.definition {
 
 td.custombox-content.definition {
     padding-left:8px;
-    min-height:100Px;
+    min-height:100px;
 }
 
 td.custombox-content.definition h1,

@@ -149,7 +149,9 @@ function customlabel_load_class($customlabel, $quiet = false) {
         if (!$quiet) {
             print_object($customlabel);
         }
-        if (debugging()) echo $OUTPUT->notification('errorfailedloading', 'customlabel', $customlabel->labelclass);
+        if (debugging()) {
+            echo $OUTPUT->notification('errorfailedloading', 'customlabel', $customlabel->labelclass);
+        }
         return null;
     }
 }
@@ -211,10 +213,14 @@ function customlabel_save_draft_file(&$customlabel, $filearea) {
     $context = context_module::instance($customlabel->coursemodule);
 
     $fileareagroupname = $filearea.'group';
-
+    $fileareagroup = array();
     if (!empty($customlabel->$fileareagroupname)) {
         $fileareagroup = (array)$customlabel->$fileareagroupname;
-
+    } elseif (!empty($_POST[$fileareagroupname])) {
+        $fileareagroup = $_POST[$fileareagroupname];
+    }
+    
+    if (!empty($fileareagroup)) {
         // Check for file deletion request.
         if (isset($fileareagroup['clear'.$filearea])) {
             $fs->delete_area_files($context->id, 'mod_customlabel', $filearea);
@@ -337,7 +343,7 @@ function customlabel_regenerate(&$customlabel, $labelclassname, &$course) {
     }
     if (!is_object($data)) {
         $data = new StdClass; // reset old serialized data
-    };
+    }
 
     // Realize a pseudo update.
     $data->content = $customlabel->content;
@@ -353,7 +359,7 @@ function customlabel_regenerate(&$customlabel, $labelclassname, &$course) {
     $instance->postprocess_data($course);
     $customlabel->processedcontent = $instance->make_content('', $course); // This realizes the template.
     $customlabel->timemodified = time();
-    $result = $DB->update_record('customlabel', $customlabel);
+    $DB->update_record('customlabel', $customlabel);
     mtrace("\tfinished customlabel $customlabel->id");
 }
 

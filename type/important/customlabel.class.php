@@ -17,8 +17,9 @@ class customlabel_type_important extends customlabel_type{
         $field = new StdClass;
         $field->name = 'importantnote';
         $field->type = 'textarea';
+        $field->itemid = 0;
         $field->rows = 20;
         $this->fields['importantnote'] = $field;
     }
 }
- 
+

@@ -16,12 +16,11 @@ require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 class mod_customlabel_flexpage extends block_flexpagemod_lib_mod {
 
     public function module_block_setup() {
-        global $CFG, $COURSE, $DB;
+        global $DB;
 
-        $cm       = $this->get_cm();
+        $cm = $this->get_cm();
         $customlabel = $DB->get_record('customlabel', array('id' => $cm->instance));
         $instance = customlabel_load_class($customlabel, $customlabel->labelclass);
-        $block = null;
         $context = context_module::instance($cm->id);
         if ($customlabel && has_capability('customlabeltype/'.$instance->labelclass.':view', $context)) {
             $this->append_content($instance->get_content());

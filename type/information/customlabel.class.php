@@ -22,7 +22,5 @@ class customlabel_type_information extends customlabel_type {
         $this->fields['informationtext'] = $field;
     }
 
-    function preprocess_data() {
-    }
 }
 

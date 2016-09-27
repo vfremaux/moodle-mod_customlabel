@@ -87,24 +87,10 @@ class customlabel_type_worktodo extends customlabel_type {
         $field->function = 'customlabel_get_candidate_modules';
         $this->fields['linktomodule'] = $field;
     }
-
-
-    // sample of what do do if relation to course qualification
-    /*
-    function on_delete() {
-        global $COURSE;
-        // remove all old classification
-        $DB->delete_records('customlabel_course_metadata', array('courseid' => $COURSE->id));
-    }
-
-    function pre_update() {
-        global $COURSE;
-        // remove all old classification when leaving this type
-        $DB->delete_records('customlabel_course_metadata', array('courseid' => $COURSE->id));
-    }
-    */
-    function postprocess_data($course = null) {
-        global $CFG, $COURSE;
+    
+    function postprocess_data($course = null) {  
+        global $OUTPUT;
+        $this->data->clock = $OUTPUT->pix_url('clock','customlabeltype_worktodo')->out();
 
         if (is_array(@$this->data->worktypefield)) $this->data->worktypefield = implode(', ',@$this->data->worktypefield); 
         if (is_array(@$this->data->workeffortfield)) $this->data->workeffortfield = implode(', ',@$this->data->workeffortfield); 

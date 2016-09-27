@@ -1,16 +1,16 @@
 table.custombox-theorema {
-   width: 100%;
+    width: 100%;
 }
 
 td.custombox-header-thumb.theorema {
-   padding-right:8px;
-   border-right:1px solid #f00000 !important;
+    padding-right:8px;
+    border-right:1px solid #f00000 !important;
 }
 
 td.custombox-header-thumb.theorema {
     min-width:25px;
     width:25px;
-    background-image: url("/mod/customlabel/type/theorema/icon_theorema_small.png"); 
+    background-image: url("/mod/customlabel/type/theorema/pix/icon_theorema_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -19,7 +19,6 @@ td.custombox-header-thumb.theorema {
 #page-region-main td.custombox-header-thumb.theorema {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/theorema/icon_theorema.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -37,14 +36,14 @@ td.custombox-content.theorema {
 }
 
 div.custombox-demonstration-caption.theorema{
-	padding-top:10px;
-	padding-bottom:5px;
-	font-size : 1.1em;
+    padding-top:10px;
+    padding-bottom:5px;
+    font-size : 1.1em;
     padding-left:8px;
 }
 
 div.custombox-demonstration.theorema{
-	margin-left:4px;
+    margin-left:4px;
     padding:4px;
     background-color:#F0F0F0;
     border-radius:4px;
@@ -63,5 +62,5 @@ td.custombox-content.theorema h3{
 }
 
 td.custombox-subdefinitions.theorema {
-	padding-left:50px;
+    padding-left:50px;
 }

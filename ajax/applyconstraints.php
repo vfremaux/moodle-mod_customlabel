@@ -105,9 +105,6 @@ if (!empty($constraints)) {
                     $peer = $DB->get_field($config->classification_value_table, 'value', array('id' => $peervalue));
                     $usedtypes[] = $DB->get_field($config->classification_value_table, 'typeid', array('id' => $peervalue));
                     $includedtrace["$peervalue - $peer"] = 1;
-                    if (!in_array($peervalue, $used)) {
-                        // $constraintsarr[] = $peervalue; // aggregate for recursion accepting all newly linked item
-                    }
                 }
             }
         }

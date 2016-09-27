@@ -22,8 +22,5 @@ class customlabel_type_method extends customlabel_type {
         $this->fields['methodtext'] = $field;
 
     }
-
-    function preprocess_data() {
-    }
 }
 

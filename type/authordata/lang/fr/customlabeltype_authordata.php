@@ -26,7 +26,7 @@ $string['institution'] = 'Institution';
 $string['department'] = 'Département';
 $string['showcontributors'] = 'Afficher les contributeurs';
 $string['showinstitution'] = 'Afficher l\'institution';
-$string['showdepartment'] = 'Afficher le départment';
+$string['showdepartment'] = 'Afficher le département';
 
 $string['template'] = '
 <table class="custombox-authordata">

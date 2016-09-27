@@ -19,7 +19,7 @@
 require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
 function xmldb_customlabel_upgrade($oldversion=0) {
-    global $CFG, $THEME, $DB;
+    global $DB;
 
     $result = true;
 

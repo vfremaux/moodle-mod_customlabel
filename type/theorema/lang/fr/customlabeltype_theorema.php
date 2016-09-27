@@ -24,7 +24,7 @@ $string['demonstration'] = 'Demonstration';
 $string['template'] = '
 <table class="custombox-theorema" cellspacing="0" width="100%">
 <tr valign="top">
-    <td class="custombox-header-thumb theorema" width="2%" rowspan="3">
+    <td class="custombox-header-thumb theorema" style="background-image : url(<%%icon%%>);" width="2%" rowspan="3">
     </td>
     <td class="custombox-header-caption theorema" width="98%">
         Théorème

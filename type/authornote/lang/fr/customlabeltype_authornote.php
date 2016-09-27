@@ -16,7 +16,7 @@ $string['template'] = '
 <p class="custombox-helper authornote"><b>(Cette note ne peut être vue que par les auteurs)</b></p>
 <table width="100%" class="custombox-authornote">
     <tr valign="top">
-        <td class="custombox-thumb authornote"  width="2%"></td>
+        <td class="custombox-thumb authornote" style="background-image : url(<%%icon%%>);" width="2%"></td>
         <td class="custombox-content authornote"><%%authornote%%></td>
     </tr>
 </table>

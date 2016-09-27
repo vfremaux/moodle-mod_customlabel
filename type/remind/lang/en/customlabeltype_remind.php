@@ -13,7 +13,7 @@ $string['family'] = 'pedagogic';
 $string['template'] = '
 <table class="custombox-remind" cellspacing="0" width="100%">
 <tr valign="top">
-    <td class="custombox-header-thumb remind" width="2%" rowspan="2">
+    <td class="custombox-header-thumb remind" style="background-image : url(<%%icon%%>);" width="2%" rowspan="2">
     </td>
     <td class="custombox-header-caption remind" width="98%">
         Remind !

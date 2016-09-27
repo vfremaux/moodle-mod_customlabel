@@ -43,12 +43,12 @@ class customlabel_type_sequenceheading extends customlabel_type {
         $field->destination = 'url';
         if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
             if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultsequenceheading.png')) {
-                $field->default = $CFG->wwwroot.'/mod/customlabel/type/sequenceheading/defaultsequenceheading.jpg';
+                $field->default = $CFG->wwwroot.'/mod/customlabel/type/sequenceheading/pix/defaultsequenceheading.jpg';
             } else {
                 $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultsequenceheading.png';
             }
         } else {
-            $field->default = $CFG->wwwroot.'/mod/customlabel/type/sequenceheading/defaultsequenceheading.jpg';
+            $field->default = $CFG->wwwroot.'/mod/customlabel/type/sequenceheading/pix/defaultsequenceheading.jpg';
         }
         $this->fields['image'] = $field;
 
@@ -79,7 +79,6 @@ class customlabel_type_sequenceheading extends customlabel_type {
      * Type information structure and application context dependant.
      */
     function postprocess_data($course = null) {
-        global $CFG;
 
         // get virtual fields from course title.
         $storedimage = $this->get_file_url('image');

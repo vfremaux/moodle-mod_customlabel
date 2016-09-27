@@ -1,7 +1,7 @@
 td.custombox-thumb.pedagogicadvice {
     min-width:25px;
     width:25px;
-    background-image: url("/mod/customlabel/type/pedagogicadvice/icon_infop_small.png"); 
+    background-image: url("/mod/customlabel/type/pedagogicadvice/pix/icon_infop_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -10,7 +10,6 @@ td.custombox-thumb.pedagogicadvice {
 #region-main td.custombox-thumb.pedagogicadvice {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/pedagogicadvice/icon_infop.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

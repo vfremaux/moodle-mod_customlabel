@@ -12,7 +12,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 require('../../config.php');
-// require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 
 $id = required_param('id', PARAM_INT);   // Course ID
 

@@ -80,6 +80,7 @@ $string['up'] = 'Up';
 $string['down'] = 'Down';
 $string['model'] = 'Data Model';
 $string['typecode'] = 'Code';
+$string['show'] = 'Show ';
 $string['typecode_help'] = '
 <p>This will help for matching data with external system when extracting data with custom queries in blocks of type
 Custom Reports or Dashboard.</p>

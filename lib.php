@@ -59,6 +59,7 @@ function customlabel_supports($feature) {
         case FEATURE_GROUPMEMBERSONLY:        return true;
         case FEATURE_MOD_INTRO:               return false;
         case FEATURE_COMPLETION_TRACKS_VIEWS: return false;
+        case FEATURE_MODEDIT_DEFAULT_COMPLETION: return false;
         case FEATURE_GRADE_HAS_GRADE:         return false;
         case FEATURE_GRADE_OUTCOMES:          return false;
         case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_RESOURCE;
@@ -92,7 +93,7 @@ function customlabel_get_name($customlabel) {
  * of the new instance.
  */
 function customlabel_add_instance($customlabel) {
-    global $CFG, $DB;
+    global $DB;
 
     $customlabel->name = customlabel_get_name($customlabel);
     if (!isset($customlabel->intro)) {
@@ -132,7 +133,7 @@ function customlabel_add_instance($customlabel) {
             }
             // Saves all embdeded images or files into elements in a single text area.
             file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
-            $customlabel->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($editordata['text'], $editordata['itemid'], $field->itemid);
+            $customlabel->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($editordata['text'], $editordata['itemid'], @$field->itemid);
         }
 
         if ($field->type == 'filepicker') {
@@ -147,11 +148,21 @@ function customlabel_add_instance($customlabel) {
     // if this record is restored on a platform that do not implement the actual labelclass.
     $customlabel->fallbacktype = ''.@$instance->fallbacktype;
 
-    $customlabel->content = base64_encode(json_encode($customlabeldata));
     $instance->data = $customlabeldata; // load data into instance
-    $customlabel->processedcontent = $instance->make_content();
+    $customlabel->content = base64_encode(json_encode($customlabeldata));
     $customlabel->timemodified = time();
-    return $DB->insert_record('customlabel', $customlabel);
+    $customlabel->processedcontent = $instance->make_content();
+    $customlabel->id = $DB->insert_record('customlabel', $customlabel);
+    
+    $DB->set_field('course_modules', 'instance', $customlabel->id, array('id'=>$customlabel->coursemodule));
+    
+    $customlabeldata->instance = $customlabel->id;
+    $instance->data = $customlabeldata; // load data into instance
+    
+    $customlabel->processedcontent = $instance->make_content();
+    
+    $DB->update_record('customlabel', $customlabel);
+    return $customlabel->id;
 }
 
 /**
@@ -160,7 +171,7 @@ function customlabel_add_instance($customlabel) {
  * will update an existing instance with new data.
  */
 function customlabel_update_instance($customlabel) {
-    global $CFG, $USER, $DB;
+    global $DB;
 
     // check if type changed
     $oldinstance = $DB->get_record('customlabel', array('id' => $customlabel->instance));
@@ -224,8 +235,10 @@ function customlabel_update_instance($customlabel) {
 
         if (preg_match('/datasource$/', $field->type)) {
             $fieldoption = $field->name.'option';
-            if ($field->multiple) {
-                $customlabeldata->{$fieldoption} = implode(',', @$customlabel->{$fieldoption});
+            if (property_exists($field, 'multiple') && $field->multiple) {
+                if (!empty($customlabel->{$fieldoption})) {
+                    $customlabeldata->{$fieldoption} = implode(',', $customlabel->{$fieldoption});
+                }
             } else {
                 $customlabeldata->{$fieldoption} = @$customlabel->{$fieldoption};
             }
@@ -291,7 +304,6 @@ function customlabel_delete_instance($id) {
  * (NONE, but must exist on EVERY mod !!)
  */
 function customlabel_get_participants($customlabelid) {
-
     return false;
 }
 
@@ -324,7 +336,6 @@ function customlabel_get_coursemodule_info($coursemodule) {
     $info = new stdClass();
     $info->name = $customlabel->name;
     $info->extra = '';
-    // $customcontent = json_decode(base64_decode($customlabel->content));
     $info->extra = urlencode($INSTANCES[$coursemodule->instance]->title);
     return $info;
 }
@@ -341,10 +352,12 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     global $DB, $PAGE, $CFG, $COURSE;
 
     static $customlabelscriptsloaded = false;
-    static $customlabelcssloaded = array();
 
     // Load some js scripts once.
     if (!$customlabelscriptsloaded) {
+        if ($PAGE->state == moodle_page::STATE_BEFORE_HEADER) {
+            $PAGE->requires->jquery();
+        }
         $PAGE->requires->js('/mod/customlabel/js/custombox.js', true);
         $customlabelscriptsloaded = true;
     }
@@ -387,7 +400,6 @@ function customlabel_cm_info_dynamic(&$cminfo) {
             return;
         }
 
-        $context = context_module::instance($cminfo->id);
         $fileprocessedcontent = $customlabel->processedcontent;
         foreach ($instance->fields as $field) {
             if ($field->type == 'editor' || $field->type == 'textarea') {
@@ -424,24 +436,6 @@ function customlabel_get_post_actions() {
 }
 
 /**
- * TODO : check relevance
- *
- */
-/*
-function customlabel_get_types() {
-    $types = array();
-
-    $type = new stdClass();
-    $type->modclass = MOD_CLASS_RESOURCE;
-    $type->type = 'customlabel';
-    $type->typestr = get_string('resourcetypecustomlabel', 'customlabel');
-    $types[] = $type;
-
-    return $types;
-}
-*/
-
-/**
  * This function is used by the reset_course_userdata function in moodlelib.
  * @param $data the data submitted from the reset course.
  * @return array status array
@@ -459,7 +453,7 @@ function customlabel_reset_userdata($data) {
  *
  */
 function customlabel_get_xml($clid) {
-    global $CFG, $DB;
+    global $DB;
     
     if ($customlabel = $DB->get_record('customlabel', array('id' => "$clid"))) {
         $content = json_decode(base64_decode($customlabel->content));
@@ -545,8 +539,6 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
         require_course_login($course, true, $cm);
     }
 
-    $instance = customlabel_load_class($customlabel);
-
     $fs = get_file_storage();
     $relativepath = implode('/', $args);
     $fullpath = "/$context->id/mod_customlabel/{$filearea}/$relativepath";
@@ -562,4 +554,25 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
 
     // finally send the file
     send_stored_file($file, $lifetime, 0, $forcedownload, $options);
+}
+
+/**
+ * This function allows the tool_dbcleaner to register integrity checks
+ */
+function customlabel_dbcleaner_add_keys() {
+    global $DB;
+
+    $customlabelmoduleid = $DB->get_field('modules', 'id', array('name' => 'customlabel'));
+
+    $keys = array(
+        array('customlabel', 'course', 'course', 'id', ''),
+        array('customlabel', 'id', 'course_modules', 'instance', ' module = '.$customlabelmoduleid.' '),
+        array('customlabel_mtd_value', 'typeid', 'customlabel_mtd_type', 'id', ''),
+        array('customlabel_course_metadata', 'courseid', 'course', 'id', ''),
+        array('customlabel_course_metadata', 'valueid', 'customlabel_mtd_value', 'id', ''),
+        array('customlabel_mtd_constraints', 'value1', 'customlabel_mtd_value', 'id', ''),
+        array('customlabel_mtd_constraints', 'value2', 'customlabel_mtd_value', 'id', ''),
+    );
+
+    return $keys;
 }

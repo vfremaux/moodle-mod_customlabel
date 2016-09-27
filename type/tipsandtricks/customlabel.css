@@ -9,7 +9,7 @@ table.custombox-tipsandtricks {
 
 td.custombox-header-thumb.tipsandtricks {
     width:25px;
-    background-image: url("/mod/customlabel/type/tipsandtricks/icon_idea_small.png"); 
+    background-image: url("/mod/customlabel/type/tipsandtricks/pix/icon_idea_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -18,7 +18,6 @@ td.custombox-header-thumb.tipsandtricks {
 #page-region-main td.custombox-header-thumb.tipsandtricks {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/tipsandtricks/icon_idea.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

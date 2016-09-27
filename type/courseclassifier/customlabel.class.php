@@ -76,44 +76,74 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $this->fields['level2'] = $field;
         }
 
-        if ($fieldid = $DB->get_field($config->classification_type_table, 'id', array('code' => 'PEOPLE'))) {
+        // Get all course filters
+        $coursefilters = $DB->get_records($config->classification_type_table, array('type' => 'coursefilter'));
+
+        foreach ($coursefilters as $coursefilter) {
+
+            $showkey = 'show'.strtolower($coursefilter->code);
+            $key = strtolower($coursefilter->code);
 
             $field = new StdClass;
-            $field->name = 'showpeople';
+            $field->name = $showkey;
             $field->type = 'choiceyesno';
-            $this->fields['showpeople'] = $field;
+            $field->default = 1;
+            $field->label = get_string('show', 'mod_customlabel').' '.$coursefilter->name;
+            $this->fields[$showkey] = $field;
 
             $field = new StdClass;
-            $field->name = 'people';
+            $field->name = $key;
             $field->type = 'datasource';
             $field->source = 'dbfieldkeyed';
             $field->table = $config->classification_value_table;
             $field->field = 'value';
-            $field->select = $config->classification_value_type_key.' = '.$fieldid;
             $field->multiple = 'multiple';
-            $field->constraintson = '';
-            $field->mandatory = true;
-            $this->fields['people'] = $field;
+            $field->label = $coursefilter->name;
+            $field->select = $config->classification_value_type_key.' = '.$coursefilter->id;
+            $this->fields[$key] = $field;
         }
 
         unset($field);
 
     }
-    
+
     function on_delete() {
         global $CFG, $DB, $COURSE;
 
         $config = get_config('customlabel');
 
-        // remove all old classification
+        // Remove all old classification
 
         $DB->delete_records($config->course_metadata_table, array($config->course_metadata_course_key => $COURSE->id));
     }
 
+    function preprocess_data() {
+        global $DB;
+
+        $config = get_config('customlabel');
+
+        $this->data->classifiers = false;
+        $this->data->classifierrows = '';
+        $coursefilters = $DB->get_records($config->classification_type_table, array('type' => 'coursefilter'));
+
+        foreach ($coursefilters as $coursefilter) {
+            $showkey = 'show'.strtolower($coursefilter->code);
+            $key = strtolower($coursefilter->code);
+
+            if ($this->data->$showkey) {
+                $this->data->classifiers = true;
+                $classif = new StdClass();
+                $classif->label = $coursefilter->name;
+                $classif->values = $this->data->$key;
+                $this->data->classifierrows .= get_string('classifierrow', 'customlabeltype_courseclassifier', $classif);
+            }
+        }
+    }
+
     /**
-    *
-    *
-    */
+     *
+     *
+     */
     function postprocess_data($course = null) {
         global $COURSE, $CFG, $DB;
 
@@ -128,7 +158,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
         $valuekey = $config->course_metadata_value_key;
         $coursekey = $config->course_metadata_course_key;
 
-        // remove all old classification
+        // Remove all old classification
         $DB->delete_records($config->course_metadata_table, array($config->course_metadata_course_key => $COURSE->id));
 
         // add updated level0
@@ -160,7 +190,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
             }
         }
 
-        // add updated level2 
+        // add updated level2
         $cc->$coursekey = $COURSE->id;
         if (!empty($this->data->level2option)) {
             if (is_array($this->data->level2option)) {
@@ -174,19 +204,28 @@ class customlabel_type_courseclassifier extends customlabel_type {
             }
         }
 
-        // add updated people
-        $cc->$coursekey = $COURSE->id;
-        if (!empty($this->data->peopleoption)) {
-            if (is_array($this->data->peopleoption)) {
-                foreach ($this->data->peopleoption as $method) {
-                    $cc->$valuekey = $method;
+        // Get all course filters
+        $this->data->classifiers = false;
+        $this->data->classifierrows = '';
+        $coursefilters = $DB->get_records($config->classification_type_table, array('type' => 'coursefilter'));
+
+        foreach ($coursefilters as $coursefilter) {
+
+            $cc->$coursekey = $COURSE->id;
+
+            $optionkey = strtolower($coursefilter->code).'option';
+
+            if (!empty($this->data->$optionkey)) {
+                if (is_array($this->data->$optionkey)) {
+                    foreach ($this->data->$optionkey as $optid => $method) {
+                        $cc->$valuekey = $optid;
+                        $DB->insert_record($config->course_metadata_table, $cc);
+                    }
+                } else {
+                    $cc->$valuekey = $this->data->$optionkey;
                     $DB->insert_record($config->course_metadata_table, $cc);
                 }
-            } else {
-                $cc->$valuekey = $this->data->peopleoption;
-                $DB->insert_record($config->course_metadata_table, $cc);
             }
         }
     }
 }
-

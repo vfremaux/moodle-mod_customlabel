@@ -10,7 +10,7 @@ td.custombox-header-thumb.information {
 td.custombox-header-thumb.information {
     min-width:25px;
     width:25px;
-    background-image: url("/mod/customlabel/type/information/icon_information_small.png"); 
+    background-image: url("/mod/customlabel/type/information/pix/icon_information_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -19,7 +19,6 @@ td.custombox-header-thumb.information {
 #page-region-main td.custombox-header-thumb.information {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/information/icon_information.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

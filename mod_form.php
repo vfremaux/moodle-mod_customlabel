@@ -21,7 +21,6 @@
  * @copyright  2012 Valery Fremaux 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
@@ -119,88 +118,82 @@ class mod_customlabel_mod_form extends moodleform_mod {
         $mform->setDefault('title', $customlabel->labelclass.'_'.$customlabel_next_id);
         $mform->setType('title', PARAM_TEXT);
 
-        /*
-        if ($customlabel->labelclass == 'text') {
-            $editoroptions = self::editor_options();
-            $editoroptions['context'] = $this->context;
-            $mform->addElement('editor', 'textcontent_editor', get_string('content', 'customlabel'), null, $editoroptions);
-        } else {
-        */
-            if (!$customclass) {
-                print_error("Custom label class lacks of definition");
-            }
-
-            foreach ($customclass->fields as $field) {
-                // No capable users cannot edit lock fields.
-                if (!has_capability('mod/customlabel:fullaccess', $context) && !empty($field->admin)) {
-                    continue;
-                }
-
-                $fieldname = str_replace('[]', '', $field->name); // Must take care it is a multiple field.
-                $fieldlabel = get_string($field->name, 'customlabeltype_'.$customclass->type);
-
-                if ($field->type == 'choiceyesno') {
-                    $mform->addElement('selectyesno', $field->name, $fieldlabel);
-                    $mform->setType($field->name, PARAM_BOOL);
-                } elseif ($field->type == 'textfield') {
-                    $attrs = array('size' => @$field->size, 'maxlength' => @$field->maxlength);
-                    $mform->addElement('text', $field->name, $fieldlabel, $attrs);
-                    $mform->setType($field->name, PARAM_CLEANHTML);
-                } elseif ($field->type == 'editor' || $field->type == 'textarea') {
-                    $editoroptions = self::editor_options();
-                    $editoroptions['context'] = $this->context;
-                    $mform->addElement('editor', $field->name.'_editor', $fieldlabel, null, $editoroptions);
-                } elseif (preg_match("/list$/", $field->type)) {
-                    if (empty($field->straightoptions)) {
-                        $options = $customclass->get_options($fieldname);
-                    } else {
-                        $translated_options = $field->options;
-                        array_walk($translated_options, 'format_string');
-                        $options = array_combine($field->options, $translated_options);
-                    }
-                    $select = &$mform->addElement('select', $field->name, $fieldlabel, $options);
-                    if (!empty($field->multiple)) {
-                        $select->setMultiple(true);
-                    }
-                    $mform->setType($field->name, PARAM_TEXT);
-                } elseif (preg_match("/datasource$/", $field->type)) {
-                    // Very similar to lists, except options come from an external datasource
-                    $options = $customclass->get_datasource_options($field);
-
-                    $script = '';
-                    if (!empty($field->constraintson)) {
-                        $script = " applyconstraints('{$CFG->wwwroot}', '{$customclass->type}', this, '{$field->constraintson}');";
-                    }
-
-                    $attrs = array('onchange' => $script);
-                    $select = &$mform->addElement('select', $field->name, $fieldlabel, $options, $attrs);
-                    if (!empty($field->multiple)) {
-                        $select->setMultiple(true);
-                    }
-                    $mform->setType($field->name, PARAM_TEXT);
-                } elseif ($field->type == 'filepicker') {
-                    $group = array();
-                    $types = !empty($field->acceptedtypes) ? $field->acceptedtypes : '*';
-                    $group[] = $mform->createElement('filepicker', $field->name, '', array('courseid' => $COURSE->id, 'accepted_types' => $types));
-                    $group[] = $mform->createElement('checkbox', 'clear'.$field->name, '', get_string('cleararea', 'customlabel'));
-                    $mform->addGroup($group, $field->name.'group', $fieldlabel, '', array(''), false);
-                } else {
-                    echo "Unknown or unsupported type : $field->type";
-                }
-
-                if (!empty($field->mandatory)) {
-                    $mform->addRule($field->name, null, 'required', null, 'client');
-                }
-
-                if (!empty($field->help)) {
-                    $mform->addHelpButton($field->name, $field->help, 'customlabeltype_'.$customlabel->labelclass);
-                }
-
-                $mform->setDefault($fieldname, @$field->default);
-            }
-        /*
+        if (!$customclass) {
+            print_error("Custom label class lacks of definition");
         }
-        */
+
+        foreach ($customclass->fields as $field) {
+            // No capable users cannot edit lock fields.
+            if (!has_capability('mod/customlabel:fullaccess', $context) && !empty($field->admin)) {
+                continue;
+            }
+
+            $fieldname = str_replace('[]', '', $field->name); // Must take care it is a multiple field.
+            if (!empty($field->label)) {
+                $fieldlabel = format_string($field->label);
+            } else {
+                $fieldlabel = get_string($field->name, 'customlabeltype_' . $customclass->type);
+            }
+
+            if ($field->type == 'choiceyesno') {
+                $mform->addElement('selectyesno', $field->name, $fieldlabel);
+                $mform->setType($field->name, PARAM_BOOL);
+            } elseif ($field->type == 'textfield') {
+                $attrs = array('size' => @$field->size, 'maxlength' => @$field->maxlength);
+                $mform->addElement('text', $field->name, $fieldlabel, $attrs);
+                $mform->setType($field->name, PARAM_CLEANHTML);
+            } elseif ($field->type == 'editor' || $field->type == 'textarea') {
+                $editoroptions = self::editor_options();
+                $editoroptions['context'] = $this->context;
+                $mform->addElement('editor', $field->name . '_editor', $fieldlabel, null, $editoroptions);
+            } elseif (preg_match("/list$/", $field->type)) {
+                if (empty($field->straightoptions)) {
+                    $options = $customclass->get_options($fieldname);
+                } else {
+                    $translated_options = $field->options;
+                    array_walk($translated_options, 'format_string');
+                    $options = array_combine($field->options, $translated_options);
+                }
+                $select = &$mform->addElement('select', $field->name, $fieldlabel, $options);
+                if (!empty($field->multiple)) {
+                    $select->setMultiple(true);
+                }
+                $mform->setType($field->name, PARAM_TEXT);
+            } elseif (preg_match("/datasource$/", $field->type)) {
+                // Very similar to lists, except options come from an external datasource
+                $options = $customclass->get_datasource_options($field);
+
+                $script = '';
+                if (!empty($field->constraintson)) {
+                    $script = " applyconstraints('{$CFG->wwwroot}', '{$customclass->type}', this, '{$field->constraintson}');";
+                }
+
+                $attrs = array('onchange' => $script);
+                $select = &$mform->addElement('select', $field->name, $fieldlabel, $options, $attrs);
+                if (!empty($field->multiple)) {
+                    $select->setMultiple(true);
+                }
+                $mform->setType($field->name, PARAM_TEXT);
+            } elseif ($field->type == 'filepicker') {
+                $group = array();
+                $types = !empty($field->acceptedtypes) ? $field->acceptedtypes : '*';
+                $group[] = $mform->createElement('filepicker', $field->name, '', array('courseid' => $COURSE->id, 'accepted_types' => $types));
+                $group[] = $mform->createElement('checkbox', 'clear' . $field->name, '', get_string('cleararea', 'customlabel'));
+                $mform->addGroup($group, $field->name . 'group', $fieldlabel, '', array(''), false);
+            } else {
+                echo "Unknown or unsupported type : $field->type";
+            }
+
+            if (!empty($field->mandatory)) {
+                $mform->addRule($field->name, null, 'required', null, 'client');
+            }
+
+            if (!empty($field->help)) {
+                $mform->addHelpButton($field->name, $field->help, 'customlabeltype_' . $customlabel->labelclass);
+            }
+
+            $mform->setDefault($fieldname, @$field->default);
+        }
 
         //-------------------------------------------------------------------------------
         $this->standard_coursemodule_elements();
@@ -216,13 +209,13 @@ class mod_customlabel_mod_form extends moodleform_mod {
     public function set_data($customlabel) {
 
         if (empty($customlabel->labelclass)) {
-             $customlabel->labelclass = 'text';
-             $customlabel->content = '';
-             $customlabel->processedcontent = '';
-             $customlabel->intro = '';
-             $customlabel->introformat = 0;
-             $customlabel->textcontent = '';
-             $customlabel->readmorecontent = '';
+            $customlabel->labelclass = 'text';
+            $customlabel->content = '';
+            $customlabel->processedcontent = '';
+            $customlabel->intro = '';
+            $customlabel->introformat = 0;
+            $customlabel->textcontent = '';
+            $customlabel->readmorecontent = '';
         }
 
         $instance = customlabel_load_class($customlabel, $customlabel->labelclass);
@@ -230,7 +223,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
         $formdata = $customlabel;
 
         // Get dynamic part of data and add to fixed model part from customlabel record.
-        $formdatadyn = (array)json_decode(base64_decode($customlabel->content));
+        $formdatadyn = (array) json_decode(base64_decode($customlabel->content));
         foreach ($formdatadyn as $key => $value) {
             // Discard all moodle core data that should be there.
             if (in_array($key, array('coursemodule', 'instance', 'sesskey', 'module', 'section'))) {
@@ -242,12 +235,11 @@ class mod_customlabel_mod_form extends moodleform_mod {
             }
             $formdata->{$key} = $value;
             if (is_object($formdata->{$key}) && isset($formdata->{$key}->text)) {
-                $formdata->{$key} = (array)$formdata->{$key};
+                $formdata->{$key} = (array) $formdata->{$key};
             }
         }
 
         // Prepare editor for intro standard field.
-
         // Prepare editors for all textarea|editor dynamic fields prepared in model.
         foreach ($instance->fields as $field) {
             if (preg_match('/editor|textarea/', $field->type)) {
@@ -269,7 +261,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
             if (preg_match('/datasource$/', $field->type)) {
                 $options = $instance->get_datasource_options($field);
                 $name = $field->name;
-                $formdata->$name = $instance->get_current_options($options, $formdatadyn[$field->name], $field->multiple);
+                $formdata->$name = $instance->get_current_options($options, @$formdatadyn[$field->name], @$field->multiple);
             }
 
             // Todo : limit upload size on course settings

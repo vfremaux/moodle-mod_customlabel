@@ -31,7 +31,7 @@ $url = new moodle_url('/mod/customlabel/adminmetadata.php');
 
 $config = get_config('customlabel');
 
-$types = $DB->get_records_menu($config->classification_type_table, null, 'name', 'id, name');
+$types = $DB->get_records_menu($config->classification_type_table, null, 'sortorder', 'id, name');
 
 if (!$types) {
     echo $OUTPUT->notification(get_string('noclassifiers', 'customlabel'));

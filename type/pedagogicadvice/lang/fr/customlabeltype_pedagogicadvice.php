@@ -17,7 +17,7 @@ $string['template'] = '
 <p class="custombox-helper pedagogicadvice"><b>(Cette note ne peut être vue que par les enseignants)</b></p>
 <table width="100%" class="custombox-pedagogicadvice">
     <tr valign="top">
-        <td class="custombox-thumb pedagogicadvice"  width="2%"></td>
+        <td class="custombox-thumb pedagogicadvice" style="background-image : url(<%%icon%%>);" width="2%"></td>
         <td class="custombox-content pedagogicadvice"><%%advice%%></td>
     </tr>
 </table>

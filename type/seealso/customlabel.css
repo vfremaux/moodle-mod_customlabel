@@ -10,7 +10,7 @@ td.custombox-header-thumb.seealso {
 
 td.custombox-header-thumb.seealso {
     width:25px;
-    background-image: url("/mod/customlabel/type/seealso/icon_seealso_small.png"); 
+    background-image: url("/mod/customlabel/type/seealso/pix/icon_seealso_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -19,7 +19,6 @@ td.custombox-header-thumb.seealso {
 #page-region-main td.custombox-header-thumb.seealso {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/seealso/icon_seealso.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

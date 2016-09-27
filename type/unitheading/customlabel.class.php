@@ -19,7 +19,7 @@ require_once($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
 class customlabel_type_unitheading extends customlabel_type{
 
     function __construct($data) {
-        global $CFG, $COURSE, $PAGE;
+        global $CFG, $PAGE;
 
         parent::__construct($data);
         $this->type = 'unitheading';
@@ -44,12 +44,12 @@ class customlabel_type_unitheading extends customlabel_type{
         $field->destination = 'url';
         if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
             if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultunitheading.png')) {
-                $field->default = $CFG->wwwroot.'/mod/customlabel/type/sectionheading/defaultunitheading.jpg';
+                $field->default = $CFG->wwwroot.'/mod/customlabel/type/unitheading/pix/defaultunitheading.jpg';
             } else {
                 $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultunitheading.png';
             }
         } else {
-            $field->default = $CFG->wwwroot.'/mod/customlabel/type/unitheading/defaultsectionheading.jpg';
+            $field->default = $CFG->wwwroot.'/mod/customlabel/type/unitheading/pix/defaultsectionheading.jpg';
         }
         $this->fields['image'] = $field;
 
@@ -74,7 +74,6 @@ class customlabel_type_unitheading extends customlabel_type{
      * Type information structure and application context dependant.
      */
     function postprocess_data($course = null) {
-        global $CFG;
 
         // Get virtual fields from course title.
         $storedimage = $this->get_file_url('image');

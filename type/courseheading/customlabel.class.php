@@ -10,7 +10,7 @@ require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 class customlabel_type_courseheading extends customlabel_type {
 
     public function __construct($data) {
-        global $CFG, $COURSE, $PAGE;
+        global $CFG, $PAGE;
 
         parent::__construct($data);
         $this->type = 'courseheading';
@@ -42,12 +42,12 @@ class customlabel_type_courseheading extends customlabel_type {
         $field->destination = 'url';
         if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
             if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultcourseheading.png')){
-                $field->default = $CFG->wwwroot.'/mod/customlabel/type/courseheading/defaultheading.png';
+                $field->default = $CFG->wwwroot.'/mod/customlabel/type/courseheading/pix/defaultheading.png';
             } else {
                 $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultcourseheading.png';
             }
         } else {
-            $field->default = $CFG->wwwroot.'/mod/customlabel/type/courseheading/defaultheading.png';
+            $field->default = $CFG->wwwroot.'/mod/customlabel/type/courseheading/pix/defaultheading.png';
         }
         $this->fields['image'] = $field;
 
@@ -79,14 +79,16 @@ class customlabel_type_courseheading extends customlabel_type {
      * Type information structure and application context dependant.
      */
     public function postprocess_data($course = null) {
-        global $CFG, $COURSE, $DB;
+        global $COURSE, $DB;
 
-        if (is_null($course)) $course = &$COURSE;
+        if (is_null($course)) {
+            $course = &$COURSE;
+        }
 
         // Get virtual fields from course title.
         $this->data->courseheading = format_string($course->fullname);
         $this->data->coursedesc = format_text($course->summary, $course->summaryformat);
-        $this->data->idnumber = $course->idnumber;
+        $this->data->idnumber = empty($course->idnumber) ? '' : '('.$course->idnumber.')';
         $this->data->shortname = $course->shortname;
         $storedimage = $this->get_file_url('image');
         $imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;

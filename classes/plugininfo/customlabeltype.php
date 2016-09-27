@@ -79,7 +79,6 @@ class customlabeltype extends base {
      * @private
      */
     public function uninstall_cleanup() {
-        global $DB;
 
         parent::uninstall_cleanup();
     }

@@ -17,7 +17,7 @@ $string['family'] = 'pedagogic';
 $string['template'] = '
 <table class="custombox-question" cellspacing="0" width="100%">
 <tr valign="top">
-    <td class="custombox-header-thumb question" width="2%" rowspan="6">
+    <td class="custombox-header-thumb question" style="background-image : url(<%%icon%%>);" width="2%" rowspan="6">
     </td>
     <td class="custombox-header-caption question" width="96%">
         Question !

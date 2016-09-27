@@ -84,7 +84,7 @@ function classification_tree_updateordering($id) {
     if (!$res) {
         // Fallback : we give the ordering.
         $res->sortorder = $id;
-    };
+    }
     // Start reorder from the immediate lower (works from sortorder = 0).
     $prev = $res->sortorder - 1;
 
@@ -104,9 +104,10 @@ function classification_tree_updateordering($id) {
     if ( $nextsubs = $DB->get_records_sql($query)) {
         $ordering = $res->sortorder;
         foreach ($nextsubs as $asub) {
-            $objet->id = $asub->id;
-            $objet->sortorder = $ordering;
-            $DB->update_record($CFG->classification_type_table, $objet);
+            $object = new stdClass();
+            $object->id = $asub->id;
+            $object->sortorder = $ordering;
+            $DB->update_record($CFG->classification_type_table, $object);
             $ordering++;
         }
     }
@@ -139,13 +140,14 @@ function classification_tree_up($id) {
         $resid = $result->id;
 
         // Swapping.
-        $objet->id = $resid;
-        $objet->sortorder = $res->sortorder;
-        $DB->update_record($CFG->classification_type_table, $objet);
+        $object = new stdClass();
+        $object->id = $resid;
+        $object->sortorder = $res->sortorder;
+        $DB->update_record($CFG->classification_type_table, $object);
 
-        $objet->id = $id;
-        $objet->sortorder = $newordering;
-        $DB->update_record($CFG->classification_type_table, $objet);
+        $object->id = $id;
+        $object->sortorder = $newordering;
+        $DB->update_record($CFG->classification_type_table, $object);
     }
 }
 
@@ -184,13 +186,14 @@ function classification_tree_down($id) {
         $resid = $result->id;
 
         // Swapping.
-        $objet->id = $resid;
-        $objet->sortorder = $res->sortorder;
-        $DB->update_record($CFG->classification_type_table, $objet);
+        $object = new stdClass();
+        $object->id = $resid;
+        $object->sortorder = $res->sortorder;
+        $DB->update_record($CFG->classification_type_table, $object);
 
-        $objet->id = $id;
-        $objet->sortorder = $newordering;
-        $DB->update_record($CFG->classification_type_table, $objet);
+        $object->id = $id;
+        $object->sortorder = $newordering;
+        $DB->update_record($CFG->classification_type_table, $object);
     }
 }
 

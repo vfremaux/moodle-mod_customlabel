@@ -51,20 +51,24 @@ $string['template'] = '
     </tr>
     <%endif %>
 </table>
-<%if %%showpeople%% %>
+<%if %%classifiers%% %>
 <table class="custombox-courseclassifier other">
     <tr valign="top">
         <th class="custombox-title courseclassifier" colspan="2">
             Autres informations
         </th>
     </tr>
-    <tr valign="top">
-        <td class="custombox-param courseclassifier" width="30%">
-            Public :
-        </td>
-        <td class="custombox-value courseclassifier">
-            <%%people%%>
-        </td>
-    </tr>
+    <%%classifierrows%%>
 </table>
 <%endif %>';
+
+$string['classifierrow'] = '
+    <tr valign="top">
+        <td class="custombox-param courseclassifier" width="30%">
+            {$a->label} :
+        </td>
+        <td class="custombox-value courseclassifier">
+            {$a->values}
+        </td>
+    </tr>
+';

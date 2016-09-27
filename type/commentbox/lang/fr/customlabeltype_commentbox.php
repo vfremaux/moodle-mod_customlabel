@@ -19,7 +19,7 @@ $string['template'] = '<div class="custombox-commentbox">
 <div class="custombox-commentbox readmorelink">
     <a href="javascript:togglecustomstring(\'<%%customid%%>\', \'Lire plus...\', \'Lire moins...\')"><span id="customctl<%%customid%%>"><%%initialstring%%></span></a>
 </div>
-<div class="custombox-commentbox readmore" id"custom<%%customid%%>">
+<div class="custombox-commentbox readmore" id="custom<%%customid%%>">
 <%%readmorecontent%%>
 </div>
 <%endif %>

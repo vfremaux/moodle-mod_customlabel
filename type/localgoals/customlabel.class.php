@@ -1,13 +1,8 @@
 <?php
 
-require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
+require_once ($CFG->dirroot . "/mod/customlabel/type/customtype.class.php");
 
-/**
-*
-*
-*/
-
-class customlabel_type_localgoals extends customlabel_type{
+class customlabel_type_localgoals extends customlabel_type {
 
     function __construct($data) {
         parent::__construct($data);
@@ -24,7 +19,7 @@ class customlabel_type_localgoals extends customlabel_type{
 
     function postprocess_data($course = null) {
         global $CFG;
-
-        $this->data->headerimage = $CFG->wwwroot.'/mod/customlabel/type/localgoals/thumb.jpg';
+        $this->data->headerimage = $CFG->wwwroot . '/mod/customlabel/type/localgoals/thumb.jpg';
     }
+
 }

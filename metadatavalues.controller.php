@@ -82,7 +82,7 @@ function classification_tree_updateordering($id, $type) {
     $res =  $DB->get_record($CFG->classification_value_table, array('id' => $id));
     if (!$res) { // fallback : we give the ordering
         $res->sortorder = $id;
-    };
+    }
     // start reorder from the immediate lower (works from ordering = 0)
     $prev = $res->sortorder - 1;
 
@@ -103,9 +103,10 @@ function classification_tree_updateordering($id, $type) {
     if ( $nextsubs = $DB->get_records_sql($query)) {
         $ordering = $res->sortorder;
         foreach ($nextsubs as $asub) {
-            $objet->id = $asub->id;
-            $objet->sortorder = $ordering;
-            $DB->update_record($CFG->classification_value_table, $objet);
+            $object = new stdClass();
+            $object->id = $asub->id;
+            $object->sortorder = $ordering;
+            $DB->update_record($CFG->classification_value_table, $object);
             $ordering++;
         }
     }
@@ -140,13 +141,14 @@ function classification_tree_up($id, $type) {
         $resid = $result->id;
 
         // swapping
-        $objet->id = $resid;
-        $objet->sortorder = $res->sortorder;
-        $DB->update_record($CFG->classification_value_table, $objet);
+        $object = new stdClass();
+        $object->id = $resid;
+        $object->sortorder = $res->sortorder;
+        $DB->update_record($CFG->classification_value_table, $object);
 
-        $objet->id = $id;
-        $objet->sortorder = $newordering;
-        $DB->update_record($CFG->classification_value_table, $objet);
+        $object->id = $id;
+        $object->sortorder = $newordering;
+        $DB->update_record($CFG->classification_value_table, $object);
     }
 }
 
@@ -188,14 +190,15 @@ function classification_tree_down($id, $type) {
         $result = $DB->get_record_sql($query);
         $resid = $result->id;
 
-        // swapping
-        $objet->id = $resid;
-        $objet->sortorder = $res->sortorder;
-        $DB->update_record($CFG->classification_value_table, $objet);
+        // Swapping.
+        $object = new stdClass();
+        $object->id = $resid;
+        $object->sortorder = $res->sortorder;
+        $DB->update_record($CFG->classification_value_table, $object);
 
-        $objet->id = $id;
-        $objet->sortorder = $newordering;
-        $DB->update_record($CFG->classification_value_table, $objet);
+        $object->id = $id;
+        $object->sortorder = $newordering;
+        $DB->update_record($CFG->classification_value_table, $object);
     }
 }
 

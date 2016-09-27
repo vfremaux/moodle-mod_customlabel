@@ -9,6 +9,8 @@ require_once($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
 
 class customlabel_type_authordata extends customlabel_type {
 
+    public $nbauthor = 3;
+
     function __construct($data) {
         global $USER;
 
@@ -21,41 +23,19 @@ class customlabel_type_authordata extends customlabel_type {
         $field->type = 'textfield';
         $this->fields['tablecaption'] = $field;
 
-        $field = new StdClass;
-        $field->name = 'author1';
-        $field->type = 'textfield';
-        $this->fields['author1'] = $field;
+        for ($i = 1 ; $i <= $this->nbauthor ; $i++) {
+            $field = new StdClass;
+            $field->name = 'author'.$i;
+            $field->type = 'textfield';
+            $this->fields['author'.$i] = $field;
 
-        $field = new StdClass;
-        $field->name = 'thumb1';
-        $field->type = 'filepicker';
-        $field->destination = 'url';
-        $field->default = '';
-        $this->fields['thumb1'] = $field;
-
-        $field = new StdClass;
-        $field->name = 'author2';
-        $field->type = 'textfield';
-        $this->fields['author2'] = $field;
-
-        $field = new StdClass;
-        $field->name = 'thumb2';
-        $field->type = 'filepicker';
-        $field->destination = 'url';
-        $field->default = '';
-        $this->fields['thumb2'] = $field;
-
-        $field = new StdClass;
-        $field->name = 'author3';
-        $field->type = 'textfield';
-        $this->fields['author3'] = $field;
-
-        $field = new StdClass;
-        $field->name = 'thumb3';
-        $field->type = 'filepicker';
-        $field->destination = 'url';
-        $field->default = '';
-        $this->fields['thumb3'] = $field;
+            $field = new StdClass;
+            $field->name = 'thumb'.$i;
+            $field->type = 'filepicker';
+            $field->destination = 'url';
+            $field->default = '';
+            $this->fields['thumb'.$i] = $field;
+        }
 
         $field = new StdClass;
         $field->name = 'showinstitution';
@@ -89,7 +69,17 @@ class customlabel_type_authordata extends customlabel_type {
         $field->type = 'textarea';
         $field->itemid = 0;
         $this->fields['contributors'] = $field;
+    }
+    
+    function postprocess_data($course = null) {        
+        for ($i = 1; $i < $this->nbauthor; $i++) {
+            
+            $thumb = $this->get_file_url('thumb'.$i);
 
+            if ($thumb) {
+                $this->data->{'thumb'.$i} = $thumb->out();
+            }
+        }
     }
 }
 
