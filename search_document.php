@@ -19,9 +19,8 @@
 /**
 * requires and includes
 */
-require_once("$CFG->dirroot/search/documents/document.php");
+require_once("$CFG->dirroot/local/search/documents/document.php");
 require_once("$CFG->dirroot/mod/customlabel/locallib.php");
-require_once("$CFG->libdir/pear/HTML/AJAX/JSON.php");
 
 /**
 * constants for document definition
@@ -36,6 +35,7 @@ class CustomLabelSearchDocument extends SearchDocument {
 
     public function __construct(&$customlabel, &$class, $context_id) {
         // generic information; required
+        $doc = new StdClass();
         $doc->docid     = $customlabel['course'];
         $doc->documenttype = X_SEARCH_TYPE_CUSTOMLABEL;
         $doc->itemtype     = 'customlabel';
@@ -49,7 +49,7 @@ class CustomLabelSearchDocument extends SearchDocument {
 
         // module specific information : extract fields from serialized content. Add those who are
         // lists as keyfields
-        $content = json_decode(base64_decode($customlabel['safecontent']));
+        $content = json_decode(base64_decode($customlabel['processedcontent']));
 
         $additionalKeys = NULL;
 
@@ -84,6 +84,7 @@ function customlabel_make_link($course_id) {
 *
 */
 function customlabel_iterator() {
+    global $DB;
     //trick to leave search indexer functionality intact, but allow
     //this document to only use the below function to return info
     //to be searched
@@ -100,7 +101,7 @@ function customlabel_iterator() {
 * @return an array of searchable documents
 */
 function customlabel_get_content_for_index(&$customlabel) {
-    global $CFG;
+    global $CFG, $DB;
 
     // starting with Moodle native resources
     $documents = array();
@@ -110,7 +111,8 @@ function customlabel_get_content_for_index(&$customlabel) {
     $context = context_module::instance($cm->id);
     $customclass = customlabel_load_class($customlabel, true);
     if ($customclass) {
-        $documents[] = new CustomLabelSearchDocument(get_object_vars($customlabel), $customclass, $context->id);
+        $arr = get_object_vars($customlabel);
+        $documents[] = new CustomLabelSearchDocument($arr, $customclass, $context->id);
         mtrace("finished label {$customlabel->id}");
     } else {
         mtrace("ignoring unknown label type {$customlabel->labelclass} instance");
@@ -125,7 +127,8 @@ function customlabel_get_content_for_index(&$customlabel) {
 * @return a searchable object or null if failure
 */
 function customlabel_single_document($id, $itemtype) {
-    global $CFG;
+    global $CFG, $DB;
+
     $customlabel = $DB->get_record('customlabel', array('id' => $id));
 
     if ($customlabel) {
@@ -162,6 +165,7 @@ function customlabel_db_names() {
 * customlabel points actually the complete course content and not the customlabel item
 */
 function customlabel_search_get_objectinfo($itemtype, $this_id, $context_id = null) {
+    global $DB;
 
     if (!$course = $DB->get_record('course', array('id' => $this_id))) return false;
 
@@ -215,6 +219,7 @@ function customlabel_check_text_access($path, $itemtype, $this_id, $user, $group
 */
 function customlabel_link_post_processing($title) {
     global $CFG;
+
     if ($CFG->block_search_utf8dir) {
         return mb_convert_encoding("(".shorten_text(clean_text($title), 60)."...) ", 'UTF-8', 'auto');
     }

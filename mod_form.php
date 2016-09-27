@@ -57,7 +57,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
         $qoptions = array();
         foreach ($labelclasses as $labelclass) {
-            $qoptions[$labelclass->id] = $labelclass->name;
+            $qoptions[$labelclass->family][$labelclass->id] = $labelclass->name;
         }
         asort($qoptions);
 
@@ -82,6 +82,8 @@ class mod_customlabel_mod_form extends moodleform_mod {
             } else {
                 $customlabel->title = '';
                 $customlabel->labelclass = 'text';
+                $customlabel->textcontent = '';
+                $customlabel->readmorecontent = '';
             }
         }
         $customclass = customlabel_load_class($customlabel);
@@ -97,7 +99,13 @@ class mod_customlabel_mod_form extends moodleform_mod {
             $onchangeadvicestr = str_replace("'", "\'", get_string('changetypeadvice', 'customlabel'));
             // $mform->addElement('select', 'labelclass', get_string('labelclass', 'customlabel'), $qoptions, array('onchange' => "type_change_submit(this,'$onchangeadvicestr')", 'id' => 'menulabelclass'));
             $labelid = 0 + @$this->current->update;
-            $mform->addElement('select', 'labelclass', get_string('labelclass', 'customlabel'), $qoptions, array('onchange' => "type_change_submit('$onchangeadvicestr', '$COURSE->id', '$section', '$returntomod', '".sesskey()."', '".$labelid."')", 'id' => 'menulabelclass'));
+            $typeselect = & $mform->addElement('select', 'labelclass', get_string('labelclass', 'customlabel'), array(), array('onchange' => "type_change_submit('$onchangeadvicestr', '$COURSE->id', '$section', '$returntomod', '".sesskey()."', '".$labelid."')", 'id' => 'menulabelclass'));
+            foreach ($qoptions as $family => $options) {
+                $typeselect->addOption('--- '.get_string('family'.$family, 'customlabel').' ---', '', array('disabled' => 'disabled'));
+                foreach ($options as $opt => $optlabel) {
+                    $typeselect->addOption($optlabel, $opt);
+                }
+            }
             $mform->setType('labelclass', PARAM_TEXT);
             $mform->setDefault('labelclass', 'text');
         } else {
@@ -111,14 +119,17 @@ class mod_customlabel_mod_form extends moodleform_mod {
         $mform->setDefault('title', $customlabel->labelclass.'_'.$customlabel_next_id);
         $mform->setType('title', PARAM_TEXT);
 
+        /*
         if ($customlabel->labelclass == 'text') {
             $editoroptions = self::editor_options();
             $editoroptions['context'] = $this->context;
             $mform->addElement('editor', 'textcontent_editor', get_string('content', 'customlabel'), null, $editoroptions);
         } else {
+        */
             if (!$customclass) {
                 print_error("Custom label class lacks of definition");
             }
+
             foreach ($customclass->fields as $field) {
                 // No capable users cannot edit lock fields.
                 if (!has_capability('mod/customlabel:fullaccess', $context) && !empty($field->admin)) {
@@ -143,7 +154,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     if (empty($field->straightoptions)) {
                         $options = $customclass->get_options($fieldname);
                     } else {
-                        $options = array_combine($field->options, $field->options);
+                        $translated_options = $field->options;
+                        array_walk($translated_options, 'format_string');
+                        $options = array_combine($field->options, $translated_options);
                     }
                     $select = &$mform->addElement('select', $field->name, $fieldlabel, $options);
                     if (!empty($field->multiple)) {
@@ -156,7 +169,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
                     $script = '';
                     if (!empty($field->constraintson)) {
-                        $script = " applyconstraints('{$CFG->wwwroot}', '{$customclass->type}', this, '{$field->constraintson}'); ";
+                        $script = " applyconstraints('{$CFG->wwwroot}', '{$customclass->type}', this, '{$field->constraintson}');";
                     }
 
                     $attrs = array('onchange' => $script);
@@ -175,7 +188,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     echo "Unknown or unsupported type : $field->type";
                 }
 
-                if (isset($field->mandatory)) {
+                if (!empty($field->mandatory)) {
                     $mform->addRule($field->name, null, 'required', null, 'client');
                 }
 
@@ -185,7 +198,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
                 $mform->setDefault($fieldname, @$field->default);
             }
+        /*
         }
+        */
 
         //-------------------------------------------------------------------------------
         $this->standard_coursemodule_elements();
@@ -206,6 +221,8 @@ class mod_customlabel_mod_form extends moodleform_mod {
              $customlabel->processedcontent = '';
              $customlabel->intro = '';
              $customlabel->introformat = 0;
+             $customlabel->textcontent = '';
+             $customlabel->readmorecontent = '';
         }
 
         $instance = customlabel_load_class($customlabel, $customlabel->labelclass);
@@ -244,12 +261,15 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 $fieldnameformat = $fieldname.'format';
                 $customlabel->$fieldnameformat = FORMAT_HTML;
 
-                $defaults = file_prepare_standard_editor($customlabel, $fieldname, $editoroptions, $this->context, 'mod_customlabel', 'contentfiles', @$customlabel->$fieldname);
+                file_prepare_standard_editor($customlabel, $fieldname, $editoroptions, $this->context, 'mod_customlabel', 'contentfiles', $field->itemid);
+                $editor = &$formdata->$editorname;
+                $editor['text'] = customlabel_file_rewrite_pluginfile_urls($editor['text'], 'pluginfile.php', $this->context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
             }
 
             if (preg_match('/datasource$/', $field->type)) {
+                $options = $instance->get_datasource_options($field);
                 $name = $field->name;
-                $formdata->$name = @$formdatadyn[$name.'option'];
+                $formdata->$name = $instance->get_current_options($options, $formdatadyn[$field->name], $field->multiple);
             }
 
             // Todo : limit upload size on course settings
@@ -270,7 +290,6 @@ class mod_customlabel_mod_form extends moodleform_mod {
         }
 
         $formdata->sesskey = sesskey();
-
         parent::set_data($formdata);
     }
 }

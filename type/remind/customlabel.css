@@ -1,0 +1,38 @@
+table.custombox-remind {
+   width: 100%;
+}
+
+td.custombox-header-thumb.remind {
+   padding-right:8px;
+   border-right:1px solid #f00000 !important;
+}
+
+td.custombox-header-thumb.remind {
+    min-width:25px;
+    width:25px;
+    background-image: url("/mod/customlabel/type/remind/icon_remind_small.png"); 
+    background-repeat: no-repeat;
+    height:73px;
+}
+
+#region-main td.custombox-header-thumb.remind,
+#page-region-main td.custombox-header-thumb.remind {
+    width:65px;
+    min-width:65px;
+    background-image: url("/mod/customlabel/type/remind/icon_remind.png"); 
+    background-repeat: no-repeat;
+    height:73px;
+}
+
+td.custombox-header-caption.remind {
+    color:#DB3333;
+    font-weight:bolder;
+    font-size:1.3em;
+    padding-left:8px;
+}
+
+td.custombox-content.remindtext {
+    padding-left:8px;
+    min-height:100px;
+}
+

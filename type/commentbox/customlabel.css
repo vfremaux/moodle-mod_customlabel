@@ -18,5 +18,9 @@
 
 
 .custombox-commentbox > p{
-    display:inline;
+    /* display:inline; */
+}
+
+.custombox-commentbox.readmorelink {
+    text-align : right;
 }

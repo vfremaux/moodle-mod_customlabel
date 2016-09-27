@@ -8,6 +8,8 @@ $string['typename'] = 'Important';
 $string['configtypename'] = 'Enable subtype Important';
 $string['importantnote'] = 'Important note ';
 
+$string['family'] = 'generic';
+
 $string['template'] = '
 <table class="custombox-important" cellspacing="0" width="100%">
 <tr valign="top">

@@ -19,6 +19,7 @@ class customlabel_type_contactpoint extends customlabel_type{
         $field->name = 'instructions';
         $field->type = 'textarea';
         $field->rows = 20;
+        $field->itemid = 0;
         $this->fields['instructions'] = $field;
 
         $field = new Stdclass();

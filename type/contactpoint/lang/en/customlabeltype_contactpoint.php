@@ -17,6 +17,8 @@ $string['chat'] = 'Chat';
 $string['meeting'] = 'Online meeting';
 $string['facetoface'] = 'Physical meeting';
 
+$string['family'] = 'special';
+
 $string['template'] = '
 <table class="custombox-contactpoint" cellspacing="0" width="100%">
 <tr valign="top">

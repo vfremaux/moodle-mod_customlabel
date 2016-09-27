@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  *
  * @package    mod_customlabel
@@ -23,16 +25,13 @@
  *
  * @see Acces from adminmetadata.php
  */
-
-if (!defined('MOODLE_INTERNAL')) {
-    die('Sorry, You cannot use this script this way');
-}
-
 require_once($CFG->dirroot.'/mod/customlabel/forms/EditTypeForm.php');
 
 // Get parms.
 
 $type = optional_param('type', 0, PARAM_INT);
+
+$config = get_config('customlabel');
 
 // Get necessary data.
 
@@ -53,7 +52,7 @@ if (!$mform->is_cancelled()) {
 // Print page start (after controller).
 echo $deferredheader;
 
-$types = $DB->get_records($CFG->classification_type_table, null, 'sortorder');
+$types = $DB->get_records($config->classification_type_table, null, 'sortorder');
 
 echo $OUTPUT->heading(get_string('classifierstypes', 'customlabel'));
 // Make the type form.
@@ -82,17 +81,17 @@ if ($types) {
             SELECT 
                 COUNT(c.id)
             FROM
-                {{$CFG->classification_value_table}} v
+                {{$config->classification_value_table}} v
             LEFT JOIN
-                {{$CFG->course_metadata_table}} ccm
+                {{$config->course_metadata_table}} ccm
             ON
-                ccm.{$CFG->course_metadata_value_key} = v.id
+                ccm.{$config->course_metadata_value_key} = v.id
             LEFT JOIN
                 {course} c
             ON
-                c.id = ccm.{$CFG->course_metadata_course_key}
+                c.id = ccm.{$config->course_metadata_course_key}
             WHERE
-                v.{$CFG->classification_value_type_key} = ?
+                v.{$config->classification_value_type_key} = ?
         ";
         $atype->courses = $DB->count_records_sql($sql, array($atype->id));
 
@@ -124,7 +123,7 @@ if ($types) {
         $link = "<a href=\"{$url}?view=qualifiers&typeid={$atype->id}\">{$atype->name}</a> ";
         $counturl = new moodle_url('/mod/customlabel/showclassified.php', array('typeid' => $atype->id));
         $coursecount = ($atype->courses) ? '<a href="'.$counturl.'">'.$atype->courses.' <img src="'.$OUTPUT->pix_url('/t/hide').'"></a>' : 0 ;
-        $table->data[] = array($link, get_string($atype->type, 'customlabel'), $atype->code, $atype->description, $coursecount, $cmds);
+        $table->data[] = array($link, get_string($atype->type, 'customlabel'), $atype->code, format_string($atype->description), $coursecount, $cmds);
         $i++;
     }
 

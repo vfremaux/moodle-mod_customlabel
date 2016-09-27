@@ -13,6 +13,8 @@ $string['workmodefield'] = 'Work mode';
 $string['estimatedworktime'] = 'Estimated time';
 $string['linktomodule'] = 'Related Activity Module';
 
+$string['family'] = 'pedagogic';
+
 // Qualifier values
 
 $string['NQ'] = 'Unqualified';

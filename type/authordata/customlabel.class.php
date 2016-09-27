@@ -87,6 +87,7 @@ class customlabel_type_authordata extends customlabel_type {
         $field = new StdClass;
         $field->name = 'contributors';
         $field->type = 'textarea';
+        $field->itemid = 0;
         $this->fields['contributors'] = $field;
 
     }

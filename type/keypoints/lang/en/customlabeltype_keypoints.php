@@ -24,6 +24,8 @@ $string['keypointitem13'] = 'Point 14';
 $string['keypointitem14'] = 'Point 15';
 $string['keypointitem15'] = 'Point 16';
 
+$string['family'] = 'pedagogic';
+
 $string['template'] = '
 <table class="custombox-keypoints" cellspacing="0" width="100%">
 <tr valign="top">

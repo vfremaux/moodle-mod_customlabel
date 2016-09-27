@@ -20,6 +20,17 @@ class customlabel_type_coursedata extends customlabel_type{
         $this->fields['tablecaption'] = $field;
 
         $field = new StdClass;
+        $field->name = 'showtarget';
+        $field->type = 'choiceyesno';
+        $this->fields['showtarget'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'target';
+        $field->type = 'textarea';
+        $field->itemid = 0;
+        $this->fields['target'] = $field;
+
+        $field = new StdClass;
         $field->name = 'showgoals';
         $field->type = 'choiceyesno';
         $this->fields['showgoals'] = $field;
@@ -27,6 +38,7 @@ class customlabel_type_coursedata extends customlabel_type{
         $field = new StdClass;
         $field->name = 'goals';
         $field->type = 'textarea';
+        $field->itemid = 1;
         $this->fields['goals'] = $field;
 
         $field = new StdClass;
@@ -37,6 +49,7 @@ class customlabel_type_coursedata extends customlabel_type{
         $field = new StdClass;
         $field->name = 'objectives';
         $field->type = 'textarea';
+        $field->itemid = 2;
         $this->fields['objectives'] = $field;
 
         $field = new StdClass;
@@ -47,6 +60,7 @@ class customlabel_type_coursedata extends customlabel_type{
         $field = new StdClass;
         $field->name = 'concepts';
         $field->type = 'textarea';
+        $field->itemid = 3;
         $field->size = 80;
         $this->fields['concepts'] = $field;
 
@@ -69,6 +83,7 @@ class customlabel_type_coursedata extends customlabel_type{
         $field = new StdClass;
         $field->name = 'teachingorganization';
         $field->type = 'textarea';
+        $field->itemid = 4;
         $field->size = 80;
         $this->fields['teachingorganization'] = $field;
 
@@ -80,6 +95,7 @@ class customlabel_type_coursedata extends customlabel_type{
         $field = new StdClass;
         $field->name = 'prerequisites';
         $field->type = 'textarea';
+        $field->itemid = 5;
         $this->fields['prerequisites'] = $field;
 
         $field = new StdClass;
@@ -90,6 +106,7 @@ class customlabel_type_coursedata extends customlabel_type{
         $field = new StdClass;
         $field->name = 'followers';
         $field->type = 'textarea';
+        $field->itemid = 6;
         $this->fields['followers'] = $field;
 
         $field = new StdClass;

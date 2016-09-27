@@ -13,10 +13,11 @@ class customlabel_type_pedagogicadvice extends customlabel_type {
         parent::__construct($data);
         $this->type = 'pedagogicadvice';
         $this->fields = array();
-        
+
         $field = new StdClass;
         $field->name = 'advice';
         $field->type = 'textarea';
+        $field->itemid = 0;
         $this->fields['advice'] = $field;
 
         $field = new StdClass;

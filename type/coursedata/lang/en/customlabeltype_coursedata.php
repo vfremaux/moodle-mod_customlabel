@@ -31,7 +31,11 @@ $string['showduration'] = 'Show Duration ';
 $string['showprerequisites'] = 'Show Prerequisites';
 $string['showlearningmethod'] = 'Show Learning method ';
 $string['showfollowers'] = 'Show Following courses ';
+$string['showtarget'] = 'Show Target ';
+$string['target'] = 'Target ';
 $string['leftcolumnratio'] = 'Left column ratio';
+
+$string['family'] = 'meta';
 
 $string['template'] = '
 <table class="custombox-coursedata">
@@ -49,6 +53,16 @@ $string['template'] = '
         </td>
         <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
             <%%idnumber%%>
+        </td>
+    </tr>
+    <%endif %>
+    <%if %%showtarget%% %>
+    <tr valign="top">
+        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
+            People concerned:
+        </td>
+        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
+            <%%target%%>
         </td>
     </tr>
     <%endif %>

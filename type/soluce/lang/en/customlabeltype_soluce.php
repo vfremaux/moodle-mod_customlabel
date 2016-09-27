@@ -9,6 +9,8 @@ $string['configtypename'] = 'Enable subtype Soluce';
 $string['soluce'] = 'Soluce';
 $string['initiallyvisible'] = 'Initially visible';
 
+$string['family'] = 'pedagogic';
+
 $string['template'] = '
 <table class="custombox-soluce" cellspacing="0" width="100%">
 <tr valign="top">

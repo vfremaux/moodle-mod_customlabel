@@ -15,6 +15,8 @@ $string['people'] = 'People';
 $string['showpeople'] = 'Show the public selector';
 $string['uselevels'] = 'Levels to use';
 
+$string['family'] = 'special';
+
 $string['template'] = '
 <table class="custombox-courseclassifier">
     <tr valign="top">

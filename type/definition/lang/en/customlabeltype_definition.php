@@ -20,6 +20,8 @@ $string['subdef7'] = 'Subdefinition 8';
 $string['subdef7'] = 'Subdefinition 9';
 $string['subdef9'] = 'Subdefinition 10';
 
+$string['family'] = 'pedagogic';
+
 $string['template'] = '
 <table class="custombox-definition" cellspacing="0" width="100%">
 <tr valign="top">

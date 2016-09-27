@@ -16,6 +16,7 @@ class customlabel_type_authornote extends customlabel_type{
         $field = new StdClass;
         $field->name = 'authornote';
         $field->type = 'textarea';
+        $field->itemid = 0;
         $field->rows = 20;
         $this->fields['authornote'] = $field;
 

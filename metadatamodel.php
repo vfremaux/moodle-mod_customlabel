@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * @package    mod_customlabel
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
@@ -29,13 +31,13 @@ $mform = new ModelForm();
 if (!$mform->is_cancelled()) {
 
     if ($data = $mform->get_data()) {
-        set_config('classification_type_table', $data->classification_type_table);
-        set_config('classification_value_table', $data->classification_value_table);
-        set_config('classification_value_type_key', $data->classification_value_type_key);
-        set_config('classification_constraint_table', $data->classification_constraint_table);
-        set_config('course_metadata_table', $data->course_metadata_table);
-        set_config('course_metadata_value_key', $data->course_metadata_value_key);
-        set_config('course_metadata_course_key', $data->course_metadata_course_key);
+        set_config('classification_type_table', $data->classification_type_table, 'customlabel');
+        set_config('classification_value_table', $data->classification_value_table, 'customlabel');
+        set_config('classification_value_type_key', $data->classification_value_type_key, 'customlabel');
+        set_config('classification_constraint_table', $data->classification_constraint_table, 'customlabel');
+        set_config('course_metadata_table', $data->course_metadata_table, 'customlabel');
+        set_config('course_metadata_value_key', $data->course_metadata_value_key, 'customlabel');
+        set_config('course_metadata_course_key', $data->course_metadata_course_key, 'customlabel');
     }
 }
 

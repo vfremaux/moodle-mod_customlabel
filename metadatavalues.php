@@ -27,12 +27,14 @@ $type = optional_param('typeid', 0, PARAM_INT);
 
 // Get necessary data.
 
-$url = $CFG->wwwroot.'/mod/customlabel/adminmetadata.php';
+$url = new moodle_url('/mod/customlabel/adminmetadata.php');
 
-$types = $DB->get_records_menu($CFG->classification_type_table, null, 'name', 'id, name');
+$config = get_config('customlabel');
+
+$types = $DB->get_records_menu($config->classification_type_table, null, 'name', 'id, name');
 
 if (!$types) {
-    notice(get_string('noclassifiers', 'customlabel'));
+    echo $OUTPUT->notification(get_string('noclassifiers', 'customlabel'));
     echo $OUTPUT->footer();
     return;
 }
@@ -57,12 +59,13 @@ echo $deferredheader;
 
 echo get_string('editclass', 'customlabel') . ':';
 
-echo $OUTPUT->single_select($url . '?view='.$view, 'typeid', $types, $type);
+echo $OUTPUT->single_select(new moodle_url('', array('view' => $view)), 'typeid', $types, $type);
 
 echo $OUTPUT->heading(get_string('metadataset', 'customlabel'));
-if (!$values = $DB->get_records($CFG->classification_value_table, array($CFG->classification_value_type_key => $type), 'sortorder')) {
+if (!$values = $DB->get_records($config->classification_value_table, array($config->classification_value_type_key => $type), 'sortorder')) {
     $values = array();
 }
+
 // Make the value form.
 $strvalues = get_string('value', 'customlabel');
 $strcode = get_string('code', 'customlabel');
@@ -83,35 +86,45 @@ if (!empty($values)) {
             SELECT
                 COUNT(ccm.id) AS courses
             FROM
-                {{$CFG->classification_value_table}} v
+                {{$config->classification_value_table}} v
             LEFT JOIN
-                {{$CFG->course_metadata_table}} ccm
+                {{$config->course_metadata_table}} ccm
             ON
-                ccm.{$CFG->course_metadata_value_key} = v.id
+                ccm.{$config->course_metadata_value_key} = v.id
             LEFT JOIN
                 {course} c
             ON
-                (ccm.{$CFG->course_metadata_course_key} = c.id OR ccm.{$CFG->course_metadata_course_key} IS NULL)
+                (ccm.{$config->course_metadata_course_key} = c.id OR ccm.{$config->course_metadata_course_key} IS NULL)
             WHERE
-                ccm.{$CFG->course_metadata_value_key} = {$avalue->id}                    
+                ccm.{$config->course_metadata_value_key} = {$avalue->id}
         ";
         $avalue->courses = $DB->count_records_sql($sql);
 
-       $cmds = "<a href=\"{$url}?view=qualifiers&amp;what=delete&amp;valueid={$avalue->id}&typeid={$type}\"><img src=\"".$OUTPUT->pix_url('/t/delete')."\" alt=".get_string('delete').'"></a>';
-        $cmds .= "&nbsp;<a href=\"{$url}?typeid={$type}&amp;what=edit&amp;valueid={$avalue->id}\"><img src=\"".$OUTPUT->pix_url('/t/edit')."\" /></a>";
+        $params = array('view' => 'qualifiers', 'what' => 'delete', 'valueid' => $avalue->id, 'typeid' => $type);
+        $deleteurl = new moodle_url('/mod/customlabel/adminmetadata.php', $params);
+        $cmds = '<a href="'.$deleteurl.'"><img src="'.$OUTPUT->pix_url('/t/delete')."\" alt=".get_string('delete').'"></a>';
+
+        $params = array('typeid' => $type, 'what' => 'edit', 'valueid' => $avalue->id);
+        $editurl = new moodle_url('/mod/customlabel/adminmetadata.php', $params);
+        $cmds .= '&nbsp;<a href="'.$editurl.'"><img src="'.$OUTPUT->pix_url('/t/edit').'" /></a>';
         if ($i > 0) {
-            $cmds .= "&nbsp;<a href=\"{$url}?typeid={$type}&amp;what=up&amp;valueid={$avalue->id}\"><img src=\"".$OUTPUT->pix_url('/t/up')."\" /></a>";
+            $params = array('typeid' => $type, 'what' => 'up', 'valueid' => $avalue->id);
+            $upurl = new moodle_url('/mod/customlabel/adminmetadata.php', $params);
+            $cmds .= '&nbsp;<a href="'.$upurl.'"><img src="'.$OUTPUT->pix_url('/t/up').'" /></a>';
         } else {
-            $cmds .= "&nbsp;&nbsp;&nbsp;";
+            $cmds .= '&nbsp;&nbsp;&nbsp;';
         }
         if ($i < $valuecount - 1) {
-            $cmds .= "&nbsp;<a href=\"{$url}?typeid={$type}&amp;what=down&amp;valueid={$avalue->id}\"><img src=\"".$OUTPUT->pix_url('/t/down')."\" /></a>";
+            $params = array('typeid' => $type, 'what' => 'down', 'valueid' => $avalue->id);
+            $downurl = new moodle_url('/mod/customlabel/adminmetadata.php', $params);
+            $cmds .= '&nbsp;<a href="'.$downurl.'"><img src="'.$OUTPUT->pix_url('/t/down').'" /></a>';
         } else {
             $cmds .= "&nbsp;&nbsp;&nbsp;";
         }
-        $coursecount = ($avalue->courses) ? "<a href=\"$CFG->wwwroot/local/admin/lpshowclassified.php?value={$avalue->id}&amp;typeid={$type}\">{$avalue->courses} <img src=\"".$OUTPUT->pix_url('/t/hide')."\"></a>" : 0 ;
-        $selcheck = "<input type=\"checkbox\" name=\"items[]\" value=\"{$avalue->id}\" />";
-        $table->data[] = array($selcheck, $avalue->code, $avalue->value, $coursecount, $cmds);
+        $lpshowclassifiedurl = new moodle_url('/local/admin/lpshowclassified.php', array('value' => $avalue->id, 'typeid' => $type));
+        $coursecount = ($avalue->courses) ? '<a href="'.$lpshowclassifiedurl.'">'.$avalue->courses.' <img src="'.$OUTPUT->pix_url('/t/hide').'"></a>' : 0;
+        $selcheck = '<input type="checkbox" name="items[]" value="'.$avalue->id.'" />';
+        $table->data[] = array($selcheck, $avalue->code, format_string($avalue->value), $coursecount, $cmds);
         $i++;
     }
     echo html_writer::table($table);

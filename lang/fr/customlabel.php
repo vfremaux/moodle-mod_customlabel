@@ -4,6 +4,7 @@ $string['customlabel:addinstance'] = 'Peut ajouter une instance';
 $string['customlabel:fullaccess'] = 'Accès total ';
 
 $string['apparence'] = 'Apparence';
+$string['coursefilter'] = 'Filtre sur les cours';
 $string['configusesafestorage'] = 'Si activé, le contenu des étiquettes sera converti en stockage sûr au moment de leur édition. Le nouveau stockage sera utilisé à partir de ce moment.';
 $string['changetypeadvice'] = 'Vous allez changer la structure de cet élement.\\\\nLes anciennes données ne peuvent être conservées.\\\\nVoulez-vous continuer ?';
 $string['cleararea'] = 'Vider cette zone de fichiers';
@@ -37,6 +38,40 @@ $string['updateall'] = 'Régénérer tous les éléments';
 $string['updatelabels'] = 'Régénération des instances de {$a}';
 $string['updatescope'] = 'Portée de la mise à jour';
 $string['usesafestorage'] = 'Utiliser le stockage sûr (base64)';
+$string['typecode'] = 'Code';
+$string['typetype'] = 'Type';
+
+$string['typecode_help'] = '
+<p>Ce code peut aider les extractions et exploitations de données dans des systèmes tiers à partir d\'extractions produites dans les blocs
+Rapports configurables ou le bloc Tableau de Bord.</p>
+
+<p>Notez que certains codes sont implicitement liées à certaines fonctionnalités comme par exemple 
+l\'indexation de cours (Element Classification de cours). Cet élément est un utilitaire qui permet de  
+tagguer un cours et de le proposer à un moteur de présetentation de catalogue de cours (Composant local Course Index).</p>
+<ul>
+<li>LEVEL0 : Utilisez ce code pour construire une première dimension de classification pour le classifieur de cours.</li>
+<li>LEVEL1 : Utilisez ce code pour construire une deuxième dimension de classification pour le classifieur de cours.</li>
+<li>LEVEL2 : Utilisez ce code pour construire une troisième dimension de classification pour le classifieur de cours.</li>
+<li>PEOPLE : Utilisez ce code pour construite un filtre sur les audiences et publics du cours.</li>
+</ul>
+
+</p>Pour le type Travail à faire: </p>
+<ul>
+<li>WORKEFFORT : Créez un qualifier de l\'effort d\'apprentissage</li>
+<li>WORKTYPE : Créez un qualifieur de la nature du travail proposé</li>
+<li>WORKMODE : Créez un qualifieur du périmètre social du travail proposé</li>
+</ul>
+';
+
+$string['typetype_help'] = '
+<p>Le type peut être:</p>
+<ul>
+<li>Une catégorie : Elle est éligible à des mécanismes de recherche par critères successifs.</li>
+<li>Un filtre : Un tag simple utilisable par des éléments de cours</p>
+<li>Un filtre de cours : Un tag simple qui pourra être utilisé par des moteurs de catalogues de cours</p>
+</ul>
+';
+
 $string['modulename_help'] = 'Les éléments de cours sont des modules de contenus qui constituent des briques pédagogiques. 
 Les éléments de cours ont un sous-type qui rencontre la plupart des actions d\'apprentissage communes : consigne de travail, 
 élément de solution, référence accessoire, objectifs, rubrique à retenir, ainsi que des briques éditoriales comme 
@@ -53,6 +88,7 @@ $string['classifiers'] = 'Classifieurs';
 $string['qualifiers'] = 'Valeurs de classification';
 $string['classifierstypes'] = 'Types de classifieurs';
 $string['classification'] = 'Classification';
+$string['classificationvalues'] = 'Valeurs';
 $string['constraints'] = 'Contraintes';
 $string['commands'] = 'Commandes';
 $string['typename'] = 'Nom';
@@ -92,3 +128,10 @@ $string['text'] = 'Texte';
 $string['content'] = 'Contenu ';
 
 $string['exportdata'] = 'Exporter les données';
+
+// Kown families
+$string['familystructure'] = 'Eléments de structure';
+$string['familygeneric'] = 'Eléments génériques';
+$string['familypedagogic'] = 'Eléments pédagogiques';
+$string['familymeta'] = 'Eléments méta';
+$string['familyspecial'] = 'Eléments spéciaux';

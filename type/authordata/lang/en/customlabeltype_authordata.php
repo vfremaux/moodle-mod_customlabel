@@ -29,6 +29,8 @@ $string['showcontributors'] = 'Show contributors';
 $string['showinstitution'] = 'Show institution';
 $string['showdepartment'] = 'Show department';
 
+$string['family'] = 'meta';
+
 $string['template'] = '
 <table class="custombox-authordata">
     <%if %%tablecaption%% %>
