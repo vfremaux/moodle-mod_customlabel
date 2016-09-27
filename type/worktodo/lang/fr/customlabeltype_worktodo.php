@@ -57,7 +57,7 @@ $string['template'] = '
 </tr>
 <tr valign="top">
     <td class="custombox-worktype worktodo" colspan="2">
-        <span class="custombox-param worktodo">Type :</span> <span class="custombox-value worktodo"><%%worktypefield%%></span>
+        <span class="custombox-param worktodo">Type&nbsp;:</span> <span class="custombox-value worktodo"><%%worktypefield%%></span>
     </td>
     <td class="custombox-timeexpected worktodo" align="right" width="40">
         <img src="/mod/customlabel/type/worktodo/clock.jpg" /> <%%estimatedworktime%%>
@@ -65,10 +65,10 @@ $string['template'] = '
 </tr>
 <tr valign="top">
     <td class="custombox-worktype worktodo">
-        <span class="custombox-param worktodo">Difficulté :</span> <span class="custombox-value worktodo"><%%workeffortfield%%></span>
+        <span class="custombox-param worktodo">Difficulté&nbsp;:</span> <span class="custombox-value worktodo"><%%workeffortfield%%></span>
     </td>
     <td class="custombox-workmode worktodo" align="right" colspan="3">
-        <span class="custombox-param worktodo">Modalité :</span> <span class="custombox-value worktodo"><%%workmodefield%%></span>
+        <span class="custombox-param worktodo">Modalité&nbsp;:</span> <span class="custombox-value worktodo"><%%workmodefield%%></span>
     </td>
 </tr>
 <tr>

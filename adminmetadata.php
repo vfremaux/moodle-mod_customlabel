@@ -47,7 +47,7 @@ $action = optional_param('what', '', PARAM_ALPHA);
 if (!preg_match("/classifiers|metadata|constraints|model/", $view)) $view = 'metadata';
 $tabname = get_string('classifiers', 'customlabel');
 $row[] = new tabobject('classifiers', $CFG->wwwroot."/mod/customlabel/adminmetadata.php?view=classifiers", $tabname);
-$tabname = get_string('classification', 'customlabel');
+$tabname = get_string('classificationvalues', 'customlabel');
 $row[] = new tabobject('metadata', $CFG->wwwroot."/mod/customlabel/adminmetadata.php?view=metadata", $tabname);
 $tabname = get_string('constraints', 'customlabel');
 $row[] = new tabobject('constraints', $CFG->wwwroot."/mod/customlabel/adminmetadata.php?view=constraints", $tabname);

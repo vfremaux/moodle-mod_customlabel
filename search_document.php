@@ -35,6 +35,7 @@ class CustomLabelSearchDocument extends SearchDocument {
 
     public function __construct(&$customlabel, &$class, $context_id) {
         // generic information; required
+        $doc = new StdClass();
         $doc->docid     = $customlabel['course'];
         $doc->documenttype = X_SEARCH_TYPE_CUSTOMLABEL;
         $doc->itemtype     = 'customlabel';
@@ -48,7 +49,7 @@ class CustomLabelSearchDocument extends SearchDocument {
 
         // module specific information : extract fields from serialized content. Add those who are
         // lists as keyfields
-        $content = json_decode(base64_decode($customlabel['safecontent']));
+        $content = json_decode(base64_decode($customlabel['processedcontent']));
 
         $additionalKeys = NULL;
 
@@ -75,7 +76,6 @@ class CustomLabelSearchDocument extends SearchDocument {
 */
 function customlabel_make_link($course_id) {
     global $CFG;
-
     return $CFG->wwwroot.'/course/view.php?id='.$course_id;
 }
 
@@ -85,7 +85,6 @@ function customlabel_make_link($course_id) {
 */
 function customlabel_iterator() {
     global $DB;
-
     //trick to leave search indexer functionality intact, but allow
     //this document to only use the below function to return info
     //to be searched
@@ -112,7 +111,8 @@ function customlabel_get_content_for_index(&$customlabel) {
     $context = context_module::instance($cm->id);
     $customclass = customlabel_load_class($customlabel, true);
     if ($customclass) {
-        $documents[] = new CustomLabelSearchDocument(get_object_vars($customlabel), $customclass, $context->id);
+        $arr = get_object_vars($customlabel);
+        $documents[] = new CustomLabelSearchDocument($arr, $customclass, $context->id);
         mtrace("finished label {$customlabel->id}");
     } else {
         mtrace("ignoring unknown label type {$customlabel->labelclass} instance");

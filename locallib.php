@@ -92,6 +92,40 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
 }
 
 /**
+ * fetches all area names in all customlabel types for backup. Note
+ * that one area name could serve for different purposes in distinct 
+ * instances of distinct types. This should not affectthe backup files
+ * discrimination as keyed by the context id.
+ */
+function customlabel_get_fileareas() {
+    global $CFG;
+
+    $basetypedir = $CFG->dirroot."/mod/customlabel/type";
+
+    $areas = array();
+
+    $classdir = opendir($basetypedir);
+    while ($entry = readdir($classdir)) {
+        if (preg_match("/^[.!]/", $entry)) continue; // Ignore what needs to be ignored.
+        if (!is_dir($basetypedir.'/'.$entry)) continue; // Ignore real files.
+        if (preg_match('/^CVS$/', $entry)) continue; // Ignore versionning files.
+        if ($entry == 'NEWTYPE') continue; // Discard plugin prototype.
+        require_once($basetypedir.'/'.$entry.'/customlabel.class.php');
+        $classname = 'customlabel_type_'.$entry;
+        $class = new $classname(null);
+        foreach ($class->fields as $f) {
+            if ($f->type == 'filepicker') {
+                if (!in_array($f->name, $areas)) {
+                    $areas[] = $f->name;
+                }
+            }
+        }
+    }
+
+    return $areas;
+}
+
+/**
  * makes an instance of the customlabel description object
  * @param object $customlabel a customlabel record from the database
  * @param boolean $quiet if true, will be silent when failing finding the class reference
@@ -198,6 +232,89 @@ function customlabel_save_draft_file(&$customlabel, $filearea) {
             file_save_draft_area_files($filepickeritemid, $context->id, 'mod_customlabel', $filearea, 0);
         }
     }
+}
+
+/**
+ * Convert encoded URLs in $text from the @@PLUGINFILE@@/... form to an actual URL.
+ * @see lib/filedir.php
+ *
+ * We need customise that because our text has @@FILETAGS@@ from distinct itemids
+ *
+ * @category files
+ * @global stdClass $CFG
+ * @param string $text The content that may contain ULRs in need of rewriting.
+ * @param string $file The script that should be used to serve these files. pluginfile.php, draftfile.php, etc.
+ * @param int $contextid This parameter and the next two identify the file area to use.
+ * @param string $component
+ * @param string $filearea helps identify the file area.
+ * @param int $itemid helps identify the file area.
+ * @param array $options text and file options ('forcehttps'=>false)
+ * @return string the processed text.
+ */
+function customlabel_file_rewrite_pluginfile_urls($text, $file, $contextid, $component, $filearea, $itemid, array $options=null) {
+    global $CFG;
+
+    $options = (array)$options;
+    if (!isset($options['forcehttps'])) {
+        $options['forcehttps'] = false;
+    }
+
+    if (!$CFG->slasharguments) {
+        $file = $file . '?file=';
+    }
+
+    $baseurl = "$CFG->wwwroot/$file/$contextid/$component/$filearea/";
+
+    if ($itemid !== null) {
+        $baseurl .= "$itemid/";
+    }
+
+    if ($options['forcehttps']) {
+        $baseurl = str_replace('http://', 'https://', $baseurl);
+    }
+
+    return preg_replace('/@@PLUGINFILE(\\:\\:|\\%3A\\%3A)'.$itemid.'@@\//i', $baseurl, $text);
+}
+
+/**
+ * Convert the draft file area URLs in some content to @@PLUGINFILE@@ tokens
+ * ready to be saved in the database. Normally, this is done automatically by
+ * {@link file_save_draft_area_files()}.
+ *
+ * We need customise that because our text has @@FILETAGS@@ from distinct itemids
+ *
+ * @category files
+ * @param string $text the content to process.
+ * @param int $draftitemid the draft file area the content was using.
+ * @param bool $forcehttps whether the content contains https URLs. Default false.
+ * @return string the processed content.
+ */
+function customlabel_file_rewrite_urls_to_pluginfile($text, $draftitemid, $fielditemid, $forcehttps = false) {
+    global $CFG, $USER;
+
+    $usercontext = context_user::instance($USER->id);
+
+    $wwwroot = $CFG->wwwroot;
+    if ($forcehttps) {
+        $wwwroot = str_replace('http://', 'https://', $wwwroot);
+    }
+
+    // relink embedded files if text submitted - no absolute links allowed in database!
+    $text = str_ireplace("$wwwroot/draftfile.php/$usercontext->id/user/draft/$draftitemid/", '@@PLUGINFILE::'.$fielditemid.'@@/', $text);
+
+    if (strpos($text, 'draftfile.php?file=') !== false) {
+        $matches = array();
+        preg_match_all("!$wwwroot/draftfile.php\?file=%2F{$usercontext->id}%2Fuser%2Fdraft%2F{$draftitemid}%2F[^'\",&<>|`\s:\\\\]+!iu", $text, $matches);
+        if ($matches) {
+            foreach ($matches[0] as $match) {
+                $replace = str_ireplace('%2F', '/', $match);
+                $text = str_replace($match, $replace, $text);
+            }
+        }
+        $text = str_ireplace("$wwwroot/draftfile.php?file=/$usercontext->id/user/draft/$draftitemid/", '@@PLUGINFILE::'.$fielditemid.'@@/', $text);
+    }
+
+    return $text;
 }
 
 /**

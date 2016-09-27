@@ -20,6 +20,7 @@
  * @copyright  2010 onwards Valery Fremaux {valery.fremaux@club-internet.fr}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
 /**
  * Define all the backup steps that will be used by the backup_vodclic_activity_task
@@ -92,7 +93,15 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
         // (none)
 
         // Define file annotations
-        $customlabel->annotate_files('mod_customlabel', 'contentfiles', null); // This file area hasn't itemid
+        $customlabel->annotate_files('mod_customlabel', 'contentfiles', null); // Get all itemids you can find (subids of internal fields)
+
+        // This will scan every type of label to find filepickers elements
+        $areas = customlabel_get_fileareas();
+        if (!empty($areas)) {
+            foreach ($areas as $a) {
+                $customlabel->annotate_files('mod_customlabel', $a, null); // This file area hasn't itemid
+            }
+        }
 
         // Return the root element (customlabel), wrapped into standard activity structure
         return $this->prepare_activity_structure($customlabel);

@@ -17,6 +17,7 @@ class customlabel_type_seealso extends customlabel_type{
         $field = new StdClass;
         $field->name = 'seealso';
         $field->type = 'textarea';
+        $field->itemid = 0;
         $field->rows = 20;
         $this->fields['seealso'] = $field;
     }

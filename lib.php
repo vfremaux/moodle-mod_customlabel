@@ -101,6 +101,7 @@ function customlabel_add_instance($customlabel) {
     $customlabel->introformat = 0;
 
     $customlabel->processedcontent = '';
+
     $instance = customlabel_load_class($customlabel);
     $customlabeldata = new StdClass();
 
@@ -111,14 +112,17 @@ function customlabel_add_instance($customlabel) {
         if (!isset($customlabel->{$field->name})) {
             $customlabel->{$field->name} = @$_REQUEST[$field->name]; // odd thing when bouncing
         }
+
         if ($field->type == 'date') {
             $timestamp = mktime(0,0,0,$customlabel->{$field->name}['month'], $customlabel->{$field->name}['day'], $customlabel->{$field->name}['year']);
             $customlabel->{$field->name} = $timestamp;
         }
+
         if ($field->type == 'datetime') {
             $timestamp = mktime($customlabel->{$field->name}['hour'],$customlabel->{$field->name}['min'],$customlabel->{$field->name}['sec'],$customlabel->{$field->name}['month'], $customlabel->{$field->name}['day'], $customlabel->{$field->name}['year']);
             $customlabel->{$field->name} = $timestamp;
         }
+
         if (preg_match('/editor|textarea/', $field->type)) {
             $editorname = $fieldname.'_editor';
             if (!isset($customlabel->$editorname)) {
@@ -127,7 +131,8 @@ function customlabel_add_instance($customlabel) {
                 $editordata = $customlabel->$editorname; // odd thing when bouncing
             }
             // Saves all embdeded images or files into elements in a single text area.
-            $customlabel->$fieldname = file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', 0, array('subdirs' => false), $editordata['text']);
+            file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
+            $customlabel->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($editordata['text'], $editordata['itemid'], $field->itemid);
         }
 
         if ($field->type == 'filepicker') {
@@ -180,7 +185,7 @@ function customlabel_update_instance($customlabel) {
         $customlabel->fallbacktype = @$instance->fallbacktype;
         $instance->posttemplate_data();
     }
-    
+
     $customlabel->introformat = 0;
     $customlabel->timemodified = time();
     $customlabel->id = $customlabel->instance;
@@ -197,15 +202,17 @@ function customlabel_update_instance($customlabel) {
     foreach ($updatedinstance->fields as $field) {
         $fieldname = $field->name;
         if (preg_match('/editor|textarea/', $field->type)) {
+            // Editors need special processing for embedded links and images.
             $editorname = $fieldname.'_editor';
             if (!isset($customlabel->$editorname)) {
-                $editordata = @$_POST[$editorname]; // odd thing when bouncing
+                $editordata = @$_POST[$editorname]; // Odd thing when bouncing.
             } else {
-                $editordata = $customlabel->$editorname; // odd thing when bouncing
+                $editordata = $customlabel->$editorname; // Odd thing when bouncing.
             }
 
             // Saves all embdeded images or files into elements in a single text area from editordata.
-            $customlabel->$fieldname = file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', 0, array('subdirs' => false), $editordata['text']);
+            file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', 0 + @$field->itemid);
+            $customlabel->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($editordata['text'], $editordata['itemid'], 0 + @$field->itemid);
         }
 
         if ($field->type == 'filepicker') {
@@ -215,9 +222,13 @@ function customlabel_update_instance($customlabel) {
         $customlabeldata->{$field->name} = @$customlabel->{$field->name};
         unset($customlabel->{$field->name});
 
-        if ($field->type == 'vdatasource') {
+        if (preg_match('/datasource$/', $field->type)) {
             $fieldoption = $field->name.'option';
-            $customlabeldata->{$fieldoption} = @$customlabel->{$fieldoption};
+            if ($field->multiple) {
+                $customlabeldata->{$fieldoption} = implode(',', @$customlabel->{$fieldoption});
+            } else {
+                $customlabeldata->{$fieldoption} = @$customlabel->{$fieldoption};
+            }
             unset($customlabel->{$fieldoption});
         }
 
@@ -292,37 +303,42 @@ function customlabel_get_participants($customlabelid) {
  */
 function customlabel_get_coursemodule_info($coursemodule) {
     global $CFG, $DB, $COURSE;
+    static $INSTANCES = array();
 
-    if ($customlabel = $DB->get_record('customlabel', array('id' => $coursemodule->instance), 'id, labelclass, intro, title, name, content, processedcontent')) {
-
-        // Check label subtype is still installed
-        if (!is_dir($CFG->dirroot.'/mod/customlabel/type/'.$customlabel->labelclass)) {
-            course_delete_module($coursemodule->id);
-            customlabel_delete_instance($customlabel->id);
-            rebuild_course_cache($COURSE);
-            return;
+    if (!in_array($coursemodule->instance, $INSTANCES)) {
+        if ($customlabel = $DB->get_record('customlabel', array('id' => $coursemodule->instance), 'id, labelclass, intro, title, name, content, processedcontent')) {
+    
+            // Check label subtype is still installed
+            if (!is_dir($CFG->dirroot.'/mod/customlabel/type/'.$customlabel->labelclass)) {
+                course_delete_module($coursemodule->id);
+                customlabel_delete_instance($customlabel->id);
+                rebuild_course_cache($COURSE->id);
+                return;
+            }
+            $INSTANCES[$coursemodule->instance] = customlabel_load_class($customlabel, $customlabel->labelclass);
+        } else {
+            return null;
         }
-
-        $instance = customlabel_load_class($customlabel, $customlabel->labelclass);
-
-        $info = new stdClass();
-        $info->name = $customlabel->name;
-        $info->extra = '';
-        // $customcontent = json_decode(base64_decode($customlabel->content));
-        $info->extra = urlencode($customlabel->title);
-        return $info;
-    } else {
-        return null;
     }
+
+    $info = new stdClass();
+    $info->name = $customlabel->name;
+    $info->extra = '';
+    // $customcontent = json_decode(base64_decode($customlabel->content));
+    $info->extra = urlencode($INSTANCES[$coursemodule->instance]->title);
+    return $info;
 }
 
 /**
- * this function makes a last post process of the cminfo information
+ * This function makes a last post process of the cminfo information
  * for module info caching in memory when course displays. Here we
  * can tweek some information to force cminfo behave like some label kind
+ * @see : Page format use the pageitem.php strategy for dealing with the 
+ * content display rules.
+ * @todo : reevaluate strategy. this may still be used for improving standard formats.
  */
 function customlabel_cm_info_dynamic(&$cminfo) {
-    global $DB, $PAGE, $CFG;
+    global $DB, $PAGE, $CFG, $COURSE;
 
     static $customlabelscriptsloaded = false;
     static $customlabelcssloaded = array();
@@ -333,30 +349,20 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         $customlabelscriptsloaded = true;
     }
 
-    // Apply role restriction here.
-    if ($customlabel = $DB->get_record('customlabel', array('id' => $cminfo->instance))) {
-        if (!is_dir($CFG->dirroot.'/mod/customlabel/type/'.$customlabel->labelclass)) {
+    // Improve page format by testing if in current visble page
+    if ($COURSE->format == 'page') {
+        $current = course_page::get_current_page($COURSE->id);
+        if (!$DB->record_exists('format_page_items', array('cmid' => $cminfo->id, 'pageid' => $current->id))) {
             return;
         }
-        if (!isloggedin()) {
-            // check capability to see on user role
-            $userrole = $DB->get_record('role', array('shortname' => 'user'));
-            if (!$DB->get_record('role_capabilities', array('contextid' => system_context::instance()->id, 'roleid' => $userrole->id, 'capability' => 'customlabeltype/'.$customlabel->labelclass.':view', 'permission' => CAP_ALLOW))) {
-                // Set no chance to see anything from it.
-                $cminfo->set_no_view_link();
-                $cminfo->set_content('');
-                $cminfo->set_user_visible(false);
-                return;
-            }
-        } else {
-            if (!has_capability('customlabeltype/'.$customlabel->labelclass.':view', $cminfo->context)) {
-                // Set no chance to see anything from it.
-                $cminfo->set_no_view_link();
-                $cminfo->set_content('');
-                $cminfo->set_user_visible(false);
-                return;
-            }
-        }
+    }
+
+    // debug_trace('standard view for CL '.$cminfo->id. '=> '.$cminfo->instance);
+
+    // Apply role restriction here.
+    if ($customlabel = $DB->get_record('customlabel', array('id' => $cminfo->instance))) {
+
+        $context = context_module::instance($cminfo->id);
 
         $cssurl = '/mod/customlabel/type/'.$customlabel->labelclass.'/customlabel.css';
         $content = '';
@@ -365,11 +371,32 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         } else {
             // Late loading.
             // Less clean but no other way in some cases.
-            $content = "<link rel=\"stylesheet\" href=\"{$CFG->wwwroot}{$cssurl}\" />\n";
+            $content .= '<link rel="stylesheet" href="'.$CFG->wwwroot.$cssurl.'" />'."\n";
+        }
+
+        if (!is_dir($CFG->dirroot.'/mod/customlabel/type/'.$customlabel->labelclass)) {
+            return;
+        }
+
+        $instance = customlabel_load_class($customlabel, true);
+
+        if (!customlabel_type::module_is_visible($cminfo, $customlabel)) {
+            $cminfo->set_no_view_link();
+            $cminfo->set_content('');
+            $cminfo->set_user_visible(false);
+            return;
         }
 
         $context = context_module::instance($cminfo->id);
-        $fileprocessedcontent = file_rewrite_pluginfile_urls($customlabel->processedcontent, 'pluginfile.php', $context->id, 'mod_customlabel', 'contentfiles', 0);
+        $fileprocessedcontent = $customlabel->processedcontent;
+        foreach ($instance->fields as $field) {
+            if ($field->type == 'editor' || $field->type == 'textarea') {
+                if (!isset($field->itemid) || is_null($field->itemid)) {
+                    throw new coding_exception('Course element textarea subfield needs explicit itemid in definition '.$customlabel->labelclass.'::'.$field->name);
+                }
+                $fileprocessedcontent = customlabel_file_rewrite_pluginfile_urls($fileprocessedcontent, 'pluginfile.php', $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
+            }
+        }
 
         $content .= '<div class="customlabel-'.$customlabel->labelclass.'">'.$fileprocessedcontent.'</div>';
 
@@ -503,12 +530,19 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
         return false;
     }
 
-    require_course_login($course, true, $cm);
-
-    $id = $cm->instance;
-
-    if (!$customlabel = $DB->get_record('customlabel', array('id' => $id))) {
+    if (!$customlabel = $DB->get_record('customlabel', array('id' => $cm->instance))) {
         return false;
+    }
+
+    if ($course->format == 'page') {
+        // In page format, some pages may not require login. Just check the customlabel
+        // is accessible to the user (no mater pages are or not).
+        require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
+        if (!customlabel_type::module_is_visible($cm, $customlabel)) {
+            return false;
+        }
+    } else {
+        require_course_login($course, true, $cm);
     }
 
     $instance = customlabel_load_class($customlabel);

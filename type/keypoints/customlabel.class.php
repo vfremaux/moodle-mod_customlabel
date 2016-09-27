@@ -15,10 +15,10 @@ class customlabel_type_keypoints extends customlabel_type{
         $this->fields = array();
 
         $storeddata = json_decode(base64_decode(@$this->data->content));
-        
+
         $keypointnum = (!empty($storeddata->keypointnum)) ? $storeddata->keypointnum : 3 ;
-        
-        $field = new StdClass;        
+
+        $field = new StdClass;
         $field->name = 'keypointnum';
         $field->type = 'textfield';
         $field->size = 4;
@@ -29,6 +29,7 @@ class customlabel_type_keypoints extends customlabel_type{
             $field = new StdClass;
             $field->name = 'keypointitem'.$i;
             $field->type = 'textarea';
+            $field->itemid = $i;
             $field->size = 60;
             $this->fields['keypointitem'.$i] = $field;
         }

@@ -122,7 +122,7 @@ $string['template'] = '
         </td>
     </tr>
     <%endif %>
-    <%if %%followers%% %>
+    <%if %%showfollowers%% %>
     <tr valign="top">
         <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
             Cours suivants&nbsp;:

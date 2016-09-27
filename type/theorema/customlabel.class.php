@@ -17,6 +17,7 @@ class customlabel_type_theorema extends customlabel_type {
         $field = new StdClass;
         $field->name = 'theorema';
         $field->type = 'textarea';
+        $field->itemid = 0;
         $field->rows = 20;
         $this->fields['theorema'] = $field;
 
@@ -35,10 +36,12 @@ class customlabel_type_theorema extends customlabel_type {
         $field->default = 0;
         $this->fields['corollarynum'] = $field;
 
+        $i = 0;
         for ($i = 0 ; $i < $subdefsnum; $i++) {
             $field = new StdClass;
             $field->name = 'corollary'.$i;
             $field->type = 'textarea';
+            $field->itemid = $i + 1;
             $field->size = 60;
             $this->fields['corollary'.$i] = $field;
         }
@@ -51,6 +54,7 @@ class customlabel_type_theorema extends customlabel_type {
         $field = new StdClass;
         $field->name = 'demonstration';
         $field->type = 'textarea';
+        $field->itemid = $i + 1;
         $field->rows = 20;
         $this->fields['demonstration'] = $field;
     }
