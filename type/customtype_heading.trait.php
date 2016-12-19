@@ -15,18 +15,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * xlib.php is a cross-components library for functions that are required
- * from elsewhere in Moodle and not part of the standard Core API
+ * @package    mod_customlabel
+ * @category   mod
+ * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
-/**
- * this function for use in theme_xxx_process_css() function in coordination with a
- * [[customlabel|overrides]] tag placed into any stylesheet of the theme.
- */
-function theme_set_customlabelcss($css) {
-    $tag = '[[customlabel:overrides]]';
-    $config = get_config('mod_customlabel');
-    $replacement = @$config->cssoverrides;
-    $css = str_replace($tag, $replacement, $css);
-    return $css;
+trait customlabel_trait_heading {
+
+    public function standard_name_fields() {
+
+        $field = new StdClass;
+        $field->name = 'heading';
+        $field->size = 80;
+        $field->type = 'textfield';
+        $this->fields['heading'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'shortdesc';
+        $field->type = 'textarea';
+        $field->itemid = 0;
+        $this->fields['shortdesc'] = $field;
+    }
 }

@@ -19,6 +19,7 @@ table.custombox-worktodo {
 #page-region-main td.custombox-header-thumb.worktodo {
     width:65px;
     min-width:65px;
+    background-image: url("/mod/customlabel/type/worktodo/pix/icon_todo.png");
     background-repeat: no-repeat;
     height:73px;
 }
@@ -65,5 +66,9 @@ span.custombox-value.worktype {
     font-style:italic;
     color:#8C919B;
     font-size:0.95em;
+}
+
+div.custom-clockimage {
+    background:url('/mod/customlabel/pix/clock.jpg') no-repeat;
 }
 

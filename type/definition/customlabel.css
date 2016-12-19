@@ -19,6 +19,7 @@ td.custombox-header-thumb.definition {
 #page-region-main td.custombox-header-thumb.definition {
     width:65px;
     min-width:65px;
+    background-image: url("/mod/customlabel/type/definition/pix/icon_definition.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -45,5 +46,5 @@ td.custombox-content.definition h3{
 }
 
 td.custombox-subdefinitions.definition {
-	padding-left:50px;
+    padding-left:50px;
 }

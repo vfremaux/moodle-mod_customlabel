@@ -47,6 +47,7 @@ class customlabel_type_definition extends customlabel_type{
     }
     
     function preprocess_data() {
+
         $this->data->hassubdeflist = 0;
         $this->data->subdeflist = "<ul class=\"customlabel-subdefinition definition\">\n";
         for ($i = 0 ; $i < $this->data->subdefsnum; $i++) {        

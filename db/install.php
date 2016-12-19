@@ -17,15 +17,13 @@
 /**
  * Post-install code for the customlabel module.
  *
- * @package    mod
- * @subpackage customlabel
- * @copyright  2013 Valery Fremaux
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_customlabel
+ * @category    mod
+ * @copyright   2013 Valery Fremaux
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
-
 
 /**
  * Code run after the quiz module database tables have been created.
@@ -97,8 +95,8 @@ function xmldb_customlabel_install() {
     $record->parent = 0;
     $DB->insert_record('customlabel_mtd_value', $record);
 
-    // Workmodes
-    
+    // Workmodes.
+
     $record = new stdClass();
     $record->type = 'filter';
     $record->code = 'WORKMODE';
@@ -188,8 +186,8 @@ function xmldb_customlabel_install() {
     $record->parent = 0;
     $DB->insert_record('customlabel_mtd_value', $record);
 
-    // Worktypes 
-    
+    // Worktypes.
+
     $record = new stdClass();
     $record->type = 'filter';
     $record->code = 'WORKTYPE';
@@ -269,5 +267,4 @@ function xmldb_customlabel_install() {
     $record->sortorder = 2;
     $record->parent = 0;
     $DB->insert_record('customlabel_mtd_value', $record);
-
 }

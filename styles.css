@@ -24,3 +24,7 @@
     color:#008000;
     background-color:#A0FFA0;
 }
+
+.constraint-form-table td {
+    padding: 5px;
+}

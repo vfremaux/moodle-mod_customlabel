@@ -10,6 +10,7 @@ td.custombox-thumb.authornote {
 #region-main td.custombox-thumb.authornote {
     width:65px;
     min-width:65px;
+    background-image: url("/mod/customlabel/type/authornote/pix/icon_info.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

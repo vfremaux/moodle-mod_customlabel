@@ -1,6 +1,31 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/************************************* Add ******************/
+/**
+ * @package    mod_customlabel
+ * @category   mod
+ * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ */
+
+defined('MOODLE_INTERNAL') || die();
+
+// Add *********************************************************.
+
 if ($action == 'add') {
     $data = $mform->get_data();
     $metadatatype = new StdClass;
@@ -16,7 +41,8 @@ if ($action == 'add') {
     redirect($url.'?view=classifiers');
 }
 
-/************************************* Update ******************/
+// Update ********************************************************.
+
 if ($action == 'update') {
     $data = $mform->get_data();
     $metadatatype = new StdClass;
@@ -31,41 +57,46 @@ if ($action == 'update') {
     redirect($url.'?view=classifiers');
 }
 
-/*********************************** get a type for editing ************************/
+// Get a type for editing ******************************************.
+
 if ($action == 'edit') {
     $typeid = required_param('typeid', PARAM_INT);
-    $data = $DB->get_record($CFG->classification_type_table, array('id' => $typeid));    
+    $data = $DB->get_record($CFG->classification_type_table, array('id' => $typeid));
 }
 
-/*********************************** moves up ************************/
+// Moves up *************************************************************.
+
 if ($action == 'up') {
     $id = required_param('typeid', PARAM_INT);
     classification_tree_up($id);
 }
 
-/*********************************** moves down ************************/
+// Moves down **********************************************************.
+
 if ($action == 'down') {
     $id = required_param('typeid', PARAM_INT);
     classification_tree_down($id);
 }
 
-/************************************* Delete safe (only if not used) ******************/
+// Delete safe (only if not used) ***************************************.
+
 if ($action == 'delete') {
     $id = required_param('typeid', PARAM_INT);
     $typeorder = $DB->get_field($CFG->classification_type_table, 'sortorder', array('id' => $id));
     if (!$DB->delete_records($CFG->classification_type_table, array('id' => $id))) {
         print_error('could not delete classifier');
     }
-    // clear all sub values
+    // Clear all sub values.
     if ($valueids = $DB->get_records_menu($CFG->classification_type_table, array('type' => $id), 'id,id')) {
 
         $DB->delete_records($CFG->classification_value_table, array($CFG->classification_value_type_key => $id));
-        // clear constraint records
+        // Clear constraint records.
         $valueidslist = implode("','", array_keys($valueids));
         $DB->delete_records_select($CFG->classification_constraint_table, "value1 IN ('$valueidslist') ");
         $DB->delete_records_select($CFG->classification_constraint_table, "value2 IN ('$valueidslist') ");
-        // clear course assignations
-        $DB->delete_records_select($CFG->course_metadata_table, " {$CFG->course_metadata_value_key} IN ('$valueidslist') " );
+
+        // Clear course assignations.
+        $DB->delete_records_select($CFG->course_metadata_table, " {$CFG->course_metadata_value_key} IN ('$valueidslist') ");
     }
 
     classification_tree_updateordering($typeorder);
@@ -84,30 +115,29 @@ function classification_tree_updateordering($id) {
     if (!$res) {
         // Fallback : we give the ordering.
         $res->sortorder = $id;
-    }
+    };
     // Start reorder from the immediate lower (works from sortorder = 0).
     $prev = $res->sortorder - 1;
 
     // Getting subsequent nodes.
     $query = "
-        SELECT 
-            id   
-        FROM 
+        SELECT
+            id
+        FROM
             {customlabel_mtd_type}
-        WHERE 
+        WHERE
             sortorder > {$prev}
-        ORDER BY 
+        ORDER BY
             sortorder
     ";
 
-    // reordering subsequent nodes using an object
+    // Reordering subsequent nodes using an object.
     if ( $nextsubs = $DB->get_records_sql($query)) {
         $ordering = $res->sortorder;
         foreach ($nextsubs as $asub) {
-            $object = new stdClass();
-            $object->id = $asub->id;
-            $object->sortorder = $ordering;
-            $DB->update_record($CFG->classification_type_table, $object);
+            $objet->id = $asub->id;
+            $objet->sortorder = $ordering;
+            $DB->update_record($CFG->classification_type_table, $objet);
             $ordering++;
         }
     }
@@ -123,31 +153,32 @@ function classification_tree_up($id) {
     global $CFG, $DB;
 
     $res = $DB->get_record($CFG->classification_type_table, array('id' => $id));
-    if (!$res) return;
+    if (!$res) {
+        return;
+    }
 
     if ($res->sortorder >= 1) {
         $newordering = $res->sortorder - 1;
 
         $query = "
-            SELECT 
+            SELECT
                 id
-            FROM 
+            FROM
                 {{$CFG->classification_type_table}}
-            WHERE 
+            WHERE
                 sortorder = $newordering
         ";
         $result =  $DB->get_record_sql($query);
         $resid = $result->id;
 
         // Swapping.
-        $object = new stdClass();
-        $object->id = $resid;
-        $object->sortorder = $res->sortorder;
-        $DB->update_record($CFG->classification_type_table, $object);
+        $objet->id = $resid;
+        $objet->sortorder = $res->sortorder;
+        $DB->update_record($CFG->classification_type_table, $objet);
 
-        $object->id = $id;
-        $object->sortorder = $newordering;
-        $DB->update_record($CFG->classification_type_table, $object);
+        $objet->id = $id;
+        $objet->sortorder = $newordering;
+        $DB->update_record($CFG->classification_type_table, $objet);
     }
 }
 
@@ -162,9 +193,9 @@ function classification_tree_down($id) {
     $res =  $DB->get_record($CFG->classification_type_table, array('id' => $id));
 
     $query = "
-        SELECT 
+        SELECT
             MAX(sortorder) AS sortorder
-        FROM 
+        FROM
             {{$CFG->classification_type_table}}
     ";
 
@@ -175,25 +206,24 @@ function classification_tree_down($id) {
         $newordering = $res->sortorder + 1;
 
         $query = "
-            SELECT 
+            SELECT
                 id
-            FROM    
+            FROM
                 {{$CFG->classification_type_table}}
-            WHERE 
+            WHERE
                 sortorder = $newordering
         ";
         $result = $DB->get_record_sql($query);
         $resid = $result->id;
 
         // Swapping.
-        $object = new stdClass();
-        $object->id = $resid;
-        $object->sortorder = $res->sortorder;
-        $DB->update_record($CFG->classification_type_table, $object);
+        $objet->id = $resid;
+        $objet->sortorder = $res->sortorder;
+        $DB->update_record($CFG->classification_type_table, $objet);
 
-        $object->id = $id;
-        $object->sortorder = $newordering;
-        $DB->update_record($CFG->classification_type_table, $object);
+        $objet->id = $id;
+        $objet->sortorder = $newordering;
+        $DB->update_record($CFG->classification_type_table, $objet);
     }
 }
 

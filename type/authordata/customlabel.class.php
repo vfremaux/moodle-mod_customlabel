@@ -23,7 +23,7 @@ class customlabel_type_authordata extends customlabel_type {
         $field->type = 'textfield';
         $this->fields['tablecaption'] = $field;
 
-        for ($i = 1 ; $i <= $this->nbauthor ; $i++) {
+        for ($i = 1; $i <= $this->nbauthor; $i++) {
             $field = new StdClass;
             $field->name = 'author'.$i;
             $field->type = 'textfield';

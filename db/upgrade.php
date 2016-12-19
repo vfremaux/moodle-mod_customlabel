@@ -1,42 +1,48 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-// This file keeps track of upgrades to 
-// the customlabel module
-//
-// Sometimes, changes between versions involve
-// alterations to database structures and other
-// major things that may break installations.
-//
-// The upgrade function in this file will attempt
-// to perform all the necessary actions to upgrade
-// your older installtion to the current version.
-//
-// If there's something it cannot do itself, it
-// will tell you what you need to do.
-//
-// The commands in here will all be database-neutral,
-// using the functions defined in lib/ddllib.php
+/**
+ * @package     mod_customlabel
+ * @category    mod
+ * @author      Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @copyright   (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL
+ */
+
+defined('MOODLE_INTERNAL') || die ();
+
 require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
-function xmldb_customlabel_upgrade($oldversion=0) {
+function xmldb_customlabel_upgrade($oldversion = 0) {
     global $DB;
 
     $result = true;
 
     $dbman = $DB->get_manager();
 
-    //===== 1.9.0 upgrade line ======//
     if ($result && $oldversion < 2012062401) {
 
-    // Define field fallbacktype to be added to customlabel.
+        // Define field fallbacktype to be added to customlabel.
         $table = new xmldb_table('customlabel');
         $field = new xmldb_field('fallbacktype');
         $field->set_attributes(XMLDB_TYPE_CHAR, '32', null, null, null, null, 'labelclass');
 
-    // Launch add field parent.
-        $result = $result || $dbman->add_field($table, $field);
+        $dbman->add_field($table, $field);
 
-        // customlabel savepoint reached.
+        // Customlabel savepoint reached.
         upgrade_mod_savepoint($result, 2012062401, 'customlabel');
     }
 
@@ -94,9 +100,9 @@ function customlabel_course_preprocess_filepickers($c) {
                     $content = json_decode(base64_decode($c->content));
                     mtrace("checking field content : ".@$content->$oldname);
                     if (!empty($content->$oldname)) {
-                        // We have an old data there, we need get the file record it and add it to the filestore
+                        // We have an old data there, we need get the file record it and add it to the filestore.
                         if (preg_match('#^http#', $content->$oldname)) {
-                            // Fire a CURL to get the file, store into filestore
+                            // Fire a CURL to get the file, store into filestore.
 
                             $filerecord = new Stdclass();
                             $filerecord->contextid = context_module::instance($cm->id)->id;
@@ -108,6 +114,7 @@ function customlabel_course_preprocess_filepickers($c) {
                             try {
                                 $fs->create_file_from_url($filerecord, $content->$oldname, null, true);
                             } catch( Exception $e) {
+                                // Do nothing.
                             }
                             mtrace("file created ");
                         }

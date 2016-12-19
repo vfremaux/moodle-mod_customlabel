@@ -18,9 +18,10 @@
  * Add customlabel form
  *
  * @package    mod_customlabel
- * @copyright  2012 Valery Fremaux 
+ * @copyright  2012 Valery Fremaux
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
@@ -37,7 +38,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
      */
     public static function editor_options() {
         global $COURSE, $PAGE, $CFG;
-        // TODO: add max files and max size support
+        // TODO: add max files and max size support.
         $maxbytes = get_user_max_upload_file_size($PAGE->context, $CFG->maxbytes, $COURSE->maxbytes);
         return array(
             'maxfiles' => EDITOR_UNLIMITED_FILES,
@@ -68,7 +69,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
         $customlabel = new StdClass;
         if ($tomodel = optional_param('type', '', PARAM_TEXT)) {
             $customlabel->labelclass = $tomodel;
-        } elseif ($tomodel = @$SESSION->customlabel->update_type_change) {
+        } else if ($tomodel = @$SESSION->customlabel->update_type_change) {
             $customlabel->labelclass = $tomodel;
             unset($SESSION->customlabel);
         }
@@ -92,15 +93,20 @@ class mod_customlabel_mod_form extends moodleform_mod {
         $mform->addElement('hidden', 'introformat', 0);
         $mform->setType('introformat', PARAM_INT);
 
+        $mform->addElement('header', 'general', get_string('general', 'form'));
+
         $section = optional_param('section', 0, PARAM_INT);
         $returntomod = optional_param('return', 0, PARAM_BOOL);
         if (has_capability('mod/customlabel:fullaccess', $context) || $customclass->fullaccess) {
             $onchangeadvicestr = str_replace("'", "\'", get_string('changetypeadvice', 'customlabel'));
-            // $mform->addElement('select', 'labelclass', get_string('labelclass', 'customlabel'), $qoptions, array('onchange' => "type_change_submit(this,'$onchangeadvicestr')", 'id' => 'menulabelclass'));
             $labelid = 0 + @$this->current->update;
-            $typeselect = & $mform->addElement('select', 'labelclass', get_string('labelclass', 'customlabel'), array(), array('onchange' => "type_change_submit('$onchangeadvicestr', '$COURSE->id', '$section', '$returntomod', '".sesskey()."', '".$labelid."')", 'id' => 'menulabelclass'));
+            $label = get_string('labelclass', 'customlabel');
+            $attrs = array('onchange' => "type_change_submit('$onchangeadvicestr', '$COURSE->id', '$section',
+                        '$returntomod', '".sesskey()."', '".$labelid."')", 'id' => 'menulabelclass');
+            $typeselect = & $mform->addElement('select', 'labelclass', $label, array(), $attrs);
             foreach ($qoptions as $family => $options) {
-                $typeselect->addOption('--- '.get_string('family'.$family, 'customlabel').' ---', '', array('disabled' => 'disabled'));
+                $label = '--- '.get_string('family'.$family, 'customlabel').' ---';
+                $typeselect->addOption($label, '', array('disabled' => 'disabled'));
                 foreach ($options as $opt => $optlabel) {
                     $typeselect->addOption($optlabel, $opt);
                 }
@@ -132,21 +138,21 @@ class mod_customlabel_mod_form extends moodleform_mod {
             if (!empty($field->label)) {
                 $fieldlabel = format_string($field->label);
             } else {
-                $fieldlabel = get_string($field->name, 'customlabeltype_' . $customclass->type);
+                $fieldlabel = get_string($field->name, 'customlabeltype_'.$customclass->type);
             }
 
             if ($field->type == 'choiceyesno') {
                 $mform->addElement('selectyesno', $field->name, $fieldlabel);
                 $mform->setType($field->name, PARAM_BOOL);
-            } elseif ($field->type == 'textfield') {
+            } else if ($field->type == 'textfield') {
                 $attrs = array('size' => @$field->size, 'maxlength' => @$field->maxlength);
                 $mform->addElement('text', $field->name, $fieldlabel, $attrs);
                 $mform->setType($field->name, PARAM_CLEANHTML);
-            } elseif ($field->type == 'editor' || $field->type == 'textarea') {
+            } else if ($field->type == 'editor' || $field->type == 'textarea') {
                 $editoroptions = self::editor_options();
                 $editoroptions['context'] = $this->context;
-                $mform->addElement('editor', $field->name . '_editor', $fieldlabel, null, $editoroptions);
-            } elseif (preg_match("/list$/", $field->type)) {
+                $mform->addElement('editor', $field->name.'_editor', $fieldlabel, array('rows' => 5, 'cols' => 60), $editoroptions);
+            } else if (preg_match("/list$/", $field->type)) {
                 if (empty($field->straightoptions)) {
                     $options = $customclass->get_options($fieldname);
                 } else {
@@ -159,8 +165,8 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     $select->setMultiple(true);
                 }
                 $mform->setType($field->name, PARAM_TEXT);
-            } elseif (preg_match("/datasource$/", $field->type)) {
-                // Very similar to lists, except options come from an external datasource
+            } else if (preg_match("/datasource$/", $field->type)) {
+                // Very similar to lists, except options come from an external datasource.
                 $options = $customclass->get_datasource_options($field);
 
                 $script = '';
@@ -174,12 +180,13 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     $select->setMultiple(true);
                 }
                 $mform->setType($field->name, PARAM_TEXT);
-            } elseif ($field->type == 'filepicker') {
+            } else if ($field->type == 'filepicker') {
                 $group = array();
                 $types = !empty($field->acceptedtypes) ? $field->acceptedtypes : '*';
-                $group[] = $mform->createElement('filepicker', $field->name, '', array('courseid' => $COURSE->id, 'accepted_types' => $types));
-                $group[] = $mform->createElement('checkbox', 'clear' . $field->name, '', get_string('cleararea', 'customlabel'));
-                $mform->addGroup($group, $field->name . 'group', $fieldlabel, '', array(''), false);
+                $options = array('courseid' => $COURSE->id, 'accepted_types' => $types);
+                $group[] = $mform->createElement('filepicker', $field->name, '', $options);
+                $group[] = $mform->createElement('checkbox', 'clear'.$field->name, '', get_string('cleararea', 'customlabel'));
+                $mform->addGroup($group, $field->name.'group', $fieldlabel, '', array(''), false);
             } else {
                 echo "Unknown or unsupported type : $field->type";
             }
@@ -189,33 +196,28 @@ class mod_customlabel_mod_form extends moodleform_mod {
             }
 
             if (!empty($field->help)) {
-                $mform->addHelpButton($field->name, $field->help, 'customlabeltype_' . $customlabel->labelclass);
+                $mform->addHelpButton($field->name, $field->help, 'customlabeltype_'.$customlabel->labelclass);
             }
 
             $mform->setDefault($fieldname, @$field->default);
         }
 
-        //-------------------------------------------------------------------------------
         $this->standard_coursemodule_elements();
-        //-------------------------------------------------------------------------------
-        // buttons
-        $this->add_action_buttons();
-    }
 
-    public function validation($data, $files = null) {
+        $this->add_action_buttons();
     }
 
     // We must prepare data, extract dynamic part from instance.
     public function set_data($customlabel) {
 
         if (empty($customlabel->labelclass)) {
-            $customlabel->labelclass = 'text';
-            $customlabel->content = '';
-            $customlabel->processedcontent = '';
-            $customlabel->intro = '';
-            $customlabel->introformat = 0;
-            $customlabel->textcontent = '';
-            $customlabel->readmorecontent = '';
+             $customlabel->labelclass = 'text';
+             $customlabel->content = '';
+             $customlabel->processedcontent = '';
+             $customlabel->intro = '';
+             $customlabel->introformat = 0;
+             $customlabel->textcontent = '';
+             $customlabel->readmorecontent = '';
         }
 
         $instance = customlabel_load_class($customlabel, $customlabel->labelclass);
@@ -223,7 +225,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
         $formdata = $customlabel;
 
         // Get dynamic part of data and add to fixed model part from customlabel record.
-        $formdatadyn = (array) json_decode(base64_decode($customlabel->content));
+        $formdatadyn = (array)json_decode(base64_decode($customlabel->content));
         foreach ($formdatadyn as $key => $value) {
             // Discard all moodle core data that should be there.
             if (in_array($key, array('coursemodule', 'instance', 'sesskey', 'module', 'section'))) {
@@ -235,11 +237,12 @@ class mod_customlabel_mod_form extends moodleform_mod {
             }
             $formdata->{$key} = $value;
             if (is_object($formdata->{$key}) && isset($formdata->{$key}->text)) {
-                $formdata->{$key} = (array) $formdata->{$key};
+                $formdata->{$key} = (array)$formdata->{$key};
             }
         }
 
         // Prepare editor for intro standard field.
+
         // Prepare editors for all textarea|editor dynamic fields prepared in model.
         foreach ($instance->fields as $field) {
             if (preg_match('/editor|textarea/', $field->type)) {
@@ -264,14 +267,15 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 $formdata->$name = $instance->get_current_options($options, @$formdatadyn[$field->name], @$field->multiple);
             }
 
-            // Todo : limit upload size on course settings
+            // TODO : limit upload size on course settings.
             $maxbytes = -1;
 
             if ($field->type == 'filepicker') {
                 $draftitemid = file_get_submitted_draft_itemid($field->name);
                 $groupname = $field->name.'group';
                 $maxfiles = 1;
-                file_prepare_draft_area($draftitemid, $this->context->id, 'mod_customlabel', $field->name, 0, array('subdirs' => 0, 'maxbytes' => $maxbytes, 'maxfiles' => $maxfiles));
+                $options = array('subdirs' => 0, 'maxbytes' => $maxbytes, 'maxfiles' => $maxfiles);
+                file_prepare_draft_area($draftitemid, $this->context->id, 'mod_customlabel', $field->name, 0, $options);
                 $formdata->{$groupname} = array($field->name => $draftitemid);
             }
         }

@@ -19,6 +19,7 @@ table.custombox-soluce {
 #page-region-main .custombox-header-thumb.soluce {
     width:65px;
     min-width:65px;
+    background-image: url("/mod/customlabel/type/soluce/pix/icon_solution.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

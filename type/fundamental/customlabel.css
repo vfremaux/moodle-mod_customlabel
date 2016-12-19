@@ -19,6 +19,7 @@ td.custombox-header-thumb.fundamental {
 #page-region-main td.custombox-header-thumb.fundamental {
     width:65px;
     min-width:65px;
+    background-image: url("/mod/customlabel/type/fundamental/pix/icon_fundamental.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

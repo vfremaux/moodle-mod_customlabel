@@ -1,4 +1,29 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ *
+ * @package    mod_customlabel
+ * @category   mod
+ * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ *
+ * @see Acces from adminmetadata.php
+ */
 
 /************************************* Add ******************/
 if ($action == 'add') {
@@ -7,8 +32,9 @@ if ($action == 'add') {
     $metadatavalue->typeid = clean_param($data->typeid, PARAM_INT);
     $metadatavalue->code = clean_param($data->code, PARAM_ALPHANUM);
     $metadatavalue->value = clean_param($data->value, PARAM_CLEANHTML);
-    // get max ordering
-    $maxordering = $DB->get_field($CFG->classification_value_table, ' MAX(sortorder)', array($CFG->classification_value_type_key => $data->typeid));
+    // Get max ordering.
+    $params = array($CFG->classification_value_type_key => $data->typeid);
+    $maxordering = $DB->get_field($CFG->classification_value_table, ' MAX(sortorder)', $params);
     $metadatavalue->sortorder = 1 + @$maxordering;
     if (!$DB->insert_record($CFG->classification_value_table, $metadatavalue)) {
         print_error('errorinservalue', 'customlabel');
@@ -49,8 +75,10 @@ if ($action == 'down') {
 
 /************************************* Delete safe (only if not used) ******************/
 if ($action == 'delete') {
-    // todo check if there is no instances working with such type.
-    // if not, bounce to forcedelete
+    /*
+     * todo check if there is no instances working with such type.
+     * if not, bounce to forcedelete
+     */
     $action = 'forcedelete';
 }
 
@@ -60,64 +88,64 @@ if ($action == 'forcedelete') {
     $value = $DB->get_record($CFG->classification_value_table, array('id' => $id));
 
     if ($value) {
-        // delete related constraints
-        $DB->delete_records($CFG->classification_constraint_table, array('value1' => $id));        
-        $DB->delete_records($CFG->classification_constraint_table, array('value2' => $id));        
+        // Delete related constraints.
+        $DB->delete_records($CFG->classification_constraint_table, array('value1' => $id));
+        $DB->delete_records($CFG->classification_constraint_table, array('value2' => $id));
 
-        $DB->delete_records($CFG->classification_value_table, array('id' => $id));        
+        $DB->delete_records($CFG->classification_value_table, array('id' => $id));
     }
 }
 
 /**
-* updates ordering of a tree branch from a specific node, reordering 
-* all subsequent siblings. 
-* @param id the node from where to reorder
-* @param table the table-tree
-*/
+ * updates ordering of a tree branch from a specific node, reordering
+ * all subsequent siblings.
+ * @param id the node from where to reorder
+ * @param table the table-tree
+ */
 function classification_tree_updateordering($id, $type) {
-
-    // getting ordering value of the current node
     global $CFG, $DB;
 
+    // Getting ordering value of the current node.
+
     $res =  $DB->get_record($CFG->classification_value_table, array('id' => $id));
-    if (!$res) { // fallback : we give the ordering
+    if (!$res) {
+        // Fallback : we give the ordering.
         $res->sortorder = $id;
-    }
-    // start reorder from the immediate lower (works from ordering = 0)
+    };
+    // Start reorder from the immediate lower (works from ordering = 0).
     $prev = $res->sortorder - 1;
 
-    // getting subsequent nodes
+    // Getting subsequent nodes.
     $query = "
-        SELECT 
-            id   
-        FROM 
+        SELECT
+            id
+        FROM
             {{$CFG->classification_value_table}}
-        WHERE 
+        WHERE
             sortorder > {$prev} AND
             {$CFG->classification_value_type_key} = $type
-        ORDER BY 
+        ORDER BY
             sortorder
     ";
 
-    // reordering subsequent nodes using an object
+    // Reordering subsequent nodes using an object.
     if ( $nextsubs = $DB->get_records_sql($query)) {
         $ordering = $res->sortorder;
         foreach ($nextsubs as $asub) {
-            $object = new stdClass();
-            $object->id = $asub->id;
-            $object->sortorder = $ordering;
-            $DB->update_record($CFG->classification_value_table, $object);
+            $objet->id = $asub->id;
+            $objet->sortorder = $ordering;
+            $DB->update_record($CFG->classification_value_table, $objet);
             $ordering++;
         }
     }
 }
 
 /**
-* raises a node in the tree, reordering all what needed
-* @param id the id of the raised node
-* @param table the table-tree where to operate
-* @return void
-*/
+ * raises a node in the tree, reordering all what needed
+ * @param id the id of the raised node
+ * @param table the table-tree where to operate
+ * @return void
+ */
 function classification_tree_up($id, $type) {
     global $CFG, $DB;
 
@@ -136,41 +164,38 @@ function classification_tree_up($id, $type) {
                 sortorder = $newordering AND
                 {$CFG->classification_value_type_key} = $type
         ";
-        // echo $query;
         $result =  $DB->get_record_sql($query);
         $resid = $result->id;
 
-        // swapping
-        $object = new stdClass();
-        $object->id = $resid;
-        $object->sortorder = $res->sortorder;
-        $DB->update_record($CFG->classification_value_table, $object);
+        // Swapping.
+        $objet->id = $resid;
+        $objet->sortorder = $res->sortorder;
+        $DB->update_record($CFG->classification_value_table, $objet);
 
-        $object->id = $id;
-        $object->sortorder = $newordering;
-        $DB->update_record($CFG->classification_value_table, $object);
+        $objet->id = $id;
+        $objet->sortorder = $newordering;
+        $DB->update_record($CFG->classification_value_table, $objet);
     }
 }
 
 /**
-* lowers a node on its branch. this is done by swapping ordering.
-* @param id the node id
-* @param istree if not set, performs swapping on a single list
-*/
+ * lowers a node on its branch. this is done by swapping ordering.
+ * @param id the node id
+ * @param istree if not set, performs swapping on a single list
+ */
 function classification_tree_down($id, $type) {
     global $CFG, $DB;
 
     $res =  $DB->get_record($CFG->classification_value_table, array('id' => $id));
 
     $query = "
-        SELECT 
+        SELECT
             MAX(sortorder) AS sortorder
-        FROM 
+        FROM
             {{$CFG->classification_value_table}}
         WHERE
             {$CFG->classification_value_type_key} = $type
     ";
-    // echo $query;
 
     $resmaxordering = $DB->get_record_sql($query);
     $maxordering = $resmaxordering->sortorder;
@@ -179,11 +204,11 @@ function classification_tree_down($id, $type) {
         $newordering = $res->sortorder + 1;
 
         $query = "
-            SELECT 
+            SELECT
                 id
-            FROM    
+            FROM
                 {{$CFG->classification_value_table}}
-            WHERE 
+            WHERE
                 sortorder = $newordering AND
                 {$CFG->classification_value_type_key} = $type
         ";
@@ -191,14 +216,13 @@ function classification_tree_down($id, $type) {
         $resid = $result->id;
 
         // Swapping.
-        $object = new stdClass();
-        $object->id = $resid;
-        $object->sortorder = $res->sortorder;
-        $DB->update_record($CFG->classification_value_table, $object);
+        $objet->id = $resid;
+        $objet->sortorder = $res->sortorder;
+        $DB->update_record($CFG->classification_value_table, $objet);
 
-        $object->id = $id;
-        $object->sortorder = $newordering;
-        $DB->update_record($CFG->classification_value_table, $object);
+        $objet->id = $id;
+        $objet->sortorder = $newordering;
+        $DB->update_record($CFG->classification_value_table, $objet);
     }
 }
 

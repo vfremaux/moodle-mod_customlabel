@@ -19,18 +19,18 @@ require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 
 $config = get_config('customlabel');
 
-$type = required_param('type', PARAM_ALPHA); // The qualifier ID that has been choosen
-$selector = required_param('selector', PARAM_TEXT); // Unused
-$constraints = required_param('constraints', PARAM_RAW); // A list of qualifiers that constrain the actual choice
-$targetstr = required_param('targets', PARAM_TEXT); // The list of qualifiers/fields that are concerned
-$selection = optional_param('selection', null, PARAM_TEXT); // The current selection
+$type = required_param('type', PARAM_ALPHA); // The qualifier ID that has been choosen.
+$selector = required_param('selector', PARAM_TEXT); // Unused.
+$constraints = required_param('constraints', PARAM_RAW); // A list of qualifiers that constrain the actual choice.
+$targetstr = required_param('targets', PARAM_TEXT); // The list of qualifiers/fields that are concerned.
+$selection = optional_param('selection', null, PARAM_TEXT); // The current selection.
 $variant = optional_param('variant', '', PARAM_TEXT);
 
 $constraintsarr = explode(',', $constraints);
 
 debug_trace("type: $type\nselector: $selector\nconstraints: $constraints\ntargets: $targetstr\nselection $selection");
 
-// rebuild proper associative structure from flatten array
+// Rebuild proper associative structure from flatten array.
 if (!empty($selection)) {
     $selected = json_decode(stripslashes($selection));
     $iskey = true;
@@ -51,15 +51,17 @@ if (!$targets = explode(',', $targetstr)) {
     exit;
 }
 
-// we just need the definition
+// We just need the definition.
 $customlabel = new StdClass;
 $customlabel->labelclass = $type;
 $customlabel->title = '';
 $instance = customlabel_load_class($customlabel, true);
 
-// make a structure with options and reduce possible options to
-// acceptable ones
-// this is another writing for "get_all_classification_linked_values".
+/*
+ * make a structure with options and reduce possible options to
+ * acceptable ones
+ * this is another writing for "get_all_classification_linked_values".
+ */
 $included = array();
 $used = array();
 $includedtrace = array();
@@ -70,7 +72,7 @@ if (!empty($constraints)) {
 
         $used[] = $constraint;
 
-        // Get all the neighbours from this value
+        // Get all the neighbours from this value.
         $sql = "
             SELECT
               c.*,
@@ -105,20 +107,22 @@ if (!empty($constraints)) {
                     $peer = $DB->get_field($config->classification_value_table, 'value', array('id' => $peervalue));
                     $usedtypes[] = $DB->get_field($config->classification_value_table, 'typeid', array('id' => $peervalue));
                     $includedtrace["$peervalue - $peer"] = 1;
+                    if (!in_array($peervalue, $used)) {
+                        // $constraintsarr[] = $peervalue; // aggregate for recursion accepting all newly linked item
+                    }
                 }
             }
         }
     }
 }
-debug_trace(print_r($included, true));
 $listvalues = array();
 
 foreach ($targets as $target) {
-    // this filters option lists against constraints
+    // This filters option lists against constraints.
     if ($typevalues = $instance->get_datasource_options($instance->fields[$target])) {
         $options = array();
         foreach ($typevalues as $id => $value) {
-            // we must check if not fully excluded
+            // We must check if not fully excluded.
             if (!empty($constraints)) {
                 if (isset($included[$id])) {
                     $options[$id] = $value;
@@ -137,13 +141,13 @@ foreach ($targets as $target) {
         $selectid = ($variant == 'menu') ? 'menu'.$field->name : 'id_'.$field->name;
 
         if (empty($field->multiple)) {
-            $return[$target] = html_writer::select($options, $field->name, @$preselection[$target], array(), array('onchange' => $script, 'id' => $selectid));
+            $params = array('onchange' => $script, 'id' => $selectid);
+            $return[$target] = html_writer::select($options, $field->name, @$preselection[$target], array(), $params);
         } else {
-            // $values = explode(', ', $value);
-            $return[$target] = html_writer::select($options, "{$field->name}[]", @$preselection[$target], array(), array('onchange' => $script, 'multiple' => 'multiple', 'size' => '6', 'id' => $selectid));
+            $params = array('onchange' => $script, 'multiple' => 'multiple', 'size' => '6', 'id' => $selectid);
+            $return[$target] = html_writer::select($options, "{$field->name}[]", @$preselection[$target], array(), $params);
         }
     }
 }
 
 echo json_encode($return);
-

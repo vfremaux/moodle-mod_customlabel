@@ -20,6 +20,7 @@ td.custombox-header-thumb.localgoals {
 #page-region-main td.custombox-header-thumb.localgoals {
     width:65px;
     min-width:65px;
+    background-image: url("/mod/customlabel/type/localgoals/pix/icon_goals.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

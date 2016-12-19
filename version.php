@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- *  Version details.
+ * Version details.
  *
  * @package    mod_customlabel
  * @category   mod
@@ -26,11 +26,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2016070100; // The current module version (Date: YYYYMMDDXX)
+$plugin->version  = 2016110102; // The current module version (Date: YYYYMMDDXX).
 $plugin->requires = 2016052300;
-$plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics)
-$plugin->maturity = MATURITY_STABLE; // Maturity
-$plugin->release = "3.1.0 (Build 2016070100)"; // Release
+$plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics).
+$plugin->release = '3.1.0 (Build 2016110102)';
+$plugin->maturity = MATURITY_STABLE;
 
-// Not moodle attributes.
-$plugin->codeincrement = '3.1.0000';
+// Non moodle attributes.
+$plugin->codeincrement = '3.1.0001';
