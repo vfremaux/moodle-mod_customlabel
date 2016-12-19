@@ -573,3 +573,24 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
     // Finally send the file.
     send_stored_file($file, $lifetime, 0, $forcedownload, $options);
 }
+
+/**
+ * This function allows the tool_dbcleaner to register integrity checks
+ */
+function customlabel_dbcleaner_add_keys() {
+    global $DB;
+
+    $customlabelmoduleid = $DB->get_field('modules', 'id', array('name' => 'customlabel'));
+
+    $keys = array(
+        array('customlabel', 'course', 'course', 'id', ''),
+        array('customlabel', 'id', 'course_modules', 'instance', ' module = '.$customlabelmoduleid.' '),
+        array('customlabel_mtd_value', 'typeid', 'customlabel_mtd_type', 'id', ''),
+        array('customlabel_course_metadata', 'courseid', 'course', 'id', ''),
+        array('customlabel_course_metadata', 'valueid', 'customlabel_mtd_value', 'id', ''),
+        array('customlabel_mtd_constraints', 'value1', 'customlabel_mtd_value', 'id', ''),
+        array('customlabel_mtd_constraints', 'value2', 'customlabel_mtd_value', 'id', ''),
+    );
+
+    return $keys;
+}
