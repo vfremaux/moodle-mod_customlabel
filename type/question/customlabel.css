@@ -19,6 +19,7 @@ td.custombox-header-thumb.question {
 #page-region-main td.custombox-header-thumb.question {
     width:65px;
     min-width:65px;
+    background-image: url("/mod/customlabel/type/question/pix/icon_question.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

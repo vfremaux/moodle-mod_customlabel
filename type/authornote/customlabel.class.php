@@ -10,9 +10,10 @@ class customlabel_type_authornote extends customlabel_type{
 
     function __construct($data) {
         parent::__construct($data);
+
         $this->type = 'authornote';
         $this->fields = array();
-        
+
         $field = new StdClass;
         $field->name = 'authornote';
         $field->type = 'textarea';

@@ -19,6 +19,7 @@ td.custombox-header-thumb.theorema {
 #page-region-main td.custombox-header-thumb.theorema {
     width:65px;
     min-width:65px;
+    background-image: url("/mod/customlabel/type/theorema/pix/icon_theorema.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

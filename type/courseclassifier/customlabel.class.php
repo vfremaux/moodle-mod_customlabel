@@ -76,7 +76,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $this->fields['level2'] = $field;
         }
 
-        // Get all course filters
+        // Get all course filters.
         $coursefilters = $DB->get_records($config->classification_type_table, array('type' => 'coursefilter'));
 
         foreach ($coursefilters as $coursefilter) {
@@ -112,7 +112,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
 
         $config = get_config('customlabel');
 
-        // Remove all old classification
+        // Remove all old classification.
 
         $DB->delete_records($config->course_metadata_table, array($config->course_metadata_course_key => $COURSE->id));
     }
@@ -130,7 +130,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $showkey = 'show'.strtolower($coursefilter->code);
             $key = strtolower($coursefilter->code);
 
-            if ($this->data->$showkey) {
+            if (!empty($this->data->$showkey)) {
                 $this->data->classifiers = true;
                 $classif = new StdClass();
                 $classif->label = $coursefilter->name;
@@ -158,10 +158,10 @@ class customlabel_type_courseclassifier extends customlabel_type {
         $valuekey = $config->course_metadata_value_key;
         $coursekey = $config->course_metadata_course_key;
 
-        // Remove all old classification
+        // Remove all old classification.
         $DB->delete_records($config->course_metadata_table, array($config->course_metadata_course_key => $COURSE->id));
 
-        // add updated level0
+        // Add updated level0.
         $cc = new StdClass;
         $cc->$coursekey = $COURSE->id;
         if (!empty($this->data->level0option)) {
@@ -176,7 +176,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
             }
         }
 
-        // add updated level1
+        // Add updated level1.
         $cc->$coursekey = $COURSE->id;
         if (!empty($this->data->level1option)) {
             if (is_array($this->data->level1option)) {
@@ -190,7 +190,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
             }
         }
 
-        // add updated level2
+        // Add updated level2.
         $cc->$coursekey = $COURSE->id;
         if (!empty($this->data->level2option)) {
             if (is_array($this->data->level2option)) {
@@ -204,7 +204,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
             }
         }
 
-        // Get all course filters
+        // Get all course filters.
         $this->data->classifiers = false;
         $this->data->classifierrows = '';
         $coursefilters = $DB->get_records($config->classification_type_table, array('type' => 'coursefilter'));
@@ -217,8 +217,8 @@ class customlabel_type_courseclassifier extends customlabel_type {
 
             if (!empty($this->data->$optionkey)) {
                 if (is_array($this->data->$optionkey)) {
-                    foreach ($this->data->$optionkey as $optid => $method) {
-                        $cc->$valuekey = $optid;
+                    foreach ($this->data->$optionkey as $optid => $optvalue) {
+                        $cc->$valuekey = $optvalue;
                         $DB->insert_record($config->course_metadata_table, $cc);
                     }
                 } else {

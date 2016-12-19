@@ -51,6 +51,15 @@ $capabilities = array(
         'legacy' => array(
             'manager' => CAP_ALLOW
         )
+    ),
+
+    'mod/customlabel:managemetadata' => array(
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'legacy' => array(
+            'manager' => CAP_ALLOW
+        )
     )
 );
 

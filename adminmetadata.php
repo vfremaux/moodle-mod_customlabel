@@ -18,23 +18,28 @@
  * @package    mod_customlabel
  * @category   mod
  * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  */
 
 require('../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 
+$context = context_system::instance();
+
 require_login();
+require_capability('mod/customlabel:managemetadata', $context);
 
 $view = optional_param('view', 'metadata', PARAM_ALPHA);
 
-$url = new moodle_url('/mod/customlabel/adminmetadata.php?view='.$view);
+$url = new moodle_url('/mod/customlabel/adminmetadata.php', array('view' => $view));
 $PAGE->navbar->add(get_string('administration'), '');
-$PAGE->navbar->add(get_string('modulenameplural', 'customlabel'), new moodle_url('/admin/settings.php?section=modsettingcustomlabel'));
-$PAGE->navbar->add(get_string('classification', 'customlabel'), new moodle_url('/mod/customlabel/adminmetadata.php'));
+$settingsurl = new moodle_url('/admin/settings.php', array('section' => 'modsettingcustomlabel'));
+$PAGE->navbar->add(get_string('modulenameplural', 'customlabel'), $settingsurl);
+$metaurl = new moodle_url('/mod/customlabel/adminmetadata.php');
+$PAGE->navbar->add(get_string('classification', 'customlabel'), $metaurl);
 $PAGE->navbar->add(get_string($view, 'customlabel'), $url);
-$PAGE->set_context(context_system::instance());
+$PAGE->set_context($context);
 $PAGE->set_url($url);
 $PAGE->set_title($SITE->fullname);
 $PAGE->set_heading($SITE->fullname);
@@ -60,27 +65,22 @@ foreach ($rows as $rowIndex => $rowValue) {
 $tabrows[] = $row;
 $deferredheader .= print_tabs($tabrows, $view, '', '', true);
 
-// MVC debug
-// echo "[$view : $action]";
-
 switch ($view) {
     case 'classifiers':
-        include $CFG->dirroot.'/mod/customlabel/metadatatypes.php';
+        include($CFG->dirroot.'/mod/customlabel/metadatatypes.php');
         break;
 
     case 'metadata':
-        include $CFG->dirroot."/mod/customlabel/metadatavalues.php";
+        include($CFG->dirroot.'/mod/customlabel/metadatavalues.php');
         break;
 
     case 'constraints':
-        include $CFG->dirroot."/mod/customlabel/metadataconstraints.php";
+        include($CFG->dirroot.'/mod/customlabel/metadataconstraints.php');
         break;
 
     case 'model':
-        include $CFG->dirroot."/mod/customlabel/metadatamodel.php";
+        include($CFG->dirroot.'/mod/customlabel/metadatamodel.php');
         break;
-
 }
 
 echo $OUTPUT->footer();
-

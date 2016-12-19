@@ -25,9 +25,9 @@
 require('../../config.php');
 require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 
-$id = optional_param('id',0,PARAM_INT);    // Course Module ID, or
-$l = optional_param('l',0,PARAM_INT);     // Label ID
-$what = optional_param('what', '', PARAM_ALPHA);     // What to be seen
+$id = optional_param('id',0,PARAM_INT);    // Course Module ID, or.
+$l = optional_param('l',0,PARAM_INT);     // Label ID.
+$what = optional_param('what', '', PARAM_ALPHA);     // What to be seen.
 if ($id) {
     if (! $cm = get_coursemodule_from_id('customlabel', $id)) {
         error("Course Module ID was incorrect");
@@ -38,7 +38,6 @@ if ($id) {
     if (! $customlabel = $DB->get_record('customlabel', array('id' => $cm->instance))) {
         error("Course module is incorrect");
     }
-
 } else {
     if (! $customlabel = $DB->get_record('customlabel', array('id' => $l))) {
         error("Course module is incorrect");

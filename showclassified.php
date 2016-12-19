@@ -1,43 +1,37 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * Moodle - Modular Object-Oriented Dynamic Learning Environment
- *          http://moodle.org
- * Copyright (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package    moodle
- * @subpackage local
- * @author     Valery Fremaux <valery.fremaux@catalyst.net.nz>
+ * @package    mod_customlabel
+ * @category   mod
+ * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
- *
  */
 
-require_once(dirname(dirname(__FILE__)) . '/config.php');
+require_once('../../config.php');
 
-echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('lpclassificationheading', 'local'));
-
-$url = $CFG->wwwroot . '/mod/customlabel/adminmetadata.php';
+$url = new moodle_url('/mod/customlabel/adminmetadata.php');
 
 $value = optional_param('value', 0, PARAM_INT);
 $type = optional_param('typeid', 0, PARAM_INT);
 
 if ($value == 0 && $type == 0) {
     echo "<br/>";
-    notice("no input given");
+    echo $OUTPUT->notification("no input given");
     echo "<br/>";
     echo $OUTPUT->continue_button($url);
     exit;
@@ -58,13 +52,13 @@ if ($value != 0) {
             c.id = ccm.course AND
             ccm.value = v.id AND
             v.id = $value
-        ORDER BY 
+        ORDER BY
             c.fullname
     ";
     if (!$courses = $DB->get_records_sql($sql)) {
         $courses = array();
     }
-} elseif ($type != 0) {
+} else if ($type != 0) {
     $sql = "
         SELECT
             c.id,
@@ -81,13 +75,17 @@ if ($value != 0) {
             ccm.value = v.id AND
             v.type = t.id AND
             t.id = $type
-        ORDER BY 
+        ORDER BY
             c.fullname
     ";
     if (!$courses = $DB->get_records_sql($sql)) {
         $courses = array();
     }
 }
+
+echo $OUTPUT->header();
+
+echo $OUTPUT->heading(get_string('lpclassificationheading', 'customlabel'));
 
 if (!empty($courses)) {
     $strcourse = get_string('course');
@@ -96,7 +94,7 @@ if (!empty($courses)) {
     $table->head = array("<b>$strcourse</b>", "<b>$strstatus</b>");
     $table->size = array('70%', '30%');
     $table->width = array('570px');
-    $table->align = array('left', 'center');    
+    $table->align = array('left', 'center');
     foreach ($courses as $acourse) {
         $courselink = "<a href=\"{$CFG->wwwroot}/course/view.php?id={$acourse->id}\">".format_string($acourse->fullname).'</a>';
         $table->data[] = array($courselink, course_status_get_desc($acourse));

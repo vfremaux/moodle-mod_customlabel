@@ -20,6 +20,7 @@ td.custombox-header-thumb.example {
 #page-region-main td.custombox-header-thumb.example {
     width:65px;
     min-width:65px;
+    background-image: url("/mod/customlabel/type/example/pix/icon_example.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

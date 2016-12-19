@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * This script implements a pageitem content builder for feeding
  * a page_module actvity wrapper.
@@ -25,19 +23,19 @@ defined('MOODLE_INTERNAL') || die();
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
- * implements a hook for the page_module block to add
- * the link allowing live refreshing of the content
- *
- *
+ * Implements a hook for the page_module block to add
+ * the link allowing live refreshing of the content. this method is
+ * specifically used for page formatted courses.
+ * @param object $block a page_module block surrounding the customlabel resource.
  */
 function customlabel_set_instance(&$block) {
     global $USER, $CFG, $COURSE, $DB;
-
-    // debug_trace('pageitem view for CL '.$block->cm->id);
 
     // Transfer content from title to content.
     $block->title = '';
@@ -45,15 +43,15 @@ function customlabel_set_instance(&$block) {
     // Fake unpacks object's load.
     $data = json_decode(base64_decode($block->moduleinstance->content));
 
-    // If failed in getting content. It happens sometimes, ... do nothing to let content be safed manually
+    // If failed in getting content. It happens sometimes, ... do nothing to let content be safed manually.
     if (is_null($data) || !is_object($data)) {
         return false;
     }
-    
+
     // Realize a pseudo update.
     $data->title = $block->moduleinstance->title;
     $data->content = $block->moduleinstance->content;
-    $data->labelclass = $block->moduleinstance->labelclass; // fixes broken serialized contents
+    $data->labelclass = $block->moduleinstance->labelclass; // Fixes broken serialized contents.
     $data->instance = $block->moduleinstance->id;
 
     if (!customlabel_type::module_is_visible($block->cm, $block->moduleinstance)) {
@@ -67,7 +65,7 @@ function customlabel_set_instance(&$block) {
 
     $instance = customlabel_load_class($data);
     $block->moduleinstance->processedcontent = $instance->make_content();
-    $block->moduleinstance->name = $instance->title; // this realizes the template
+    $block->moduleinstance->name = $instance->title; // This realizes the template.
     $block->moduleinstance->timemodified = time();
     $block->content->text = $block->moduleinstance->processedcontent;
     // $block->moduleinstance->title = str_replace("'", "''", $block->moduleinstance->title);
@@ -75,18 +73,21 @@ function customlabel_set_instance(&$block) {
 
     $context = context_module::instance($block->cm->id);
 
-    // post process each textarea field url replacement
+    // Post process each textarea field url replacement.
     $fileprocessedcontent = $block->content->text;
     foreach ($instance->fields as $field) {
         if ($field->type == 'editor' || $field->type == 'textarea') {
             if (!isset($field->itemid) || is_null($field->itemid)) {
-                throw new coding_exception('Course element textarea subfield needs explicit itemid in definition '.$customlabel->labelclass.'::'.$field->name);
+                $message = 'Course element textarea subfield needs explicit itemid in definition ';
+                $message .= $customlabel->labelclass.'::'.$field->name;
+                throw new coding_exception($message);
             }
-            $fileprocessedcontent = customlabel_file_rewrite_pluginfile_urls($fileprocessedcontent, 'pluginfile.php', $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
+            $fileprocessedcontent = customlabel_file_rewrite_pluginfile_urls($fileprocessedcontent,
+                'pluginfile.php', $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
         }
     }
 
-    $block->content->text = $fileprocessedcontent;
+    $block->content->text = format_text($fileprocessedcontent);
 
     return true;
 }

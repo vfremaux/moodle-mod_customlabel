@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * @package mod_customlabel
  * @category mod
@@ -24,6 +22,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * A generic class for collecting all that is common to all elements
  */
+defined('MOODLE_INTERNAL') || die();
 
 class customlabel_type {
 
@@ -139,8 +138,12 @@ class customlabel_type {
      * Given a possibly list of values, get an array of ids
      */
     function get_current_options($options, $value, $multiple = false) {
-        if (is_array($value) || is_object($value)) {
+
+        if (is_array($value)) {
             return $value;
+        }
+        if (is_object($value)) {
+            return (array)$value;
         }
 
         $result = array();
@@ -256,7 +259,7 @@ class customlabel_type {
      */
     public function postprocess_data($course = null) {
     }
-    
+
     public function postprocess_icon() {
         global $OUTPUT;
         $this->data->icon = $OUTPUT->pix_url('icon', 'customlabeltype_'.$this->type)->out();
@@ -461,12 +464,12 @@ class customlabel_type {
                         if (!empty($valuearray)) {
                             if ($field->source == 'dbfieldkeyed') {
                                 $this->data->{$name} = implode($sep, $this->get_datasource_values($field, $valuearray));
-                            } elseif ($field->source == 'dbfieldkey') {
+                            } else if ($field->source == 'dbfieldkey') {
                                 foreach ($valuearray as $value) {
                                     $valuearraystr[] = get_string($value, $domain);
                                 }
                                 $this->data->{$name} = implode($sep, $valuearraystr);
-                            } elseif ($field->source == 'function') {
+                            } else if ($field->source == 'function') {
                                 if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)){
                                     include_once($CFG->dirroot.$field->source);
                                 }
@@ -495,9 +498,9 @@ class customlabel_type {
                     if (empty($this->data->{$nameoption})) $this->data->{$nameoption} =  $this->data->{$name};
                     if ($field->source == 'dbfieldkeyed') {
                         $this->data->{$name} = $this->get_datasource_values($field, $this->data->{$nameoption});
-                    } elseif ($field->source == 'dbfieldkey') {
+                    } else if ($field->source == 'dbfieldkey') {
                         $this->data->{$name} = get_string($this->data->{$nameoption}, $domain);
-                    } elseif ($field->source == 'function') {
+                    } else if ($field->source == 'function') {
                         // Function must have an optional first argument that can be scalar or array.
                         if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)) {
                             include_once($CFG->dirroot.$field->source);

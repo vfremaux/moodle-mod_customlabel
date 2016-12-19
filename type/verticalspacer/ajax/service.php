@@ -25,6 +25,8 @@ require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 $courseid = required_param('id', PARAM_INT);
 $customlabelid = required_param('cid', PARAM_INT);
 
+$PAGE->set_context(context_course::instance($courseid));
+
 $isvisible = optional_param('isvisible', false, PARAM_BOOL);
 $height = optional_param('height', false, PARAM_INT);
 

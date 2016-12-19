@@ -14,6 +14,7 @@ $string['level2'] = 'Classification level 3';
 $string['people'] = 'People';
 $string['showpeople'] = 'Show the public selector';
 $string['uselevels'] = 'Levels to use';
+$string['statut'] = 'Course state';
 
 $string['family'] = 'special';
 

@@ -10,6 +10,7 @@ td.custombox-thumb.pedagogicadvice {
 #region-main td.custombox-thumb.pedagogicadvice {
     width:65px;
     min-width:65px;
+    background-image: url("/mod/customlabel/type/pedagogicadvice/pix/icon_infop.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

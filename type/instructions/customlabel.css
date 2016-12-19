@@ -19,6 +19,7 @@ td.custombox-header-thumb.instructions {
 #page-region-main td.custombox-header-thumb.instructions {
     width:65px;
     min-width:65px;
+    background-image: url("/mod/customlabel/type/instructions/pix/icon_instructions.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

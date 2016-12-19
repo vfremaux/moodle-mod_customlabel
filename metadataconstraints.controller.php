@@ -14,30 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  *
  * @package    mod_customlabel
- * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @category   mod
+ * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  *
  * @see Acces from adminmetadata.php
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 class constraints_controller {
 
-    private $q1;
+    private $valueset1;
 
-    private $q2;
+    private $valueset2;
 
-    function __construct($q1, $q2) {
+    public function __construct($q1, $q2) {
         $this->q1 = $q1;
         $this->q2 = $q2;
     }
 
-    function process($action) {
+    public function process($action) {
         global $DB;
 
         $config = get_config('customlabel');
@@ -47,8 +48,9 @@ class constraints_controller {
             $value1list = implode("','", array_keys($this->q1->valueset));
             $value2list = implode("','", array_keys($this->q2->valueset));
         
-            $DB->delete_records_select($config->classification_constraint_table, "value1 IN ('{$value1list}') AND value2 IN ('{$value2list}')");
-            $DB->delete_records_select($config->classification_constraint_table, " value1 IN ('{$value2list}') AND value2 IN ('{$value1list}')");
+            $table = $config->classification_constraint_table;
+            $DB->delete_records_select($table, "value1 IN ('{$value1list}') AND value2 IN ('{$value2list}')");
+            $DB->delete_records_select($table, " value1 IN ('{$value2list}') AND value2 IN ('{$value1list}')");
         
             $constraintdata = preg_grep("/ct_\\d+_\\d+/", array_keys((array)$data));
             foreach ($constraintdata as $constraintkey) {
@@ -56,7 +58,7 @@ class constraints_controller {
                 $id1 = $matches[1];
                 $id2 = $matches[2];
 
-                // Swap to ensure lower always first
+                // Swap to ensure lower always first.
                 if ($id1 > $id2) {
                     $tmp = $id1;
                     $id1 = $id2;

@@ -1,8 +1,13 @@
-function type_change_submit(advicetext, courseid, section, returntomod, sesskey, updatelabelid){
-    if (confirm(advicetext)){
+/*
+ *
+ */
+// jshint undef:true unset:true
+
+function type_change_submit(advicetext, courseid, section, returntomod, sesskey, updatelabelid) {
+    if (confirm(advicetext)) {
         typeselobj = document.getElementById('id_menulabelclass');
         // odd difference between two minor releases.
-        if (!typeselobj){
+        if (!typeselobj) {
             typeselobj = document.getElementById('menulabelclass');
         }
         if (updatelabelid == 0) {
