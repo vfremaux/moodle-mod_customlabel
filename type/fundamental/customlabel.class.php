@@ -22,7 +22,5 @@ class customlabel_type_fundamental extends customlabel_type {
         $this->fields['fundamentaltext'] = $field;
     }
 
-    function preprocess_data() {
-    }
 }
 

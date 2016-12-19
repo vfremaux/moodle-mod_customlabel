@@ -11,7 +11,7 @@ $string['information'] = 'Texte de l\'information';
 $string['template'] = '
 <table class="custombox-information" cellspacing="0" width="100%">
 <tr valign="top">
-    <td class="custombox-header-thumb information" width="2%" rowspan="2">
+    <td class="custombox-header-thumb information" style="background-image : url(<%%icon%%>);" width="2%" rowspan="2">
     </td>
     <td class="custombox-header-caption information" width="98%">
         Information

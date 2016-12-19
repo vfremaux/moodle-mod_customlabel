@@ -1,8 +1,8 @@
-
-/*
-* launch a call for targets renegociation
-*
-*/
+/**
+ * launch a call for targets renegociation
+ *
+ */
+// jshint unused:false, undef:false
 
 function urlencode(str) {
     return escape(str).replace(/\+/g,'%2B').replace(/%20/g, '+').replace(/\*/g, '%2A').replace(/\//g, '%2F').replace(/@/g, '%40');
@@ -15,9 +15,9 @@ function applyconstraints(wwwroot, typestr, selector, targets) {
 
     var selectedopts = new Array();
 
-    // get constraints in activated select
+    // Get constraints in activated select.
     i = 0;
-    for (j = 0 ; j < selector.options.length ; j++) {
+    for (j = 0; j < selector.options.length; j++) {
         if (selector.options[j].selected) {
             selectedopts[i] = selector.options[j].value;
             i++;
@@ -25,7 +25,7 @@ function applyconstraints(wwwroot, typestr, selector, targets) {
     }
     optionstring = selectedopts.join(',');
 
-    // get selection constraints in targets select
+    // Get selection constraints in targets select.
     selectedtargetopts = [];
     i = 0;
     for (target in targetsarr) {
@@ -35,8 +35,8 @@ function applyconstraints(wwwroot, typestr, selector, targets) {
         i++;
         selectedtargetopts[i] = [];
         k = 0;    
-        for (j = 0 ; j < targetsel.options.length ; j++) {
-            if (targetsel.options[j].selected){
+        for (j = 0; j < targetsel.options.length; j++) {
+            if (targetsel.options[j].selected) {
                 selectedtargetopts[i][k] = targetsel.options[j].value;
                 k++;
             }
@@ -46,15 +46,15 @@ function applyconstraints(wwwroot, typestr, selector, targets) {
 
     formvaluestring = urlencode(JSON.stringify(selectedtargetopts));
 
-    params = "selector="+selector.name+"&targets="+targets+"&type="+typestr+"&constraints="+optionstring+'&selection='+formvaluestring;
-    var url = wwwroot+"/mod/customlabel/ajax/applyconstraints.php?"+params;
+    params = "selector=" + selector.name + "&targets="+targets + "&type="+typestr+"&constraints="+optionstring+'&selection='+formvaluestring;
+    var url = wwwroot + "/mod/customlabel/ajax/applyconstraints.php?" + params;
 
-    $.get(url, '', function(data, status){
+    $.get(url, '', function(data, status) {
         var selectors = JSON.parse(data);
 
         targetsarr = targets.split(',');
 
-        // dispatch in selectors
+        // Dispatch in selectors.
         for (target in targetsarr) {
             if (selectors[targetsarr[target]]) {
                 str = '<input type="hidden" name="'+targetsarr[target]+'" value="_qf__force_multiselect_submission">';
@@ -74,7 +74,7 @@ function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
 
     // get constraints in activated select
     i = 0;
-    for (j = 0 ; j < selector.options.length ; j++) {
+    for (j = 0; j < selector.options.length; j++) {
         if (selector.options[j].selected) {
             selectedopts[i] = selector.options[j].value;
             i++;
@@ -82,7 +82,7 @@ function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
     }
     optionstring = selectedopts.join(',');
 
-    // get selection constraints in targets select
+    // Get selection constraints in targets select.
     selectedtargetopts = [];
     i = 0;
     for (target in targetsarr) {
@@ -111,7 +111,7 @@ function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
 
         targetsarr = targets.split(',');
 
-        // dispatch in selectors
+        // Dispatch in selectors.
         for (target in targetsarr) {
             if (selectors[targetsarr[target]]) {
                 str = '<input type="hidden" name="'+targetsarr[target]+'" value="_qf__force_multiselect_submission">';

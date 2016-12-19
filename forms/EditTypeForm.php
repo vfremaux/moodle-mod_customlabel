@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * @package    mod_customlabel
  * @category   mod
@@ -23,20 +21,23 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  */
+
+defined('MOODLE_INTERNAL') || die();
+
 require_once $CFG->libdir.'/formslib.php';
 
 class EditTypeForm extends moodleform{
-    
+
     private $view;
     private $action;
-    
-    function __construct($view, $action, $url) {
+
+    public function __construct($view, $action, $url) {
         $this->view = $view;
         $this->action = $action;
         parent::moodleform($url);
     }
 
-    function definition() {
+    public function definition() {
         $mform = & $this->_form;
 
         $options['category'] = get_string('category', 'customlabel');
@@ -68,15 +69,15 @@ class EditTypeForm extends moodleform{
 
         $this->add_action_buttons(false);
     }
-    
-    function validation($data, $files = null) {
+
+    public function validation($data, $files = null) {
         $errors = array();
 
         if (empty($data['name'])) {
             echo "is empty ?";
             $errors['name'] = get_string('emptytypenameerror', 'customlabel');
         }
-        
+
         return $errors;
     }
 }

@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * @package mod_customlabel
  * @category mod
@@ -24,6 +22,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * A generic class for collecting all that is common to all elements
  */
+defined('MOODLE_INTERNAL') || die();
 
 class customlabel_type {
 
@@ -80,7 +79,7 @@ class customlabel_type {
      * @return an array of displayable options
      */
     public function get_datasource_options(&$field) {
-        global $CFG, $USER, $COURSE, $DB;
+        global $CFG, $DB;
 
         $options = array();
         switch ($field->source) {
@@ -140,7 +139,12 @@ class customlabel_type {
      */
     function get_current_options($options, $value, $multiple = false) {
 
-        if (is_array($value)) return $value;
+        if (is_array($value)) {
+            return $value;
+        }
+        if (is_object($value)) {
+            return (array)$value;
+        }
 
         $result = array();
         $optionsparts = preg_split('/; |<br\/>/', $value);
@@ -202,7 +206,7 @@ class customlabel_type {
      *
      */
     public function get_datasource_values($field, $values) {
-        global $CFG, $USER, $COURSE, $DB;
+        global $CFG, $DB;
 
         if (is_array($values)) {
             $valuelist = implode("','", $values);
@@ -256,6 +260,11 @@ class customlabel_type {
     public function postprocess_data($course = null) {
     }
 
+    public function postprocess_icon() {
+        global $OUTPUT;
+        $this->data->icon = $OUTPUT->pix_url('icon', 'customlabeltype_'.$this->type)->out();
+    }
+
     /**
      * postprocesses data stub after template has been rendered. usually
      * this is used by some types that use date or datetime fields and
@@ -274,12 +283,13 @@ class customlabel_type {
      *
      */
     public function make_content($lang = '', $course = null) {
-        global $DB, $PAGE;
+        global $PAGE;
 
         $this->preprocess_data(); // Hooking to subclasses specialization.
         $this->process_form_fields();
         $this->process_datasource_fields();
         $this->postprocess_data($course); // Hooking to subclasses specialization after all field and source field processing done.
+        $this->postprocess_icon();
         $this->data->currenttheme = $PAGE->theme->name;
         $this->data->title = $this->title;
         $this->content = $this->make_template($lang);
@@ -327,6 +337,7 @@ class customlabel_type {
                 if (!empty($this->data)) {
                     $CFG->multilang_target_language = $lang;
                     foreach ($this->data as $key => $value) {
+
                         if (is_array($value) || is_object($value)) {
                             continue;
                         }
@@ -338,6 +349,7 @@ class customlabel_type {
                             $formattedvalue = $value;
                         }
                         $contentlang = str_replace("<%%{$key}%%>", $formattedvalue, $contentlang);
+
                     }
                     // Cleanup any unused tags and final replacements.
                     $contentlang = str_replace("<%%WWWROOT%%>", $CFG->wwwroot, $contentlang);
@@ -347,7 +359,7 @@ class customlabel_type {
                     unset($CFG->multilang_target_language);
                 }
             } else {
-                $contentlang = '<span class="multilang" lang="'.$multilang.'" >';
+                $contentlang = '<span class="multilang" lang="'.$lang.'" >';
                 $contentlang .= get_string('nocontentforthislanguage', 'customlabel');
                 $contentlang .= '</span>';
             }
@@ -452,12 +464,12 @@ class customlabel_type {
                         if (!empty($valuearray)) {
                             if ($field->source == 'dbfieldkeyed') {
                                 $this->data->{$name} = implode($sep, $this->get_datasource_values($field, $valuearray));
-                            } elseif ($field->source == 'dbfieldkey') {
+                            } else if ($field->source == 'dbfieldkey') {
                                 foreach ($valuearray as $value) {
                                     $valuearraystr[] = get_string($value, $domain);
                                 }
                                 $this->data->{$name} = implode($sep, $valuearraystr);
-                            } elseif ($field->source == 'function') {
+                            } else if ($field->source == 'function') {
                                 if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)){
                                     include_once($CFG->dirroot.$field->source);
                                 }
@@ -486,9 +498,9 @@ class customlabel_type {
                     if (empty($this->data->{$nameoption})) $this->data->{$nameoption} =  $this->data->{$name};
                     if ($field->source == 'dbfieldkeyed') {
                         $this->data->{$name} = $this->get_datasource_values($field, $this->data->{$nameoption});
-                    } elseif ($field->source == 'dbfieldkey') {
+                    } else if ($field->source == 'dbfieldkey') {
                         $this->data->{$name} = get_string($this->data->{$nameoption}, $domain);
-                    } elseif ($field->source == 'function') {
+                    } else if ($field->source == 'function') {
                         // Function must have an optional first argument that can be scalar or array.
                         if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)) {
                             include_once($CFG->dirroot.$field->source);
@@ -507,8 +519,6 @@ class customlabel_type {
     }
 
     public function get_xml(){
-        global $CFG;
-
         $content = json_decode($this->data->content);
         $xml = "<datablock>\n";
         $xml .= "\t<instance>\n";
@@ -535,7 +545,6 @@ class customlabel_type {
         $xml .= "\t</content>\n";
         $xml .= '</datablock>';
         return $xml;
-        return '';
     }
 
     public function on_delete() {
@@ -546,8 +555,6 @@ class customlabel_type {
     * loads a template and caches it in static database for reuse
     */
     public function get_template($lang) {
-        global $CFG, $PAGE;
-
         static $templates; // kind of caching
 
         $strm = get_string_manager();
@@ -622,11 +629,15 @@ class customlabel_type {
 
         $fs = get_file_storage();
 
-        if (empty($this->data->instance)) return '';
+        if (empty($this->data->instance)) {
+            return '';
+        }
         $cm = get_coursemodule_from_instance('customlabel', $this->data->instance);
 
         // Fault tolerance
-        if (!$cm) return false;
+        if (!$cm) {
+            return false;
+        }
 
         $context = context_module::instance($cm->id);
         if ($fs->is_area_empty($context->id, 'mod_customlabel', $field->name, 0)) {
@@ -675,6 +686,10 @@ class customlabel_type {
         $this->data->content = base64_encode(json_encode($internaldata));
         $processedcontent = $this->make_content();
         $this->data->processedcontent = $processedcontent;
-        $result = $DB->update_record('customlabel', $this->data);
+        $DB->update_record('customlabel', $this->data);
+    }
+    
+    function set_instance($instance) {
+        $this->data->instance = $instance;
     }
 }
