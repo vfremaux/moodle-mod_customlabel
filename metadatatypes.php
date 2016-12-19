@@ -14,17 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  *
  * @package    mod_customlabel
- * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @category   mod
+ * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  *
  * @see Acces from adminmetadata.php
  */
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot.'/mod/customlabel/forms/EditTypeForm.php');
 
 // Get parms.
@@ -63,7 +64,12 @@ $struseas = get_string('usedas', 'customlabel');
 $strdesc = get_string('description');
 $strcommands = get_string('commands', 'customlabel');
 $table = new html_table();
-$table->head = array("<b>$strname</b>", "<b>$struseas</b>", "<b>$strcode</b>", "<b>$strdesc</b>", "<b>$strcourses</b>", "<b>$strcommands</b>");
+$table->head = array("<b>$strname</b>",
+                     "<b>$struseas</b>",
+                     "<b>$strcode</b>",
+                     "<b>$strdesc</b>",
+                     "<b>$strcourses</b>",
+                     "<b>$strcommands</b>");
 $table->size = array('20%', '5%', '10%', '50%', '5%', '10%');
 $table->align = array('left', 'center', 'center', 'center', 'right');
 $table->width = '95%'; 
@@ -78,7 +84,7 @@ if ($types) {
     foreach ($types as $atype) {
 
         $sql = "
-            SELECT 
+            SELECT
                 COUNT(c.id)
             FROM
                 {{$config->classification_value_table}} v
@@ -122,8 +128,11 @@ if ($types) {
         }
         $link = "<a href=\"{$url}?view=qualifiers&typeid={$atype->id}\">{$atype->name}</a> ";
         $counturl = new moodle_url('/mod/customlabel/showclassified.php', array('typeid' => $atype->id));
-        $coursecount = ($atype->courses) ? '<a href="'.$counturl.'">'.$atype->courses.' <img src="'.$OUTPUT->pix_url('/t/hide').'"></a>' : 0 ;
-        $table->data[] = array($link, get_string($atype->type, 'customlabel'), $atype->code, format_string($atype->description), $coursecount, $cmds);
+        $coursecount = ($atype->courses) ?
+            '<a href="'.$counturl.'">'.$atype->courses.' <img src="'.$OUTPUT->pix_url('/t/hide').'"></a>' :
+            0;
+        $typestr = get_string($atype->type, 'customlabel');
+        $table->data[] = array($link, $typestr, $atype->code, format_string($atype->description), $coursecount, $cmds);
         $i++;
     }
 
@@ -137,5 +146,7 @@ echo $OUTPUT->box_start('addform');
 if (isset($data)) {
     $mform->set_data($data);
 }
+
 $mform->display();
+
 echo $OUTPUT->box_end();

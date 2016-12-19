@@ -53,19 +53,30 @@ require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
  */
 function customlabel_supports($feature) {
     switch ($feature) {
-        case FEATURE_IDNUMBER:                return false;
-        case FEATURE_GROUPS:                  return false;
-        case FEATURE_GROUPINGS:               return false;
-        case FEATURE_GROUPMEMBERSONLY:        return true;
-        case FEATURE_MOD_INTRO:               return false;
-        case FEATURE_COMPLETION_TRACKS_VIEWS: return false;
-        case FEATURE_GRADE_HAS_GRADE:         return false;
-        case FEATURE_GRADE_OUTCOMES:          return false;
-        case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_RESOURCE;
-        case FEATURE_BACKUP_MOODLE2:          return true;
-        case FEATURE_NO_VIEW_LINK:            return true;
-
-        default: return null;
+        case FEATURE_IDNUMBER:
+            return false;
+        case FEATURE_GROUPS:
+            return false;
+        case FEATURE_GROUPINGS:
+            return false;
+        case FEATURE_GROUPMEMBERSONLY:
+            return true;
+        case FEATURE_MOD_INTRO:
+            return false;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:
+            return false;
+        case FEATURE_GRADE_HAS_GRADE:
+            return false;
+        case FEATURE_GRADE_OUTCOMES:
+            return false;
+        case FEATURE_MOD_ARCHETYPE:
+            return MOD_ARCHETYPE_RESOURCE;
+        case FEATURE_BACKUP_MOODLE2:
+            return true;
+        case FEATURE_NO_VIEW_LINK:
+            return true;
+        default:
+            return null;
     }
 }
 
@@ -78,7 +89,7 @@ function customlabel_get_name($customlabel) {
     $name = format_string($customlabel->name, true);
 
     if (empty($name)) {
-        // arbitrary name
+        // Arbitrary name.
         $name = get_string('modulename','customlabel');
     }
 
@@ -86,13 +97,15 @@ function customlabel_get_name($customlabel) {
 }
 
 /**
- * Given an object containing all the necessary data, 
- * (defined by the form in mod.html) this function 
- * will create a new instance and return the id number 
+ * Given an object containing all the necessary data,
+ * (defined by the form in mod.html) this function
+ * will create a new instance and return the id number
  * of the new instance.
+ * @param object $customlabel
+ * @return int instance id when created
  */
 function customlabel_add_instance($customlabel) {
-    global $CFG, $DB;
+    global $DB;
 
     $customlabel->name = customlabel_get_name($customlabel);
     if (!isset($customlabel->intro)) {
@@ -114,12 +127,21 @@ function customlabel_add_instance($customlabel) {
         }
 
         if ($field->type == 'date') {
-            $timestamp = mktime(0,0,0,$customlabel->{$field->name}['month'], $customlabel->{$field->name}['day'], $customlabel->{$field->name}['year']);
+            $m = $customlabel->{$field->name}['month'];
+            $d = $customlabel->{$field->name}['day'];
+            $y = $customlabel->{$field->name}['year'];
+            $timestamp = mktime(0, 0, 0, $m, $d, $y);
             $customlabel->{$field->name} = $timestamp;
         }
 
         if ($field->type == 'datetime') {
-            $timestamp = mktime($customlabel->{$field->name}['hour'],$customlabel->{$field->name}['min'],$customlabel->{$field->name}['sec'],$customlabel->{$field->name}['month'], $customlabel->{$field->name}['day'], $customlabel->{$field->name}['year']);
+            $h = $customlabel->{$field->name}['hour'];
+            $m = $customlabel->{$field->name}['min'];
+            $s = $customlabel->{$field->name}['sec'];
+            $mo = $customlabel->{$field->name}['month'];
+            $d = $customlabel->{$field->name}['day'];
+            $y = $customlabel->{$field->name}['year'];
+            $timestamp = mktime($h, $m, $s, $mo, $d, $y);
             $customlabel->{$field->name} = $timestamp;
         }
 
@@ -132,7 +154,8 @@ function customlabel_add_instance($customlabel) {
             }
             // Saves all embdeded images or files into elements in a single text area.
             file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
-            $customlabel->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($editordata['text'], $editordata['itemid'], $field->itemid);
+            $t = $editordata['text'];
+            $customlabel->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($t, $editordata['itemid'], $field->itemid);
         }
 
         if ($field->type == 'filepicker') {
@@ -143,12 +166,14 @@ function customlabel_add_instance($customlabel) {
         unset($customlabel->{$fieldname});
     }
 
-    // this saves into readable data information about which legacy type to use
-    // if this record is restored on a platform that do not implement the actual labelclass.
+    /*
+     * this saves into readable data information about which legacy type to use
+     * if this record is restored on a platform that do not implement the actual labelclass.
+     */
     $customlabel->fallbacktype = ''.@$instance->fallbacktype;
 
     $customlabel->content = base64_encode(json_encode($customlabeldata));
-    $instance->data = $customlabeldata; // load data into instance
+    $instance->data = $customlabeldata; // Load data into instance.
     $customlabel->processedcontent = $instance->make_content();
     $customlabel->timemodified = time();
     return $DB->insert_record('customlabel', $customlabel);
@@ -160,9 +185,9 @@ function customlabel_add_instance($customlabel) {
  * will update an existing instance with new data.
  */
 function customlabel_update_instance($customlabel) {
-    global $CFG, $USER, $DB;
+    global $DB;
 
-    // check if type changed
+    // Check if type changed.
     $oldinstance = $DB->get_record('customlabel', array('id' => $customlabel->instance));
     $typechanged = false;
 
@@ -224,8 +249,10 @@ function customlabel_update_instance($customlabel) {
 
         if (preg_match('/datasource$/', $field->type)) {
             $fieldoption = $field->name.'option';
-            if ($field->multiple) {
-                $customlabeldata->{$fieldoption} = implode(',', @$customlabel->{$fieldoption});
+            if (property_exists($field, 'multiple') && $field->multiple) {
+                if (!empty($customlabel->{$fieldoption})) {
+                    $customlabeldata->{$fieldoption} = implode(',', $customlabel->{$fieldoption});
+                }
             } else {
                 $customlabeldata->{$fieldoption} = @$customlabel->{$fieldoption};
             }
@@ -233,7 +260,7 @@ function customlabel_update_instance($customlabel) {
         }
 
         if ($field->type == 'list') {
-            $customlabeldata->{$field->name} = $_POST[$field->name]; // odd thing when bouncing
+            $customlabeldata->{$field->name} = $_POST[$field->name]; // Odd thing when bouncing.
         }
     }
 
@@ -273,7 +300,7 @@ function customlabel_delete_instance($id) {
     }
 
     // Delete the module.
-    
+
     $result = true;
 
     if (! $DB->delete_records('customlabel', array('id' => $customlabel->id))) {
@@ -291,7 +318,6 @@ function customlabel_delete_instance($id) {
  * (NONE, but must exist on EVERY mod !!)
  */
 function customlabel_get_participants($customlabelid) {
-
     return false;
 }
 
@@ -303,19 +329,19 @@ function customlabel_get_participants($customlabelid) {
  */
 function customlabel_get_coursemodule_info($coursemodule) {
     global $CFG, $DB, $COURSE;
-    static $INSTANCES = array();
+    static $instances = array();
 
-    if (!in_array($coursemodule->instance, $INSTANCES)) {
+    if (!in_array($coursemodule->instance, $instances)) {
         if ($customlabel = $DB->get_record('customlabel', array('id' => $coursemodule->instance), 'id, labelclass, intro, title, name, content, processedcontent')) {
     
-            // Check label subtype is still installed
+            // Check label subtype is still installed.
             if (!is_dir($CFG->dirroot.'/mod/customlabel/type/'.$customlabel->labelclass)) {
                 course_delete_module($coursemodule->id);
                 customlabel_delete_instance($customlabel->id);
                 rebuild_course_cache($COURSE->id);
                 return;
             }
-            $INSTANCES[$coursemodule->instance] = customlabel_load_class($customlabel, $customlabel->labelclass);
+            $instances[$coursemodule->instance] = customlabel_load_class($customlabel, $customlabel->labelclass);
         } else {
             return null;
         }
@@ -324,8 +350,7 @@ function customlabel_get_coursemodule_info($coursemodule) {
     $info = new stdClass();
     $info->name = $customlabel->name;
     $info->extra = '';
-    // $customcontent = json_decode(base64_decode($customlabel->content));
-    $info->extra = urlencode($INSTANCES[$coursemodule->instance]->title);
+    $info->extra = urlencode($instances[$coursemodule->instance]->title);
     return $info;
 }
 
@@ -349,7 +374,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         $customlabelscriptsloaded = true;
     }
 
-    // Improve page format by testing if in current visble page
+    // Improve page format by testing if in current visble page.
     if ($COURSE->format == 'page') {
         $current = course_page::get_current_page($COURSE->id);
         if (!$DB->record_exists('format_page_items', array('cmid' => $cminfo->id, 'pageid' => $current->id))) {
@@ -424,24 +449,6 @@ function customlabel_get_post_actions() {
 }
 
 /**
- * TODO : check relevance
- *
- */
-/*
-function customlabel_get_types() {
-    $types = array();
-
-    $type = new stdClass();
-    $type->modclass = MOD_CLASS_RESOURCE;
-    $type->type = 'customlabel';
-    $type->typestr = get_string('resourcetypecustomlabel', 'customlabel');
-    $types[] = $type;
-
-    return $types;
-}
-*/
-
-/**
  * This function is used by the reset_course_userdata function in moodlelib.
  * @param $data the data submitted from the reset course.
  * @return array status array
@@ -451,16 +458,16 @@ function customlabel_reset_userdata($data) {
 }
 
 /**
-* Other valuable API functions
-**/
+ * Other valuable API functions
+ */
 
 /**
  * Returns a XML fragment with the stored metadata and the type information
  *
  */
 function customlabel_get_xml($clid) {
-    global $CFG, $DB;
-    
+    global $DB;
+
     if ($customlabel = $DB->get_record('customlabel', array('id' => "$clid"))) {
         $content = json_decode(base64_decode($customlabel->content));
         $xml = "<datablock>\n";
@@ -489,7 +496,7 @@ function customlabel_get_xml($clid) {
  * @param $cmid, an alternative to give directly the course module id
  */
 function customlabel_is_hidden_byrole(&$block, $cmid = 0) {
-    global $COURSE, $CFG, $USER, $DB;
+    global $COURSE, $USER, $DB;
 
     // Some admin situation needs view all.
     if (has_capability('moodle/site:config', context_system::instance(), $USER->id, false)) {
@@ -498,7 +505,7 @@ function customlabel_is_hidden_byrole(&$block, $cmid = 0) {
 
     $capability = 'customlabeltype/'.$customlabel->labelclass.':view';
 
-    // Trap the unlogged or guest case
+    // Trap the unlogged or guest case.
     $guestrole = $DB->get_record('roles', array('name' => 'guest'));
     if ($rolesforcap = get_roles_with_capability($capability, CAP_ALLOW)) {
         $allowedroleids = array_keys($rolesforcap);
@@ -535,8 +542,10 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
     }
 
     if ($course->format == 'page') {
-        // In page format, some pages may not require login. Just check the customlabel
-        // is accessible to the user (no mater pages are or not).
+        /*
+         * In page format, some pages may not require login. Just check the customlabel
+         * is accessible to the user (no mater pages are or not).
+         */
         require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
         if (!customlabel_type::module_is_visible($cm, $customlabel)) {
             return false;
@@ -550,16 +559,17 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
     $fs = get_file_storage();
     $relativepath = implode('/', $args);
     $fullpath = "/$context->id/mod_customlabel/{$filearea}/$relativepath";
-    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
+    $file = $fs->get_file_by_hash(sha1($fullpath));
+    if (!$file || $file->is_directory()) {
         return false;
     }
 
     // Nasty hack because we do not have file revisions in customlabels yet.
     $lifetime = 0 + @$CFG->filelifetime;
-    if ($lifetime > 60*10) {
-        $lifetime = 60*10;
+    if ($lifetime > 60 * 10) {
+        $lifetime = 60 * 10;
     }
 
-    // finally send the file
+    // Finally send the file.
     send_stored_file($file, $lifetime, 0, $forcedownload, $options);
 }

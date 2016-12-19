@@ -15,41 +15,40 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype_heading.trait.php');
 
-class customlabel_type_unitheading extends customlabel_type{
+class customlabel_type_unitheading extends customlabel_type {
+
+    use customlabel_trait_heading;
 
     function __construct($data) {
-        global $CFG, $COURSE, $PAGE;
+        global $CFG, $PAGE, $OUTPUT;
 
         parent::__construct($data);
         $this->type = 'unitheading';
         $this->fields = array();
 
-        $field = new StdClass;
-        $field = new StdClass;
-        $field->name = 'heading';
-        $field->size = 80;
-        $field->type = 'textfield';
-        $this->fields['heading'] = $field;
-
-        $field = new StdClass;
-        $field->name = 'shortdesc';
-        $field->type = 'textarea';
-        $field->itemid = 0;
-        $this->fields['shortdesc'] = $field;
+        $this->standard_name_fields();
 
         $field = new StdClass();
         $field->name = 'image';
         $field->type = 'filepicker';
         $field->destination = 'url';
+        $field->default = '';
         if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
+            if (!isloggedin()) {
+                // Give a context to the page if missing. f.e when invoking pluginfile.
+                $PAGE->set_context(context_system::instance());
+            }
             if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultunitheading.png')) {
-                $field->default = $CFG->wwwroot.'/mod/customlabel/type/sectionheading/defaultunitheading.jpg';
+                $field->default = $OUTPUT->pix_url('defaultunitheading', 'customlabeltype_unitheading');
             } else {
                 $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultunitheading.png';
             }
         } else {
-            $field->default = $CFG->wwwroot.'/mod/customlabel/type/unitheading/defaultsectionheading.jpg';
+            if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
+                $field->default = $OUTPUT->pix_url('defaultunitheading', 'customlabeltype_unitheading');
+            }
         }
         $this->fields['image'] = $field;
 
@@ -70,21 +69,31 @@ class customlabel_type_unitheading extends customlabel_type{
 
     /**
      * If exists, this method can process local alternative values for
-     * realizing the template, after all standard translations have been performed. 
+     * realizing the template, after all standard translations have been performed.
      * Type information structure and application context dependant.
+     * @param $data
      */
     function postprocess_data($course = null) {
-        global $CFG;
 
         // Get virtual fields from course title.
         $storedimage = $this->get_file_url('image');
         $imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
         if ($this->data->imagepositionoption == 'left') {
-            $this->data->imageL = "<td width=\"100\" class=\"custombox-icon-left unitheading\" align=\"center\" style=\"background:url({$imageurl}) 50% 50% no-repeat transparent\">{$this->data->overimagetext}</td>";
+            $this->data->imageL = '<td width="100"
+                                       class="custombox-icon-left unitheading"
+                                       align="center"
+                                       style="background:url('.$imageurl.') 50% 50% no-repeat transparent">';
+            $this->data->imageL .= $this->data->overimagetext;
+            $this->data->imageL .= '</td>';
             $this->data->imageR = '';
-        } elseif ($this->data->imagepositionoption == 'right') {
+        } else if ($this->data->imagepositionoption == 'right') {
             $this->data->imageL = '';
-            $this->data->imageR = "<td width=\"100\" class=\"custombox-icon-right unitheading\" align=\"center\" style=\"background:url({$imageurl}) 50% 50%  no-repeat transparent\">{$this->data->overimagetext}</td>";
+            $this->data->imageR = '<td width="100"
+                                       class="custombox-icon-right unitheading"
+                                       align="center"
+                                       style="background:url('.$imageurl.') 50% 50%  no-repeat transparent">';
+            $this->data->imageR .= $this->data->overimagetext;
+            $this->data->imageR .= '</td>';
         } else {
             $this->data->imageL = '';
             $this->data->imageR = '';

@@ -14,9 +14,10 @@ class customlabel_type_genericgoals extends customlabel_type{
         $this->type = 'genericgoals';
         $this->fields = array();
         
-		$field = new StdClass();        
+        $field = new StdClass();
         $field->name = 'goals';
         $field->type = 'textarea';
+        $field->itemid = 0;
         $field->rows = 20;
         $this->fields['goals'] = $field;
     }
@@ -27,5 +28,3 @@ class customlabel_type_genericgoals extends customlabel_type{
         $this->data->sideimage = $CFG->wwwroot.'/mod/customlabel/type/'.$this->type.'/thumb.jpg';
     }
 }
- 
-?>

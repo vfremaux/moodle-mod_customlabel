@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  *
  * @package    mod_customlabel
@@ -26,9 +24,11 @@ defined('MOODLE_INTERNAL') || die();
  * @see Acces from adminmetadata.php
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 class mod_customlabel_renderer extends plugin_renderer_base {
 
-    function set_choice($view, $q1, $q2) {
+    public function set_choice($view, $q1, $q2) {
         global $DB, $OUTPUT;
 
         $str = '';
@@ -36,7 +36,8 @@ class mod_customlabel_renderer extends plugin_renderer_base {
         $config = get_config('customlabel');
         $choosestr = get_string('choose');
         $choiceurl = new moodle_url('/mod/customlabel/adminmetadata.php');
-        $valuetypes = $DB->get_records_menu($config->classification_type_table, array(), 'name', 'id,name');
+        $table = $config->classification_type_table;
+        $valuetypes = $DB->get_records_menu($table, array('type' => 'category'), 'name', 'id,name');
 
         $str .= '<form name="choosesets" method="POST" action="'.$choiceurl.'">';
         $str .= '<input type="hidden" name="view" value="'.$view.'" />';
@@ -67,7 +68,7 @@ class mod_customlabel_renderer extends plugin_renderer_base {
         return $str;
     }
 
-    function constraints_form($view, $q1, $q2) {
+    public function constraints_form($view, $q1, $q2) {
         global $DB;
 
         $config = get_config('customlabel');
@@ -88,12 +89,12 @@ class mod_customlabel_renderer extends plugin_renderer_base {
         $str .= '<input type="hidden" name="value1" value="'.$q1->value.'" />';
         $str .= '<input type="hidden" name="value2" value="'.$q2->value.'" />';
         $str .= '<input type="hidden" name="what" value="save" />';
-        $str .= '<table>';
+        $str .= '<table class="constraint-form-table">';
         $str .= '<tr valign="top">';
         $str .= '<td>';
         $str .= '</td>';
 
-        // generate first row
+        // Generate first row.
         if ($q2->valueset) {
             foreach ($q1->valueset as $avalue1) {
                 $str .= '<td align="center"><b>'.$avalue1->value.'</b></td>';
@@ -109,7 +110,7 @@ class mod_customlabel_renderer extends plugin_renderer_base {
             foreach ($q2->valueset as $avalue2) {
                 $j = 0;
                 $str .= '<tr valign="top">';
-                $str .= '<td align="center">'.$avalue2->value.'</td>';
+                $str .= '<td align="left">'.$avalue2->value.'</td>';
                 if ($q1->valueset) {
                     foreach ($q1->valueset as $avalue1) {
                         $valuea = $avalue1->id;
@@ -125,7 +126,7 @@ class mod_customlabel_renderer extends plugin_renderer_base {
                         $valuekey = "ct_{$valuea}_{$valueb}";
                         $class = ($value) ? 'included' : '';
                         $str .= '<td class="constraint-cell '.$class.'">';
-                        $str .= html_writer::select($options, $valuekey, $value);
+                        $str .= html_writer::select($options, $valuekey, $value, null);
                         $str .= '</td>';
                         $j++;
                     }

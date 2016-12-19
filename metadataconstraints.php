@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * @package    mod_customlabel
  * @category   mod
@@ -23,6 +21,8 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  */
+
+defined('MOODLE_INTERNAL') || die();
 
 $config = get_config('customlabel');
 
@@ -37,10 +37,11 @@ if ($q1->value == $q2->value) {
     $q2->value = '';
 }
 
-$q1->countvalueset = $DB->count_records($config->classification_value_table, array($config->classification_value_type_key => $q1->value));
-$q2->countvalueset = $DB->count_records($config->classification_value_table, array($config->classification_value_type_key => $q2->value));
-$q1->valueset = $DB->get_records($config->classification_value_table, array($config->classification_value_type_key => $q1->value));
-$q2->valueset = $DB->get_records($config->classification_value_table, array($config->classification_value_type_key => $q2->value));
+$classtable = $config->classification_value_table;
+$q1->countvalueset = $DB->count_records($classtable, array($config->classification_value_type_key => $q1->value));
+$q2->countvalueset = $DB->count_records($classtable, array($config->classification_value_type_key => $q2->value));
+$q1->valueset = $DB->get_records($classtable, array($config->classification_value_type_key => $q1->value));
+$q2->valueset = $DB->get_records($classtable, array($config->classification_value_type_key => $q2->value));
 
 if ($action != '') {
     include_once($CFG->dirroot.'/mod/customlabel/metadataconstraints.controller.php');

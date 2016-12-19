@@ -1,7 +1,30 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * @package    mod_customlabel
+ * @category   mod
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
+ */
 
 $string['customlabel:addinstance'] = 'Can add an instance';
-$string['customlabel:fullaccess'] = 'Full access to all fields ';
+$string['customlabel:fullaccess'] = 'Full access to all fields';
+$string['customlabel:managemetadata'] = 'Manage metadata';
 
 $string['apparence'] = 'Apparence';
 $string['changetypeadvice'] = "You are about to thange the internal data structure of this element. Old content cannot be maintained. Continue?";
@@ -22,6 +45,7 @@ $string['labelclass'] = 'Label type';
 $string['labelclasses'] = 'Element classes';
 $string['labelupdater'] = '{$a} Regeneration Tool';
 $string['languages'] = 'Language';
+$string['lockedsample'] = 'Locked field sample';
 $string['missingfields'] = 'Mandatory fields have not been defined';
 $string['modulename'] = 'Course element';
 $string['modulenameplural'] = 'Course elements';
@@ -34,6 +58,7 @@ $string['regeneration'] = 'Content mass regeneration';
 $string['resourcetypecustomlabel'] = 'Course element';
 $string['roleaccesstoelements'] = 'Access per role';
 $string['sametypes'] = 'You cannot constraint twice the same type';
+$string['specifics'] = 'Type specific';
 $string['storage'] = 'Storage model';
 $string['title'] = 'Element name';
 $string['updateall'] = 'Update all instances';
@@ -46,10 +71,10 @@ learning actions : work to do, soluce, see also (optional reference), local goal
 editioral helpers such as course captions. Administrator can integrate specific models with additional
 editorial value such as using prefitted image bank, or tagging courses,
 You just need to enter the appropriate data in each module
-and register. 
+and register.
 ";
 
-// Metadata
+// Metadata.
 $string['adminmetadata'] = 'Classifiers configuration';
 $string['metadata'] = 'Metadata values';
 $string['metadataset'] = 'Classification values';
@@ -65,10 +90,10 @@ $string['typename'] = 'Name';
 $string['typetype'] = 'Type';
 $string['noclassifiers'] = 'No classifier';
 $string['metadata :'] = 'Metadata:';
-$string['editclass'] = 'Update classifier class ';
+$string['editclass'] = 'Update classifier class&ensp;';
 $string['category'] = 'Category';
 $string['filter'] = 'Filter';
-$string['usedas'] = 'Use as ';
+$string['usedas'] = 'Use as&ensp;';
 $string['none'] = 'Undefined';
 $string['include'] = 'Include';
 $string['exclude'] = 'Exclude';
@@ -80,6 +105,7 @@ $string['up'] = 'Up';
 $string['down'] = 'Down';
 $string['model'] = 'Data Model';
 $string['typecode'] = 'Code';
+$string['show'] = 'Show&ensp;';
 $string['typecode_help'] = '
 <p>This will help for matching data with external system when extracting data with custom queries in blocks of type
 Custom Reports or Dashboard.</p>
@@ -112,6 +138,20 @@ $string['typetype_help'] = '
 ';
 
 $string['classificationmodel'] = 'Classification model';
+$string['classificationtypetable'] = 'Classification dimensions and filters table';
+$string['classificationtypetable_help'] = 'This table provides domains of classification. A domain holds a set of values.';
+$string['classificationvaluetable'] = 'classification values table';
+$string['classificationvaluetable_help'] = 'This table provides all values for all classifiers defined in the Type Table.';
+$string['classificationvaluetypekey'] = 'classifier Type field';
+$string['classificationvaluetypekey_help'] = 'This must define the table column name that is used to key the type ownership on values.';
+$string['classificationconstrainttable'] = 'Constraints table';
+$string['classificationconstrainttable_help'] = 'This table is capable to map the value pairs wich are not compatible.';
+$string['coursemetadatatable'] = 'course metadata tagging table';
+$string['coursemetadatatable_help'] = 'This table provides course to metadata bindings.';
+$string['coursemetadatavaluekey'] = 'Tagging field for values (metadata to value binding)';
+$string['coursemetadatavaluekey_help'] = 'This must define a column name in database that maps a record to a metadata value.';
+$string['coursemetadatacoursekey'] = 'Tagging key for course (course to metadata binding)';
+$string['coursemetadatacoursekey_help'] = 'This must define a column name in database that maps a record to a course ID.';
 $string['configmetadatabinding'] = 'Metadata schema binding';
 $string['configmetadatabinding_desc'] = '
 <p>The couse indexer relies on a capability to index courses with some metadata and classifiers. the course index model uses 4 tables to achieve this feature, and allows binding those tables from any implementation
@@ -140,11 +180,11 @@ $string['configclassificationconstrainttable_desc'] = 'This table holds the cons
 
 $string['templatenotfound'] = 'Template {$a} not found';
 
-// known types
+// Known types.
 $string['text'] = 'Text';
 $string['content'] = 'Content';
 
-// Kown families
+// Kown families.
 $string['familystructure'] = 'Structural elements';
 $string['familygeneric'] = 'Generic elements';
 $string['familypedagogic'] = 'Pedagogy elements';

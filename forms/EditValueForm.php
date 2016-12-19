@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * @package    mod_customlabel
  * @category   mod
@@ -23,27 +21,30 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  */
+
+defined('MOODLE_INTERNAL') || die();
+
 require_once $CFG->libdir.'/formslib.php';
 
-class EditValueForm extends moodleform{
+class EditValueForm extends moodleform {
 
     private $view;
     private $action;
     private $type;
-    
-    function __construct($view, $action, $type, $url) {
+
+    public function __construct($view, $action, $type, $url) {
         $this->view = $view;
         $this->action = $action;
         $this->type = $type;
         parent::moodleform($url);
     }
 
-    function definition() {
+    public function definition() {
         $mform = & $this->_form;
-        
+
         $options[0] = get_string('category', 'customlabel');
         $options[1] = get_string('filter', 'customlabel');
-        
+
         $mform->addElement('hidden', 'view', $this->view);
         $mform->setType('view', PARAM_TEXT);
 
@@ -64,14 +65,14 @@ class EditValueForm extends moodleform{
 
         $this->add_action_buttons(false);
     }
-    
-    function validation($data, $files = null) {
+
+    public function validation($data, $files = null) {
         $errors = array();
-        
+
         if (empty($data['value'])) {
             $errors['value'] = get_string('emptyvalueerror', 'customlabel');
         }
-        
+
         return $errors;
     }
 }

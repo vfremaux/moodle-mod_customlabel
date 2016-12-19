@@ -10,7 +10,7 @@ td.custombox-header-thumb.question {
 td.custombox-header-thumb.question {
     min-width:25px;
     width:25px;
-    background-image: url("/mod/customlabel/type/question/icon_question_small.png"); 
+    background-image: url("/mod/customlabel/type/question/pix/icon_question_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -19,7 +19,7 @@ td.custombox-header-thumb.question {
 #page-region-main td.custombox-header-thumb.question {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/question/icon_question.png"); 
+    background-image: url("/mod/customlabel/type/question/pix/icon_question.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

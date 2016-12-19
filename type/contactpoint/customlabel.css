@@ -10,7 +10,7 @@ td.custombox-header-thumb.contactpoint {
 td.custombox-header-thumb.any {
     min-width:25px;
     width:25px;
-    background-image: url("/mod/customlabel/type/contactpoint/icon_any_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_any_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -19,14 +19,14 @@ td.custombox-header-thumb.any {
 #page-region-main td.custombox-header-thumb.any {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/contactpoint/icon_any.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_any.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
 
 td.custombox-header-thumb.anywritten {
     width:25px;
-    background-image: url("/mod/customlabel/type/contactpoint/icon_anywritten_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_anywritten_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -35,14 +35,14 @@ td.custombox-header-thumb.anywritten {
 #page-region-main td.custombox-header-thumb.anywritten {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/icon_anywritten.jpg"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_anywritten.jpg"); 
     background-repeat: no-repeat;
     height:73px;
 }
 
 td.custombox-header-thumb.phone {
     width:25px;
-    background-image: url("/mod/customlabel/type/contactpoint/icon_phone_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_phone_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -51,14 +51,14 @@ td.custombox-header-thumb.phone {
 #page-region-main td.custombox-header-thumb.phone {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/contactpoint/icon_phone.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_phone.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
 
 td.custombox-header-thumb.mail{
     width:25px;
-    background-image: url("/mod/customlabel/type/contactpoint/icon_mail_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_mail_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -67,14 +67,14 @@ td.custombox-header-thumb.mail{
 #page-region-main td.custombox-header-thumb.mail {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/contactpoint/icon_mail.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_mail.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
 
 td.custombox-header-thumb.meeting {
     width:25px;
-    background-image: url("/mod/customlabel/icon_meeting_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_meeting_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -83,14 +83,14 @@ td.custombox-header-thumb.meeting {
 #page-region-main td.custombox-header-thumb.meeting {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/contactpoint/icon_meeting.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_meeting.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
 
 td.custombox-header-thumb.onlinevocal {
     width:25px;
-    background-image: url("/mod/customlabel/type/contactpoint/icon_onlinevocal_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_onlinevocal_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -99,14 +99,14 @@ td.custombox-header-thumb.onlinevocal {
 #page-region-main td.custombox-header-thumb.onlinevocal {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/contactpoint/icon_onlinevocal.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_onlinevocal.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
 
 td.custombox-header-thumb.chat {
     width:25px;
-    background-image: url("/mod/customlabel/type/contactpoint/icon_chat_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_chat_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -115,14 +115,14 @@ td.custombox-header-thumb.chat {
 #page-region-main td.custombox-header-thumb.chat {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/contactpoint/icon_chat.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_chat.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
 
 td.custombox-header-thumb.facetoface {
     width:25px;
-    background-image: url("/mod/customlabel/type/contactpoint/icon_facetoface_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_facetoface_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -131,7 +131,7 @@ td.custombox-header-thumb.facetoface {
 #page-region-main td.custombox-header-thumb.facetoface {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/contactpoint/icon_facetoface.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_facetoface.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
