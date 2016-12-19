@@ -19,18 +19,18 @@
  *
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux (valery.fremaux@gmail.com)
- * @copyright  2013 onwards Valery Fremaux (valery.fremaux@gmail.com)
+ * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2016110102; // The current module version (Date: YYYYMMDDXX).
-$plugin->requires = 2014050800;
+$plugin->version  = 2016110101; // The current module version (Date: YYYYMMDDXX).
+$plugin->requires = 2014110400;
 $plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics).
-$plugin->release = '2.7.0 (Build 2016110102)';
+$plugin->release = '2.8.0 (Build 2016110101)';
 $plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
-$plugin->codeincrement = '2.7.0001';
+$plugin->codeincrement = '2.8.0000';
