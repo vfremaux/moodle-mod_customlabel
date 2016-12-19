@@ -15,21 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- *  Code fragment to define the version of customlabel
+ * Version details.
+ *
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux (valery.fremaux@gmail.com)
+ * @copyright  2013 onwards Valery Fremaux (valery.fremaux@gmail.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2013041802; // The current module version (Date: YYYYMMDDXX).
+$plugin->version  = 2016110102; // The current module version (Date: YYYYMMDDXX).
 $plugin->requires = 2014050800;
 $plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics).
+$plugin->release = '2.7.0 (Build 2016110102)';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = "2.7.0 (Build 2013041802)";
 
-// Non moodle attributes
-$plugin->codeincrement = '2.7.0000';
+// Non moodle attributes.
+$plugin->codeincrement = '2.7.0001';

@@ -28,6 +28,8 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/customlabel/forms/EditTypeForm.php');
 
+// Get parms.
+
 $type = optional_param('type', 0, PARAM_INT);
 
 $config = get_config('customlabel');
@@ -62,8 +64,12 @@ $struseas = get_string('usedas', 'customlabel');
 $strdesc = get_string('description');
 $strcommands = get_string('commands', 'customlabel');
 $table = new html_table();
-$table->head = array("<b>$strname</b>", "<b>$struseas</b>", "<b>$strcode</b>", "<b>$strdesc</b>",
-                     "<b>$strcourses</b>", "<b>$strcommands</b>");
+$table->head = array("<b>$strname</b>",
+                     "<b>$struseas</b>",
+                     "<b>$strcode</b>",
+                     "<b>$strdesc</b>",
+                     "<b>$strcourses</b>",
+                     "<b>$strcommands</b>");
 $table->size = array('20%', '5%', '10%', '50%', '5%', '10%');
 $table->align = array('left', 'center', 'center', 'center', 'right');
 $table->width = '95%'; 

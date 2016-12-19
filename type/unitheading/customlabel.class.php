@@ -34,14 +34,21 @@ class customlabel_type_unitheading extends customlabel_type {
         $field->name = 'image';
         $field->type = 'filepicker';
         $field->destination = 'url';
+        $field->default = '';
         if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
+            if (!isloggedin()) {
+                // Give a context to the page if missing. f.e when invoking pluginfile.
+                $PAGE->set_context(context_system::instance());
+            }
             if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultunitheading.png')) {
                 $field->default = $OUTPUT->pix_url('defaultunitheading', 'customlabeltype_unitheading');
             } else {
                 $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultunitheading.png';
             }
         } else {
-            $field->default = $OUTPUT->pix_url('defaultunitheading', 'customlabeltype_unitheading');
+            if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
+                $field->default = $OUTPUT->pix_url('defaultunitheading', 'customlabeltype_unitheading');
+            }
         }
         $this->fields['image'] = $field;
 
@@ -79,7 +86,7 @@ class customlabel_type_unitheading extends customlabel_type {
             $this->data->imageL .= $this->data->overimagetext;
             $this->data->imageL .= '</td>';
             $this->data->imageR = '';
-        } elseif ($this->data->imagepositionoption == 'right') {
+        } else if ($this->data->imagepositionoption == 'right') {
             $this->data->imageL = '';
             $this->data->imageR = '<td width="100"
                                        class="custombox-icon-right unitheading"

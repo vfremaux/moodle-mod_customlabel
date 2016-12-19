@@ -105,7 +105,7 @@ function customlabel_get_name($customlabel) {
  * @return int instance id when created
  */
 function customlabel_add_instance($customlabel) {
-    global $CFG, $DB;
+    global $DB;
 
     $customlabel->name = customlabel_get_name($customlabel);
     if (!isset($customlabel->intro)) {
@@ -185,7 +185,7 @@ function customlabel_add_instance($customlabel) {
  * will update an existing instance with new data.
  */
 function customlabel_update_instance($customlabel) {
-    global $CFG, $DB;
+    global $DB;
 
     // Check if type changed.
     $oldinstance = $DB->get_record('customlabel', array('id' => $customlabel->instance));
@@ -249,7 +249,7 @@ function customlabel_update_instance($customlabel) {
 
         if (preg_match('/datasource$/', $field->type)) {
             $fieldoption = $field->name.'option';
-            if (!empty($field->multiple)) {
+            if (property_exists($field, 'multiple') && $field->multiple) {
                 if (!empty($customlabel->{$fieldoption})) {
                     $customlabeldata->{$fieldoption} = implode(',', $customlabel->{$fieldoption});
                 }
@@ -300,7 +300,7 @@ function customlabel_delete_instance($id) {
     }
 
     // Delete the module.
-    
+
     $result = true;
 
     if (! $DB->delete_records('customlabel', array('id' => $customlabel->id))) {
@@ -318,7 +318,6 @@ function customlabel_delete_instance($id) {
  * (NONE, but must exist on EVERY mod !!)
  */
 function customlabel_get_participants($customlabelid) {
-
     return false;
 }
 
@@ -330,19 +329,19 @@ function customlabel_get_participants($customlabelid) {
  */
 function customlabel_get_coursemodule_info($coursemodule) {
     global $CFG, $DB, $COURSE;
-    static $INSTANCES = array();
+    static $instances = array();
 
-    if (!in_array($coursemodule->instance, $INSTANCES)) {
+    if (!in_array($coursemodule->instance, $instances)) {
         if ($customlabel = $DB->get_record('customlabel', array('id' => $coursemodule->instance), 'id, labelclass, intro, title, name, content, processedcontent')) {
     
-            // Check label subtype is still installed
+            // Check label subtype is still installed.
             if (!is_dir($CFG->dirroot.'/mod/customlabel/type/'.$customlabel->labelclass)) {
                 course_delete_module($coursemodule->id);
                 customlabel_delete_instance($customlabel->id);
                 rebuild_course_cache($COURSE->id);
                 return;
             }
-            $INSTANCES[$coursemodule->instance] = customlabel_load_class($customlabel, $customlabel->labelclass);
+            $instances[$coursemodule->instance] = customlabel_load_class($customlabel, $customlabel->labelclass);
         } else {
             return null;
         }
@@ -351,8 +350,7 @@ function customlabel_get_coursemodule_info($coursemodule) {
     $info = new stdClass();
     $info->name = $customlabel->name;
     $info->extra = '';
-    // $customcontent = json_decode(base64_decode($customlabel->content));
-    $info->extra = urlencode($INSTANCES[$coursemodule->instance]->title);
+    $info->extra = urlencode($instances[$coursemodule->instance]->title);
     return $info;
 }
 
@@ -376,7 +374,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         $customlabelscriptsloaded = true;
     }
 
-    // Improve page format by testing if in current visble page
+    // Improve page format by testing if in current visble page.
     if ($COURSE->format == 'page') {
         $current = course_page::get_current_page($COURSE->id);
         if (!$DB->record_exists('format_page_items', array('cmid' => $cminfo->id, 'pageid' => $current->id))) {
@@ -451,24 +449,6 @@ function customlabel_get_post_actions() {
 }
 
 /**
- * TODO : check relevance
- *
- */
-/*
-function customlabel_get_types() {
-    $types = array();
-
-    $type = new stdClass();
-    $type->modclass = MOD_CLASS_RESOURCE;
-    $type->type = 'customlabel';
-    $type->typestr = get_string('resourcetypecustomlabel', 'customlabel');
-    $types[] = $type;
-
-    return $types;
-}
-*/
-
-/**
  * This function is used by the reset_course_userdata function in moodlelib.
  * @param $data the data submitted from the reset course.
  * @return array status array
@@ -478,8 +458,8 @@ function customlabel_reset_userdata($data) {
 }
 
 /**
-* Other valuable API functions
-**/
+ * Other valuable API functions
+ */
 
 /**
  * Returns a XML fragment with the stored metadata and the type information
@@ -579,7 +559,8 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
     $fs = get_file_storage();
     $relativepath = implode('/', $args);
     $fullpath = "/$context->id/mod_customlabel/{$filearea}/$relativepath";
-    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) || $file->is_directory()) {
+    $file = $fs->get_file_by_hash(sha1($fullpath));
+    if (!$file || $file->is_directory()) {
         return false;
     }
 

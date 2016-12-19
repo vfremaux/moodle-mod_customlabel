@@ -24,6 +24,7 @@
  
 $string['customlabel:addinstance'] = 'Peut ajouter une instance';
 $string['customlabel:fullaccess'] = 'Accès total';
+$string['customlabel:managemetadata'] = 'Gérer les métadonnées de classification';
 
 $string['apparence'] = 'Apparence';
 $string['coursefilter'] = 'Filtre sur les cours';
@@ -37,11 +38,12 @@ $string['disabledsubtypes'] = 'Types d\'éléments désactivés';
 $string['disabledsubtypesdesc'] = 'Tout type mentionné dans ce champ sera désactivé au niveau site. Les contenus existants pour ce type d\'éléments seront ignorés.';
 $string['doupdate'] = 'Régénérer !!';
 $string['exportdata'] = 'Exporter les données en XML';
-$string['hiddenrolesfor'] = 'Rôles n\'ayant pas accès au(x)';
-$string['labelclass'] = 'Type d\'élément';
+$string['hiddenrolesfor'] = 'Rôles n\'ayant pas accès au(x)&ensp;';
+$string['labelclass'] = 'Type d\'élément&ensp;';
 $string['labelclasses'] = 'Classes d\'éléments';
 $string['labelupdater'] = 'Outil de régénération {$a}';
 $string['languages'] = 'Langue';
+$string['lockedsample'] = 'Exemple de champ verouillé';
 $string['missingfields'] = 'Des champs obligatoires ne sont pas initialisés.';
 $string['modulename'] = 'Elément de cours';
 $string['pluginname'] = 'Eléments de cours';
@@ -54,14 +56,15 @@ $string['regeneration'] = 'Régénération des contenus';
 $string['resourcetypecustomlabel'] = 'Elément de cours';
 $string['roleaccesstoelements'] = 'Gestion des accès par rôle';
 $string['sametypes'] = 'Vous ne pouvez mettre des contraines entre un type et lui-même';
+$string['specifics'] = 'Réglages spécifiques';
 $string['storage'] = 'Mode de stockage';
-$string['title'] = 'Nom de l\'élément';
+$string['title'] = 'Nom de l\'élément&ensp;';
 $string['updateall'] = 'Régénérer tous les éléments';
 $string['updatelabels'] = 'Régénération des instances de {$a}';
 $string['updatescope'] = 'Portée de la mise à jour';
 $string['usesafestorage'] = 'Utiliser le stockage sûr (base64)';
 $string['typecode'] = 'Code';
-$string['show'] = 'Montrer';
+$string['show'] = 'Montrer&ensp;';
 $string['typetype'] = 'Type';
 
 $string['typecode_help'] = '
@@ -118,9 +121,9 @@ $string['typename'] = 'Nom';
 $string['typetype'] = 'Type';
 $string['noclassifiers'] = 'Aucun critère de classification';
 $string['metadata :'] = 'Métadonnée';
-$string['editclass'] = 'Edition de la classe';
-$string['category'] = 'Catégorie';
-$string['filter'] = 'Filtre';
+$string['editclass'] = 'Edition de la classe&ensp;';
+$string['category'] = 'Catégorie&ensp;';
+$string['filter'] = 'Filtre&ensp;';
 $string['usedas'] = 'Utilisé en tant que';
 $string['none'] = 'Non défini';
 $string['include'] = 'Inclure';
@@ -148,7 +151,7 @@ $string['coursemetadatacoursekey_help'] = 'This must define a column name in dat
 
 // Known types.
 $string['text'] = 'Texte';
-$string['content'] = 'Contenu';
+$string['content'] = 'Contenu&ensp;';
 
 $string['exportdata'] = 'Exporter les données';
 

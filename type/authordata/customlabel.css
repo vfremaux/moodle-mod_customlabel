@@ -30,3 +30,8 @@
    padding: 5px;
    border:#A0A0A0 1px solid !important;
 }
+
+.custombox-authordata img {
+    width : auto;
+    height : 40px;
+}

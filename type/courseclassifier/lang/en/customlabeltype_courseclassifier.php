@@ -14,6 +14,7 @@ $string['level2'] = 'Classification level 3';
 $string['people'] = 'People';
 $string['showpeople'] = 'Show the public selector';
 $string['uselevels'] = 'Levels to use';
+$string['statut'] = 'Course state';
 
 $string['family'] = 'special';
 
@@ -53,21 +54,24 @@ $string['template'] = '
     </tr>
     <%endif %>
 </table>
-<%if %%showpeople%% %>
+<%if %%classifiers%% %>
 <table class="custombox-courseclassifier other">
     <tr valign="top">
         <th class="custombox-title courseclassifier" colspan="2">
             Other classifying information
         </th>
     </tr>
-    <tr valign="top">
-        <td class="custombox-param courseclassifier" width="30%">
-            Public:
-        </td>
-        <td class="custombox-value courseclassifier">
-            <%%people%%>
-        </td>
-    </tr>
+    <%%classifierrows%%>
 </table>
 <%endif %>';
 
+$string['classifierrow'] = '
+    <tr valign="top">
+        <td class="custombox-param courseclassifier" width="30%">
+            {$a->label}:
+        </td>
+        <td class="custombox-value courseclassifier">
+            {$a->values}
+        </td>
+    </tr>
+';

@@ -69,7 +69,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
         $customlabel = new StdClass;
         if ($tomodel = optional_param('type', '', PARAM_TEXT)) {
             $customlabel->labelclass = $tomodel;
-        } elseif ($tomodel = @$SESSION->customlabel->update_type_change) {
+        } else if ($tomodel = @$SESSION->customlabel->update_type_change) {
             $customlabel->labelclass = $tomodel;
             unset($SESSION->customlabel);
         }
@@ -144,15 +144,15 @@ class mod_customlabel_mod_form extends moodleform_mod {
             if ($field->type == 'choiceyesno') {
                 $mform->addElement('selectyesno', $field->name, $fieldlabel);
                 $mform->setType($field->name, PARAM_BOOL);
-            } elseif ($field->type == 'textfield') {
+            } else if ($field->type == 'textfield') {
                 $attrs = array('size' => @$field->size, 'maxlength' => @$field->maxlength);
                 $mform->addElement('text', $field->name, $fieldlabel, $attrs);
                 $mform->setType($field->name, PARAM_CLEANHTML);
-            } elseif ($field->type == 'editor' || $field->type == 'textarea') {
+            } else if ($field->type == 'editor' || $field->type == 'textarea') {
                 $editoroptions = self::editor_options();
                 $editoroptions['context'] = $this->context;
                 $mform->addElement('editor', $field->name.'_editor', $fieldlabel, array('rows' => 5, 'cols' => 60), $editoroptions);
-            } elseif (preg_match("/list$/", $field->type)) {
+            } else if (preg_match("/list$/", $field->type)) {
                 if (empty($field->straightoptions)) {
                     $options = $customclass->get_options($fieldname);
                 } else {
@@ -165,7 +165,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     $select->setMultiple(true);
                 }
                 $mform->setType($field->name, PARAM_TEXT);
-            } elseif (preg_match("/datasource$/", $field->type)) {
+            } else if (preg_match("/datasource$/", $field->type)) {
                 // Very similar to lists, except options come from an external datasource.
                 $options = $customclass->get_datasource_options($field);
 
@@ -180,7 +180,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     $select->setMultiple(true);
                 }
                 $mform->setType($field->name, PARAM_TEXT);
-            } elseif ($field->type == 'filepicker') {
+            } else if ($field->type == 'filepicker') {
                 $group = array();
                 $types = !empty($field->acceptedtypes) ? $field->acceptedtypes : '*';
                 $options = array('courseid' => $COURSE->id, 'accepted_types' => $types);

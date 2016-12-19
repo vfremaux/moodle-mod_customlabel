@@ -1,6 +1,7 @@
 /*
  *
  */
+// jshint undef:true unset:true
 
 function type_change_submit(advicetext, courseid, section, returntomod, sesskey, updatelabelid) {
     if (confirm(advicetext)) {

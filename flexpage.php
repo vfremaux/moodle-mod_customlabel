@@ -27,7 +27,7 @@ require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 class mod_customlabel_flexpage extends block_flexpagemod_lib_mod {
 
     public function module_block_setup() {
-        global $CFG, $COURSE, $DB;
+        global $DB;
 
         $cm = $this->get_cm();
         $customlabel = $DB->get_record('customlabel', array('id' => $cm->instance));

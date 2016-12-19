@@ -29,8 +29,10 @@ require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
- * implements a hook for the page_module block to add
- * the link allowing live refreshing of the content
+ * Implements a hook for the page_module block to add
+ * the link allowing live refreshing of the content. this method is
+ * specifically used for page formatted courses.
+ * @param object $block a page_module block surrounding the customlabel resource.
  */
 function customlabel_set_instance(&$block) {
     global $USER, $CFG, $COURSE, $DB;
@@ -85,7 +87,7 @@ function customlabel_set_instance(&$block) {
         }
     }
 
-    $block->content->text = $fileprocessedcontent;
+    $block->content->text = format_text($fileprocessedcontent);
 
     return true;
 }

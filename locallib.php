@@ -173,7 +173,9 @@ function customlabel_load_class($customlabel, $quiet = false) {
         if (!$quiet) {
             print_object($customlabel);
         }
-        if (debugging()) echo $OUTPUT->notification('errorfailedloading', 'customlabel', $customlabel->labelclass);
+        if (debugging()) {
+            echo $OUTPUT->notification('errorfailedloading', 'customlabel', $customlabel->labelclass);
+        }
         return null;
     }
 }
@@ -238,7 +240,11 @@ function customlabel_save_draft_file(&$customlabel, $filearea) {
 
     if (!empty($customlabel->$fileareagroupname)) {
         $fileareagroup = (array)$customlabel->$fileareagroupname;
-
+    } elseif (!empty($_POST[$fileareagroupname])) {
+        $fileareagroup = $_POST[$fileareagroupname];
+    }
+    
+    if (!empty($fileareagroup)) {
         // Check for file deletion request.
         if (isset($fileareagroup['clear'.$filearea])) {
             $fs->delete_area_files($context->id, 'mod_customlabel', $filearea);

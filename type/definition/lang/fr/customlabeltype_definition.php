@@ -23,7 +23,7 @@ $string['subdef9'] = 'Sous-définition 10';
 $string['template'] = '
 <table class="custombox-definition" cellspacing="0" width="100%">
 <tr valign="top">
-    <td class="custombox-header-thumb definition" width="2%" rowspan="2">
+    <td class="custombox-header-thumb definition" style="background-image : url(<%%icon%%>);" width="2%" rowspan="2">
     </td>
     <td class="custombox-header-caption definition" width="98%">
         Définition

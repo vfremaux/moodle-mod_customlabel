@@ -95,7 +95,7 @@ function xmldb_customlabel_install() {
     $record->parent = 0;
     $DB->insert_record('customlabel_mtd_value', $record);
 
-    // Workmodes
+    // Workmodes.
 
     $record = new stdClass();
     $record->type = 'filter';
@@ -186,7 +186,7 @@ function xmldb_customlabel_install() {
     $record->parent = 0;
     $DB->insert_record('customlabel_mtd_value', $record);
 
-    // Worktypes
+    // Worktypes.
 
     $record = new stdClass();
     $record->type = 'filter';

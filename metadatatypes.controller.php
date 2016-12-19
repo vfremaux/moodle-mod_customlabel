@@ -24,7 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/************************************* Add ******************/
+// Add *********************************************************.
+
 if ($action == 'add') {
     $data = $mform->get_data();
     $metadatatype = new StdClass;
@@ -40,7 +41,8 @@ if ($action == 'add') {
     redirect($url.'?view=classifiers');
 }
 
-/************************************* Update ******************/
+// Update ********************************************************.
+
 if ($action == 'update') {
     $data = $mform->get_data();
     $metadatatype = new StdClass;
@@ -55,25 +57,29 @@ if ($action == 'update') {
     redirect($url.'?view=classifiers');
 }
 
-/*********************************** get a type for editing ************************/
+// Get a type for editing ******************************************.
+
 if ($action == 'edit') {
     $typeid = required_param('typeid', PARAM_INT);
     $data = $DB->get_record($CFG->classification_type_table, array('id' => $typeid));
 }
 
-/*********************************** moves up ************************/
+// Moves up *************************************************************.
+
 if ($action == 'up') {
     $id = required_param('typeid', PARAM_INT);
     classification_tree_up($id);
 }
 
-/*********************************** moves down ************************/
+// Moves down **********************************************************.
+
 if ($action == 'down') {
     $id = required_param('typeid', PARAM_INT);
     classification_tree_down($id);
 }
 
-/************************************* Delete safe (only if not used) ******************/
+// Delete safe (only if not used) ***************************************.
+
 if ($action == 'delete') {
     $id = required_param('typeid', PARAM_INT);
     $typeorder = $DB->get_field($CFG->classification_type_table, 'sortorder', array('id' => $id));
@@ -88,6 +94,7 @@ if ($action == 'delete') {
         $valueidslist = implode("','", array_keys($valueids));
         $DB->delete_records_select($CFG->classification_constraint_table, "value1 IN ('$valueidslist') ");
         $DB->delete_records_select($CFG->classification_constraint_table, "value2 IN ('$valueidslist') ");
+
         // Clear course assignations.
         $DB->delete_records_select($CFG->course_metadata_table, " {$CFG->course_metadata_value_key} IN ('$valueidslist') ");
     }

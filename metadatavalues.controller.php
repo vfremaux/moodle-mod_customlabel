@@ -88,7 +88,7 @@ if ($action == 'forcedelete') {
     $value = $DB->get_record($CFG->classification_value_table, array('id' => $id));
 
     if ($value) {
-        // delete related constraints
+        // Delete related constraints.
         $DB->delete_records($CFG->classification_constraint_table, array('value1' => $id));
         $DB->delete_records($CFG->classification_constraint_table, array('value2' => $id));
 
@@ -108,7 +108,8 @@ function classification_tree_updateordering($id, $type) {
     // Getting ordering value of the current node.
 
     $res =  $DB->get_record($CFG->classification_value_table, array('id' => $id));
-    if (!$res) { // Fallback : we give the ordering.
+    if (!$res) {
+        // Fallback : we give the ordering.
         $res->sortorder = $id;
     };
     // Start reorder from the immediate lower (works from ordering = 0).

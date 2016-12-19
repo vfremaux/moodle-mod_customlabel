@@ -10,7 +10,7 @@ td.custombox-header-thumb.important {
 td.custombox-header-thumb.important {
     width:25px;
     min-width:25px;
-    background-image: url("/mod/customlabel/type/important/icon_important_small.png"); 
+    background-image: url("/mod/customlabel/type/important/pix/icon_important_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -19,7 +19,7 @@ td.custombox-header-thumb.important {
 #page-region-main td.custombox-header-thumb.important {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/important/icon_important.png"); 
+    background-image: url("/mod/customlabel/type/important/pix/icon_important.png"); 
     background-repeat: no-repeat;
     height:73px;
 }

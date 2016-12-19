@@ -58,7 +58,7 @@ if ($value != 0) {
     if (!$courses = $DB->get_records_sql($sql)) {
         $courses = array();
     }
-} elseif ($type != 0) {
+} else if ($type != 0) {
     $sql = "
         SELECT
             c.id,

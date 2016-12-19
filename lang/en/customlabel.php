@@ -24,6 +24,7 @@
 
 $string['customlabel:addinstance'] = 'Can add an instance';
 $string['customlabel:fullaccess'] = 'Full access to all fields';
+$string['customlabel:managemetadata'] = 'Manage metadata';
 
 $string['apparence'] = 'Apparence';
 $string['changetypeadvice'] = "You are about to thange the internal data structure of this element. Old content cannot be maintained. Continue?";
@@ -44,6 +45,7 @@ $string['labelclass'] = 'Label type';
 $string['labelclasses'] = 'Element classes';
 $string['labelupdater'] = '{$a} Regeneration Tool';
 $string['languages'] = 'Language';
+$string['lockedsample'] = 'Locked field sample';
 $string['missingfields'] = 'Mandatory fields have not been defined';
 $string['modulename'] = 'Course element';
 $string['modulenameplural'] = 'Course elements';
@@ -56,6 +58,7 @@ $string['regeneration'] = 'Content mass regeneration';
 $string['resourcetypecustomlabel'] = 'Course element';
 $string['roleaccesstoelements'] = 'Access per role';
 $string['sametypes'] = 'You cannot constraint twice the same type';
+$string['specifics'] = 'Type specific';
 $string['storage'] = 'Storage model';
 $string['title'] = 'Element name';
 $string['updateall'] = 'Update all instances';
@@ -68,10 +71,10 @@ learning actions : work to do, soluce, see also (optional reference), local goal
 editioral helpers such as course captions. Administrator can integrate specific models with additional
 editorial value such as using prefitted image bank, or tagging courses,
 You just need to enter the appropriate data in each module
-and register. 
+and register.
 ";
 
-// Metadata
+// Metadata.
 $string['adminmetadata'] = 'Classifiers configuration';
 $string['metadata'] = 'Metadata values';
 $string['metadataset'] = 'Classification values';
@@ -87,10 +90,10 @@ $string['typename'] = 'Name';
 $string['typetype'] = 'Type';
 $string['noclassifiers'] = 'No classifier';
 $string['metadata :'] = 'Metadata:';
-$string['editclass'] = 'Update classifier class';
+$string['editclass'] = 'Update classifier class&ensp;';
 $string['category'] = 'Category';
 $string['filter'] = 'Filter';
-$string['usedas'] = 'Use as';
+$string['usedas'] = 'Use as&ensp;';
 $string['none'] = 'Undefined';
 $string['include'] = 'Include';
 $string['exclude'] = 'Exclude';
@@ -102,7 +105,7 @@ $string['up'] = 'Up';
 $string['down'] = 'Down';
 $string['model'] = 'Data Model';
 $string['typecode'] = 'Code';
-$string['show'] = 'Show';
+$string['show'] = 'Show&ensp;';
 $string['typecode_help'] = '
 <p>This will help for matching data with external system when extracting data with custom queries in blocks of type
 Custom Reports or Dashboard.</p>

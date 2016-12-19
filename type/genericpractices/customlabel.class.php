@@ -7,7 +7,7 @@ require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
 *
 */
 
-class customlabel_type_genericpractices extends customlabel_type{
+class customlabel_type_genericpractices extends customlabel_type {
 
     function __construct($data){
         parent::__construct($data);
@@ -28,5 +28,3 @@ class customlabel_type_genericpractices extends customlabel_type{
         $this->data->sideimage = $CFG->wwwroot.'/mod/customlabel/type/'.$this->type.'/thumb.jpg';
     }
 }
- 
-?>

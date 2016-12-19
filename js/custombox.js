@@ -1,6 +1,8 @@
 /*
  *
  */
+// jshint unused:false, undef:false
+
 function togglecustom(id, wwwroot) {
     var elm = document.getElementById('custom'+id);
     if (elm) {

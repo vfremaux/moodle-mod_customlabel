@@ -10,7 +10,7 @@ td.custombox-header-thumb.method {
 td.custombox-header-thumb.method {
     min-width:25px;
     width:25px;
-    background-image: url("/mod/customlabel/type/method/icon_method_small.png"); 
+    background-image: url("/mod/customlabel/type/method/pix/icon_method_small.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
@@ -19,7 +19,7 @@ td.custombox-header-thumb.method {
 #page-region-main td.custombox-header-thumb.method {
     width:65px;
     min-width:65px;
-    background-image: url("/mod/customlabel/type/method/icon_method.png"); 
+    background-image: url("/mod/customlabel/type/method/pix/icon_method.png"); 
     background-repeat: no-repeat;
     height:73px;
 }
