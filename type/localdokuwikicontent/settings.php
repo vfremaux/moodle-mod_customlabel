@@ -21,22 +21,9 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
 
-trait customlabel_trait_heading {
+$key = 'customlabeltype_localdokuwikicontent/basedir';
+$label = get_string('basedir', 'customlabeltype_localdokuwikicontent');
+$desc = get_string('basedir', 'customlabeltype_localdokuwikicontent');
+$settings->add(new admin_setting_configtext($key, $label, $desc, '', PARAM_RAW, ''));
 
-    public function standard_name_fields() {
-
-        $field = new StdClass;
-        $field->name = 'heading';
-        $field->size = 80;
-        $field->type = 'textfield';
-        $this->fields['heading'] = $field;
-
-        $field = new StdClass;
-        $field->name = 'shortdesc';
-        $field->type = 'textarea';
-        $field->itemid = 0;
-        $this->fields['shortdesc'] = $field;
-    }
-}

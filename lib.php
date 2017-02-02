@@ -123,7 +123,7 @@ function customlabel_add_instance($customlabel) {
     foreach ($instance->fields as $field) {
         $fieldname = $field->name;
         if (!isset($customlabel->{$field->name})) {
-            $customlabel->{$field->name} = @$_REQUEST[$field->name]; // odd thing when bouncing
+            $customlabel->{$field->name} = @$_REQUEST[$field->name]; // Odd thing when bouncing.
         }
 
         if ($field->type == 'date') {
@@ -148,9 +148,9 @@ function customlabel_add_instance($customlabel) {
         if (preg_match('/editor|textarea/', $field->type)) {
             $editorname = $fieldname.'_editor';
             if (!isset($customlabel->$editorname)) {
-                $editordata = $_REQUEST[$editorname]; // odd thing when bouncing
+                $editordata = $_REQUEST[$editorname]; // Odd thing when bouncing.
             } else {
-                $editordata = $customlabel->$editorname; // odd thing when bouncing
+                $editordata = $customlabel->$editorname; // Odd thing when bouncing.
             }
             // Saves all embdeded images or files into elements in a single text area.
             file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
@@ -572,25 +572,4 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
 
     // Finally send the file.
     send_stored_file($file, $lifetime, 0, $forcedownload, $options);
-}
-
-/**
- * This function allows the tool_dbcleaner to register integrity checks
- */
-function customlabel_dbcleaner_add_keys() {
-    global $DB;
-
-    $customlabelmoduleid = $DB->get_field('modules', 'id', array('name' => 'customlabel'));
-
-    $keys = array(
-        array('customlabel', 'course', 'course', 'id', ''),
-        array('customlabel', 'id', 'course_modules', 'instance', ' module = '.$customlabelmoduleid.' '),
-        array('customlabel_mtd_value', 'typeid', 'customlabel_mtd_type', 'id', ''),
-        array('customlabel_course_metadata', 'courseid', 'course', 'id', ''),
-        array('customlabel_course_metadata', 'valueid', 'customlabel_mtd_value', 'id', ''),
-        array('customlabel_mtd_constraints', 'value1', 'customlabel_mtd_value', 'id', ''),
-        array('customlabel_mtd_constraints', 'value2', 'customlabel_mtd_value', 'id', ''),
-    );
-
-    return $keys;
 }

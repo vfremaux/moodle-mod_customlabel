@@ -118,7 +118,6 @@ class customlabeltype extends base {
             $shortsubtype = $this->type;
             include($this->full_path('settings.php'));
         }
-
         $adminroot->add($this->type . 'plugins', $settings);
     }
 }
