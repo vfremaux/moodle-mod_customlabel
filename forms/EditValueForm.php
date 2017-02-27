@@ -36,7 +36,7 @@ class EditValueForm extends moodleform {
         $this->view = $view;
         $this->action = $action;
         $this->type = $type;
-        parent::moodleform($url);
+        parent::__construct($url);
     }
 
     public function definition() {
