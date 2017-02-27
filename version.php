@@ -26,11 +26,20 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2016110102; // The current module version (Date: YYYYMMDDXX).
+$plugin->version  = 2017020700; // The current module version (Date: YYYYMMDDXX).
 $plugin->requires = 2016052300;
 $plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics).
-$plugin->release = '3.2.0 (Build 2016110102)';
+$plugin->release = '3.2.0 (Build 2017020700)';
 $plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
-$plugin->codeincrement = '3.2.0002';
+$plugin->codeincrement = '3.2.0004';
+$plugin->privacy = 'dualrelease';
+$plugin->prolocations = array(
+    'type/localdokuwikicontent',
+    'type/genericpractices',
+    'type/genericgoals',
+    'type/processgoals',
+    'type/processpractices',
+    'type/localgoals',
+);

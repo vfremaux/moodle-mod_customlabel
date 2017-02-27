@@ -34,7 +34,7 @@ class EditTypeForm extends moodleform{
     public function __construct($view, $action, $url) {
         $this->view = $view;
         $this->action = $action;
-        parent::moodleform($url);
+        parent::__construct($url);
     }
 
     public function definition() {
