@@ -141,17 +141,22 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 $fieldlabel = get_string($field->name, 'customlabeltype_'.$customclass->type);
             }
 
-            if ($field->type == 'choiceyesno') {
+            if ($field->type == 'hidden') {
+                $mform->addElement('hidden', $field->name, @$field->default);
+                $mform->setType($field->name, PARAM_TEXT);
+            } else if ($field->type == 'choiceyesno') {
                 $mform->addElement('selectyesno', $field->name, $fieldlabel);
                 $mform->setType($field->name, PARAM_BOOL);
             } else if ($field->type == 'textfield') {
                 $attrs = array('size' => @$field->size, 'maxlength' => @$field->maxlength);
                 $mform->addElement('text', $field->name, $fieldlabel, $attrs);
                 $mform->setType($field->name, PARAM_CLEANHTML);
-            } else if ($field->type == 'editor' || $field->type == 'textarea') {
+            } else if ($field->type == 'editor') {
                 $editoroptions = self::editor_options();
                 $editoroptions['context'] = $this->context;
                 $mform->addElement('editor', $field->name.'_editor', $fieldlabel, array('rows' => 5, 'cols' => 60), $editoroptions);
+            } else if ($field->type == 'textarea') {
+                $mform->addElement('textarea', $field->name, $fieldlabel, array('rows' => 5, 'cols' => 60));
             } else if (preg_match("/list$/", $field->type)) {
                 if (empty($field->straightoptions)) {
                     $options = $customclass->get_options($fieldname);
@@ -187,6 +192,8 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 $group[] = $mform->createElement('filepicker', $field->name, '', $options);
                 $group[] = $mform->createElement('checkbox', 'clear'.$field->name, '', get_string('cleararea', 'customlabel'));
                 $mform->addGroup($group, $field->name.'group', $fieldlabel, '', array(''), false);
+            } else if ($field->type == 'static') {
+                $mform->addElement('static', $field->name, $fieldlabel, @$field->default);
             } else {
                 echo "Unknown or unsupported type : $field->type";
             }
