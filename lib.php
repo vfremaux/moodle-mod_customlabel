@@ -123,7 +123,7 @@ function customlabel_add_instance($customlabel) {
     foreach ($instance->fields as $field) {
         $fieldname = $field->name;
         if (!isset($customlabel->{$field->name})) {
-            $customlabel->{$field->name} = @$_REQUEST[$field->name]; // odd thing when bouncing
+            $customlabel->{$field->name} = @$_REQUEST[$field->name]; // Odd thing when bouncing.
         }
 
         if ($field->type == 'date') {
@@ -148,9 +148,9 @@ function customlabel_add_instance($customlabel) {
         if (preg_match('/editor|textarea/', $field->type)) {
             $editorname = $fieldname.'_editor';
             if (!isset($customlabel->$editorname)) {
-                $editordata = $_REQUEST[$editorname]; // odd thing when bouncing
+                $editordata = $_REQUEST[$editorname]; // Odd thing when bouncing.
             } else {
-                $editordata = $customlabel->$editorname; // odd thing when bouncing
+                $editordata = $customlabel->$editorname; // Odd thing when bouncing.
             }
             // Saves all embdeded images or files into elements in a single text area.
             file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
@@ -336,9 +336,6 @@ function customlabel_get_coursemodule_info($coursemodule) {
     
             // Check label subtype is still installed.
             if (!is_dir($CFG->dirroot.'/mod/customlabel/type/'.$customlabel->labelclass)) {
-                course_delete_module($coursemodule->id);
-                customlabel_delete_instance($customlabel->id);
-                rebuild_course_cache($COURSE->id);
                 return;
             }
             $instances[$coursemodule->instance] = customlabel_load_class($customlabel, $customlabel->labelclass);

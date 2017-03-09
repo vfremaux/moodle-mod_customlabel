@@ -15,28 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Allows the admin to manage assignment plugins
+ *
  * @package    mod_customlabel
- * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
- * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @copyright 2012 NetSpot {@link http://www.netspot.com.au}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-defined('MOODLE_INTERNAL') || die();
 
-trait customlabel_trait_heading {
+require_once(dirname(__FILE__) . '/../../config.php');
+require_once($CFG->dirroot.'/mod/customlabel/adminlib.php');
 
-    public function standard_name_fields() {
+// Create the class for this controller.
+$pluginmanager = new customlabel_plugin_manager(required_param('subtype', PARAM_PLUGIN));
 
-        $field = new StdClass;
-        $field->name = 'heading';
-        $field->size = 80;
-        $field->type = 'textfield';
-        $this->fields['heading'] = $field;
+$PAGE->set_context(context_system::instance());
 
-        $field = new StdClass;
-        $field->name = 'shortdesc';
-        $field->type = 'textarea';
-        $field->itemid = 0;
-        $this->fields['shortdesc'] = $field;
-    }
-}
+// Execute the controller.
+$pluginmanager->execute(optional_param('action', null, PARAM_PLUGIN),
+                        optional_param('plugin', null, PARAM_PLUGIN));
