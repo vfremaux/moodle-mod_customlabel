@@ -53,30 +53,42 @@ require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
  */
 function customlabel_supports($feature) {
     switch ($feature) {
-        case FEATURE_IDNUMBER:
-            return false;
-        case FEATURE_GROUPS:
-            return false;
-        case FEATURE_GROUPINGS:
-            return false;
-        case FEATURE_GROUPMEMBERSONLY:
+        case FEATURE_IDNUMBER: {
             return true;
-        case FEATURE_MOD_INTRO:
+        }
+        case FEATURE_GROUPS: {
             return false;
-        case FEATURE_COMPLETION_TRACKS_VIEWS:
+        }
+        case FEATURE_GROUPINGS: {
             return false;
-        case FEATURE_GRADE_HAS_GRADE:
+        }
+        case FEATURE_GROUPMEMBERSONLY: {
+            return true;
+        }
+        case FEATURE_MOD_INTRO: {
             return false;
-        case FEATURE_GRADE_OUTCOMES:
+        }
+        case FEATURE_COMPLETION_TRACKS_VIEWS: {
             return false;
-        case FEATURE_MOD_ARCHETYPE:
+        }
+        case FEATURE_GRADE_HAS_GRADE: {
+            return false;
+        }
+        case FEATURE_GRADE_OUTCOMES: {
+            return false;
+        }
+        case FEATURE_MOD_ARCHETYPE: {
             return MOD_ARCHETYPE_RESOURCE;
-        case FEATURE_BACKUP_MOODLE2:
+        }
+        case FEATURE_BACKUP_MOODLE2: {
             return true;
-        case FEATURE_NO_VIEW_LINK:
+        }
+        case FEATURE_NO_VIEW_LINK: {
             return true;
-        default:
+        }
+        default: {
             return null;
+        }
     }
 }
 
@@ -104,79 +116,79 @@ function customlabel_get_name($customlabel) {
  * @param object $customlabel
  * @return int instance id when created
  */
-function customlabel_add_instance($customlabel) {
+function customlabel_add_instance($customlabelrec) {
     global $DB;
 
-    $customlabel->name = customlabel_get_name($customlabel);
-    if (!isset($customlabel->intro)) {
-        $customlabel->intro = '';
+    $customlabelrec->name = customlabel_get_name($customlabelrec);
+    if (!isset($customlabelrec->intro)) {
+        $customlabelrec->intro = '';
     }
-    $customlabel->introformat = 0;
+    $customlabelrec->introformat = 0;
 
-    $customlabel->processedcontent = '';
+    $customlabelrec->processedcontent = '';
 
-    $instance = customlabel_load_class($customlabel);
+    $instance = customlabel_load_class($customlabelrec);
     $customlabeldata = new StdClass();
 
-    $context = context_module::instance($customlabel->coursemodule);
+    $context = context_module::instance($customlabelrec->coursemodule);
 
     foreach ($instance->fields as $field) {
         $fieldname = $field->name;
-        if (!isset($customlabel->{$field->name})) {
-            $customlabel->{$field->name} = @$_REQUEST[$field->name]; // odd thing when bouncing
+        if (!isset($customlabelrec->{$field->name})) {
+            $customlabelrec->{$field->name} = @$_REQUEST[$field->name]; // Odd thing when bouncing.
         }
 
         if ($field->type == 'date') {
-            $m = $customlabel->{$field->name}['month'];
-            $d = $customlabel->{$field->name}['day'];
-            $y = $customlabel->{$field->name}['year'];
+            $m = $customlabelrec->{$field->name}['month'];
+            $d = $customlabelrec->{$field->name}['day'];
+            $y = $customlabelrec->{$field->name}['year'];
             $timestamp = mktime(0, 0, 0, $m, $d, $y);
-            $customlabel->{$field->name} = $timestamp;
+            $customlabelrec->{$field->name} = $timestamp;
         }
 
         if ($field->type == 'datetime') {
-            $h = $customlabel->{$field->name}['hour'];
-            $m = $customlabel->{$field->name}['min'];
-            $s = $customlabel->{$field->name}['sec'];
-            $mo = $customlabel->{$field->name}['month'];
-            $d = $customlabel->{$field->name}['day'];
-            $y = $customlabel->{$field->name}['year'];
+            $h = $customlabelrec->{$field->name}['hour'];
+            $m = $customlabelrec->{$field->name}['min'];
+            $s = $customlabelrec->{$field->name}['sec'];
+            $mo = $customlabelrec->{$field->name}['month'];
+            $d = $customlabelrec->{$field->name}['day'];
+            $y = $customlabelrec->{$field->name}['year'];
             $timestamp = mktime($h, $m, $s, $mo, $d, $y);
-            $customlabel->{$field->name} = $timestamp;
+            $customlabelrec->{$field->name} = $timestamp;
         }
 
-        if (preg_match('/editor|textarea/', $field->type)) {
+        if (preg_match('/editor/', $field->type)) {
             $editorname = $fieldname.'_editor';
-            if (!isset($customlabel->$editorname)) {
-                $editordata = $_REQUEST[$editorname]; // odd thing when bouncing
+            if (!isset($customlabelrec->$editorname)) {
+                $editordata = $_REQUEST[$editorname]; // Odd thing when bouncing.
             } else {
-                $editordata = $customlabel->$editorname; // odd thing when bouncing
+                $editordata = $customlabelrec->$editorname; // Odd thing when bouncing.
             }
             // Saves all embdeded images or files into elements in a single text area.
             file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
             $t = $editordata['text'];
-            $customlabel->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($t, $editordata['itemid'], $field->itemid);
+            $customlabelrec->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($t, $editordata['itemid'], $field->itemid);
         }
 
         if ($field->type == 'filepicker') {
             customlabel_save_draft_file($customlabel, $field->name);
         }
 
-        $customlabeldata->{$fieldname} = @$customlabel->{$fieldname};
-        unset($customlabel->{$fieldname});
+        $customlabeldata->{$fieldname} = @$customlabelrec->{$fieldname};
+        unset($customlabelrec->{$fieldname});
     }
 
     /*
      * this saves into readable data information about which legacy type to use
      * if this record is restored on a platform that do not implement the actual labelclass.
      */
-    $customlabel->fallbacktype = ''.@$instance->fallbacktype;
+    $customlabelrec->fallbacktype = ''.@$instance->fallbacktype;
 
-    $customlabel->content = base64_encode(json_encode($customlabeldata));
+    $customlabelrec->content = base64_encode(json_encode($customlabeldata));
     $instance->data = $customlabeldata; // Load data into instance.
-    $customlabel->processedcontent = $instance->make_content();
-    $customlabel->timemodified = time();
-    return $DB->insert_record('customlabel', $customlabel);
+    $customlabelrec->processedcontent = $instance->make_content();
+    $customlabelrec->timemodified = time();
+    return $DB->insert_record('customlabel', $customlabelrec);
 }
 
 /**
@@ -184,79 +196,78 @@ function customlabel_add_instance($customlabel) {
  * (defined by the form in mod.html) this function 
  * will update an existing instance with new data.
  */
-function customlabel_update_instance($customlabel) {
+function customlabel_update_instance($customlabelrec) {
     global $DB;
 
     // Check if type changed.
-    $oldinstance = $DB->get_record('customlabel', array('id' => $customlabel->instance));
+    $oldinstance = $DB->get_record('customlabel', array('id' => $customlabelrec->instance));
     $typechanged = false;
 
-    if ($oldinstance->labelclass != $customlabel->labelclass) {
+    if ($oldinstance->labelclass != $customlabelrec->labelclass) {
         $instance = customlabel_load_class($oldinstance, true);
         $instance->pre_update();
         $typechanged = true;
-        $customlabel->content = '';
-        $customlabel->name = $customlabel->labelclass.'_'.$customlabel->coursemodule;
-        $customlabel->fallbacktype = @$instance->fallbacktype;
+        $customlabelrec->content = '';
+        $customlabelrec->name = $customlabelrec->labelclass.'_'.$customlabelrec->coursemodule;
+        $customlabelrec->fallbacktype = @$instance->fallbacktype;
     } else {
-        $customlabel->safecontent = base64_encode(json_encode($customlabel));
-        $customlabel->content = json_encode($customlabel); // (force old storage to clear when recoded to safe mode)
-        $instance = customlabel_load_class($customlabel);
+        $customlabelrec->content = base64_encode(json_encode($customlabelrec)); // (force old storage to clear when recoded to safe mode)
+        $instance = customlabel_load_class($customlabelrec);
         $instance->preprocess_data();
         $instance->process_form_fields();
         $instance->process_datasource_fields();
         $instance->postprocess_data();
-        $customlabel->name = $instance->title;
-        $customlabel->fallbacktype = @$instance->fallbacktype;
+        $customlabelrec->name = $instance->title;
+        $customlabelrec->fallbacktype = @$instance->fallbacktype;
         $instance->posttemplate_data();
     }
 
-    $customlabel->introformat = 0;
-    $customlabel->timemodified = time();
-    $customlabel->id = $customlabel->instance;
-    $customlabel->processedcontent = '';
+    $customlabelrec->introformat = 0;
+    $customlabelrec->timemodified = time();
+    $customlabelrec->id = $customlabelrec->instance;
+    $customlabelrec->processedcontent = '';
 
     // We make a true clone to process it from incoming data.
-    $updatedinstance = customlabel_load_class($customlabel);
-    $customlabel->fallbacktype = ''.@$updatedinstance->fallbacktype;
+    $updatedinstance = customlabel_load_class($customlabelrec);
+    $customlabelrec->fallbacktype = ''.@$updatedinstance->fallbacktype;
 
-    $context = context_module::instance($customlabel->coursemodule);
+    $context = context_module::instance($customlabelrec->coursemodule);
 
     $customlabeldata = new StdClass();
-    $customlabeldata->instance = $customlabel->instance;
+    $customlabeldata->instance = $customlabelrec->instance;
     foreach ($updatedinstance->fields as $field) {
         $fieldname = $field->name;
-        if (preg_match('/editor|textarea/', $field->type)) {
+        if (preg_match('/editor/', $field->type)) {
             // Editors need special processing for embedded links and images.
             $editorname = $fieldname.'_editor';
-            if (!isset($customlabel->$editorname)) {
+            if (!isset($customlabelrec->$editorname)) {
                 $editordata = @$_POST[$editorname]; // Odd thing when bouncing.
             } else {
-                $editordata = $customlabel->$editorname; // Odd thing when bouncing.
+                $editordata = $customlabelrec->$editorname; // Odd thing when bouncing.
             }
 
             // Saves all embdeded images or files into elements in a single text area from editordata.
             file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', 0 + @$field->itemid);
-            $customlabel->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($editordata['text'], $editordata['itemid'], 0 + @$field->itemid);
+            $customlabelrec->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($editordata['text'], $editordata['itemid'], 0 + @$field->itemid);
         }
 
         if ($field->type == 'filepicker') {
-            customlabel_save_draft_file($customlabel, $field->name);
+            customlabel_save_draft_file($customlabelrec, $field->name);
         }
 
-        $customlabeldata->{$field->name} = @$customlabel->{$field->name};
-        unset($customlabel->{$field->name});
+        $customlabeldata->{$field->name} = @$customlabelrec->{$field->name};
+        unset($customlabelrec->{$field->name});
 
         if (preg_match('/datasource$/', $field->type)) {
             $fieldoption = $field->name.'option';
             if (property_exists($field, 'multiple') && $field->multiple) {
-                if (!empty($customlabel->{$fieldoption})) {
-                    $customlabeldata->{$fieldoption} = implode(',', $customlabel->{$fieldoption});
+                if (!empty($customlabelrec->{$fieldoption})) {
+                    $customlabeldata->{$fieldoption} = implode(',', $customlabelrec->{$fieldoption});
                 }
             } else {
-                $customlabeldata->{$fieldoption} = @$customlabel->{$fieldoption};
+                $customlabeldata->{$fieldoption} = @$customlabelrec->{$fieldoption};
             }
-            unset($customlabel->{$fieldoption});
+            unset($customlabelrec->{$fieldoption});
         }
 
         if ($field->type == 'list') {
@@ -264,12 +275,12 @@ function customlabel_update_instance($customlabel) {
         }
     }
 
-    $customlabel->content = base64_encode(json_encode($customlabeldata));
+    $customlabelrec->content = base64_encode(json_encode($customlabeldata));
     $updatedinstance->data = $customlabeldata;
     $processedcontent = $updatedinstance->make_content();
-    $customlabel->processedcontent = $processedcontent;
+    $customlabelrec->processedcontent = $processedcontent;
 
-    $result = $DB->update_record('customlabel', $customlabel);
+    $result = $DB->update_record('customlabel', $customlabelrec);
     if ($result && $typechanged) {
         // Instance has changed of type in the meanwhile.
         $updatedinstance->post_update();
@@ -572,4 +583,25 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
 
     // Finally send the file.
     send_stored_file($file, $lifetime, 0, $forcedownload, $options);
+}
+
+/**
+ * This function allows the tool_dbcleaner to register integrity checks
+ */
+function customlabel_dbcleaner_add_keys() {
+    global $DB;
+
+    $customlabelmoduleid = $DB->get_field('modules', 'id', array('name' => 'customlabel'));
+
+    $keys = array(
+        array('customlabel', 'course', 'course', 'id', ''),
+        array('customlabel', 'id', 'course_modules', 'instance', ' module = '.$customlabelmoduleid.' '),
+        array('customlabel_mtd_value', 'typeid', 'customlabel_mtd_type', 'id', ''),
+        array('customlabel_course_metadata', 'courseid', 'course', 'id', ''),
+        array('customlabel_course_metadata', 'valueid', 'customlabel_mtd_value', 'id', ''),
+        array('customlabel_mtd_constraints', 'value1', 'customlabel_mtd_value', 'id', ''),
+        array('customlabel_mtd_constraints', 'value2', 'customlabel_mtd_value', 'id', ''),
+    );
+
+    return $keys;
 }

@@ -17,20 +17,29 @@
 /**
  * Version details.
  *
- * @package     mod_customlabel
- * @category    mod
- * @author      Valery Fremaux (valery.fremaux@gmeil.com)
- * @copyright   2008 onwards Valery Fremaux (valery.fremaux@gmeil.com)
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @package    mod_customlabel
+ * @category   mod
+ * @author     Valery Fremaux (valery.fremaux@gmail.com)
+ * @copyright  2013 onwards Valery Fremaux (valery.fremaux@gmail.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2013041802; // The current module version (Date: YYYYMMDDXX)
+$plugin->version  = 2017020700; // The current module version (Date: YYYYMMDDXX).
 $plugin->requires = 2015050500;
-$plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics)
-$plugin->maturity = MATURITY_STABLE; // Maturity
-$plugin->release = "2.9.0 (Build 2013041802)"; // Release
+$plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics).
+$plugin->release = '2.9.0 (Build 2017020700)';
+$plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
-$plugin->codeincrement = '2.9.0000';
+$plugin->codeincrement = '2.9.0004';
+$plugin->privacy = 'dualrelease';
+$plugin->prolocations = array(
+    'type/localdokuwikicontent',
+    'type/genericpractices',
+    'type/genericgoals',
+    'type/processgoals',
+    'type/processpractices',
+    'type/localgoals',
+);
