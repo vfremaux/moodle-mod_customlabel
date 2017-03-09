@@ -87,7 +87,8 @@ function customlabel_set_instance(&$block) {
         }
     }
 
-    $block->content->text = format_text($fileprocessedcontent);
+    // Do NOT format text here!
+    $block->content->text = $fileprocessedcontent;
 
     return true;
 }

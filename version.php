@@ -33,4 +33,13 @@ $plugin->release = '2.7.0 (Build 2016110102)';
 $plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
-$plugin->codeincrement = '2.7.0001';
+$plugin->codeincrement = '2.7.0003';
+$plugin->privacy = 'dualrelease';
+$plugin->prolocations = array(
+    'type/localdokuwikicontent',
+    'type/genericpractices',
+    'type/genericgoals',
+    'type/processgoals',
+    'type/processpractices',
+    'type/localgoals',
+);
