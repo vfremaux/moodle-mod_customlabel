@@ -31,19 +31,19 @@ class customlabel_type {
     public $fields;
     public $data; // The original DB record.
     public $fullaccess;
-    public $content;
+    public $content; // The encoded specific data.
+    public $processedcontent; // The expanded content, ready to print.
 
     /**
      * A customlabel has a type
      * A custom label is made of fields objects within an array. A field
      * determines the nature of the data and the way it can be input.
      */
-    public function __construct($data, $type = 'undefined', $content = '') {
+    public function __construct($data, $type = 'undefined') {
        $this->title = @$data->title;
        $this->type = $type;
        $this->fields = array();
        $this->data = $data;
-       $this->content = $content;
        $this->fullaccess = true;
     }
 
@@ -278,8 +278,8 @@ class customlabel_type {
     }
 
     /**
-     * @param string $lang if set, will compile only content for this language. If not set and multilang filtering is on, 
-     * will compile as many versions of templates per installed language, pursuant proper template is available. 
+     * @param string $lang if set, will compile only content for this language. If not set and multilang filtering is on,
+     * will compile as many versions of templates per installed language, pursuant proper template is available.
      *
      */
     public function make_content($lang = '', $course = null) {
@@ -292,16 +292,16 @@ class customlabel_type {
         $this->postprocess_icon();
         $this->data->currenttheme = $PAGE->theme->name;
         $this->data->title = $this->title;
-        $this->content = $this->make_template($lang);
-        $this->posttemplate_data();
+        $this->data->processedcontent = $this->make_template($lang);
 
-        if (empty($this->content)) {
+        if (empty($this->data->processedcontent)) {
             // Arbitrary name if missing.
-            $content = "customlabel{$customlabel->instance}";
-            return $content;
+            $this->data->processedcontent = "customlabel{$customlabel->instance}";
         }
 
-        return $this->content;
+        $this->posttemplate_data();
+
+        return $this->data->processedcontent;
     }
 
     /**
@@ -519,7 +519,7 @@ class customlabel_type {
     }
 
     public function get_xml(){
-        $content = json_decode($this->data->content);
+        $internaldata = json_decode(base64_decode($this->data->content));
         $xml = "<datablock>\n";
         $xml .= "\t<instance>\n";
         $xml .= "\t\t<labeltype>{$this->type}</labeltype>\n";
@@ -532,11 +532,11 @@ class customlabel_type {
             $fieldname = $field->name;
             $xml .= "\t\t<{$fieldname}>";
             if (preg_match("/list$/", $field->type) && !empty($field->multiple)) {
-                if (is_array(@$content->{$fieldname})) {
-                    $fieldvalue = implode (',', $content->{$fieldname});
+                if (is_array(@$internaldata->{$fieldname})) {
+                    $fieldvalue = implode (',', $internaldata->{$fieldname});
                 }
             } else {
-                $fieldvalue = @$content->{$fieldname};
+                $fieldvalue = @$internaldata->{$fieldname};
                 $fieldvalue = str_replace("\\'", "'", $fieldvalue);
             }
             $xml .= $fieldvalue;
@@ -680,15 +680,21 @@ class customlabel_type {
     function update_data($field, $value) {
         global $DB;
 
-        $internaldata = json_decode(base64_decode($this->data->content));
+        // Get storage.
+        if (!$internaldata = json_decode(base64_decode($this->data->content))) {
+            $internaldata = new StdClass;
+        }
+
+        // Update storage and in memory.
         $internaldata->$field = $value;
         $this->data->$field = $value;
+
+        // Save back.
         $this->data->content = base64_encode(json_encode($internaldata));
-        $processedcontent = $this->make_content();
-        $this->data->processedcontent = $processedcontent;
+        $this->make_content();
         $DB->update_record('customlabel', $this->data);
     }
-    
+
     function set_instance($instance) {
         $this->data->instance = $instance;
     }

@@ -11,3 +11,5 @@ this module needs some changes in the way courses (core) displays modules in a c
 extend to whatever module called "xxxxxlabel".
 
 There are a little amount of key locations in the core code where processing is aware of the "label" specificity.
+
+2017020700 : Add content control webservices.

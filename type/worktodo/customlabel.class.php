@@ -19,7 +19,7 @@ class customlabel_type_worktodo extends customlabel_type {
 
         $field = new StdClass;
         $field->name = 'worktodo';
-        $field->type = 'textarea';
+        $field->type = 'editor';
         $field->itemid = 0;
         $field->rows = 20;
         $this->fields['worktodo'] = $field;
