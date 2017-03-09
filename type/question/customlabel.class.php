@@ -46,7 +46,7 @@ class customlabel_type_question extends customlabel_type {
 
         $field = new StdClass;
         $field->name = 'hint';
-        $field->type = 'textarea';
+        $field->type = 'editor';
         $field->rows = 20;
         $field->itemid = 1;
         $this->fields['hint'] = $field;
@@ -59,7 +59,7 @@ class customlabel_type_question extends customlabel_type {
 
         $field = new StdClass;
         $field->name = 'answertext';
-        $field->type = 'textarea';
+        $field->type = 'editor';
         $field->rows = 20;
         $field->itemid = 2;
         $this->fields['answertext'] = $field;
@@ -72,12 +72,14 @@ class customlabel_type_question extends customlabel_type {
     }
 
     function preprocess_data() {
-        global $CFG;
+        global $CFG, $OUTPUT;
 
         $customid = @$CFG->custom_unique_id + 1;
 
-        $this->data->initialcontrolimage = ($this->data->initiallyvisible) ? $CFG->wwwroot.'/mod/customlabel/pix/minus.gif' : $CFG->wwwroot.'/mod/customlabel/pix/plus.gif' ;
-        $this->data->hintinitialcontrolimage = ($this->data->hintinitiallyvisible) ? $CFG->wwwroot.'/mod/customlabel/pix/minus.gif' : $CFG->wwwroot.'/mod/customlabel/pix/plus.gif' ;
+        $minusurl = $OUTPUT->pix_url('minus', 'customlabel');
+        $plusurl = $OUTPUT->pix_url('plus', 'customlabel');
+        $this->data->initialcontrolimage = ($this->data->initiallyvisible) ? $minusurl : $plusurl;
+        $this->data->hintinitialcontrolimage = ($this->data->hintinitiallyvisible) ? $minusurl : $plusurl;
         $this->data->wwwroot = $CFG->wwwroot;
         $this->data->customid = $customid;
         set_config('custom_unique_id', $customid);
