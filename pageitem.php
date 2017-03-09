@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
  * @param object $block a page_module block surrounding the customlabel resource.
  */
 function customlabel_set_instance(&$block) {
-    global $USER, $CFG, $COURSE, $DB;
+    global $USER, $CFG, $COURSE, $DB, $PAGE;
 
     // Transfer content from title to content.
     $block->title = '';
@@ -70,7 +70,6 @@ function customlabel_set_instance(&$block) {
     $block->moduleinstance->name = $instance->title; // This realizes the template.
     $block->moduleinstance->timemodified = time();
     $block->content->text = $block->moduleinstance->processedcontent;
-    // $block->moduleinstance->title = str_replace("'", "''", $block->moduleinstance->title);
     $result = $DB->update_record('customlabel', $block->moduleinstance);
 
     $context = context_module::instance($block->cm->id);
@@ -89,8 +88,14 @@ function customlabel_set_instance(&$block) {
         }
     }
 
-    // Do NOT format text here!
-    $block->content->text = $fileprocessedcontent;
+    // Pass all filters except multilang and multilangenhanced.
+    $filtermanager = filter_manager::instance();
+    $filtermanager->setup_page_for_filters($PAGE, $context); // Setup global stuff filters may have.
+    $filteroptions = array(
+        'noclean' => $options['noclean'],
+    );
+    $skipfilters = array('multilang', 'multilangenhanced');
+    $block->content->text = $filtermanager->filter_text($fileprocessedcontent, $context, $filteroptions, $skipfilters);
 
     return true;
 }
