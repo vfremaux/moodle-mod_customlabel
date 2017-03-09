@@ -64,6 +64,8 @@ function customlabel_set_instance(&$block) {
     }
 
     $instance = customlabel_load_class($data);
+
+    // Force refreshcontent in page format.
     $block->moduleinstance->processedcontent = $instance->make_content();
     $block->moduleinstance->name = $instance->title; // This realizes the template.
     $block->moduleinstance->timemodified = time();
@@ -76,7 +78,7 @@ function customlabel_set_instance(&$block) {
     // Post process each textarea field url replacement.
     $fileprocessedcontent = $block->content->text;
     foreach ($instance->fields as $field) {
-        if ($field->type == 'editor' || $field->type == 'textarea') {
+        if ($field->type == 'editor') {
             if (!isset($field->itemid) || is_null($field->itemid)) {
                 $message = 'Course element textarea subfield needs explicit itemid in definition ';
                 $message .= $customlabel->labelclass.'::'.$field->name;
@@ -87,7 +89,8 @@ function customlabel_set_instance(&$block) {
         }
     }
 
-    $block->content->text = format_text($fileprocessedcontent);
+    // Do NOT format text here!
+    $block->content->text = $fileprocessedcontent;
 
     return true;
 }
