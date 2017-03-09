@@ -34,3 +34,12 @@ $plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
 $plugin->codeincrement = '2.8.0000';
+$plugin->privacy = 'dualrelease';
+$plugin->prolocations = array(
+    'type/localdokuwikicontent',
+    'type/genericpractices',
+    'type/genericgoals',
+    'type/processgoals',
+    'type/processpractices',
+    'type/localgoals',
+);
