@@ -39,7 +39,7 @@ class customlabel_type_information extends customlabel_type {
 
         $field = new StdClass;
         $field->name = 'informationtext';
-        $field->type = 'textarea';
+        $field->type = 'editor';
         $field->itemid = 0;
         $field->rows = 20;
         $this->fields['informationtext'] = $field;
