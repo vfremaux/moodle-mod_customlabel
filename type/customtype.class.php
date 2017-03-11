@@ -188,7 +188,7 @@ class customlabel_type {
             $params = array('contextid' => context_system::instance()->id,
                             'roleid' => $userrole->id,
                             'capability' => 'customlabeltype/'.$instance->labelclass.':view',
-                            'permission' => CAP_ALLOW)
+                            'permission' => CAP_ALLOW);
             if (!$DB->get_record('role_capabilities', $params)) {
                 // Set no chance to see anything from it.
                 return false;
