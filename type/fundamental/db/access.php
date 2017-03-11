@@ -23,7 +23,6 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-
 $capabilities = array(
 
     // Controls who can add this type.

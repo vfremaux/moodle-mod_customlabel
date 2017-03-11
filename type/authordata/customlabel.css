@@ -4,8 +4,8 @@
 }
 
 .custombox-authordata p {
-    margin-top:0px;
-    padding-top:0px;
+    margin-top:0;
+    padding-top:0;
 }
 
 .custombox-title.authordata {
@@ -32,6 +32,6 @@
 }
 
 .custombox-authordata img {
-    height : 40px;
-    width : auto;
+    height: 40px;
+    width: auto;
 }

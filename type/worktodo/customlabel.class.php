@@ -66,7 +66,7 @@ class customlabel_type_worktodo extends customlabel_type {
             $this->fields['worktypefield'] = $field;
         }
 
-          if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKEFFORT'))) {
+        if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKEFFORT'))) {
 
             $field = new StdClass;
             $field->name = 'workeffortfield';

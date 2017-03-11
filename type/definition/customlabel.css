@@ -42,7 +42,7 @@ td.custombox-content.definition h3{
     background-image:none !important;
     color:#8B8B8B !important;
     font-weight:bolder !important;
-    padding-left:0px !important;
+    padding-left:0 !important;
 }
 
 td.custombox-subdefinitions.definition {
