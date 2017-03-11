@@ -47,7 +47,7 @@ class customlabel_type_verticalspacer extends customlabel_type {
         $this->fields['spacing'] = $field;
 
     }
-    
+
     /**
      * Prepares data for template
      */

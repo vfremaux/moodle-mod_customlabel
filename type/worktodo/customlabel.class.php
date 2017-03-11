@@ -107,16 +107,16 @@ class customlabel_type_worktodo extends customlabel_type {
     public function postprocess_data($course = null) {
         global $OUTPUT;
 
-        $this->data->clock = $OUTPUT->pix_url('clock','customlabeltype_worktodo')->out();
+        $this->data->clock = $OUTPUT->pix_url('clock', 'customlabeltype_worktodo')->out();
 
         if (is_array(@$this->data->worktypefield)) {
-            $this->data->worktypefield = implode(', ',@$this->data->worktypefield);
+            $this->data->worktypefield = implode(', ', @$this->data->worktypefield);
         }
         if (is_array(@$this->data->workeffortfield)) {
-            $this->data->workeffortfield = implode(', ',@$this->data->workeffortfield);
+            $this->data->workeffortfield = implode(', ', @$this->data->workeffortfield);
         }
         if (is_array(@$this->data->workmodefield)) {
-            $this->data->workmodefield = implode(', ',@$this->data->workmodefield);
+            $this->data->workmodefield = implode(', ', @$this->data->workmodefield);
         }
     }
 }

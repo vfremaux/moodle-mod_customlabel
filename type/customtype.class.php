@@ -23,6 +23,7 @@
  * A generic class for collecting all that is common to all elements
  */
 defined('MOODLE_INTERNAL') || die();
+require_once($CFG->dirroot.'/mod/customlabel/extra/lib.php');
 
 class customlabel_type {
 
@@ -184,7 +185,11 @@ class customlabel_type {
         if (!isloggedin() || is_guest($context)) {
             // Check capability to see on user role.
             $userrole = $DB->get_record('role', array('shortname' => 'guest'));
-            if (!$DB->get_record('role_capabilities', array('contextid' => context_system::instance()->id, 'roleid' => $userrole->id, 'capability' => 'customlabeltype/'.$instance->labelclass.':view', 'permission' => CAP_ALLOW))) {
+            $params = array('contextid' => context_system::instance()->id,
+                            'roleid' => $userrole->id,
+                            'capability' => 'customlabeltype/'.$instance->labelclass.':view',
+                            'permission' => CAP_ALLOW)
+            if (!$DB->get_record('role_capabilities', $params)) {
                 // Set no chance to see anything from it.
                 return false;
             }
@@ -482,7 +487,7 @@ class customlabel_type {
                         }
                     } else {
                         if ($field->source == 'dbfieldkeyed') {
-                            // fake a one value array
+                            // Fake a one value array.
                             $this->data->{$name} = implode($sep, $this->get_datasource_values($field, array($valuearray)));
                         } else {
                             if (!empty($this->data->{$name})) {
@@ -500,7 +505,9 @@ class customlabel_type {
                     if (empty($this->data->{$name})) {
                         continue;
                     }
-                    if (empty($this->data->{$nameoption})) $this->data->{$nameoption} =  $this->data->{$name};
+                    if (empty($this->data->{$nameoption})) {
+                        $this->data->{$nameoption} = $this->data->{$name};
+                    }
                     if ($field->source == 'dbfieldkeyed') {
                         $this->data->{$name} = $this->get_datasource_values($field, $this->data->{$nameoption});
                     } else if ($field->source == 'dbfieldkey') {
@@ -561,7 +568,7 @@ class customlabel_type {
      * loads a template and caches it in static database for reuse
      */
     public function get_template($lang) {
-        static $templates; // kind of caching
+        static $templates; // Kind of caching.
 
         $strm = get_string_manager();
 
@@ -583,7 +590,7 @@ class customlabel_type {
     /**
      * Process some local conditional statement in templates for making
      * simple decisions.
-     * this will admit simple tests such as <%if %%fieldname%% %> or 
+     * this will admit simple tests such as <%if %%fieldname%% %> or
      * simple comparison expressions surch as <%if %%fieldname >= 2%% %>
      * First expression member MUST be a fieldname defined in the customlabel type, followed
      * by a calculable expression.
@@ -601,10 +608,11 @@ class customlabel_type {
         $matches[4] = '';
         while (preg_match($search, $template, $matches)) {
             $buffer .= $matches[1]; // Prefix.
-            $test = $matches[2]; // Test variable or expression. this works with an expression that is <fieldname> <op> <value>, or a single <fieldname>.
+            // Test variable or expression. this works with an expression that is <fieldname> <op> <value>, or a single <fieldname>.
+            $test = $matches[2];
             if ($test) {
                 $exp = "\$result = @\$this->data->$test ; ";
-                eval($exp);
+                $result = customlabel_eval($exp);
                 if ($result) {
                     $buffer .= $matches[3];
                 }
@@ -673,7 +681,10 @@ class customlabel_type {
         if ($field->destination = 'link') {
             $classes = @$field->classes;
             $fieldlabel = get_string($field->name, 'customlabeltype_'.$this->type);
-            return '<a href="'.$fileurl.'" title="'.$fieldlabel.'" alt="'.$fieldlabel.'" '.$classes.' />'.$file->get_filename().'</a>';
+            $lin = '<a href="'.$fileurl.'"
+                       title="'.$fieldlabel.'"
+                       alt="'.$fieldlabel.'" '.$classes.' />'.$file->get_filename().'</a>';
+            return $link;
         }
     }
 

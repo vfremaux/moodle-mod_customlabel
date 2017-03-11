@@ -35,7 +35,9 @@ $isvisible = optional_param('isvisible', false, PARAM_BOOL);
 $height = optional_param('height', false, PARAM_INT);
 
 $course = $DB->get_record('course', array('id' => $courseid));
-if (!$course) die;
+if (!$course) {
+    die;
+}
 
 if (!empty($isvisible)) {
     require_login($course);

@@ -36,7 +36,7 @@ class customlabel_type_soluce extends customlabel_type {
         parent::__construct($data);
         $this->type = 'soluce';
         $this->fields = array();
-        
+
         $field = new StdClass();
         $field->name = 'soluce';
         $field->type = 'editor';
@@ -58,7 +58,7 @@ class customlabel_type_soluce extends customlabel_type {
 
         $minusurl = $OUTPUT->pix_url('minus', 'customlabel');
         $plusurl = $OUTPUT->pix_url('plus', 'customlabel');
-        $this->data->initialcontrolimage = ($this->data->initiallyvisible) ?  $minusurl : $plusurl;
+        $this->data->initialcontrolimage = ($this->data->initiallyvisible) ? $minusurl : $plusurl;
         $this->data->wwwroot = $CFG->wwwroot;
         $this->data->customid = $customid;
         set_config('custom_unique_id', $customid);

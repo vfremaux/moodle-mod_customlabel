@@ -32,7 +32,7 @@ require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 class customlabel_type_instructions extends customlabel_type {
 
-    function __construct($data) {
+    public function __construct($data) {
         parent::__construct($data);
         $this->type = 'instructions';
         $this->fields = array();

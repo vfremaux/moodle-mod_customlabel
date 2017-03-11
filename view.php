@@ -28,8 +28,8 @@
 require('../../config.php');
 require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 
-$id = optional_param('id',0,PARAM_INT);    // Course Module ID, or.
-$l = optional_param('l',0,PARAM_INT);     // Label ID.
+$id = optional_param('id', 0, PARAM_INT);    // Course Module ID, or.
+$l = optional_param('l', 0, PARAM_INT);     // Label ID.
 $what = optional_param('what', '', PARAM_ALPHA);     // What to be seen.
 
 if ($id) {
