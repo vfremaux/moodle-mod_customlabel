@@ -10,7 +10,7 @@ function urlencode(str) {
 
 function applyconstraints(wwwroot, typestr, selector, targets) {
 
-    if (targets == '') {
+    if (targets === '') {
         return;
     }
     targetsarr = targets.split(',');
@@ -30,14 +30,14 @@ function applyconstraints(wwwroot, typestr, selector, targets) {
     // Get selection constraints in targets select.
     selectedtargetopts = [];
     i = 0;
-    for (target in targetsarr) {
+    for (var target in targetsarr) {
         targetname = targetsarr[target];
         targetsel = document.getElementById('id_' + targetname);
         selectedtargetopts[i] = targetname;
         i++;
         selectedtargetopts[i] = [];
         k = 0;
-        for (j = 0; j < targetsel.options.length; j++) {
+        for (var j = 0; j < targetsel.options.length; j++) {
             if (targetsel.options[j].selected) {
                 selectedtargetopts[i][k] = targetsel.options[j].value;
                 k++;
@@ -58,7 +58,7 @@ function applyconstraints(wwwroot, typestr, selector, targets) {
         targetsarr = targets.split(',');
 
         // Dispatch in selectors.
-        for (target in targetsarr) {
+        for (var target in targetsarr) {
             if (selectors[targetsarr[target]]) {
                 str = '<input type="hidden" name="' + targetsarr[target] + '" value="_qf__force_multiselect_submission">';
                 str += selectors[targetsarr[target]];
@@ -70,7 +70,7 @@ function applyconstraints(wwwroot, typestr, selector, targets) {
 
 function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
 
-    if (targets == '') {
+    if (targets === '') {
         return;
     }
     targetsarr = targets.split(',');
@@ -79,7 +79,7 @@ function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
 
     // get constraints in activated select
     i = 0;
-    for (j = 0; j < selector.options.length; j++) {
+    for (var j = 0; j < selector.options.length; j++) {
         if (selector.options[j].selected) {
             selectedopts[i] = selector.options[j].value;
             i++;

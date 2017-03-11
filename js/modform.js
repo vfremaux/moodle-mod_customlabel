@@ -1,7 +1,7 @@
-/*
+/**
  *
  */
-// jshint undef:true unset:true
+// jshint undef:false, unset:false, unused:false
 
 function type_change_submit(advicetext, courseid, section, returntomod, sesskey, updatelabelid) {
     if (confirm(advicetext)) {
@@ -10,7 +10,7 @@ function type_change_submit(advicetext, courseid, section, returntomod, sesskey,
         if (!typeselobj) {
             typeselobj = document.getElementById('menulabelclass');
         }
-        if (updatelabelid == 0) {
+        if (updatelabelid === 0) {
             url = './mod.php?id=' + courseid + '&section=' + section + '&sesskey=' + sesskey;
             url += '&add=customlabel&returntomod=' + returntomod + '&type=' + typeselobj.options[typeselobj.selectedIndex].value;
         } else {
