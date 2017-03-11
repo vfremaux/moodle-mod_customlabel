@@ -120,8 +120,8 @@ class mod_customlabel_mod_form extends moodleform_mod {
         }
 
         $mform->addElement('text', 'title', get_string('title', 'customlabel'));
-        $customlabel_next_id = $DB->get_field('customlabel', 'MAX(id)', array()) + 1;
-        $mform->setDefault('title', $customlabel->labelclass.'_'.$customlabel_next_id);
+        $customlabelnextid = $DB->get_field('customlabel', 'MAX(id)', array()) + 1;
+        $mform->setDefault('title', $customlabel->labelclass.'_'.$customlabelnextid);
         $mform->setType('title', PARAM_TEXT);
 
         if (!$customclass) {
@@ -161,9 +161,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 if (empty($field->straightoptions)) {
                     $options = $customclass->get_options($fieldname);
                 } else {
-                    $translated_options = $field->options;
-                    array_walk($translated_options, 'format_string');
-                    $options = array_combine($field->options, $translated_options);
+                    $translatedoptions = $field->options;
+                    array_walk($translatedoptions, 'format_string');
+                    $options = array_combine($field->options, $translatedoptions);
                 }
                 $select = &$mform->addElement('select', $field->name, $fieldlabel, $options);
                 if (!empty($field->multiple)) {
@@ -263,9 +263,11 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 $fieldnameformat = $fieldname.'format';
                 $customlabel->$fieldnameformat = FORMAT_HTML;
 
-                file_prepare_standard_editor($customlabel, $fieldname, $editoroptions, $this->context, 'mod_customlabel', 'contentfiles', $field->itemid);
+                file_prepare_standard_editor($customlabel, $fieldname, $editoroptions, $this->context, 'mod_customlabel',
+                                             'contentfiles', $field->itemid);
                 $editor = &$formdata->$editorname;
-                $editor['text'] = customlabel_file_rewrite_pluginfile_urls($editor['text'], 'pluginfile.php', $this->context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
+                $editor['text'] = customlabel_file_rewrite_pluginfile_urls($editor['text'], 'pluginfile.php', $this->context->id,
+                                                                           'mod_customlabel', 'contentfiles', $field->itemid);
             }
 
             if (preg_match('/datasource$/', $field->type)) {

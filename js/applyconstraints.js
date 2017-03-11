@@ -5,12 +5,14 @@
 // jshint unused:false, undef:false
 
 function urlencode(str) {
-    return escape(str).replace(/\+/g,'%2B').replace(/%20/g, '+').replace(/\*/g, '%2A').replace(/\//g, '%2F').replace(/@/g, '%40');
+    return escape(str).replace('/\+/g','%2B').replace('/%20/g', '+').replace('/\*/g', '%2A').replace('/\//g', '%2F').replace('/@/g', '%40');
 }
 
 function applyconstraints(wwwroot, typestr, selector, targets) {
 
-    if (targets == '') return;
+    if (targets == '') {
+        return;
+    }
     targetsarr = targets.split(',');
 
     var selectedopts = new Array();
@@ -30,11 +32,11 @@ function applyconstraints(wwwroot, typestr, selector, targets) {
     i = 0;
     for (target in targetsarr) {
         targetname = targetsarr[target];
-        targetsel = document.getElementById('id_'+targetname);
+        targetsel = document.getElementById('id_' + targetname);
         selectedtargetopts[i] = targetname;
         i++;
         selectedtargetopts[i] = [];
-        k = 0;    
+        k = 0;
         for (j = 0; j < targetsel.options.length; j++) {
             if (targetsel.options[j].selected) {
                 selectedtargetopts[i][k] = targetsel.options[j].value;
@@ -46,7 +48,8 @@ function applyconstraints(wwwroot, typestr, selector, targets) {
 
     formvaluestring = urlencode(JSON.stringify(selectedtargetopts));
 
-    params = "selector=" + selector.name + "&targets="+targets + "&type="+typestr+"&constraints="+optionstring+'&selection='+formvaluestring;
+    params = "selector=" + selector.name + "&targets=" + targets + "&type=" + typestr + "&constraints=" + optionstring;
+    params += '&selection=' + formvaluestring;
     var url = wwwroot + "/mod/customlabel/ajax/applyconstraints.php?" + params;
 
     $.get(url, '', function(data, status) {
@@ -57,9 +60,9 @@ function applyconstraints(wwwroot, typestr, selector, targets) {
         // Dispatch in selectors.
         for (target in targetsarr) {
             if (selectors[targetsarr[target]]) {
-                str = '<input type="hidden" name="'+targetsarr[target]+'" value="_qf__force_multiselect_submission">';
+                str = '<input type="hidden" name="' + targetsarr[target] + '" value="_qf__force_multiselect_submission">';
                 str += selectors[targetsarr[target]];
-                $('#fitem_id_'+targetsarr[target]+' .felement.fselect').html(str);
+                $('#fitem_id_' + targetsarr[target] + ' .felement.fselect').html(str);
             }
         }
     });
@@ -67,7 +70,9 @@ function applyconstraints(wwwroot, typestr, selector, targets) {
 
 function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
 
-    if (targets == '') return;
+    if (targets == '') {
+        return;
+    }
     targetsarr = targets.split(',');
 
     var selectedopts = new Array();
@@ -87,12 +92,12 @@ function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
     i = 0;
     for (target in targetsarr) {
         targetname = targetsarr[target];
-        targetsel = document.getElementById('menu'+targetname);
+        targetsel = document.getElementById('menu' + targetname);
         selectedtargetopts[i] = targetname;
         i++;
         selectedtargetopts[i] = [];
         k = 0;
-        for (j = 0 ; j < targetsel.options.length ; j++) {
+        for (j = 0; j < targetsel.options.length; j++) {
             if (targetsel.options[j].selected){
                 selectedtargetopts[i][k] = targetsel.options[j].value;
                 k++;
@@ -103,8 +108,9 @@ function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
 
     formvaluestring = urlencode(JSON.stringify(selectedtargetopts));
 
-    params = "selector="+selector.name+"&targets="+targets+"&type="+typestr+"&constraints="+optionstring+'&selection='+formvaluestring+'&variant=menu';
-    var url = wwwroot+"/mod/customlabel/ajax/applyconstraints.php?"+params;
+    params = "selector=" + selector.name + "&targets=" + targets + "&type=" + typestr + "&constraints=" + optionstring;
+    params += '&selection=' + formvaluestring + '&variant=menu';
+    var url = wwwroot + "/mod/customlabel/ajax/applyconstraints.php?" + params;
 
     $.get(url, '', function(data, status){
         var selectors = JSON.parse(data);
@@ -114,9 +120,9 @@ function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
         // Dispatch in selectors.
         for (target in targetsarr) {
             if (selectors[targetsarr[target]]) {
-                str = '<input type="hidden" name="'+targetsarr[target]+'" value="_qf__force_multiselect_submission">';
+                str = '<input type="hidden" name="' + targetsarr[target] + '" value="_qf__force_multiselect_submission">';
                 str += selectors[targetsarr[target]];
-                $('#div_menu_'+targetsarr[target]).html(str);
+                $('#div_menu_' + targetsarr[target]).html(str);
             }
         }
     });

@@ -23,20 +23,20 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
+require_once ($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
  *
  *
  */
+ 
+class customlabel_type_important extends customlabel_type {
 
-class customlabel_type_important extends customlabel_type{
-
-    function __construct($data) {
+    public function __construct($data) {
         parent::__construct($data);
         $this->type = 'important';
         $this->fields = array();
-        
+
         $field = new StdClass;
         $field->name = 'importantnote';
         $field->type = 'editor';

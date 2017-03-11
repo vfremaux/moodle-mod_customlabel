@@ -23,16 +23,16 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
+require_once ($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
-*
-*
-*/
+ *
+ *
+ */
 
 class customlabel_type_example extends customlabel_type{
 
-    function __construct($data) {
+    public function __construct($data) {
         parent::__construct($data);
         $this->type = 'example';
         $this->fields = array();
@@ -44,11 +44,11 @@ class customlabel_type_example extends customlabel_type{
         $field->rows = 20;
         $this->fields['example'] = $field;
     }
-    
-    function postprocess_data($course = null) {
-        global $CFG;
 
-        $this->data->headerimage = $CFG->wwwroot.'/mod/customlabel/type/example/pix/thumb.jpg';
+    public function postprocess_data($course = null) {
+        global $OUTPUT;
+
+        $this->data->headerimage = $OUTPUT->pix_url('thumb', 'customlabeltype_example');
     }
 }
  

@@ -23,23 +23,23 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
+require_once ($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
-*
-*
-*/
+ *
+ *
+ */
 
-class customlabel_type_keypoints extends customlabel_type{
+class customlabel_type_keypoints extends customlabel_type {
 
-    function __construct($data) {
+    public function __construct($data) {
         parent::__construct($data);
         $this->type = 'keypoints';
         $this->fields = array();
 
         $storeddata = json_decode(base64_decode(@$this->data->content));
 
-        $keypointnum = (!empty($storeddata->keypointnum)) ? $storeddata->keypointnum : 3 ;
+        $keypointnum = (!empty($storeddata->keypointnum)) ? $storeddata->keypointnum : 3;
 
         $field = new StdClass;
         $field->name = 'keypointnum';
@@ -48,7 +48,7 @@ class customlabel_type_keypoints extends customlabel_type{
         $field->default = 3;
         $this->fields['keypointnum'] = $field;
 
-        for ($i = 0 ; $i < $keypointnum; $i++) {
+        for ($i = 0; $i < $keypointnum; $i++) {
             $field = new StdClass;
             $field->name = 'keypointitem'.$i;
             $field->type = 'editor';
@@ -57,16 +57,16 @@ class customlabel_type_keypoints extends customlabel_type{
             $this->fields['keypointitem'.$i] = $field;
         }
     }
-    
-    function preprocess_data($course = null) {
+
+    public function preprocess_data($course = null) {
         global $CFG;
 
         $this->data->keypointslist = "<ul class=\"customlabel keypoints\">\n";
-        for ($i = 0 ; $i < $this->data->keypointnum; $i++) {
+        for ($i = 0; $i < $this->data->keypointnum; $i++) {
             $key = 'keypointitem'.$i;
-            $this->data->keypointslist .= (isset($this->data->$key)) ? '<li>'.$this->data->$key."</li>\n" : '' ;
+            $this->data->keypointslist .= (isset($this->data->$key)) ? '<li>'.$this->data->$key."</li>\n" : '';
         }
         $this->data->keypointslist .= "</ul>\n";
     }
 }
- 
+

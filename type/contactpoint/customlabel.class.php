@@ -17,26 +17,25 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
+require_once ($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
-*
-*
-*/
+ *
+ *
+ */
 
-class customlabel_type_contactpoint extends customlabel_type{
+class customlabel_type_contactpoint extends customlabel_type {
 
-    function __construct($data) {
+    public function __construct($data) {
         parent::__construct($data);
         $this->type = 'contactpoint';
         $this->fields = array();
-        /* $this->allowedpageformats = 'page'; */
 
         $field = new StdClass();
         $field->name = 'instructions';
@@ -51,7 +50,7 @@ class customlabel_type_contactpoint extends customlabel_type{
         $field->options = array('any', 'anywritten', 'mail', 'phone', 'onlinevocal', 'chat', 'meeting', 'facetoface');
         $this->fields['contacttype'] = $field;
     }
-    
+
      public function postprocess_icon() {
         global $OUTPUT;
         $this->data->icon = $OUTPUT->pix_url('icon_'.$this->data->contacttypeoption, 'customlabeltype_'.$this->type)->out();

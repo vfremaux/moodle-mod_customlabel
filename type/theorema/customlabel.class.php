@@ -23,7 +23,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
+require_once ($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
  *
@@ -32,7 +32,7 @@ require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
 
 class customlabel_type_theorema extends customlabel_type {
 
-    function __construct($data) {
+    public function __construct($data) {
         parent::__construct($data);
         $this->type = 'theorema';
         $this->fields = array();
@@ -45,7 +45,7 @@ class customlabel_type_theorema extends customlabel_type {
         $this->fields['theorema'] = $field;
 
         if (!isset($data->corollarynum)) {
-            // second chance, get it from stored data
+            // Second chance, get it from stored data.
             $storeddata = json_decode(base64_decode(@$this->data->content));
             $subdefsnum = (!empty($storeddata->corollarynum)) ? $storeddata->corollarynum : 0;
         } else {
@@ -60,7 +60,7 @@ class customlabel_type_theorema extends customlabel_type {
         $this->fields['corollarynum'] = $field;
 
         $i = 0;
-        for ($i = 0 ; $i < $subdefsnum; $i++) {
+        for ($i = 0; $i < $subdefsnum; $i++) {
             $field = new StdClass;
             $field->name = 'corollary'.$i;
             $field->type = 'editor';
@@ -82,10 +82,10 @@ class customlabel_type_theorema extends customlabel_type {
         $this->fields['demonstration'] = $field;
     }
 
-    function preprocess_data() {
+    public function preprocess_data() {
 
         $this->data->corollarylist = "<ul class=\"customlabel-corollaries theorema\">\n";
-        for ($i = 0 ; $i < $this->data->corollarynum; $i++) {
+        for ($i = 0; $i < $this->data->corollarynum; $i++) {
             $key = 'corollary'.$i;
             $title = get_string('corollary', 'customlabeltype_theorema').' '.($i + 1).' ';
             $this->data->corollarylist .= (isset($this->data->$key)) ? "<li><i>{$title} :</i> {$this->data->$key}</li>\n" : '';

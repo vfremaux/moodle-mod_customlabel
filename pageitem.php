@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
  * @param object $block a page_module block surrounding the customlabel resource.
  */
 function customlabel_set_instance(&$block) {
-    global $USER, $CFG, $COURSE, $DB, $PAGE;
+    global $DB, $PAGE;
 
     // Transfer content from title to content.
     $block->title = '';

@@ -31,8 +31,8 @@
  * in this file, rather than mod/resource/lib.php
  */
 
-require_once("$CFG->dirroot/local/search/documents/document.php");
-require_once("$CFG->dirroot/mod/customlabel/locallib.php");
+require_once($CFG->dirroot.'/local/search/documents/document.php');
+require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
 /**
  * constants for document definition
@@ -45,13 +45,13 @@ define('X_SEARCH_TYPE_CUSTOMLABEL', 'customlabel');
  */
 class CustomLabelSearchDocument extends SearchDocument {
 
-    public function __construct(&$customlabel, &$class, $context_id) {
+    public function __construct(&$customlabel, &$class, $contextid) {
         // Generic information; required.
         $doc = new StdClass();
         $doc->docid     = $customlabel['course'];
         $doc->documenttype = X_SEARCH_TYPE_CUSTOMLABEL;
         $doc->itemtype     = 'customlabel';
-        $doc->contextid    = $context_id;
+        $doc->contextid    = $contextid;
         $doc->title     = strip_tags($customlabel['title']);
         $doc->date      = $customlabel['timemodified'];
         $doc->author    = '';
@@ -64,7 +64,7 @@ class CustomLabelSearchDocument extends SearchDocument {
          */
         $content = json_decode(base64_decode($customlabel['processedcontent']));
 
-        $additionalKeys = NULL;
+        $additionalkeys = null;
 
         // Scan field and get as much searchable fields.
         foreach ($class->fields as $afield) {
@@ -72,13 +72,13 @@ class CustomLabelSearchDocument extends SearchDocument {
                 if (!isset($afield->multiple)) {
                     $fieldname = $afield->name;
                     if (!empty($content->{$fieldname})) {
-                        $additionalKeys[$fieldname] = $content->{$fieldname};
+                        $additionalkeys[$fieldname] = $content->{$fieldname};
                     }
                 }
             }
         }
 
-        parent::__construct($doc, $data, $customlabel['course'], 0, 0, 'mod/'.X_SEARCH_TYPE_CUSTOMLABEL, $additionalKeys);
+        parent::__construct($doc, $data, $customlabel['course'], 0, 0, 'mod/'.X_SEARCH_TYPE_CUSTOMLABEL, $additionalkeys);
     } //constructor
 }
 
@@ -87,9 +87,9 @@ class CustomLabelSearchDocument extends SearchDocument {
  * @param resourceId the of the resource 
  * @return a full featured link element as a string
  */
-function customlabel_make_link($course_id) {
-    global $CFG;
-    return $CFG->wwwroot.'/course/view.php?id='.$course_id;
+function customlabel_make_link($courseid) {
+
+    return new moodle_url('/course/view.php', array('id' => $courseid));
 }
 
 /**
@@ -177,14 +177,16 @@ function customlabel_db_names() {
 /**
  * customlabel points actually the complete course content and not the customlabel item
  */
-function customlabel_search_get_objectinfo($itemtype, $this_id, $context_id = null) {
+function customlabel_search_get_objectinfo($itemtype, $thisid, $contextid = null) {
     global $DB;
 
-    if (!$course = $DB->get_record('course', array('id' => $this_id))) return false;
+    if (!$course = $DB->get_record('course', array('id' => $thisid))) {
+        return false;
+    }
 
-    if ($context_id) {
+    if ($contextid) {
         // We still need this case for the global search engine being able to operate.
-        $info->context = $DB->get_record('context', array('id' => $context_id));
+        $info->context = $DB->get_record('context', array('id' => $contextid));
         $info->cm = $DB->get_record('course_modules', array('id' => $info->context->instanceid));
     } else {
         // This case IS NOT consistant for extracting object information.
@@ -213,7 +215,7 @@ function customlabel_search_get_objectinfo($itemtype, $this_id, $context_id = nu
 function customlabel_check_text_access($path, $itemtype, $thisid, $user, $groupid, $contextid) {
     global $CFG;
 
-    // this_id binds to $course->id, but course check where already performed
+    // This_id binds to $course->id, but course check where already performed.
     if (!$info = customlabel_search_get_objectinfo($itemtype, $thisid, $contextid)) {
         return false;
     }

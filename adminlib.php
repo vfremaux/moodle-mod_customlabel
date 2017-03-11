@@ -46,8 +46,8 @@ class customlabel_admin_page_manage_customlabel_plugins extends admin_externalpa
     public function __construct($subtype) {
         $this->subtype = $subtype;
         $url = new moodle_url('/mod/customlabel/adminmanageplugins.php', array('subtype' => $subtype));
-        parent::__construct('manage' . $subtype . 'plugins',
-                            get_string('manage' . $subtype . 'plugins', 'customlabel'),
+        parent::__construct('manage'.$subtype.'plugins',
+                            get_string('manage'.$subtype.'plugins', 'customlabel'),
                             $url);
     }
 
@@ -73,7 +73,7 @@ class customlabel_admin_page_manage_customlabel_plugins extends admin_externalpa
         }
         if ($found) {
             $result = new stdClass();
-            $result->page     = $this;
+            $result->page = $this;
             $result->settings = array();
             return array($this->name => $result);
         } else {
@@ -120,12 +120,12 @@ class customlabel_plugin_manager {
         $result = array();
 
         foreach ($names as $name => $path) {
-            $idx = get_config($this->subtype . '_' . $name, 'sortorder');
+            $idx = get_config($this->subtype.'_'.$name, 'sortorder');
             if (!$idx) {
                 $idx = 0;
             }
             while (array_key_exists($idx, $result)) {
-                $idx +=1;
+                $idx += 1;
             }
             $result[$idx] = $name;
         }
@@ -160,7 +160,7 @@ class customlabel_plugin_manager {
         return $OUTPUT->action_icon(new moodle_url($url,
                 array('action' => $action, 'plugin'=> $plugin, 'sesskey' => sesskey())),
                 new pix_icon($icon, $alt, 'moodle', array('title' => $alt)),
-                null, array('title' => $alt)) . ' ';
+                null, array('title' => $alt)).' ';
     }
 
     /**
@@ -174,14 +174,14 @@ class customlabel_plugin_manager {
 
         // Set up the table.
         $this->view_header();
-        $table = new flexible_table($this->subtype . 'pluginsadminttable');
+        $table = new flexible_table($this->subtype.'pluginsadminttable');
         $table->define_baseurl($this->pageurl);
         $table->define_columns(array('pluginname', 'version', 'hideshow', 'order',
                 'settings', 'uninstall'));
-        $table->define_headers(array(get_string($this->subtype . 'pluginname', 'customlabel'),
+        $table->define_headers(array(get_string($this->subtype.'pluginname', 'customlabel'),
                 get_string('version'), get_string('hideshow', 'customlabel'),
                 get_string('order'), get_string('settings'), get_string('uninstallplugin', 'core_admin')));
-        $table->set_attribute('id', $this->subtype . 'plugins');
+        $table->set_attribute('id', $this->subtype.'plugins');
         $table->set_attribute('class', 'admintable generaltable');
         $table->setup();
 
@@ -191,10 +191,10 @@ class customlabel_plugin_manager {
             $row = array();
             $class = '';
 
-            $row[] = get_string('pluginname', $this->subtype . '_' . $plugin);
-            $row[] = get_config($this->subtype . '_' . $plugin, 'version');
+            $row[] = get_string('pluginname', $this->subtype.'_'.$plugin);
+            $row[] = get_config($this->subtype.'_'.$plugin, 'version');
 
-            $visible = !get_config($this->subtype . '_' . $plugin, 'disabled');
+            $visible = !get_config($this->subtype.'_'.$plugin, 'disabled');
 
             if ($visible) {
                 $row[] = $this->format_icon_link('hide', $plugin, 't/hide', get_string('disable'));
@@ -207,17 +207,17 @@ class customlabel_plugin_manager {
             if (!$idx == 0) {
                 $movelinks .= $this->format_icon_link('moveup', $plugin, 't/up', get_string('up'));
             } else {
-                $movelinks .= $OUTPUT->spacer(array('width'=>16));
+                $movelinks .= $OUTPUT->spacer(array('width' => 16));
             }
             if ($idx != count($plugins) - 1) {
                 $movelinks .= $this->format_icon_link('movedown', $plugin, 't/down', get_string('down'));
             }
             $row[] = $movelinks;
 
-            $exists = file_exists($CFG->dirroot . '/mod/customlabel/type/' . $plugin . '/settings.php');
+            $exists = file_exists($CFG->dirroot.'/mod/customlabel/type/'.$plugin.'/settings.php');
             if ($row[1] != '' && $exists) {
                 $row[] = html_writer::link(new moodle_url('/admin/settings.php',
-                        array('section' => $this->subtype . '_' . $plugin)), get_string('settings'));
+                        array('section' => $this->subtype.'_'.$plugin)), get_string('settings'));
             } else {
                 $row[] = '&nbsp;';
             }
@@ -238,10 +238,10 @@ class customlabel_plugin_manager {
      */
     private function view_header() {
         global $OUTPUT;
-        admin_externalpage_setup('manage' . $this->subtype . 'plugins');
+        admin_externalpage_setup('manage'.$this->subtype . 'plugins');
         // Print the page heading.
         echo $OUTPUT->header();
-        echo $OUTPUT->heading(get_string('manage' . $this->subtype . 'plugins', 'customlabel'));
+        echo $OUTPUT->heading(get_string('manage'.$this->subtype.'plugins', 'customlabel'));
     }
 
     /**
@@ -273,7 +273,7 @@ class customlabel_plugin_manager {
      * @return string The next page to display
      */
     public function hide_plugin($plugin) {
-        set_config('disabled', 1, $this->subtype . '_' . $plugin);
+        set_config('disabled', 1, $this->subtype.'_'.$plugin);
         core_plugin_manager::reset_caches();
         return 'view';
     }
@@ -319,7 +319,7 @@ class customlabel_plugin_manager {
 
         // Save the new normal order.
         foreach ($plugins as $key => $plugin) {
-            set_config('sortorder', $key, $this->subtype . '_' . $plugin);
+            set_config('sortorder', $key, $this->subtype.'_'.$plugin);
         }
         return 'view';
     }
