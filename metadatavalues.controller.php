@@ -161,7 +161,7 @@ function classification_tree_up($id, $type) {
         $query = "
             SELECT
                 id
-            FROM 
+            FROM
                 {{$CFG->classification_value_table}}
             WHERE
                 sortorder = $newordering AND

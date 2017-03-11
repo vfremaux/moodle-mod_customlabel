@@ -23,7 +23,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once ($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
  *
@@ -73,4 +73,3 @@ class customlabel_type_text extends customlabel_type {
         set_config('custom_unique_id', $customid);
     }
 }
-

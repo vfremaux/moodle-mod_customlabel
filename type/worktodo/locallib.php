@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
  * Get the course modules that can be linked as work to do
  */
 function customlabel_get_candidate_modules() {
-    global $COURSE, $DB, $CFG;
+    global $COURSE, $CFG;
 
     if (!empty($CFG->upgraderunning)) {
         return;

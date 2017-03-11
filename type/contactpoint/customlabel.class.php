@@ -23,7 +23,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once ($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
  *
@@ -51,8 +51,9 @@ class customlabel_type_contactpoint extends customlabel_type {
         $this->fields['contacttype'] = $field;
     }
 
-     public function postprocess_icon() {
+    public function postprocess_icon() {
         global $OUTPUT;
+
         $this->data->icon = $OUTPUT->pix_url('icon_'.$this->data->contacttypeoption, 'customlabeltype_'.$this->type)->out();
     }
 }

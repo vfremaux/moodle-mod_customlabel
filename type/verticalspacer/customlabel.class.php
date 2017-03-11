@@ -51,7 +51,7 @@ class customlabel_type_verticalspacer extends customlabel_type {
     /**
      * Prepares data for template
      */
-    public function preprocess_data($course = null){
+    public function preprocess_data($course = null) {
         global $CFG, $OUTPUT, $COURSE, $PAGE;
 
         // Some kind of global static.

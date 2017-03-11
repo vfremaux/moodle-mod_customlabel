@@ -63,10 +63,7 @@ class customlabel_type_worktodo extends customlabel_type {
             $field->field = 'value';
             $field->key = 'code';
             $field->select = " typeid = $fieldid ";
-            // $field->multiple = 'multiple';
             $this->fields['worktypefield'] = $field;
-        } else {
-            // echo "no field for WORKTYPE ";
         }
 
           if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKEFFORT'))) {
@@ -79,10 +76,7 @@ class customlabel_type_worktodo extends customlabel_type {
             $field->field = 'value';
             $field->key = 'code';
             $field->select = " typeid = $fieldid ";
-            // $field->multiple = 'multiple';
             $this->fields['workeffortfield'] = $field;
-        } else {
-            // echo "no field for WORKEFFORT ";
         }
 
         if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKMODE'))) {
@@ -95,10 +89,7 @@ class customlabel_type_worktodo extends customlabel_type {
             $field->field = 'value';
             $field->key = 'code';
             $field->select = " typeid = $fieldid ";
-            // $field->multiple = 'multiple';
             $this->fields['workmodefield'] = $field;
-        } else {
-            // echo "no field for WORKMODE ";
         }
 
         /*
@@ -118,9 +109,14 @@ class customlabel_type_worktodo extends customlabel_type {
 
         $this->data->clock = $OUTPUT->pix_url('clock','customlabeltype_worktodo')->out();
 
-        if (is_array(@$this->data->worktypefield)) $this->data->worktypefield = implode(', ',@$this->data->worktypefield); 
-        if (is_array(@$this->data->workeffortfield)) $this->data->workeffortfield = implode(', ',@$this->data->workeffortfield); 
-        if (is_array(@$this->data->workmodefield)) $this->data->workmodefield = implode(', ',@$this->data->workmodefield); 
-
+        if (is_array(@$this->data->worktypefield)) {
+            $this->data->worktypefield = implode(', ',@$this->data->worktypefield);
+        }
+        if (is_array(@$this->data->workeffortfield)) {
+            $this->data->workeffortfield = implode(', ',@$this->data->workeffortfield);
+        }
+        if (is_array(@$this->data->workmodefield)) {
+            $this->data->workmodefield = implode(', ',@$this->data->workmodefield);
+        }
     }
 }

@@ -52,17 +52,19 @@ class customlabel_type_authornote extends customlabel_type {
     }
 
     public function preprocess_data($course = null) {
-        global $CFG;
+        global $CFG, $OUTPUT;
 
         $customid = @$CFG->custom_unique_id + 1;
 
         $this->data->customid = $customid;
         set_config('custom_unique_id', $customid);
 
-        $this->data->initialcontrolimage = ($this->data->initiallyvisible) ? $CFG->wwwroot.'/mod/customlabel/pix/minus.gif' : $CFG->wwwroot.'/mod/customlabel/pix/plus.gif' ;
+        $minusurl = $OUTPUT->pix_url('minus', 'customlabel');
+        $plusurl = $OUTPUT->pix_url('plus', 'customlabel');
+        $this->data->initialcontrolimage = ($this->data->initiallyvisible) ? $minusurl : $plusurl;
 
         // For passing to javascript.
         $this->data->wwwroot = $CFG->wwwroot;
     }
 }
- 
+

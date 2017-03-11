@@ -84,7 +84,7 @@ class CustomLabelSearchDocument extends SearchDocument {
 
 /**
  * constructs valid access links to information
- * @param resourceId the of the resource 
+ * @param resourceId the of the resource
  * @return a full featured link element as a string
  */
 function customlabel_make_link($courseid) {

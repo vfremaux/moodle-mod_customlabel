@@ -158,7 +158,7 @@ class customlabel_plugin_manager {
         }
 
         return $OUTPUT->action_icon(new moodle_url($url,
-                array('action' => $action, 'plugin'=> $plugin, 'sesskey' => sesskey())),
+                array('action' => $action, 'plugin' => $plugin, 'sesskey' => sesskey())),
                 new pix_icon($icon, $alt, 'moodle', array('title' => $alt)),
                 null, array('title' => $alt)).' ';
     }

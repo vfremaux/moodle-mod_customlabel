@@ -23,7 +23,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once ($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
  *
@@ -46,8 +46,8 @@ class customlabel_type_definition extends customlabel_type {
 
         if (!isset($data->subdefsnum)) {
             // Second chance, get it from stored data.
-            $storeddata = json_decode(base64_decode(@$this->data->content));            
-            $subdefsnum = (!empty($storeddata->subdefsnum)) ? $storeddata->subdefsnum : 0 ;
+            $storeddata = json_decode(base64_decode(@$this->data->content));
+            $subdefsnum = (!empty($storeddata->subdefsnum)) ? $storeddata->subdefsnum : 0;
         } else {
             $subdefsnum = $data->subdefsnum;
         }
@@ -81,4 +81,3 @@ class customlabel_type_definition extends customlabel_type {
         $this->data->subdeflist .= "</ul>\n";
     }
 }
- 

@@ -66,4 +66,4 @@ class customlabel_type_pedagogicadvice extends customlabel_type {
         $this->data->wwwroot = $CFG->wwwroot;
     }
 }
- 
+

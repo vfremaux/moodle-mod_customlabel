@@ -23,7 +23,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  */
 
-include($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
  * this defines a set of fields. You just need defining fields and add them to the class,
@@ -75,4 +75,4 @@ class customlabel_type_NEWTYPE extends customlabel_type {
         $this->fields['lockedfield'] = $field;
     }
 }
- 
+
