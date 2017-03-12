@@ -68,7 +68,7 @@ class moodle1_mod_customlabel_handler extends moodle1_mod_handler {
                     ),
                 )
             ),
-       );
+        );
     }
 
     /**
@@ -105,7 +105,7 @@ class moodle1_mod_customlabel_handler extends moodle1_mod_handler {
 
         // Convert course files embedded into the content.
         $this->fileman->filearea = 'content';
-        $this->fileman->itemid   = 0;
+        $this->fileman->itemid = 0;
 
         // Try get files and reencode from stored content stub.
         $storedcontent = moodle1_converter::migrate_referenced_files($storedcontent, $this->fileman);

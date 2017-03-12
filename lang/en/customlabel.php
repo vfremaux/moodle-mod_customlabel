@@ -70,7 +70,7 @@ $string['updatescope'] = 'Updating scope';
 $string['usesafestorage'] = 'Use safe storage for content (base64)';
 $string['modulename_help'] = "Course Elements provide you with pedagogic modules that are already layout and
 designed for serving some high level pedagogic needs. Course elements have subtypes that address common
-learning actions : work to do, soluce, see also (optional reference), local goals, reminder, and some 
+learning actions : work to do, soluce, see also (optional reference), local goals, reminder, and some
 editioral helpers such as course captions. Administrator can integrate specific models with additional
 editorial value such as using prefitted image bank, or tagging courses,
 You just need to enter the appropriate data in each module
@@ -113,8 +113,8 @@ $string['typecode_help'] = '
 <p>This will help for matching data with external system when extracting data with custom queries in blocks of type
 Custom Reports or Dashboard.</p>
 
-<p>Note that some codes are implicitely bound to some special features of course indexation 
-using the Course Classifier subtype. The course classifier subtype is a classifier utility that helps some other 
+<p>Note that some codes are implicitely bound to some special features of course indexation
+using the Course Classifier subtype. The course classifier subtype is a classifier utility that helps some other
 components as the Local Course Index to present a multicategorized, searchable course catalog.</p>
 <ul>
 <li>LEVEL0 : Use this code for defining a first classifier dimension in the course classifier.</li>

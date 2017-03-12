@@ -24,9 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once $CFG->libdir.'/formslib.php';
+require_once($CFG->libdir.'/formslib.php');
 
-class EditTypeForm extends moodleform{
+class EditTypeForm extends moodleform {
 
     private $view;
     private $action;

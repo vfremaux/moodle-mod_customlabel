@@ -60,14 +60,14 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtextarea($key, $label, $desc, '', PARAM_RAW, 80, 10));
 
     /*
-     * This is a similar metadata binding schema that used in the local_courseindex component in order to provide 
+     * This is a similar metadata binding schema that used in the local_courseindex component in order to provide
      * a loose dependancy link between both components
      */
 
     $label = get_string('configmetadatabinding', 'customlabel');
     $desc = get_string('configmetadatabinding_desc', 'customlabel');
     $settings->add(new admin_setting_heading('metadatabinding', $label, $desc));
-    
+
     $key = 'customlabel/course_metadata_table';
     $label = get_string('configcoursemetadatatable', 'customlabel');
     $desc = get_string('configcoursemetadatatable_desc', 'customlabel');

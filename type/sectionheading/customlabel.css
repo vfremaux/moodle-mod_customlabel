@@ -1,25 +1,25 @@
 
 table.custombox-sectionheading h1 {
+    color: #F2A439;
     font-size: 22px;
     line-height:26px;
-    color: #F2A439
 }
 
 table.custombox-sectionheading p {
     font-size:12pt;
-    width:95%;
     line-height:1.5em;
+    width:95%;
 }
 
 tr.custombox-icon.sectionheading {
-    min-height:85px;
     height:85px;
+    min-height:85px;
 }
 
 td.custombox-icon-left.sectionheading {
+    background-size : 100% auto !important;
     min-width:80px;
     padding-right:20px;
-    background-size : 100% auto !important;
 }
 
 td.custombox-icon-right.sectionheading {
