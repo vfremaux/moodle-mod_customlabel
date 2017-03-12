@@ -23,7 +23,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
  *
@@ -34,7 +34,7 @@ class customlabel_type_authordata extends customlabel_type {
 
     public $nbauthor = 3;
 
-    function __construct($data) {
+    public function __construct($data) {
         global $USER;
 
         parent::__construct($data);
@@ -93,10 +93,10 @@ class customlabel_type_authordata extends customlabel_type {
         $field->itemid = 0;
         $this->fields['contributors'] = $field;
     }
-    
-    function postprocess_data($course = null) {        
+
+    public function postprocess_data($course = null) {
         for ($i = 1; $i < $this->nbauthor; $i++) {
-            
+
             $thumb = $this->get_file_url('thumb'.$i);
 
             if ($thumb) {

@@ -1,40 +1,39 @@
 table.custombox-courseheading {
-    width:100%;
     background: none;
     margin-top: 0em !important;
     padding-left: 0px !important;
+    width:100%;
 }
 
 .custombox-preheading.courseheading{
-    font-size: 13px;
     color: #A6A6A6;
+    font-size: 13px;
 }
 
 .custombox-heading.courseheading {
-    /* width: 550px; */
-    margin-top:10px;
-    font-size: 24px;
-    line-height: 26px;
     color: #4D4B4A;
+    font-size: 24px;
     font-style: italic;
+    line-height: 26px;
+    margin-top:10px;
 }
 
 .custombox-description.courseheading {
     color: #808080;
-    text-align:justify;
     padding-right:20px;
     padding-top:20px;
+    text-align:justify;
 } 
 
 tr.custombox-icon.courseheading{
-    min-height:125px;
     height:125px;
+    min-height:125px;
 }
 
 td.custombox-icon-left.courseheading{
+    background-size : 100% auto !important;
     min-width:80px;
     padding-right:20px;
-    background-size : 100% auto !important;
 }
 
 td.custombox-icon-right.courseheading{

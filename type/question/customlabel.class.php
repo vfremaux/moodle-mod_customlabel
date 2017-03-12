@@ -17,13 +17,13 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
  *
@@ -32,7 +32,7 @@ require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
 
 class customlabel_type_question extends customlabel_type {
 
-    function __construct($data) {
+    public function __construct($data) {
         parent::__construct($data);
         $this->type = 'question';
         $this->fields = array();
@@ -71,7 +71,7 @@ class customlabel_type_question extends customlabel_type {
         $this->fields['initiallyvisible'] = $field;
     }
 
-    function preprocess_data() {
+    public function preprocess_data() {
         global $CFG, $OUTPUT;
 
         $customid = @$CFG->custom_unique_id + 1;
@@ -85,4 +85,3 @@ class customlabel_type_question extends customlabel_type {
         set_config('custom_unique_id', $customid);
     }
 }
-

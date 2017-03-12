@@ -21,15 +21,14 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
 
 $string['pedagogicadvice:view'] = 'Can view the content';
-$string['pedagogicadvice:addinstance'] = 'Can add an indstance';
+$string['pedagogicadvice:addinstance'] = 'Can add an instance';
 
-$string['pluginname'] = 'Course element : Pedagogic Advice';
+$string['pluginname'] = 'Course element: Pedagogic Advice';
 $string['typename'] = 'Pedagogic advice';
 $string['configtypename'] = 'Enable subtype Pedagogic advice';
-$string['advice'] = 'Advising ';
+$string['advice'] = 'Advising';
 $string['initiallyvisible'] = 'Initially visible';
 
 $string['family'] = 'meta';

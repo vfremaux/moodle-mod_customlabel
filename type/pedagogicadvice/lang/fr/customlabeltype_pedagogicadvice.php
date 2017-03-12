@@ -17,21 +17,20 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
 
 $string['pedagogicadvice:view'] = 'Peut voir le contenu';
 $string['pedagogicadvice:addinstance'] = 'Peut ajouter une instance';
 
-$string['pluginname'] = 'Elément de cours : Note pédagogique';
+$string['pluginname'] = 'Elément de cours&nbsp;: Note pédagogique';
 $string['typename'] = 'Note pédagogique';
 $string['configtypename'] = 'Active le type Note pédagogique';
-$string['typename'] = 'Note pédagogique';
-$string['advice'] = 'Conseil ';
-$string['initiallyvisible'] = 'Visible au chargement de la page';
+$string['typename'] = 'Note pédagogique&nbsp;';
+$string['advice'] = 'Conseil&nbsp;';
+$string['initiallyvisible'] = 'Visible au chargement de la page&nbsp;';
 
 $string['template'] = '
 <div class="custombox-control pedagogicadvice"><a href="javascript:togglecustom(\'<%%customid%%>\', \'<%%wwwroot%%>\')"><img id="customctl<%%customid%%>" src="<%%initialcontrolimage%%>" /></a>
