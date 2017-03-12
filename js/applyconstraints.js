@@ -5,17 +5,21 @@
 // jshint unused:false, undef:false
 
 function urlencode(str) {
-    return escape(str).replace('/\+/g','%2B').replace('/%20/g', '+').replace('/\*/g', '%2A').replace('/\//g', '%2F').replace('/@/g', '%40');
+    str = escape(str).replace('/\+/g','%2B').replace('/%20/g', '+').replace('/\*/g', '%2A');
+    str = str.replace('/\//g', '%2F').replace('/@/g', '%40');
+    return str;
 }
 
 function applyconstraints(wwwroot, typestr, selector, targets) {
+
+    var i,j;
 
     if (targets === '') {
         return;
     }
     targetsarr = targets.split(',');
 
-    var selectedopts = new Array();
+    var selectedopts = [];
 
     // Get constraints in activated select.
     i = 0;
@@ -37,7 +41,7 @@ function applyconstraints(wwwroot, typestr, selector, targets) {
         i++;
         selectedtargetopts[i] = [];
         k = 0;
-        for (var j = 0; j < targetsel.options.length; j++) {
+        for (j = 0; j < targetsel.options.length; j++) {
             if (targetsel.options[j].selected) {
                 selectedtargetopts[i][k] = targetsel.options[j].value;
                 k++;
@@ -70,6 +74,8 @@ function applyconstraints(wwwroot, typestr, selector, targets) {
 
 function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
 
+    var i,j;
+
     if (targets === '') {
         return;
     }
@@ -79,7 +85,7 @@ function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
 
     // get constraints in activated select
     i = 0;
-    for (var j = 0; j < selector.options.length; j++) {
+    for (j = 0; j < selector.options.length; j++) {
         if (selector.options[j].selected) {
             selectedopts[i] = selector.options[j].value;
             i++;
@@ -90,7 +96,7 @@ function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
     // Get selection constraints in targets select.
     selectedtargetopts = [];
     i = 0;
-    for (target in targetsarr) {
+    for (var target in targetsarr) {
         targetname = targetsarr[target];
         targetsel = document.getElementById('menu' + targetname);
         selectedtargetopts[i] = targetname;
