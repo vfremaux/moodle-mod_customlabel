@@ -21,13 +21,12 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
 
 $string['method:view'] = 'Can view the content';
 $string['method:addinstance'] = 'Can add an instance';
 
-$string['pluginname'] = 'Course element : Method';
-$string['typename'] = 'Theorema';
+$string['pluginname'] = 'Course element: Method';
+$string['typename'] = 'Operational Method';
 $string['configtypename'] = 'Enable subtype Method';
 $string['methodtext'] = 'Method text';
 

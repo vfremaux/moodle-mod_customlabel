@@ -39,9 +39,9 @@ if (!isset($CFG->classification_type_table)) {
 /**
  * returns all available classes for a customlabel
  * @uses $CFG
- * @param int $context if a context is given, filters out any type that is not allowed against 
+ * @param int $context if a context is given, filters out any type that is not allowed against
  *                     roles held by the current user. Returns all types otherwise.
- * @param bool $ignoredisabled 
+ * @param bool $ignoredisabled
  * @param $outputmode if unset will get an associative array, if set to 'names' will provide an array of names
  * @return a sorted array of class definitions as objects or an array of class names
  */
@@ -85,7 +85,9 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
                 $classnames[] = $entry;
                 $obj->name = get_string('typename', 'customlabeltype_'.$entry);
                 $obj->family = get_string('family', 'customlabeltype_'.$entry);
-                if (empty($obj->family)) $obj->family = 'default';
+                if (empty($obj->family)) {
+                    $obj->family = 'default';
+                }
                 $classes[] = $obj;
                 $classarr[$obj->id] = $obj->name;
             }
@@ -109,7 +111,7 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
 
 /**
  * fetches all area names in all customlabel types for backup. Note
- * that one area name could serve for different purposes in distinct 
+ * that one area name could serve for different purposes in distinct
  * instances of distinct types. This should not affectthe backup files
  * discrimination as keyed by the context id.
  */
@@ -170,9 +172,6 @@ function customlabel_load_class($customlabel, $quiet = false) {
         $instance = new $constructorfunction($customlabel, $customlabel->labelclass);
         return $instance;
     } else {
-        if (!$quiet) {
-            print_object($customlabel);
-        }
         if (debugging()) {
             echo $OUTPUT->notification('errorfailedloading', 'customlabel', $customlabel->labelclass);
         }
@@ -240,10 +239,10 @@ function customlabel_save_draft_file(&$customlabel, $filearea) {
 
     if (!empty($customlabel->$fileareagroupname)) {
         $fileareagroup = (array)$customlabel->$fileareagroupname;
-    } elseif (!empty($_POST[$fileareagroupname])) {
+    } else if (!empty($_POST[$fileareagroupname])) {
         $fileareagroup = $_POST[$fileareagroupname];
     }
-    
+
     if (!empty($fileareagroup)) {
         // Check for file deletion request.
         if (isset($fileareagroup['clear'.$filearea])) {
@@ -343,7 +342,7 @@ function customlabel_file_rewrite_urls_to_pluginfile($text, $draftitemid, $field
                 $text = str_replace($match, $replace, $text);
             }
         }
-        $pattern= "!$wwwroot/draftfile.php?file=/$usercontext->id/user/draft/$draftitemid/!i";
+        $pattern = "!$wwwroot/draftfile.php?file=/$usercontext->id/user/draft/$draftitemid/!i";
         $text = preg_replace($pattern, '@@PLUGINFILE::'.$fielditemid.'@@/', $text);
     }
 
@@ -353,7 +352,7 @@ function customlabel_file_rewrite_urls_to_pluginfile($text, $draftitemid, $field
 /**
  * Processes a single customlabel by recalculating the content
  * @param ref $customlabel a customlabel record
- * @param string $labelclassname the real class of the element. 
+ * @param string $labelclassname the real class of the element.
  * @param string $course the current complete course record
  *
  */

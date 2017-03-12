@@ -1,35 +1,37 @@
-.labelcontent TABLE {
+table.custombox-formule {
    width: 100%;
-   border: 1px solid #808080;
-   background-color: #DADADA;
-   padding: 3px;
-   margin-bottom:10px;
 }
 
-.labelcontent .title{
-   padding: 2px;
-   color: #E0E0E0;
-   background-color: #404040;
+td.custombox-header-thumb.formule {
+   border-right:1px solid #f00000 !important;
+   padding-right:8px;
 }
 
-.labelcontent .param{
-   width: 30%;
-   text-align : right;
-   vertical-align : top;
-   padding: 2px;
-   color: #000000;
-   border: 1px solid #808080;
+td.custombox-header-thumb.formule {
+    background-image: url("/mod/customlabel/type/formule/pix/icon_formule_small.png"); 
+    background-repeat: no-repeat;
+    height:73px;
+    min-width:25px;
+    width:25px;
 }
 
-.labelcontent .value{
-   text-align : left;
-   padding: 2px;
-   vertical-align : top;
-   background-color: #E2E2E2;
-   color: #000000;
-   border: 1px solid #808080;
+#region-main td.custombox-header-thumb.formule,
+#page-region-main td.custombox-header-thumb.formule {
+    background-image: url("/mod/customlabel/type/formule/pix/icon_formule.png"); 
+    background-repeat: no-repeat;
+    height:73px;
+    min-width:65px;
+    width:65px;
 }
 
-.labelcontent .locked{
-  background-color: red;
+td.custombox-header-caption.formule {
+    color:#DB3333;
+    font-size:1.3em;
+    font-weight:bolder;
+    padding-left:8px;
+}
+
+td.custombox-content.formuletext {
+    min-height:100Px;
+    padding-left:8px;
 }

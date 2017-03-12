@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $logs = array(
-    array('module' => 'customlabel', 'action' => 'add', 'mtable' => 'customlabel', 'field'=>'name'),
-    array('module' => 'customlabel', 'action' => 'delete', 'mtable' => 'customlabel', 'field'=>'name'),
-    array('module' => 'customlabel', 'action' => 'view', 'mtable' => 'customlabel', 'field'=>'name'),
+    array('module' => 'customlabel', 'action' => 'add', 'mtable' => 'customlabel', 'field' => 'name'),
+    array('module' => 'customlabel', 'action' => 'delete', 'mtable' => 'customlabel', 'field' => 'name'),
+    array('module' => 'customlabel', 'action' => 'view', 'mtable' => 'customlabel', 'field' => 'name'),
 );

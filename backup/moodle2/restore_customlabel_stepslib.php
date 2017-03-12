@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -96,8 +95,8 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $newitemid = $DB->insert_record('customlabel', $data);
 
         // postupdate name
-        $this->__postupdate($data, 'name', $oldid, $newitemid);
-        $this->__postupdate($data, 'title', $oldid, $newitemid);
+        $this->postupdate($data, 'name', $oldid, $newitemid);
+        $this->postupdate($data, 'title', $oldid, $newitemid);
 
         $this->apply_activity_instance($newitemid);
     }
@@ -155,9 +154,9 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
     }
 
 
-    private function __postupdate(&$data, $fieldname, $oldid, $newid) {
+    private function postupdate(&$data, $fieldname, $oldid, $newid) {
         global $DB;
-        
+
         if (preg_match('/^(.*)_(\\d+)$/', $data->$fieldname, $matches)) {
             if ($matches[2] == $oldid) {
                 $newname = $matches[1].'_'.$newid;

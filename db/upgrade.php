@@ -113,7 +113,8 @@ function customlabel_course_preprocess_filepickers($c) {
                             $filerecord->filename = basename($content->$oldname);
                             try {
                                 $fs->create_file_from_url($filerecord, $content->$oldname, null, true);
-                            } catch( Exception $e) {
+                            } catch (Exception $e) {
+                                assert(1);
                                 // Do nothing.
                             }
                             mtrace("file created ");

@@ -16,13 +16,13 @@
 }
 
 .constraint-cell.included select {
-    color:#800000;
     background-color:#FFA0A0;
+    color:#800000;
 }
 
 .constraint-cell.included select {
-    color:#008000;
     background-color:#A0FFA0;
+    color:#008000;
 }
 
 .constraint-form-table td {

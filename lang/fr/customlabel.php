@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  */
- 
+
 $string['customlabel:addinstance'] = 'Peut ajouter une instance';
 $string['customlabel:fullaccess'] = 'Accès total';
 $string['customlabel:managemetadata'] = 'Gérer les métadonnées de classification';
@@ -74,8 +74,8 @@ $string['typecode_help'] = '
 <p>Ce code peut aider les extractions et exploitations de données dans des systèmes tiers à partir d\'extractions produites dans les blocs
 Rapports configurables ou le bloc Tableau de Bord.</p>
 
-<p>Notez que certains codes sont implicitement liées à certaines fonctionnalités comme par exemple 
-l\'indexation de cours (Element Classification de cours). Cet élément est un utilitaire qui permet de  
+<p>Notez que certains codes sont implicitement liées à certaines fonctionnalités comme par exemple
+l\'indexation de cours (Element Classification de cours). Cet élément est un utilitaire qui permet de
 tagguer un cours et de le proposer à un moteur de présetentation de catalogue de cours (Composant local Course Index).</p>
 <ul>
 <li>LEVEL0 : Utilisez ce code pour construire une première dimension de classification pour le classifieur de cours.</li>
@@ -101,12 +101,12 @@ $string['typetype_help'] = '
 </ul>
 ';
 
-$string['modulename_help'] = 'Les éléments de cours sont des modules de contenus qui constituent des briques pédagogiques. 
-Les éléments de cours ont un sous-type qui rencontre la plupart des actions d\'apprentissage communes : consigne de travail, 
-élément de solution, référence accessoire, objectifs, rubrique à retenir, ainsi que des briques éditoriales comme 
+$string['modulename_help'] = 'Les éléments de cours sont des modules de contenus qui constituent des briques pédagogiques.
+Les éléments de cours ont un sous-type qui rencontre la plupart des actions d\'apprentissage communes : consigne de travail,
+élément de solution, référence accessoire, objectifs, rubrique à retenir, ainsi que des briques éditoriales comme
 les titres de cours, ou la bibliographie. Les administrateurs peuvent redéfinir des nouveaux type et y introduire
-une politique éditoriale spécifique. Les éléments de cours prennent en charge la "mise en forme" du contenu et facilitent 
-le travail de l\'auteur. 
+une politique éditoriale spécifique. Les éléments de cours prennent en charge la "mise en forme" du contenu et facilitent
+le travail de l\'auteur.
 ';
 
 // Metadata.

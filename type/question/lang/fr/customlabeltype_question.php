@@ -15,25 +15,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * This is a local class contextual translation file for field names and list options.
+ * this file is automatically loaded by the /mod/customlabel/lang/xx_utf8/customlabel.php
+ * module language file.
+ *
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
-
 $string['question:view'] = 'Peut voir la question';
 $string['question:addinstance'] = 'Peut ajouter une instance';
 
-$string['pluginname'] = 'Elément de cours : Question';
+$string['pluginname'] = 'Elément de cours&nbdp;: Question';
 $string['typename'] = 'Question';
 $string['configtypename'] = 'Active le type question';
-$string['questiontext'] = 'Texte de la question';
-$string['answertext'] = 'Texte de la réponse';
-$string['initiallyvisible'] = 'Réponse visible au chargement';
-$string['hint'] = 'Texte d\'indice';
-$string['hintinitiallyvisible'] = 'Indice visible au chargement';
+$string['questiontext'] = 'Texte de la question&nbsp;';
+$string['answertext'] = 'Texte de la réponse&nbsp;';
+$string['initiallyvisible'] = 'Réponse visible au chargement&nbsp;';
+$string['hint'] = 'Texte d\'indice&nbsp;';
+$string['hintinitiallyvisible'] = 'Indice visible au chargement&nbsp;';
 
 $string['template'] = '
 <table class="custombox-question" cellspacing="0" width="100%">

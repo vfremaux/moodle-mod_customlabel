@@ -1,13 +1,30 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-* This is a local class contextual translation file for field names and 
-* list options.
-* this file is automatically loaded by the 
-* /mod/customlabel/lang/xx_utf8/customlabel.php
-* module language file.
-*
-*/
+ * This is a local class contextual translation file for field names and list options.
+ * this file is automatically loaded by the /mod/customlabel/lang/xx_utf8/customlabel.php
+ * module language file.
+ *
+ * @package    mod_customlabel
+ * @category   mod
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ */
 
 $string['authordata:view'] = 'Can view the content';
 $string['authordata:addinstance'] = 'Can add an instance';
@@ -42,7 +59,7 @@ $string['template'] = '
     <%endif %>
     <tr valign="top">
         <td class="custombox-param authordata">
-            Author<%if %%author2%% %>s<%endif %> : 
+            Author<%if %%author2%% %>s<%endif %> :
         </td>
         <td class="custombox-value authordata">
             <%if %%thumb3%% %>
@@ -54,7 +71,7 @@ $string['template'] = '
             <%if %%thumb1%% %>
             <img src="<%%thumb1%%>" title="<%%author1%%>" style="float:right;margin-right:10px"  width="80"  height="120" />
             <%endif %>
-            <%%author1%%> 
+            <%%author1%%>
             <%%author2%%>
             <%%author3%%>
         </td>

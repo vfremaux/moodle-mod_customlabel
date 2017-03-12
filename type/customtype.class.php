@@ -23,6 +23,7 @@
  * A generic class for collecting all that is common to all elements
  */
 defined('MOODLE_INTERNAL') || die();
+require_once($CFG->dirroot.'/mod/customlabel/extra/lib.php');
 
 class customlabel_type {
 
@@ -40,11 +41,11 @@ class customlabel_type {
      * determines the nature of the data and the way it can be input.
      */
     public function __construct($data, $type = 'undefined') {
-       $this->title = @$data->title;
-       $this->type = $type;
-       $this->fields = array();
-       $this->data = $data;
-       $this->fullaccess = true;
+        $this->title = @$data->title;
+        $this->type = $type;
+        $this->fields = array();
+        $this->data = $data;
+        $this->fullaccess = true;
     }
 
     /**
@@ -86,7 +87,7 @@ class customlabel_type {
             case 'dbfieldkeyed':
                 $table = '{'.$field->table.'}';
                 $fieldname = $field->field;
-                $fieldkey = (empty($field->key)) ? 'id' : $field->key ;
+                $fieldkey = (empty($field->key)) ? 'id' : $field->key;
                 $select = (!empty($field->select)) ? " WHERE {$field->select} " : '';
                 $ordering = (!empty($field->ordering)) ? " ORDER BY $field->ordering " : '';
                 $sql = "
@@ -137,7 +138,7 @@ class customlabel_type {
     /**
      * Given a possibly list of values, get an array of ids
      */
-    function get_current_options($options, $value, $multiple = false) {
+    public function get_current_options($options, $value, $multiple = false) {
 
         if (is_array($value)) {
             return $value;
@@ -182,19 +183,19 @@ class customlabel_type {
         $context = context_module::instance($cm->id);
 
         if (!isloggedin() || is_guest($context)) {
-            // check capability to see on user role
+            // Check capability to see on user role.
             $userrole = $DB->get_record('role', array('shortname' => 'guest'));
-            if (!$DB->get_record('role_capabilities', array('contextid' => context_system::instance()->id, 'roleid' => $userrole->id, 'capability' => 'customlabeltype/'.$instance->labelclass.':view', 'permission' => CAP_ALLOW))) {
+            $params = array('contextid' => context_system::instance()->id,
+                            'roleid' => $userrole->id,
+                            'capability' => 'customlabeltype/'.$instance->labelclass.':view',
+                            'permission' => CAP_ALLOW);
+            if (!$DB->get_record('role_capabilities', $params)) {
                 // Set no chance to see anything from it.
-                // debug_trace("Fail CL {$instance->labelclass}:{$instance->id} on guest access ");
                 return false;
             }
         } else {
             if (!has_capability('customlabeltype/'.$instance->labelclass.':view', $context)) {
-                // debug_trace("Fail CL {$instance->labelclass}:{$instance->id} on access");
                 return false;
-            } else {
-                // debug_trace("Pass CL {$instance->labelclass}:{$instance->id} on access");
             }
         }
 
@@ -232,7 +233,7 @@ class customlabel_type {
         ";
         $results = $DB->get_records_sql_menu($sql);
         if ($results) {
-            foreach($results as $result) {
+            foreach ($results as $result) {
                 $output[] = $result;
             }
         }
@@ -249,6 +250,7 @@ class customlabel_type {
      *
      */
     public function preprocess_data() {
+        assert(1);
     }
 
     /**
@@ -258,6 +260,7 @@ class customlabel_type {
      * internal standard transforms have been processed such as final formatting.
      */
     public function postprocess_data($course = null) {
+        assert(1);
     }
 
     public function postprocess_icon() {
@@ -271,6 +274,7 @@ class customlabel_type {
      * need to revert orginal timestamp format for storage
      */
     public function posttemplate_data() {
+        assert(1);
     }
 
     public function get_content() {
@@ -280,7 +284,6 @@ class customlabel_type {
     /**
      * @param string $lang if set, will compile only content for this language. If not set and multilang filtering is on,
      * will compile as many versions of templates per installed language, pursuant proper template is available.
-     *
      */
     public function make_content($lang = '', $course = null) {
         global $PAGE;
@@ -305,8 +308,8 @@ class customlabel_type {
     }
 
     /**
-     * realizes the template (the standard way is to compile content fields 
-     * in a HTML template. 
+     * realizes the template (the standard way is to compile content fields
+     * in a HTML template.
      */
     public function make_template($lang = '') {
         global $CFG, $USER, $COURSE;
@@ -317,7 +320,9 @@ class customlabel_type {
         if (!empty($lang)) {
              $languages[] = $lang;
         } else {
-            if (strpos(@$CFG->textfilters, 'filter/multilang') !== false || strpos(@$CFG->textfilters, 'filter/multilangenhanced') !== false){ // We have multilang.
+            if (strpos(@$CFG->textfilters, 'filter/multilang') !== false ||
+                    strpos(@$CFG->textfilters, 'filter/multilangenhanced') !== false) {
+                // We have multilang.
                 $languages = array_keys(get_list_of_languages());
             } else {
                 $languages[] = current_language();
@@ -344,7 +349,8 @@ class customlabel_type {
                         if (file_exists($CFG->dirroot.'/filter/multilangenhanced/filter.php')) {
                             include_once($CFG->dirroot.'/filter/multilangenhanced/filter.php');
                             $filter = new filter_multilangenhanced($context, array());
-                            $formattedvalue = (preg_match('/option$/', $key) || preg_match('/^http?:\/\//', $value)) ? $value : $filter->filter($value) ;
+                            $cond = preg_match('/option$/', $key) || preg_match('/^http?:\/\//', $value);
+                            $formattedvalue = $cond ? $value : $filter->filter($value);
                         } else {
                             $formattedvalue = $value;
                         }
@@ -435,10 +441,12 @@ class customlabel_type {
         global $CFG;
         static $processed = false;
 
-        if ($processed) return;
+        if ($processed) {
+            return;
+        }
 
         // Assembles multiple list answers.
-        foreach($this->fields as $key => $field) {
+        foreach ($this->fields as $key => $field) {
 
             // Check string domain if inexistant.
             $domain = (empty($field->domain)) ? 'customlabel' : $field->domain;
@@ -470,7 +478,7 @@ class customlabel_type {
                                 }
                                 $this->data->{$name} = implode($sep, $valuearraystr);
                             } else if ($field->source == 'function') {
-                                if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)){
+                                if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)) {
                                     include_once($CFG->dirroot.$field->source);
                                 }
                                 $functionname = $field->function;
@@ -479,12 +487,14 @@ class customlabel_type {
                         }
                     } else {
                         if ($field->source == 'dbfieldkeyed') {
-                            // fake a one value array
+                            // Fake a one value array.
                             $this->data->{$name} = implode($sep, $this->get_datasource_values($field, array($valuearray)));
                         } else {
                             if (!empty($this->data->{$name})) {
                                 $key = ''.$this->data->{$name};
-                                if (preg_match('/^_/', $key)) continue;
+                                if (preg_match('/^_/', $key)) {
+                                    continue;
+                                }
                                 $this->data->{$name} = get_string($key, 'customlabel');
                             }
                         }
@@ -495,7 +505,9 @@ class customlabel_type {
                     if (empty($this->data->{$name})) {
                         continue;
                     }
-                    if (empty($this->data->{$nameoption})) $this->data->{$nameoption} =  $this->data->{$name};
+                    if (empty($this->data->{$nameoption})) {
+                        $this->data->{$nameoption} = $this->data->{$name};
+                    }
                     if ($field->source == 'dbfieldkeyed') {
                         $this->data->{$name} = $this->get_datasource_values($field, $this->data->{$nameoption});
                     } else if ($field->source == 'dbfieldkey') {
@@ -518,7 +530,7 @@ class customlabel_type {
         $processed = true;
     }
 
-    public function get_xml(){
+    public function get_xml() {
         $internaldata = json_decode(base64_decode($this->data->content));
         $xml = "<datablock>\n";
         $xml .= "\t<instance>\n";
@@ -548,14 +560,15 @@ class customlabel_type {
     }
 
     public function on_delete() {
+        assert(1);
     }
 
     /**
-    * New : get template from lang strings
-    * loads a template and caches it in static database for reuse
-    */
+     * New : get template from lang strings
+     * loads a template and caches it in static database for reuse
+     */
     public function get_template($lang) {
-        static $templates; // kind of caching
+        static $templates; // Kind of caching.
 
         $strm = get_string_manager();
 
@@ -567,15 +580,17 @@ class customlabel_type {
     }
 
     public function pre_update() {
+        assert(1);
     }
 
     public function post_update() {
+        assert(1);
     }
 
     /**
      * Process some local conditional statement in templates for making
      * simple decisions.
-     * this will admit simple tests such as <%if %%fieldname%% %> or 
+     * this will admit simple tests such as <%if %%fieldname%% %> or
      * simple comparison expressions surch as <%if %%fieldname >= 2%% %>
      * First expression member MUST be a fieldname defined in the customlabel type, followed
      * by a calculable expression.
@@ -593,10 +608,11 @@ class customlabel_type {
         $matches[4] = '';
         while (preg_match($search, $template, $matches)) {
             $buffer .= $matches[1]; // Prefix.
-            $test = $matches[2]; // Test variable or expression. this works with an expression that is <fieldname> <op> <value>, or a single <fieldname>
+            // Test variable or expression. this works with an expression that is <fieldname> <op> <value>, or a single <fieldname>.
+            $test = $matches[2];
             if ($test) {
                 $exp = "\$result = @\$this->data->$test ; ";
-                eval($exp);
+                $result = customlabel_eval($exp);
                 if ($result) {
                     $buffer .= $matches[3];
                 }
@@ -634,7 +650,7 @@ class customlabel_type {
         }
         $cm = get_coursemodule_from_instance('customlabel', $this->data->instance);
 
-        // Fault tolerance
+        // Fault tolerance.
         if (!$cm) {
             return false;
         }
@@ -665,11 +681,14 @@ class customlabel_type {
         if ($field->destination = 'link') {
             $classes = @$field->classes;
             $fieldlabel = get_string($field->name, 'customlabeltype_'.$this->type);
-            return '<a href="'.$fileurl.'" title="'.$fieldlabel.'" alt="'.$fieldlabel.'" '.$classes.' />'.$file->get_filename().'</a>';
+            $lin = '<a href="'.$fileurl.'"
+                       title="'.$fieldlabel.'"
+                       alt="'.$fieldlabel.'" '.$classes.' />'.$file->get_filename().'</a>';
+            return $link;
         }
     }
 
-    function get_data($field) {
+    public function get_data($field) {
         $internaldata = json_decode(base64_decode($this->data->content));
         if (!array_key_exists($field, $this->fields)) {
             return null;
@@ -677,7 +696,7 @@ class customlabel_type {
         return $internaldata->$field;
     }
 
-    function update_data($field, $value) {
+    public function update_data($field, $value) {
         global $DB;
 
         // Get storage.
@@ -695,7 +714,7 @@ class customlabel_type {
         $DB->update_record('customlabel', $this->data);
     }
 
-    function set_instance($instance) {
+    public function set_instance($instance) {
         $this->data->instance = $instance;
     }
 }
