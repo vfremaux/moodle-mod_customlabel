@@ -81,9 +81,9 @@ function applyconstraintsmenu(wwwroot, typestr, selector, targets) {
     }
     targetsarr = targets.split(',');
 
-    var selectedopts = new Array();
+    var selectedopts = [];
 
-    // get constraints in activated select
+    // Get constraints in activated select.
     i = 0;
     for (j = 0; j < selector.options.length; j++) {
         if (selector.options[j].selected) {

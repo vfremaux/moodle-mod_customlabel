@@ -1,7 +1,7 @@
 /**
  *
  */
-// jshint undef:false, unset:false, unused:false
+// jshint undef:false, unused:false
 
 function type_change_submit(advicetext, courseid, section, returntomod, sesskey, updatelabelid) {
     if (confirm(advicetext)) {
