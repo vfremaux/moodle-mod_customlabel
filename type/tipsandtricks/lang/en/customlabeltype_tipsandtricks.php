@@ -21,12 +21,11 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
 
 $string['tipsandtricks:view'] = 'Can view the content';
-$string['tipsandtricks:addinstance'] = 'Can add an indstance';
+$string['tipsandtricks:addinstance'] = 'Can add an instance';
 
-$string['pluginname'] = 'Course element : Tips and Tricks';
+$string['pluginname'] = 'Course element: Tips and Tricks';
 $string['typename'] = 'Tips and tricks';
 $string['configtypename'] = 'Enable subtype Tips and tricks';
 $string['tipsandtricks'] = 'Tips and Tricks';

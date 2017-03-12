@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype_heading.trait.php');
 
 class customlabel_type_unitheading extends customlabel_type {
 
     use customlabel_trait_heading;
 
-    function __construct($data) {
+    public function __construct($data) {
         global $CFG, $PAGE, $OUTPUT;
 
         parent::__construct($data);
@@ -73,7 +73,7 @@ class customlabel_type_unitheading extends customlabel_type {
      * Type information structure and application context dependant.
      * @param $data
      */
-    function postprocess_data($course = null) {
+    public function postprocess_data($course = null) {
 
         // Get virtual fields from course title.
         $storedimage = $this->get_file_url('image');

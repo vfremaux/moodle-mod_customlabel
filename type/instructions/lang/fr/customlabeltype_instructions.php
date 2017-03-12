@@ -17,19 +17,18 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
 
 $string['instructions:view'] = 'Peut voir le contenu';
 $string['instructions:addinstance'] = 'Peut ajouter une instance';
 
-$string['pluginname'] = 'Elément de cours : Instructions';
+$string['pluginname'] = 'Elément de cours&nbsp;: Instructions';
 $string['typename'] = 'Instructions';
 $string['configtypename'] = 'Active le type Instructions';
-$string['instructions'] = 'Texte de l\'instructions';
+$string['instructions'] = 'Texte de l\'instructions&nbsp;';
 
 $string['template'] = '
 <table class="custombox-instructions" cellspacing="0" width="100%">

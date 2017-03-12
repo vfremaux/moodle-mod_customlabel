@@ -17,19 +17,18 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
 
 $string['remind:view'] = 'Peut voir le rappel';
 $string['remind:addinstance'] = 'Peut ajouter une instance';
 
-$string['pluginname'] = 'Elément de cours : Rappel';
+$string['pluginname'] = 'Elément de cours&nbsp;: Rappel';
 $string['typename'] = 'Rappel';
 $string['configtypename'] = 'Active le type rappel';
-$string['remindtext'] = 'Texte du rappel';
+$string['remindtext'] = 'Texte du rappel&nbsp;';
 
 $string['template'] = '
 <table class="custombox-remind" cellspacing="0" width="100%">

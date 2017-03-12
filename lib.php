@@ -31,7 +31,7 @@ if (!isset($CFG->classification_type_table)) {
     set_config('course_metadata_course_key', 'courseid');
 }
 
-/**
+/*
  * make the name (printable in course summary) from real content of the label
  * @param string $customlabel
  * @param array $data an associative array containing the data
@@ -102,7 +102,7 @@ function customlabel_get_name($customlabel) {
 
     if (empty($name)) {
         // Arbitrary name.
-        $name = get_string('modulename','customlabel');
+        $name = get_string('modulename', 'customlabel');
     }
 
     return $name;
@@ -192,8 +192,8 @@ function customlabel_add_instance($customlabelrec) {
 }
 
 /**
- * Given an object containing all the necessary data, 
- * (defined by the form in mod.html) this function 
+ * Given an object containing all the necessary data,
+ * (defined by the form in mod.html) this function
  * will update an existing instance with new data.
  */
 function customlabel_update_instance($customlabelrec) {
@@ -339,12 +339,13 @@ function customlabel_get_participants($customlabelid) {
  * See get_array_of_activities() in course/lib.php
  */
 function customlabel_get_coursemodule_info($coursemodule) {
-    global $CFG, $DB, $COURSE;
+    global $CFG, $DB;
     static $instances = array();
 
     if (!in_array($coursemodule->instance, $instances)) {
-        if ($customlabel = $DB->get_record('customlabel', array('id' => $coursemodule->instance), 'id, labelclass, intro, title, name, content, processedcontent')) {
-    
+        $fields = 'id, labelclass, intro, title, name, content, processedcontent';
+        if ($customlabel = $DB->get_record('customlabel', array('id' => $coursemodule->instance), $fields)) {
+
             // Check label subtype is still installed.
             if (!is_dir($CFG->dirroot.'/mod/customlabel/type/'.$customlabel->labelclass)) {
                 return;
@@ -366,7 +367,7 @@ function customlabel_get_coursemodule_info($coursemodule) {
  * This function makes a last post process of the cminfo information
  * for module info caching in memory when course displays. Here we
  * can tweek some information to force cminfo behave like some label kind
- * @see : Page format use the pageitem.php strategy for dealing with the 
+ * @see : Page format use the pageitem.php strategy for dealing with the
  * content display rules.
  * @todo : reevaluate strategy. this may still be used for improving standard formats.
  */
@@ -389,8 +390,6 @@ function customlabel_cm_info_dynamic(&$cminfo) {
             return;
         }
     }
-
-    // debug_trace('standard view for CL '.$cminfo->id. '=> '.$cminfo->instance);
 
     // Apply role restriction here.
     if ($customlabel = $DB->get_record('customlabel', array('id' => $cminfo->instance))) {
@@ -425,9 +424,13 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         foreach ($instance->fields as $field) {
             if ($field->type == 'editor' || $field->type == 'textarea') {
                 if (!isset($field->itemid) || is_null($field->itemid)) {
-                    throw new coding_exception('Course element textarea subfield needs explicit itemid in definition '.$customlabel->labelclass.'::'.$field->name);
+                    $message = 'Course element textarea subfield needs explicit itemid in definition ';
+                    $message .= $customlabel->labelclass.'::'.$field->name;
+                    throw new coding_exception($message);
                 }
-                $fileprocessedcontent = customlabel_file_rewrite_pluginfile_urls($fileprocessedcontent, 'pluginfile.php', $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
+                $fileprocessedcontent = customlabel_file_rewrite_pluginfile_urls($fileprocessedcontent, 'pluginfile.php',
+                                                                                 $context->id, 'mod_customlabel', 'contentfiles',
+                                                                                 $field->itemid);
             }
         }
 
@@ -504,7 +507,7 @@ function customlabel_get_xml($clid) {
  * @param $cmid, an alternative to give directly the course module id
  */
 function customlabel_is_hidden_byrole(&$block, $cmid = 0) {
-    global $COURSE, $USER, $DB;
+    global $USER, $DB;
 
     // Some admin situation needs view all.
     if (has_capability('moodle/site:config', context_system::instance(), $USER->id, false)) {
@@ -538,7 +541,7 @@ function customlabel_is_hidden_byrole(&$block, $cmid = 0) {
  * @param array $options additional options affecting the file serving
  * @return bool false if file not found, does not return if found - just send the file
  */
-function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
     global $CFG, $DB;
 
     if ($context->contextlevel != CONTEXT_MODULE) {
@@ -562,7 +565,7 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
         require_course_login($course, true, $cm);
     }
 
-    $instance = customlabel_load_class($customlabel);
+    customlabel_load_class($customlabel);
 
     $fs = get_file_storage();
     $relativepath = implode('/', $args);

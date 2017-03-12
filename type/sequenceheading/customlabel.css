@@ -1,8 +1,8 @@
 
 div.custombox-sequenceheading h2.custombox-sequenceheader {
+   color: #E6C439;
    font-size: 20px;
    line-height:26px;
-   color: #E6C439
 }
 
 div.custombox-sequenceheading p {
@@ -11,14 +11,14 @@ div.custombox-sequenceheading p {
 }
 
 tr.custombox-icon.sequenceheading{
-    min-height:85px;
     height:85px;
+    min-height:85px;
 }
 
 .custombox-icon-left.sequenceheading{
+    background-size : 100% auto !important;
     min-width:80px;
     padding-right:20px;
-    background-size : 100% auto !important;
 }
 
 .custombox-icon-right.sequenceheading{
