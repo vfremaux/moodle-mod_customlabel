@@ -1,9 +1,9 @@
 .custombox-verticalspacer {
-    width:100%;
-    border:none;
     background:none;
+    border:none;
     display:table-cell;
     vertical-align:bottom;
+    width:100%;
 }
 
 .custombox-verticalspacer img {

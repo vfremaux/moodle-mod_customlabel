@@ -21,12 +21,11 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
 
 $string['keypoints:view'] = 'Can view the content';
 $string['keypoints:addinstance'] = 'Can add an indstance';
 
-$string['pluginname'] = 'Course element : Key Points';
+$string['pluginname'] = 'Course element: Key Points';
 $string['typename'] = 'Key points';
 $string['configtypename'] = 'Enable subtype Key points';
 $string['keypointnum'] = 'Item count';

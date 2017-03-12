@@ -21,6 +21,7 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/customlabel/forms/EditValueForm.php');
 
@@ -52,7 +53,7 @@ if ($action == 'edit') {
 
 if (!$mform->is_cancelled()) {
     if ($action) {
-        include 'metadatavalues.controller.php';
+        include('metadatavalues.controller.php');
     }
 }
 
@@ -125,10 +126,10 @@ if (!empty($values)) {
         } else {
             $cmds .= "&nbsp;&nbsp;&nbsp;";
         }
-        $lpshowclassifiedurl = new moodle_url('/local/admin/lpshowclassified.php', array('value' => $avalue->id, 'typeid' => $type));
-        $coursecount = ($avalue->courses) ?
-            '<a href="'.$lpshowclassifiedurl.'">'.$avalue->courses.' <img src="'.$OUTPUT->pix_url('/t/hide').'"></a>' :
-            0;
+        $params = array('value' => $avalue->id, 'typeid' => $type);
+        $lpshowclassifiedurl = new moodle_url('/local/admin/lpshowclassified.php', $params);
+        $img = '<img src="'.$OUTPUT->pix_url('/t/hide').'">';
+        $coursecount = ($avalue->courses) ? '<a href="'.$lpshowclassifiedurl.'">'.$avalue->courses.' '.$img.'</a>' : 0;
         $selcheck = '<input type="checkbox" name="items[]" value="'.$avalue->id.'" />';
         $table->data[] = array($selcheck, $avalue->code, format_string($avalue->value), $coursecount, $cmds);
         $i++;

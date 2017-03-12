@@ -1,32 +1,32 @@
 .custombox-courseclassifier {
-   width: 100%;
    border:1px solid #000000;
+   width: 100%;
 }
 
 .custombox-courseclassifier p {
-	padding-top:0px;
-	margin-top:0px;
+    margin-top:0;
+    padding-top:0;
 }
 
 .custombox-title.courseclassifier {
    background-color: #000000;
    color: #F2F2F2;
    font-size: 15px;
-   text-align: left;
    padding: 5px;
+   text-align: left;
 }
 
 .custombox-param.courseclassifier {
    background-color: #626262;
+   border:#ffffff 1px solid;
    color: #FFFFFF;
    font-weight: bold;
    padding: 5px;
-   border:#ffffff 1px solid;
 }
 
 .custombox-value.courseclassifier {
    background-color: #E1E1E1;
+   border:#ffffff 1px solid;
    color: #383736;
    padding: 5px;
-   border:#ffffff 1px solid;
 }

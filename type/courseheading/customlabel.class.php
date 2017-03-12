@@ -58,7 +58,7 @@ class customlabel_type_courseheading extends customlabel_type {
         $field->name = 'showcategory';
         $field->type = 'choiceyesno';
         $this->fields['showcategory'] = $field;
-        
+
         $field = new StdClass();
         $field->name = 'image';
         $field->type = 'filepicker';
@@ -69,7 +69,7 @@ class customlabel_type_courseheading extends customlabel_type {
                 // Give a context to the page if missing. f.e when invoking pluginfile.
                 $PAGE->set_context(context_system::instance());
             }
-            if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultcourseheading.png')){
+            if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultcourseheading.png')) {
                 $field->default = $OUTPUT->pix_url('defaultheading', 'customlabeltype_courseheading');
             } else {
                 $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultcourseheading.png';
@@ -105,7 +105,7 @@ class customlabel_type_courseheading extends customlabel_type {
 
     /**
      * If exists, this method can process local alternative values for
-     * realizing the template, after all standard translations have been performed. 
+     * realizing the template, after all standard translations have been performed.
      * Type information structure and application context dependant.
      */
     public function postprocess_data($course = null) {

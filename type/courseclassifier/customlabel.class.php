@@ -23,7 +23,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
  *
@@ -32,8 +32,8 @@ require_once ($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
 
 class customlabel_type_courseclassifier extends customlabel_type {
 
-    function __construct($data) {
-        global $CFG, $DB;
+    public function __construct($data) {
+        global $DB;
 
         parent::__construct($data);
         $this->type = 'courseclassifier';
@@ -130,8 +130,8 @@ class customlabel_type_courseclassifier extends customlabel_type {
 
     }
 
-    function on_delete() {
-        global $CFG, $DB, $COURSE;
+    public function on_delete() {
+        global $DB, $COURSE;
 
         $config = get_config('customlabel');
 
@@ -140,7 +140,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
         $DB->delete_records($config->course_metadata_table, array($config->course_metadata_course_key => $COURSE->id));
     }
 
-    function preprocess_data() {
+    public function preprocess_data() {
         global $DB;
 
         $config = get_config('customlabel');
@@ -167,8 +167,8 @@ class customlabel_type_courseclassifier extends customlabel_type {
      *
      *
      */
-    function postprocess_data($course = null) {
-        global $COURSE, $CFG, $DB;
+    public function postprocess_data($course = null) {
+        global $COURSE, $DB;
 
         if (!isset($this->data->coursemodule)) {
             // We are not really updating data.

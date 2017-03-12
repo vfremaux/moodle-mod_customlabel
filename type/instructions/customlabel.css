@@ -3,35 +3,35 @@ table.custombox-instructions {
 }
 
 td.custombox-header-thumb.instructions {
-   padding-right:8px;
    border-right:1px solid #f00000 !important;
+   padding-right:8px;
 }
 
 td.custombox-header-thumb.instructions {
-    min-width:25px;
-    width:25px;
     background-image: url("/mod/customlabel/type/instructions/pix/icon_instructions_small.png"); 
     background-repeat: no-repeat;
     height:73px;
+    min-width:25px;
+    width:25px;
 }
 
 #region-main td.custombox-header-thumb.instructions,
 #page-region-main td.custombox-header-thumb.instructions {
-    width:65px;
-    min-width:65px;
     background-image: url("/mod/customlabel/type/instructions/pix/icon_instructions.png"); 
     background-repeat: no-repeat;
     height:73px;
+    min-width:65px;
+    width:65px;
 }
 
 td.custombox-header-caption.instructions {
     color:#DB3333;
-    font-weight:bolder;
     font-size:1.3em;
+    font-weight:bolder;
     padding-left:8px;
 }
 
 td.custombox-content.instructions {
-    padding-left:8px;
     min-height:100Px;
+    padding-left:8px;
 }

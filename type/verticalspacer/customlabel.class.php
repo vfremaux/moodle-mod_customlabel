@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * @package mod_customlabel
  * @category mod
@@ -24,17 +22,18 @@ defined('MOODLE_INTERNAL') || die();
  *
  * A generic class for collecting all that is common to all elements
  */
+defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot."/mod/customlabel/type/customtype.class.php");
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
  * the vertical spacer allows making vertical blank gaps in a page, adjustable
  * so aligning vertically columns content.
  *
  */
-
 class customlabel_type_verticalspacer extends customlabel_type {
-    function __construct($data) {
+
+    public function __construct($data) {
         global $USER;
 
         parent::__construct($data);
@@ -48,11 +47,11 @@ class customlabel_type_verticalspacer extends customlabel_type {
         $this->fields['spacing'] = $field;
 
     }
-    
+
     /**
      * Prepares data for template
      */
-    function preprocess_data($course = null){
+    public function preprocess_data($course = null) {
         global $CFG, $OUTPUT, $COURSE, $PAGE;
 
         // Some kind of global static.

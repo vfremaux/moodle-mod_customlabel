@@ -24,6 +24,7 @@
  *
  * @see Acces from adminmetadata.php
  */
+defined('MOODLE_INTERNAL') || die;
 
 /************************************* Add ******************/
 if ($action == 'add') {
@@ -107,7 +108,7 @@ function classification_tree_updateordering($id, $type) {
 
     // Getting ordering value of the current node.
 
-    $res =  $DB->get_record($CFG->classification_value_table, array('id' => $id));
+    $res = $DB->get_record($CFG->classification_value_table, array('id' => $id));
     if (!$res) {
         // Fallback : we give the ordering.
         $res->sortorder = $id;
@@ -150,21 +151,23 @@ function classification_tree_up($id, $type) {
     global $CFG, $DB;
 
     $res = $DB->get_record($CFG->classification_value_table, array('id' => $id));
-    if (!$res) return;
+    if (!$res) {
+        return;
+    }
 
     if ($res->sortorder >= 1) {
         $newordering = $res->sortorder - 1;
 
         $query = "
-            SELECT 
+            SELECT
                 id
-            FROM 
+            FROM
                 {{$CFG->classification_value_table}}
-            WHERE 
+            WHERE
                 sortorder = $newordering AND
                 {$CFG->classification_value_type_key} = $type
         ";
-        $result =  $DB->get_record_sql($query);
+        $result = $DB->get_record_sql($query);
         $resid = $result->id;
 
         // Swapping.
@@ -186,7 +189,7 @@ function classification_tree_up($id, $type) {
 function classification_tree_down($id, $type) {
     global $CFG, $DB;
 
-    $res =  $DB->get_record($CFG->classification_value_table, array('id' => $id));
+    $res = $DB->get_record($CFG->classification_value_table, array('id' => $id));
 
     $query = "
         SELECT
