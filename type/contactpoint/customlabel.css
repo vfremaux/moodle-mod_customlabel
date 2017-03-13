@@ -3,164 +3,164 @@ table.custombox-contactpoint {
 }
 
 td.custombox-header-thumb.contactpoint {
-   border-right:1px solid #E0E0E0 !important;
-   padding-right:8px;
+   border-right: 1px solid #e0e0e0 !important;
+   padding-right: 8px;
 }
 
 td.custombox-header-thumb.any {
     background-image: url("/mod/customlabel/type/contactpoint/pix/icon_any_small.png"); 
     background-repeat: no-repeat;
-    height:73px;
-    min-width:25px;
-    width:25px;
+    height: 73px;
+    min-width: 25px;
+    width: 25px;
 }
 
 #region-main td.custombox-header-thumb.any,
 #page-region-main td.custombox-header-thumb.any {
     background-image: url("/mod/customlabel/type/contactpoint/pix/icon_any.png"); 
     background-repeat: no-repeat;
-    height:73px;
-    min-width:65px;
-    width:65px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-thumb.anywritten {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_anywritten_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_anywritten_small.png");
     background-repeat: no-repeat;
-    height:73px;
-    width:25px;
+    height: 73px;
+    width: 25px;
 }
 
 #region-main td.custombox-header-thumb.anywritten,
 #page-region-main td.custombox-header-thumb.anywritten {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_anywritten.jpg"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_anywritten.jpg");
     background-repeat: no-repeat;
-    height:73px;
-    min-width:65px;
-    width:65px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-thumb.phone {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_phone_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_phone_small.png");
     background-repeat: no-repeat;
-    height:73px;
-    width:25px;
+    height: 73px;
+    width: 25px;
 }
 
 #region-main td.custombox-header-thumb.phone,
 #page-region-main td.custombox-header-thumb.phone {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_phone.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_phone.png");
     background-repeat: no-repeat;
-    height:73px;
-    min-width:65px;
-    width:65px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-thumb.mail{
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_mail_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_mail_small.png");
     background-repeat: no-repeat;
-    height:73px;
-    width:25px;
+    height: 73px;
+    width: 25px;
 }
 
 #region-main td.custombox-header-thumb.mail,
 #page-region-main td.custombox-header-thumb.mail {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_mail.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_mail.png");
     background-repeat: no-repeat;
-    height:73px;
-    min-width:65px;
-    width:65px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-thumb.meeting {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_meeting_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_meeting_small.png");
     background-repeat: no-repeat;
-    height:73px;
-    width:25px;
+    height: 73px;
+    width: 25px;
 }
 
 #region-main td.custombox-header-thumb.meeting,
 #page-region-main td.custombox-header-thumb.meeting {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_meeting.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_meeting.png");
     background-repeat: no-repeat;
-    height:73px;
-    min-width:65px;
-    width:65px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-thumb.onlinevocal {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_onlinevocal_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_onlinevocal_small.png");
     background-repeat: no-repeat;
-    height:73px;
-    width:25px;
+    height: 73px;
+    width: 25px;
 }
 
 #region-main td.custombox-header-thumb.onlinevocal,
 #page-region-main td.custombox-header-thumb.onlinevocal {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_onlinevocal.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_onlinevocal.png");
     background-repeat: no-repeat;
-    height:73px;
-    min-width:65px;
-    width:65px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-thumb.chat {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_chat_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_chat_small.png");
     background-repeat: no-repeat;
-    height:73px;
-    width:25px;
+    height: 73px;
+    width: 25px;
 }
 
 #region-main td.custombox-header-thumb.chat,
 #page-region-main td.custombox-header-thumb.chat {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_chat.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_chat.png");
     background-repeat: no-repeat;
-    height:73px;
-    min-width:65px;
-    width:65px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-thumb.facetoface {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_facetoface_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_facetoface_small.png");
     background-repeat: no-repeat;
-    height:73px;
-    width:25px;
+    height: 73px;
+    width: 25px;
 }
 
 #region-main td.custombox-header-thumb.facetoface,
 #page-region-main td.custombox-header-thumb.facetoface {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_facetoface.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_facetoface.png");
     background-repeat: no-repeat;
-    height:73px;
-    min-width:65px;
-    width:65px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-caption.contactpoint {
-    color:#B7B7B7;
-    font-size:1.3em;
-    font-weight:bolder;
-    padding-left:8px;
+    color: #b8b8b8;
+    font-size: 1.3em;
+    font-weight: bolder;
+    padding-left: 8px;
 }
 
 span.custombox-header-caption.contacttype {
-    color:#BDBDDD;
-    font-size:0.8em;
-    font-weight:bolder;
-    padding-left:8px;
-    text-align:right;
+    color: #bdbddd;
+    font-size: 0.8em;
+    font-weight: bolder;
+    padding-left: 8px;
+    text-align: right;
 }
 
 td.custombox-content.contactpoint {
-    min-height:100px;
-    padding-left:8px;
+    min-height: 100px;
+    padding-left: 8px;
 }
 
 td.custombox-content.contactpoint h1,
 td.custombox-content.contactpoint h2,
 td.custombox-content.contactpoint h3{
-    background-image:none;
-    color:#575757;
-    font-weight:bolder;
-    padding-left:0;
+    background-image: none;
+    color: #585858;
+    font-weight: bolder;
+    padding-left: 0;
 }
