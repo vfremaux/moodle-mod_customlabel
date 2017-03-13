@@ -3,36 +3,36 @@ table.custombox-remind {
 }
 
 td.custombox-header-thumb.remind {
-   border-right:1px solid #f00000 !important;
-   padding-right:8px;
+   border-right: 1px solid #f00000 !important;
+   padding-right: 8px;
 }
 
 td.custombox-header-thumb.remind {
-    background-image: url("/mod/customlabel/type/remind/pix/icon_remind_small.png"); 
+    background-image: url("/mod/customlabel/type/remind/pix/icon_remind_small.png");
     background-repeat: no-repeat;
-    height:73px;
-    min-width:25px;
-    width:25px;
+    height: 73px;
+    min-width: 25px;
+    width: 25px;
 }
 
 #region-main td.custombox-header-thumb.remind,
 #page-region-main td.custombox-header-thumb.remind {
-    background-image: url("/mod/customlabel/type/remind/pix/icon_remind.png"); 
+    background-image: url("/mod/customlabel/type/remind/pix/icon_remind.png");
     background-repeat: no-repeat;
-    height:73px;
-    min-width:65px;
-    width:65px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-caption.remind {
-    color:#DB3333;
-    font-size:1.3em;
-    font-weight:bolder;
-    padding-left:8px;
+    color: #d83030;
+    font-size: 1.3em;
+    font-weight: bolder;
+    padding-left: 8px;
 }
 
 td.custombox-content.remindtext {
-    min-height:100px;
-    padding-left:8px;
+    min-height: 100px;
+    padding-left: 8px;
 }
 
