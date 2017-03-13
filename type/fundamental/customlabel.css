@@ -3,35 +3,35 @@ table.custombox-fundamental {
 }
 
 td.custombox-header-thumb.fundamental {
-   border-right:1px solid #f00000 !important;
-   padding-right:8px;
+   border-right: 1px solid #f00000 !important;
+   padding-right: 8px;
 }
 
 td.custombox-header-thumb.fundamental {
-    background-image: url("/mod/customlabel/type/fundamental/pix/icon_fundamental_small.png"); 
+    background-image: url("/mod/customlabel/type/fundamental/pix/icon_fundamental_small.png");
     background-repeat: no-repeat;
-    height:73px;
-    min-width:25px;
-    width:25px;
+    height: 73px;
+    min-width: 25px;
+    width: 25px;
 }
 
 #region-main td.custombox-header-thumb.fundamental,
 #page-region-main td.custombox-header-thumb.fundamental {
-    background-image: url("/mod/customlabel/type/fundamental/pix/icon_fundamental.png"); 
+    background-image: url("/mod/customlabel/type/fundamental/pix/icon_fundamental.png");
     background-repeat: no-repeat;
-    height:73px;
-    min-width:65px;
-    width:65px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-caption.fundamental {
-    color:#DB3333;
-    font-size:1.3em;
-    font-weight:bolder;
-    padding-left:8px;
+    color: #d83030;
+    font-size: 1.3em;
+    font-weight: bolder;
+    padding-left: 8px;
 }
 
 td.custombox-content.fundamentaltext {
-    min-height:100Px;
-    padding-left:8px;
+    min-height: 100px;
+    padding-left: 8px;
 }
