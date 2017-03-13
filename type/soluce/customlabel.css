@@ -3,45 +3,45 @@ table.custombox-soluce {
 }
 
 .custombox-header-thumb.soluce {
-    padding-right:8px;
-    border-right:1px solid #76F451 !important;
+    border-right: 1px solid #76f451 !important;
+    padding-right: 8px;
 }
 
 .custombox-header-thumb.soluce {
-    min-width:25px;
-    width:25px;
-    background-image: url("/mod/customlabel/type/soluce/pix/icon_solution_small.png"); 
+    background-image: url("/mod/customlabel/type/soluce/pix/icon_solution_small.png");
     background-repeat: no-repeat;
-    height:73px;
+    height: 73px;
+    min-width: 25px;
+    width: 25px;
 }
 
 #region-main .custombox-header-thumb.soluce,
 #page-region-main .custombox-header-thumb.soluce {
-    width:65px;
-    min-width:65px;
-    background-image: url("/mod/customlabel/type/soluce/pix/icon_solution.png"); 
+    background-image: url("/mod/customlabel/type/soluce/pix/icon_solution.png");
     background-repeat: no-repeat;
-    height:73px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-caption.soluce {
-    color:#1EB31A;
-    font-weight:bolder;
-    font-size:1.3em;
-    padding-left:8px;
+    color: #1eb31a;
+    font-size: 1.3em;
+    font-weight: bolder;
+    padding-left: 8px;
 }
 
 td.custombox-content.soluce {
-    padding-left:8px;
-    min-height:100Px;
+    min-height: 100px;
+    padding-left: 8px;
 }
 
 td.custombox-content.soluce h1,
 td.custombox-content.soluce h2,
 td.custombox-content.soluce h3{
-    background-image:none !important;
-    padding-left:0px !important;
-    color:#2D6A17 !important;
-    font-weight:bolder !important;
+    background-image: none !important;
+    color: #2d6a17 !important;
+    font-weight: bolder !important;
+    padding-left: 0 !important;
 }
 
