@@ -23,16 +23,16 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once ($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
-*
-*
-*/
+ *
+ *
+ */
 
 class customlabel_type_text extends customlabel_type {
 
-    function __construct($data) {
+    public function __construct($data) {
         parent::__construct($data);
         $this->type = 'text';
         $this->fields = array();
@@ -60,7 +60,7 @@ class customlabel_type_text extends customlabel_type {
         $this->fields['initiallyvisible'] = $field;
     }
 
-    function preprocess_data() {
+    public function preprocess_data() {
         global $CFG;
 
         $customid = @$CFG->custom_unique_id + 1;
@@ -73,4 +73,3 @@ class customlabel_type_text extends customlabel_type {
         set_config('custom_unique_id', $customid);
     }
 }
- 

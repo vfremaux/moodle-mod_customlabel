@@ -17,7 +17,7 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 $string['worktodo:view'] = 'Can view the content';
 $string['worktodo:addinstance'] = 'Can add an indstance';
 
-$string['pluginname'] = 'Course element : Work to Do';
+$string['pluginname'] = 'Course element: Work to Do';
 $string['typename'] = 'Work to do';
 $string['configtypename'] = 'Enable subtype Work to do';
 $string['worktodo'] = 'Work to Do';
@@ -39,7 +39,7 @@ $string['unassigned'] = '--- unassigned ---';
 
 $string['family'] = 'pedagogic';
 
-// Qualifier values
+// Qualifier values.
 
 $string['NQ'] = 'Unqualified';
 

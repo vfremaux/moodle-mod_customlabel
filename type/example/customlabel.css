@@ -3,45 +3,44 @@ table.custombox-example {
 }
 
 .custombox-header-thumb.example {
-   width:65px;
-   padding-right:8px;
-   border-right:1px solid #DBE41B !important;
+   border-right: 1px solid #d8e018 !important;
+   padding-right: 8px;
+   width: 65px;
 }
 
 td.custombox-header-thumb.example {
-    min-width:25px;
-    width:25px;
-    background-image: url("/mod/customlabel/type/example/pix/icon_example_small.png"); 
+    background-image: url("/mod/customlabel/type/example/pix/icon_example_small.png");
     background-repeat: no-repeat;
-    height:73px;
+    height: 73px;
+    min-width: 25px;
+    width: 25px;
 }
 
 #region-main td.custombox-header-thumb.example,
 #page-region-main td.custombox-header-thumb.example {
-    width:65px;
-    min-width:65px;
-    background-image: url("/mod/customlabel/type/example/pix/icon_example.png"); 
+    background-image: url("/mod/customlabel/type/example/pix/icon_example.png");
     background-repeat: no-repeat;
-    height:73px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-caption.example {
-    color:#8C919B;
-    font-weight:bolder;
-    font-size:1.3em;
-    padding-left:8px;
+    color: #808080;
+    font-size: 1.3em;
+    font-weight: bolder;
+    padding-left: 8px;
 }
 
 td.custombox-content.example {
-    padding-left:8px;
-    min-height:100px;
+    min-height: 100px;
+    padding-left: 8px;
 }
 
 td.custombox-content.example h1,
 td.custombox-content.example h2,
 td.custombox-content.example h3{
-    background-image:none !important;
-    padding-left:0px !important;
-    color:#465879 !important;
-    font-weight:bolder !important;
+    background-image: none !important;
+    font-weight: bolder !important;
+    padding-left: 0 !important;
 }

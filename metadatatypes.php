@@ -72,7 +72,7 @@ $table->head = array("<b>$strname</b>",
                      "<b>$strcommands</b>");
 $table->size = array('20%', '5%', '10%', '50%', '5%', '10%');
 $table->align = array('left', 'center', 'center', 'center', 'right');
-$table->width = '95%'; 
+$table->width = '95%';
 echo $OUTPUT->box_start();
 $count = count($types);
 $i = 0;
@@ -128,9 +128,8 @@ if ($types) {
         }
         $link = "<a href=\"{$url}?view=qualifiers&typeid={$atype->id}\">{$atype->name}</a> ";
         $counturl = new moodle_url('/mod/customlabel/showclassified.php', array('typeid' => $atype->id));
-        $coursecount = ($atype->courses) ?
-            '<a href="'.$counturl.'">'.$atype->courses.' <img src="'.$OUTPUT->pix_url('/t/hide').'"></a>' :
-            0;
+        $img = '<img src="'.$OUTPUT->pix_url('/t/hide').'">';
+        $coursecount = ($atype->courses) ? '<a href="'.$counturl.'">'.$atype->courses.' '.$img.'</a>' : 0;
         $typestr = get_string($atype->type, 'customlabel');
         $table->data[] = array($link, $typestr, $atype->code, format_string($atype->description), $coursecount, $cmds);
         $i++;
