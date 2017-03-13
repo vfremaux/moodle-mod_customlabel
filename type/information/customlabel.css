@@ -3,35 +3,35 @@ table.custombox-information {
 }
 
 td.custombox-header-thumb.information {
-   padding-right:8px;
-   border-right:1px solid #f00000 !important;
+   border-right: 1px solid #f00000 !important;
+   padding-right: 8px;
 }
 
 td.custombox-header-thumb.information {
-    min-width:25px;
-    width:25px;
-    background-image: url("/mod/customlabel/type/information/pix/icon_information_small.png"); 
+    background-image: url("/mod/customlabel/type/information/pix/icon_information_small.png");
     background-repeat: no-repeat;
-    height:73px;
+    height: 73px;
+    min-width: 25px;
+    width: 25px;
 }
 
 #region-main td.custombox-header-thumb.information,
 #page-region-main td.custombox-header-thumb.information {
-    width:65px;
-    min-width:65px;
-    background-image: url("/mod/customlabel/type/information/pix/icon_information.png"); 
+    background-image: url("/mod/customlabel/type/information/pix/icon_information.png");
     background-repeat: no-repeat;
-    height:73px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-caption.information {
-    color:#DB3333;
-    font-weight:bolder;
-    font-size:1.3em;
-    padding-left:8px;
+    color:#d83030;
+    font-size: 1.3em;
+    font-weight: bolder;
+    padding-left: 8px;
 }
 
 td.custombox-content.informationtext {
-    padding-left:8px;
-    min-height:100Px;
+    min-height: 100px;
+    padding-left: 8px;
 }

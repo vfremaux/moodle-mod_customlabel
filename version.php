@@ -41,5 +41,4 @@ $plugin->prolocations = array(
     'type/genericgoals',
     'type/processgoals',
     'type/processpractices',
-    'type/localgoals',
 );

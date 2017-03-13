@@ -21,15 +21,14 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
 
 $string['method:view'] = 'Peut voir le contenu';
 $string['method:addinstance'] = 'Peut ajouter une instance';
 
-$string['pluginname'] = 'Elément de cours : Méthode';
+$string['pluginname'] = 'Elément de cours&nbsp;: Méthode';
 $string['typename'] = 'Méthode';
 $string['configtypename'] = 'Active le type Méthode';
-$string['methodtext'] = 'Description de la méthode';
+$string['methodtext'] = 'Description de la méthode&nbsp;';
 
 $string['template'] = '
 <table class="custombox-method" cellspacing="0" width="100%">

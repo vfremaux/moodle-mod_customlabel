@@ -1,26 +1,25 @@
 .custombox-commentbox {
-    border: 1px dashed #D0D0D0;
-    background-color: #F8F8F8;
-    color:#B0B0B0;
+    background-color: #f8f8f8;
+    border-radius: 6px;
+    border: 1px dashed #d0d0d0;
+    color: #b0b0b0;
+    margin-left: 100px;
     padding: 10px;
-    border-radius:6px;
-    margin-left:100px;
 }
 
 .custombox-commentbox ul {
-    margin-left:10px;
+    margin-left: 10px;
 }
 
 #region-post .custombox-commentbox,
 #page-region-post .custombox-commentbox {
-    margin-left:10px;
+    margin-left: 10px;
 }
 
 
 .custombox-commentbox > p{
-    /* display:inline; */
 }
 
 .custombox-commentbox.readmorelink {
-    text-align : right;
+    text-align: right;
 }

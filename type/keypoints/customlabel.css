@@ -3,39 +3,39 @@ table.custombox-keypoints {
 }
 
 td.custombox-header-thumb.keypoints {
-   padding-right:8px;
    border-right:1px solid #F88A1D !important;
+   padding-right:8px;
 }
 
 td.custombox-header-thumb.keypoints {
-    width:25px;
-    min-width:25px;
     background-image: url("/mod/customlabel/type/keypoints/pix/icon_reminder_small.png"); 
     background-repeat: no-repeat;
     height:73px;
+    min-width:25px;
+    width:25px;
 }
 
 #region-main td.custombox-header-thumb.keypoints,
 #page-region-main td.custombox-header-thumb.keypoints {
-    width:65px;
-    min-width:65px;
-    background-image: url("/mod/customlabel/type/keypoints/pix/icon_reminder.png"); 
+    background-image: url("/mod/customlabel/type/keypoints/pix/icon_reminder.png");
     background-repeat: no-repeat;
     height:73px;
+    min-width:65px;
+    width:65px;
 }
 
 td.custombox-header-caption.keypoints {
     color:#F88A1D;
-    font-weight:bolder;
     font-size:1.3em;
+    font-weight:bolder;
     padding-left:8px;
 }
 
 td.custombox-content.keypoints {
-    padding-left:8px;
     min-height:100Px;
+    padding-left:8px;
 }
 
-td.custombox-content.keypoints ul{
+td.custombox-content.keypoints ul {
     list-style-position: outside;
 }

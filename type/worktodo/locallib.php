@@ -17,7 +17,7 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
  * Get the course modules that can be linked as work to do
  */
 function customlabel_get_candidate_modules() {
-    global $COURSE, $DB, $CFG;
+    global $COURSE, $CFG;
 
     if (!empty($CFG->upgraderunning)) {
         return;
@@ -37,12 +37,16 @@ function customlabel_get_candidate_modules() {
     $modules = array('0' => get_string('unassigned', 'customlabeltype_worktodo'));
 
     foreach ($modinfo->get_cms() as $cminfo) {
-        if (!$cminfo->visible) continue;
-        if (preg_match('/label$/', $cminfo->modname)) continue;
+        if (!$cminfo->visible) {
+            continue;
+        }
+        if (preg_match('/label$/', $cminfo->modname)) {
+            continue;
+        }
         include_once($CFG->dirroot.'/mod/'.$cminfo->modname.'/lib.php');
         $supportf = $cminfo->modname.'_supports';
         if (!$supportf(FEATURE_GRADE_HAS_GRADE) && !$supportf(FEATURE_GRADE_OUTCOMES)) {
-            // Module seems it is not gradable so not a worktodo module
+            // Module seems it is not gradable so not a worktodo module.
             continue;
         }
         $modules[$cminfo->module] = $cminfo->name;
