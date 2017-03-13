@@ -3,65 +3,65 @@ table.custombox-theorema {
 }
 
 td.custombox-header-thumb.theorema {
-    border-right:1px solid #f00000 !important;
-    padding-right:8px;
+    border-right: 1px solid #f00000 !important;
+    padding-right: 8px;
 }
 
 td.custombox-header-thumb.theorema {
     background-image: url("/mod/customlabel/type/theorema/pix/icon_theorema_small.png"); 
     background-repeat: no-repeat;
-    height:73px;
-    min-width:25px;
-    width:25px;
+    height: 73px;
+    min-width: 25px;
+    width: 25px;
 }
 
 #region-main td.custombox-header-thumb.theorema,
 #page-region-main td.custombox-header-thumb.theorema {
     background-image: url("/mod/customlabel/type/theorema/pix/icon_theorema.png"); 
     background-repeat: no-repeat;
-    height:73px;
-    min-width:65px;
-    width:65px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-caption.theorema {
-    color:#DB3333;
-    font-size:1.3em;
-    font-weight:bolder;
-    padding-left:8px;
+    color: #d83030;
+    font-size: 1.3em;
+    font-weight: bolder;
+    padding-left: 8px;
 }
 
 td.custombox-content.theorema {
-    min-height:100Px;
-    padding-left:8px;
+    min-height: 100px;
+    padding-left: 8px;
 }
 
 div.custombox-demonstration-caption.theorema{
-    font-size : 1.1em;
-    padding-bottom:5px;
-    padding-left:8px;
-    padding-top:10px;
+    font-size: 1.1em;
+    padding-bottom: 5px;
+    padding-left: 8px;
+    padding-top: 10px;
 }
 
 div.custombox-demonstration.theorema{
-    background-color:#F0F0F0;
-    border-radius:4px;
-    border:1px solid #d0d0d0;
-    margin-left:4px;
-    min-height:100Px;
-    padding:4px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    border: 1px solid #d0d0d0;
+    margin-left: 4px;
+    min-height: 100px;
+    padding: 4px;
 }
 
 
 td.custombox-content.theorema h1,
 td.custombox-content.theorema h2,
 td.custombox-content.theorema h3{
-    background-image:none !important;
-    color:#8B8B8B !important;
-    font-weight:bolder !important;
-    padding-left:0px !important;
+    background-image: none !important;
+    color: #888888 !important;
+    font-weight: bolder !important;
+    padding-left: 0 !important;
 }
 
 td.custombox-subdefinitions.theorema {
-    padding-left:50px;
+    padding-left: 50px;
 }
