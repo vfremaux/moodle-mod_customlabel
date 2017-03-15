@@ -23,7 +23,6 @@
  * A generic class for collecting all that is common to all elements
  */
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot.'/mod/customlabel/extra/lib.php');
 
 class customlabel_type {
 
@@ -328,6 +327,7 @@ class customlabel_type {
                 $languages[] = current_language();
             }
         }
+
         $content = '';
         foreach ($languages as $lang) {
             $template = $this->get_template($lang);
@@ -611,9 +611,7 @@ class customlabel_type {
             // Test variable or expression. this works with an expression that is <fieldname> <op> <value>, or a single <fieldname>.
             $test = $matches[2];
             if ($test) {
-                $exp = "\$result = @\$this->data->$test ; ";
-                $result = customlabel_eval($exp);
-                if ($result) {
+                if ($this->data->$test) {
                     $buffer .= $matches[3];
                 }
             }
