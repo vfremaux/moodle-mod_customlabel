@@ -92,7 +92,7 @@ function customlabel_set_instance(&$block) {
     $filtermanager = filter_manager::instance();
     $filtermanager->setup_page_for_filters($PAGE, $context); // Setup global stuff filters may have.
     $filteroptions = array(
-        'noclean' => $options['noclean'],
+        'noclean' => false,
     );
     $skipfilters = array('multilang', 'multilangenhanced');
     $block->content->text = $filtermanager->filter_text($fileprocessedcontent, $context, $filteroptions, $skipfilters);
