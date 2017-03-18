@@ -34,23 +34,23 @@ $what = optional_param('what', '', PARAM_ALPHA);     // What to be seen.
 
 if ($id) {
     if (! $cm = get_coursemodule_from_id('customlabel', $id)) {
-        print_error ('invalidcoursemodule');
+        print_error('invalidcoursemodule');
     }
     if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
-        print_error ('coursemisconf');
+        print_error('coursemisconf');
     }
     if (! $customlabel = $DB->get_record('customlabel', array('id' => $cm->instance))) {
-        print_error ('invalidcoursemodule');
+        print_error('invalidcoursemodule');
     }
 } else {
     if (! $customlabel = $DB->get_record('customlabel', array('id' => $l))) {
-        print_error ('invalidcoursemodule');
+        print_error('invalidcoursemodule');
     }
     if (! $course = $DB->get_record('course', array('id' => $customlabel->course))) {
-        print_error ('coursemisconf');
+        print_error('coursemisconf');
     }
     if (! $cm = get_coursemodule_from_instance("customlabel", $customlabel->id, $course->id)) {
-        print_error ('invalidcoursemodule');
+        print_error('invalidcoursemodule');
     }
 }
 
