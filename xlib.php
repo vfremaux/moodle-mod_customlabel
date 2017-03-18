@@ -17,7 +17,14 @@
 /**
  * xlib.php is a cross-components library for functions that are required
  * from elsewhere in Moodle and not part of the standard Core API
+ *
+ * @package    mod_customlabel
+ * @category   mod
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  */
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * this function for use in theme_xxx_process_css() function in coordination with a

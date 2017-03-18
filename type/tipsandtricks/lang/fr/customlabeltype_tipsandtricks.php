@@ -29,7 +29,7 @@ $string['tipsandtricks:addinstance'] = 'Peut ajouter une instance';
 $string['pluginname'] = 'Elément de cours : Trucs et astuces';
 $string['typename'] = 'Trucs et astuces';
 $string['configtypename'] = 'Active le type Trucs et astuces';
-$string['tipsandtricks'] = 'Trucs et astuces';
+$string['tipsandtricks'] = 'Trucs et astuces&nbsp;';
 
 $string['template'] = '
 <table class="custombox-tipsandtricks" cellspacing="0" width="100%">

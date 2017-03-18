@@ -21,32 +21,31 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
 
 $string['keypoints:view'] = 'Peut voir le contenu';
 $string['keypoints:addinstance'] = 'Peut ajouter une instance';
 
-$string['pluginname'] = 'Elément de cours : A retenir';
+$string['pluginname'] = 'Elément de cours&nbsp;: A retenir';
 $string['typename'] = 'A retenir';
 $string['configtypename'] = 'Enable subtype Key points';
-$string['keypoints'] = 'Rubrique \"A retenir\"';
-$string['keypointnum'] = 'Nombre de points';
-$string['keypointitem0'] = 'Point 1';
-$string['keypointitem1'] = 'Point 2';
-$string['keypointitem2'] = 'Point 3';
-$string['keypointitem3'] = 'Point 4';
-$string['keypointitem4'] = 'Point 5';
-$string['keypointitem5'] = 'Point 6';
-$string['keypointitem6'] = 'Point 7';
-$string['keypointitem7'] = 'Point 8';
-$string['keypointitem8'] = 'Point 9';
-$string['keypointitem9'] = 'Point 10';
-$string['keypointitem10'] = 'Point 11';
-$string['keypointitem11'] = 'Point 12';
-$string['keypointitem12'] = 'Point 13';
-$string['keypointitem13'] = 'Point 14';
-$string['keypointitem14'] = 'Point 15';
-$string['keypointitem15'] = 'Point 16';
+$string['keypoints'] = 'Rubrique \"A retenir\"&nbsp;';
+$string['keypointnum'] = 'Nombre de points&nbsp;';
+$string['keypointitem0'] = 'Point 1&nbsp;';
+$string['keypointitem1'] = 'Point 2&nbsp;';
+$string['keypointitem2'] = 'Point 3&nbsp;';
+$string['keypointitem3'] = 'Point 4&nbsp;';
+$string['keypointitem4'] = 'Point 5&nbsp;';
+$string['keypointitem5'] = 'Point 6&nbsp;';
+$string['keypointitem6'] = 'Point 7&nbsp;';
+$string['keypointitem7'] = 'Point 8&nbsp;';
+$string['keypointitem8'] = 'Point 9&nbsp;';
+$string['keypointitem9'] = 'Point 10&nbsp;';
+$string['keypointitem10'] = 'Point 11&nbsp;';
+$string['keypointitem11'] = 'Point 12&nbsp;';
+$string['keypointitem12'] = 'Point 13&nbsp;';
+$string['keypointitem13'] = 'Point 14&nbsp;';
+$string['keypointitem14'] = 'Point 15&nbsp;';
+$string['keypointitem15'] = 'Point 16&nbsp;';
 
 $string['template'] = '
 <table class="custombox-keypoints" cellspacing="0" width="100%">

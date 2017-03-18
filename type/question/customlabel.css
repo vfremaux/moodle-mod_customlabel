@@ -3,58 +3,58 @@ table.custombox-question {
 }
 
 td.custombox-header-thumb.question {
-   padding-right:8px;
-   border-right:1px solid #f00000 !important;
+   border-right: 1px solid #f00000 !important;
+   padding-right: 8px;
 }
 
 td.custombox-header-thumb.question {
-    min-width:25px;
-    width:25px;
-    background-image: url("/mod/customlabel/type/question/pix/icon_question_small.png"); 
+    background-image: url("/mod/customlabel/type/question/pix/icon_question_small.png");
     background-repeat: no-repeat;
-    height:73px;
+    height: 73px;
+    min-width: 25px;
+    width: 25px;
 }
 
 #region-main td.custombox-header-thumb.question,
 #page-region-main td.custombox-header-thumb.question {
-    width:65px;
-    min-width:65px;
-    background-image: url("/mod/customlabel/type/question/pix/icon_question.png"); 
+    background-image: url("/mod/customlabel/type/question/pix/icon_question.png");
     background-repeat: no-repeat;
-    height:73px;
+    height: 73px;
+    min-width: 65px;
+    width: 65px;
 }
 
 td.custombox-header-caption.question {
-    color:#DB3333;
-    font-weight:bolder;
-    font-size:1.3em;
-    padding-left:8px;
+    color: #d83030;
+    font-size: 1.3em;
+    font-weight: bolder;
+    padding-left: 8px;
 }
 
 td.custombox-content.questiontext {
-    padding:8px 10px;
-    min-height:100px;
-    color:#A00000;
-    font-size:1.3em;
+    color: #a00000;
+    font-size: 1.3em;
+    min-height: 100px;
+    padding: 8px 10px;
 }
 
 td.custombox-header-collapser.question {
+    font-weight: bold;
     padding: 3px 10px;
-    font-weight:bold;
 }
 
 td.custombox-content.hint {
-    padding:10px 20px;
-    min-height:100px;
-    color:#0000A0;
-    background-color:#d0d0ff;
+    background-color: #d0d0ff;
+    color: #0000a0;
     font-size:1.1em;
+    min-height: 100px;
+    padding: 10px 20px;
 }
 
 td.custombox-content.answertext {
-    padding:10px 20px;
-    min-height:100px;
-    color:#00A000;
-    background-color:#d0ffd0;
-    font-size:1.1em;
+    background-color: #d0ffd0;
+    color: #00a000;
+    font-size: 1.1em;
+    min-height: 100px;
+    padding: 10px 20px;
 }
