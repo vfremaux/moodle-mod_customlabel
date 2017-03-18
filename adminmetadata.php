@@ -59,8 +59,9 @@ $rows = array(
     'classificationmodel' => 'model'
 );
 
-foreach ($rows as $rowIndex => $rowValue) {
-    $row[] = new tabobject($rowValue, $CFG->wwwroot."/mod/customlabel/adminmetadata.php?view=".$rowValue, get_string($rowIndex, 'customlabel'));
+foreach ($rows as $rowindex => $rowvalue) {
+    $taburl = new moodle_url('/mod/customlabel/adminmetadata.php', array('view' => $rowvalue));
+    $row[] = new tabobject($rowvalue, $taburl, get_string($rowindex, 'customlabel'));
 }
 $tabrows[] = $row;
 $deferredheader .= print_tabs($tabrows, $view, '', '', true);

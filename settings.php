@@ -22,69 +22,96 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
-$label = get_string('regeneration', 'customlabel');
-$settingurl = new moodle_url('/mod/customlabel/admin_updateall.php');
-$desc = '<a href="'.$settingurl.'">'.get_string('regenerate', 'customlabel').'</a>';
-$settings->add(new admin_setting_heading('regeneration', $label, $desc));
+require_once($CFG->dirroot . '/mod/customlabel/adminlib.php');
 
-$label = get_string('classification', 'customlabel');
-$settingurl = new moodle_url('/mod/customlabel/adminmetadata.php');
-$desc = '<a href="'.$settingurl.'">'.get_string('classification', 'customlabel').'</a>';
-$settings->add(new admin_setting_heading('classification', $label, $desc));
+$ADMIN->add('modsettings', new admin_category('modcustomlabelfolder', new lang_string('pluginname', 'customlabel'), $module->is_enabled() === false));
 
-$settings->add(new admin_setting_heading('apparence', get_string('apparence', 'customlabel'), ''));
+$settings = new admin_settingpage($section, get_string('settings', 'customlabel'), 'moodle/site:config', $module->is_enabled() === false);
 
-$key = 'customlabel/cssoverrides';
-$label = get_string('cssoverrides', 'customlabel');
-$desc = get_string('cssoverridesdesc', 'customlabel');
-$settings->add(new admin_setting_configtextarea($key, $label, $desc, '', PARAM_RAW, 80, 10));
+if ($ADMIN->fulltree) {
+    $menu = array();
+    foreach (core_component::get_plugin_list('customlabeltype') as $type => $notused) {
+        $visible = !get_config('customlabeltype_' . $type, 'disabled');
+        if ($visible) {
+            $menu['customlabeltype_' . $type] = new lang_string('pluginname', 'customlabeltype_' . $type);
+        }
+    }
 
-$key = 'customlabel/disabled';
-$label = get_string('disabledsubtypes', 'customlabel');
-$desc = get_string('disabledsubtypesdesc', 'customlabel');
-$settings->add(new admin_setting_configtextarea($key, $label, $desc, '', PARAM_RAW, 80, 10));
+    $label = get_string('regeneration', 'customlabel');
+    $settingurl = new moodle_url('/mod/customlabel/admin_updateall.php');
+    $desc = '<a href="'.$settingurl.'">'.get_string('regenerate', 'customlabel').'</a>';
+    $settings->add(new admin_setting_heading('regeneration', $label, $desc));
 
-/*
- * This is a similar metadata binding schema that used in the local_courseindex component in order to provide 
- * a loose dependancy link between both components
- */
+    $label = get_string('classification', 'customlabel');
+    $settingurl = new moodle_url('/mod/customlabel/adminmetadata.php');
+    $desc = '<a href="'.$settingurl.'">'.get_string('classification', 'customlabel').'</a>';
+    $settings->add(new admin_setting_heading('classification', $label, $desc));
 
-$label = get_string('configmetadatabinding', 'customlabel');
-$desc = get_string('configmetadatabinding_desc', 'customlabel');
-$settings->add(new admin_setting_heading('metadatabinding', $label, $desc));
+    $settings->add(new admin_setting_heading('apparence', get_string('apparence', 'customlabel'), ''));
 
-$key = 'customlabel/course_metadata_table';
-$label = get_string('configcoursemetadatatable', 'customlabel');
-$desc = get_string('configcoursemetadatatable_desc', 'customlabel');
-$settings->add(new admin_setting_configtext($key, $label, $desc, 'customlabel_course_metadata'));
+    $key = 'customlabel/cssoverrides';
+    $label = get_string('cssoverrides', 'customlabel');
+    $desc = get_string('cssoverridesdesc', 'customlabel');
+    $settings->add(new admin_setting_configtextarea($key, $label, $desc, '', PARAM_RAW, 80, 10));
 
-$key = 'customlabel/course_metadata_course_key';
-$label = get_string('configcoursemetadatacoursekey', 'customlabel');
-$desc = get_string('configcoursemetadatacoursekey_desc', 'customlabel');
-$settings->add(new admin_setting_configtext($key, $label, $desc, 'courseid'));
+    $key = 'customlabel/disabled';
+    $label = get_string('disabledsubtypes', 'customlabel');
+    $desc = get_string('disabledsubtypesdesc', 'customlabel');
+    $settings->add(new admin_setting_configtextarea($key, $label, $desc, '', PARAM_RAW, 80, 10));
 
-$key = 'customlabel/course_metadata_value_key';
-$label = get_string('configcoursemetadatavaluekey', 'customlabel');
-$desc = get_string('configcoursemetadatavaluekey_desc', 'customlabel');
-$settings->add(new admin_setting_configtext($key, $label, $desc, 'valueid'));
+    /*
+     * This is a similar metadata binding schema that used in the local_courseindex component in order to provide
+     * a loose dependancy link between both components
+     */
 
-$key = 'customlabel/classification_value_table';
-$label = get_string('configclassificationvaluetable', 'customlabel');
-$desc = get_string('configclassificationvaluetable_desc', 'customlabel');
-$settings->add(new admin_setting_configtext($key, $label, $desc, 'customlabel_mtd_value'));
+    $label = get_string('configmetadatabinding', 'customlabel');
+    $desc = get_string('configmetadatabinding_desc', 'customlabel');
+    $settings->add(new admin_setting_heading('metadatabinding', $label, $desc));
 
-$key = 'customlabel/classification_value_type_key';
-$label = get_string('configclassificationvaluetypekey', 'customlabel');
-$desc = get_string('configclassificationvaluetypekey_desc', 'customlabel');
-$settings->add(new admin_setting_configtext($key, $label, $desc, 'typeid'));
+    $key = 'customlabel/course_metadata_table';
+    $label = get_string('configcoursemetadatatable', 'customlabel');
+    $desc = get_string('configcoursemetadatatable_desc', 'customlabel');
+    $settings->add(new admin_setting_configtext($key, $label, $desc, 'customlabel_course_metadata'));
 
-$key = 'customlabel/classification_type_table';
-$label = get_string('configclassificationtypetable', 'customlabel');
-$desc = get_string('configclassificationtypetable_desc', 'customlabel');
-$settings->add(new admin_setting_configtext($key, $label, $desc, 'customlabel_mtd_type'));
+    $key = 'customlabel/course_metadata_course_key';
+    $label = get_string('configcoursemetadatacoursekey', 'customlabel');
+    $desc = get_string('configcoursemetadatacoursekey_desc', 'customlabel');
+    $settings->add(new admin_setting_configtext($key, $label, $desc, 'courseid'));
 
-$key = 'customlabel/classification_constraint_table';
-$label = get_string('configclassificationconstrainttable', 'customlabel');
-$desc = get_string('configclassificationconstrainttable_desc', 'customlabel');
-$settings->add(new admin_setting_configtext($key, $label, $desc, 'customlabel_mtd_constraint'));
+    $key = 'customlabel/course_metadata_value_key';
+    $label = get_string('configcoursemetadatavaluekey', 'customlabel');
+    $desc = get_string('configcoursemetadatavaluekey_desc', 'customlabel');
+    $settings->add(new admin_setting_configtext($key, $label, $desc, 'valueid'));
 
+    $key = 'customlabel/classification_value_table';
+    $label = get_string('configclassificationvaluetable', 'customlabel');
+    $desc = get_string('configclassificationvaluetable_desc', 'customlabel');
+    $settings->add(new admin_setting_configtext($key, $label, $desc, 'customlabel_mtd_value'));
+
+    $key = 'customlabel/classification_value_type_key';
+    $label = get_string('configclassificationvaluetypekey', 'customlabel');
+    $desc = get_string('configclassificationvaluetypekey_desc', 'customlabel');
+    $settings->add(new admin_setting_configtext($key, $label, $desc, 'typeid'));
+
+    $key = 'customlabel/classification_type_table';
+    $label = get_string('configclassificationtypetable', 'customlabel');
+    $desc = get_string('configclassificationtypetable_desc', 'customlabel');
+    $settings->add(new admin_setting_configtext($key, $label, $desc, 'customlabel_mtd_type'));
+
+    $key = 'customlabel/classification_constraint_table';
+    $label = get_string('configclassificationconstrainttable', 'customlabel');
+    $desc = get_string('configclassificationconstrainttable_desc', 'customlabel');
+    $settings->add(new admin_setting_configtext($key, $label, $desc, 'customlabel_mtd_constraint'));
+}
+
+$ADMIN->add('modcustomlabelfolder', $settings);
+// Tell core we already added the settings structure.
+$settings = null;
+
+$ADMIN->add('modcustomlabelfolder', new admin_category('customlabeltypeplugins',
+    new lang_string('customlabelplugins', 'customlabel'), !$module->is_enabled()));
+$ADMIN->add('customlabeltypeplugins', new customlabel_admin_page_manage_customlabel_plugins('customlabeltype'));
+
+foreach (core_plugin_manager::instance()->get_plugins_of_type('customlabeltype') as $plugin) {
+    $plugin->load_settings($ADMIN, 'customlabelplugins', $hassiteconfig);
+}

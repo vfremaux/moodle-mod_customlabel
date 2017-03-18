@@ -17,27 +17,25 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
-
 $string['worktodo:view'] = 'Peut voir le contenu';
 $string['worktodo:addinstance'] = 'Peut ajouter une instance';
 
-$string['pluginname'] = 'Eléments de cours : Consignes';
+$string['pluginname'] = 'Eléments de cours&nbsp;: Consignes';
 $string['typename'] = 'Consignes';
 $string['configtypename'] = 'Active le type Consignes';
-$string['worktypefield'] = 'Type de travail';
-$string['workeffortfield'] = 'Difficulté';
-$string['workmodefield'] = 'Modalité';
-$string['estimatedworktime'] = 'Durée estimée';
-$string['worktodo'] = 'Travail à effectuer';
-$string['linktomodule'] = 'Activité liée';
+$string['worktypefield'] = 'Type de travail&nbsp;';
+$string['workeffortfield'] = 'Difficulté&nbsp;';
+$string['workmodefield'] = 'Modalité&nbsp;';
+$string['estimatedworktime'] = 'Durée estimée&nbsp;';
+$string['worktodo'] = 'Travail à effectuer&nbsp;';
+$string['linktomodule'] = 'Activité liée&nbsp;';
 $string['unassigned'] = '--- non assigné ---';
 
-// Qualifier values
+// Qualifier values.
 
 $string['NQ'] = 'Non défini';
 

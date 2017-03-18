@@ -1,33 +1,33 @@
 .labelcontent TABLE {
-   width: 100%;
+   background-color: #dadada;
    border: 1px solid #808080;
-   background-color: #DADADA;
+   margin-bottom: 10px;
    padding: 3px;
-   margin-bottom:10px;
+   width: 100%;
 }
 
 .labelcontent .title{
-   padding: 2px;
-   color: #E0E0E0;
    background-color: #404040;
+   color: #e0e0e0;
+   padding: 2px;
 }
 
 .labelcontent .param{
-   width: 30%;
-   text-align : right;
-   vertical-align : top;
-   padding: 2px;
-   color: #000000;
    border: 1px solid #808080;
+   color: #000;
+   padding: 2px;
+   text-align: right;
+   vertical-align: top;
+   width: 30%;
 }
 
 .labelcontent .value{
-   text-align : left;
-   padding: 2px;
-   vertical-align : top;
-   background-color: #E2E2E2;
-   color: #000000;
+   background-color: #e0e0e0;
    border: 1px solid #808080;
+   color: #000;
+   padding: 2px;
+   text-align: left;
+   vertical-align: top;
 }
 
 .labelcontent .locked{

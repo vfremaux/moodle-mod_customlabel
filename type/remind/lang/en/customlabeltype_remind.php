@@ -17,16 +17,15 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
 
 $string['remind:view'] = 'Can view the reminder';
 $string['remind:addinstance'] = 'Can add an instance';
 
-$string['pluginname'] = 'Course element : Reminder';
+$string['pluginname'] = 'Course element: Reminder';
 $string['typename'] = 'Remind';
 $string['configtypename'] = 'Enable subtype Remind';
 $string['remindtext'] = 'Remind text';
