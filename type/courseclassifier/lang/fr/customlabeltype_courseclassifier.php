@@ -40,7 +40,7 @@ $string['level2'] = 'Classification 3';
 $string['people'] = 'Public';
 $string['showpeople'] = 'Afficher le critère de public';
 $string['uselevels'] = 'Niveaux actifs';
-$string['statut'] = 'Etat de publication';
+$string['status'] = 'Etat de publication';
 
 $string['template'] = '
 <table class="custombox-courseclassifier">
