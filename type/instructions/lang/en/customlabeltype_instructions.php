@@ -17,19 +17,18 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
 
 $string['instructions:view'] = 'Can view the content';
 $string['instructions:addinstance'] = 'Can add an instance';
 
-$string['pluginname'] = 'Course element : Instructions';
+$string['pluginname'] = 'Course element: Instructions';
 $string['typename'] = 'Instructions';
 $string['configtypename'] = 'Enable subtype Instructions';
-$string['instructions'] = 'Instructions text';
+$string['instructions'] = 'Instructions text&nbsp;';
 
 $string['family'] = 'pedagogic';
 

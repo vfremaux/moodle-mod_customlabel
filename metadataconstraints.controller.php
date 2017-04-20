@@ -47,11 +47,11 @@ class constraints_controller {
             $data = data_submitted();
             $value1list = implode("','", array_keys($this->q1->valueset));
             $value2list = implode("','", array_keys($this->q2->valueset));
-        
+
             $table = $config->classification_constraint_table;
             $DB->delete_records_select($table, "value1 IN ('{$value1list}') AND value2 IN ('{$value2list}')");
             $DB->delete_records_select($table, " value1 IN ('{$value2list}') AND value2 IN ('{$value1list}')");
-        
+
             $constraintdata = preg_grep("/ct_\\d+_\\d+/", array_keys((array)$data));
             foreach ($constraintdata as $constraintkey) {
                 preg_match("/ct_(\\d+)_(\\d+)/", $constraintkey, $matches);
@@ -67,7 +67,7 @@ class constraints_controller {
 
                 $key = "ct_{$id1}_{$id2}";
                 if ($data->{$key} > 0) {
-                    $constraintrec =new StdClass();
+                    $constraintrec = new StdClass();
                     $constraintrec->value1 = $id1;
                     $constraintrec->value2 = $id2;
                     $constraintrec->const = $data->{$key};
