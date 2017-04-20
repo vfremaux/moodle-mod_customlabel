@@ -33,11 +33,13 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
 
     protected function define_structure() {
 
-        // To know if we are including userinfo
-        // $userinfo = $this->get_setting_value('userinfo');
-        // these are labels and hav no user bound info
+        /*
+         * To know if we are including userinfo
+         * $userinfo = $this->get_setting_value('userinfo');
+         * these are labels and hav no user bound info
+         */
 
-        // Define each element separated
+        // Define each element separated.
         $customlabel = new backup_nested_element('customlabel', array('id'), array(
             'name', 'title', 'labelclass', 'fallbacktype', 'intro', 'introformat', 'timemodified', 'content', 'processedcontent'));
 
@@ -80,8 +82,10 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
         // Define sources.
         $customlabel->set_source_table('customlabel', array('id' => backup::VAR_ACTIVITYID));
 
+        // Unless types are overriden (not implemented) this will not produce data.
         $metadatatype->set_source_table('customlabel_mtd_type', array('id' => backup::VAR_ACTIVITYID));
 
+        // Unless types are overriden (not implemented) this will not produce data.
         $metadatavalue->set_source_table('customlabel_mtd_value', array('typeid' => backup::VAR_PARENTID));
 
         $metadataconstraint->set_source_table('customlabel_mtd_constraint', array());

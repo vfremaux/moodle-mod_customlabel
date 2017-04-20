@@ -171,7 +171,7 @@ function customlabel_add_instance($customlabelrec) {
         }
 
         if ($field->type == 'filepicker') {
-            customlabel_save_draft_file($customlabel, $field->name);
+            customlabel_save_draft_file($customlabelrec, $field->name);
         }
 
         $customlabeldata->{$fieldname} = @$customlabelrec->{$fieldname};

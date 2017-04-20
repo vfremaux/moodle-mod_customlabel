@@ -35,18 +35,25 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
 
         $paths = array();
 
+        // Main customlabel record.
         $paths[] = new restore_path_element('customlabel', '/activity/customlabel');
-        $paths[] = new restore_path_element('metadatatype', '/activity/customlabel/types/type');
-        $paths[] = new restore_path_element('metadatavalue', '/activity/customlabel/types/type/values/value');
-        $paths[] = new restore_path_element('metadataconstraint', '/activity/customlabel/constraints/constraint');
-        $paths[] = new restore_path_element('coursemetadata', '/activity/customlabel/metadatacourse/metadatacoursedatum');
 
-        // Return the paths wrapped into standard activity structure
+        // Metadata might be different from a moodle to another, so we might inject missing values.
+        $p = '/activity/customlabel/metadata/metadatatypes/metadatatype';
+        $paths[] = new restore_path_element('metadatatype', $p);
+        $p = '/activity/customlabel/metadata/metadatatypes/metadatatype/metadatavalues/metadatavalue';
+        $paths[] = new restore_path_element('metadatavalue', $p);
+        $p = '/activity/customlabel/metadata/metadataconstraints/metadataconstraint';
+        $paths[] = new restore_path_element('metadataconstraint', $p);
+        $p = '/activity/customlabel/metadata/metadatacourse/metadatacoursedatum';
+        $paths[] = new restore_path_element('coursemetadata', $p);
+
+        // Return the paths wrapped into standard activity structure.
         return $this->prepare_activity_structure($paths);
     }
 
     protected function after_execute() {
-        // Add customlabel related files, no need to match by itemname (just internally handled context)
+        // Add customlabel related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_customlabel', 'safecontent', null);
         $this->add_related_files('mod_customlabel', 'contentfiles', null);
 
@@ -63,7 +70,7 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         static $classes = null;
         static $systemcontext = null;
 
-        // always restore at system level context. Everything should pass.
+        // Always restore at system level context. Everything should pass.
         if (is_null($systemcontext)) {
             $systemcontext = context_system::instance();
         }
@@ -135,8 +142,8 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $data->value2 = $this->get_mappingid('customlabel_mtd_value', $data->value2);
 
         // The data is actually inserted into the database later in inform_new_usage_id.
-        $newitemid = $DB->insert_record('customlabel_mtd_value', $data);
-        $this->set_mapping('customlabel_mtd_onstraint', $oldid, $newitemid, false); // Has no related files
+        $newitemid = $DB->insert_record('customlabel_mtd_constraint', $data);
+        $this->set_mapping('customlabel_mtd_onstraint', $oldid, $newitemid, false); // Has no related files.
     }
 
     protected function process_coursemetadata($data) {
@@ -150,7 +157,7 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
 
         // The data is actually inserted into the database later in inform_new_usage_id.
         $newitemid = $DB->insert_record('customlabel_course_metadata', $data);
-        $this->set_mapping('customlabel_course_metadata', $oldid, $newitemid, false); // Has no related files
+        $this->set_mapping('customlabel_course_metadata', $oldid, $newitemid, false); // Has no related files.
     }
 
 
