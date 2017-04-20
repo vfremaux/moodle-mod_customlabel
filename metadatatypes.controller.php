@@ -103,15 +103,15 @@ if ($action == 'delete') {
 }
 
 /**
- * updates ordering of a tree branch from a specific node, reordering 
- * all subsequent siblings. 
+ * updates ordering of a tree branch from a specific node, reordering
+ * all subsequent siblings.
  * @param id the node from where to reorder
  * @param table the table-tree
  */
 function classification_tree_updateordering($id) {
     global $CFG, $DB;
 
-    $res =  $DB->get_record($CFG->classification_type_table, array('id' => $id));
+    $res = $DB->get_record($CFG->classification_type_table, array('id' => $id));
     if (!$res) {
         // Fallback : we give the ordering.
         $res->sortorder = $id;
@@ -168,7 +168,7 @@ function classification_tree_up($id) {
             WHERE
                 sortorder = $newordering
         ";
-        $result =  $DB->get_record_sql($query);
+        $result = $DB->get_record_sql($query);
         $resid = $result->id;
 
         // Swapping.
@@ -190,7 +190,7 @@ function classification_tree_up($id) {
 function classification_tree_down($id) {
     global $CFG, $DB;
 
-    $res =  $DB->get_record($CFG->classification_type_table, array('id' => $id));
+    $res = $DB->get_record($CFG->classification_type_table, array('id' => $id));
 
     $query = "
         SELECT

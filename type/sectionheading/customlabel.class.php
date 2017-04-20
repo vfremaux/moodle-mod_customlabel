@@ -14,13 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * @package    mod_customlabel
+ * @category   mod
+ * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ */
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype_heading.trait.php');
 
 class customlabel_type_sectionheading extends customlabel_type {
     use customlabel_trait_heading;
 
-    function __construct($data) {
+    public function __construct($data) {
         global $CFG, $PAGE, $OUTPUT;
 
         parent::__construct($data);
@@ -68,10 +77,10 @@ class customlabel_type_sectionheading extends customlabel_type {
 
     /**
      * If exists, this method can process local alternative values for
-     * realizing the template, after all standard translations have been performed. 
+     * realizing the template, after all standard translations have been performed.
      * Type information structure and application context dependant.
      */
-    function postprocess_data($course = null) {
+    public function postprocess_data($course = null) {
 
         // Get virtual fields from course title.
         $storedimage = $this->get_file_url('image');

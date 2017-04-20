@@ -1,28 +1,28 @@
 
 table.custombox-unitheading h1 {
+   color: #f2a439;
    font-size: 22px;
-   line-height:26px;
-   color: #F2A439
+   line-height: 26px;
 }
 
 table.custombox-unitheading p {
-    font-size:12pt;
-    width:95%;
-    line-height:1.5em;
+    font-size: 12pt;
+    line-height: 1.5em;
+    width: 95%;
 }
 
 tr.custombox-icon.unitheading {
-    min-height:85px;
-    height:85px;
+    height: 85px;
+    min-height: 85px;
 }
 
 td.custombox-icon-left.unitheading {
-    min-width:80px;
-    padding-right:20px;
-    background-size : 100% auto !important;
+    background-size: 100% auto !important;
+    min-width: 80px;
+    padding-right: 20px;
 }
 
 td.custombox-icon-right.unitheading {
-    min-width:80px;
-    padding-left:20px;
+    min-width: 80px;
+    padding-left: 20px;
 }
