@@ -24,6 +24,8 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot.'/mod/customlabel/extralib/lib.php');
+
 class customlabel_type {
 
     public $title;
@@ -610,8 +612,16 @@ class customlabel_type {
             $buffer .= $matches[1]; // Prefix.
             // Test variable or expression. this works with an expression that is <fieldname> <op> <value>, or a single <fieldname>.
             $test = $matches[2];
+
+            // We extract fieldname from expression.
+            preg_match('/^[a-zA-Z0-9_]+/', $test, $matches2);
+            $fieldname = $matches2[0];
             if ($test) {
-                if ($this->data->$test) {
+                // We defer evaluation along with an extractable array.
+                // The eval() call is defered to an extralib library.
+                $vars = array($fieldname => @$this->data->$fieldname);
+                customlabel_eval($test, $vars, $result);
+                if ($result) {
                     $buffer .= $matches[3];
                 }
             }
