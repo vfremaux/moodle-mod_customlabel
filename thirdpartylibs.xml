@@ -8,7 +8,7 @@
     <licenseversion>v3</licenseversion>
   </library>
   <library>
-    <location>extra</location>
+    <location>extralib</location>
     <name>Extra libs to override some check rules</name>
     <license>GPL</license>
     <version>v3</version>

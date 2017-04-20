@@ -56,11 +56,11 @@ class backup_customlabel_activity_task extends backup_activity_task {
 
         $base = preg_quote($CFG->wwwroot, '/');
 
-        // Link to the list of vodeclics.
+        // Link to the list of customlabels.
         $search = "/(".$base."\/mod\/customlabel\/index.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@CUSTOMLABELINDEX*$2@$', $content);
 
-        // Link to vodeclic view by moduleid.
+        // Link to customlabel view by moduleid. - There should not be any.
         $search = "/(".$base."\/mod\/customlabel\/view.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@CUSTOMLABELVIEWBYID*$2@$', $content);
 

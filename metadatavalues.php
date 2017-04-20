@@ -53,7 +53,7 @@ if ($action == 'edit') {
 
 if (!$mform->is_cancelled()) {
     if ($action) {
-        include('metadatavalues.controller.php');
+        include($CFG->dirroot.'/mod/customlabel/metadatavalues.controller.php');
     }
 }
 

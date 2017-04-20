@@ -35,7 +35,7 @@ $systemcontext = context_system::instance();
 require_login();
 require_capability('moodle/site:config', $systemcontext);
 
-$url = moodle_url('/mod/customlabel/admin_updateall.php');
+$url = new moodle_url('/mod/customlabel/admin_updateall.php');
 
 $PAGE->set_context($systemcontext);
 $PAGE->set_url($url);
