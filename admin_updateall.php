@@ -84,7 +84,7 @@ if ($data = $form->get_data()) {
         $labelclasses = array();
     }
 
-    echo "<pre>";
+    echo '<pre>';
     foreach ($courses as $courseid => $course) {
         mtrace("processing course $courseid : $course->shortname");
         customlabel_course_regenerate($course, $labelclasses);
