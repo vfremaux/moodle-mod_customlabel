@@ -73,7 +73,21 @@ class mod_customlabel_renderer extends plugin_renderer_base {
 
         $config = get_config('customlabel');
 
-        $constraints = $DB->get_records($config->classification_constraint_table);
+        $sql = "
+            SELECT
+                cc.*
+            FROM
+                {{$config->classification_constraint_table}} cc,
+                {{$config->classification_value_table}} cv1,
+                {{$config->classification_value_table}} cv2
+            WHERE
+                cv1.id = cc.value1 AND
+                cv2.id = cc.value2 AND
+                cv1.typeid = ? AND
+                cv2.typeid = ?
+        ";
+
+        $constraints = $DB->get_records_sql($sql, array($q1->value, $q2->value));
         if ($constraints) {
             foreach ($constraints as $constraint) {
                 // Get always the longest type ID first in matrix grid (columns).
