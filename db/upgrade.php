@@ -79,6 +79,39 @@ function xmldb_customlabel_upgrade($oldversion = 0) {
         upgrade_mod_savepoint($result, 2013041802, 'customlabel');
     }
 
+    if ($oldversion < 2017061300) {
+
+        // Define index ix_typeid (not unique) to be added to customlabel_mtd_value.
+        $table = new xmldb_table('customlabel_mtd_value');
+        $index = new xmldb_index('ix_typeid', XMLDB_INDEX_NOTUNIQUE, array('typeid'));
+
+        // Conditionally launch add index ix_typeid.
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Define index ix_courseid_valueid (unique) to be added to customlabel_course_metadata.
+        $table = new xmldb_table('customlabel_course_metadata');
+        $index = new xmldb_index('ix_courseid_valueid', XMLDB_INDEX_UNIQUE, array('courseid', 'valueid'));
+
+        // Conditionally launch add index ix_courseid_valueid.
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Define index ix_constraint (unique) to be added to customlabel_mtd_constraint.
+        $table = new xmldb_table('customlabel_mtd_constraint');
+        $index = new xmldb_index('ix_constraint', XMLDB_INDEX_UNIQUE, array('value1', 'value2'));
+
+        // Conditionally launch add index ix_constraint.
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Customlabel savepoint reached.
+        upgrade_mod_savepoint(true, 2017061300, 'customlabel');
+    }
+
     return $result;
 }
 

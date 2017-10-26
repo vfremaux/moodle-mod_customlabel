@@ -43,8 +43,6 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $paths[] = new restore_path_element('metadatatype', $p);
         $p = '/activity/customlabel/metadata/metadatatypes/metadatatype/metadatavalues/metadatavalue';
         $paths[] = new restore_path_element('metadatavalue', $p);
-        $p = '/activity/customlabel/metadata/metadataconstraints/metadataconstraint';
-        $paths[] = new restore_path_element('metadataconstraint', $p);
         $p = '/activity/customlabel/metadata/metadatacourse/metadatacoursedatum';
         $paths[] = new restore_path_element('coursemetadata', $p);
 
@@ -130,20 +128,6 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         // The data is actually inserted into the database later in inform_new_usage_id.
         $newitemid = $DB->insert_record('customlabel_mtd_value', $data);
         $this->set_mapping('customlabel_mtd_value', $oldid, $newitemid, false); // Has no related files
-    }
-
-    protected function process_metadataconstraint($data) {
-        global $DB;
-
-        $data = (object)$data;
-        $oldid = $data->id;
-
-        $data->value1 = $this->get_mappingid('customlabel_mtd_value', $data->value1);
-        $data->value2 = $this->get_mappingid('customlabel_mtd_value', $data->value2);
-
-        // The data is actually inserted into the database later in inform_new_usage_id.
-        $newitemid = $DB->insert_record('customlabel_mtd_constraint', $data);
-        $this->set_mapping('customlabel_mtd_onstraint', $oldid, $newitemid, false); // Has no related files.
     }
 
     protected function process_coursemetadata($data) {
