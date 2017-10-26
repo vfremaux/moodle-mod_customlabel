@@ -55,10 +55,7 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
         $metadatavalue = new backup_nested_element('metadatavalue', array('id'), array(
             'typeid', 'code', 'value', 'translatable', 'sortorder', 'parent'));
 
-        $metadataconstraints = new backup_nested_element('metadataconstraints');
-
-        $metadataconstraint = new backup_nested_element('metadataconstraint', array('id'), array(
-            'value1', 'value2', 'const'));
+        // Do NOT backup constraints.
 
         $metadatacourse = new backup_nested_element('metadatacourse');
 
@@ -68,13 +65,10 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
         // Build the tree.
         $customlabel->add_child($metadata);
         $metadata->add_child($metadatatypes);
-        $metadata->add_child($metadataconstraints);
 
         $metadatatypes->add_child($metadatatype);
         $metadatatype->add_child($metadatavalues);
         $metadatavalues->add_child($metadatavalue);
-
-        $metadataconstraints->add_child($metadataconstraint);
 
         $metadata->add_child($metadatacourse);
         $metadatacourse->add_child($metadatacoursedatum);
@@ -87,8 +81,6 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
 
         // Unless types are overriden (not implemented) this will not produce data.
         $metadatavalue->set_source_table('customlabel_mtd_value', array('typeid' => backup::VAR_PARENTID));
-
-        $metadataconstraint->set_source_table('customlabel_mtd_constraint', array());
 
         $metadatacoursedatum->set_source_table('customlabel_course_metadata', array('courseid' => backup::VAR_COURSEID));
 
