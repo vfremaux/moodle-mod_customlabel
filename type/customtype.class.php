@@ -266,7 +266,7 @@ class customlabel_type {
 
     public function postprocess_icon() {
         global $OUTPUT;
-        $this->data->icon = $OUTPUT->pix_url('icon', 'customlabeltype_'.$this->type)->out();
+        $this->data->icon = $OUTPUT->image_url('icon', 'customlabeltype_'.$this->type)->out();
     }
 
     /**
