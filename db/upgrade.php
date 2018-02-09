@@ -95,6 +95,8 @@ function xmldb_customlabel_upgrade($oldversion = 0) {
         $index = new xmldb_index('ix_courseid_valueid', XMLDB_INDEX_UNIQUE, array('courseid', 'valueid'));
 
         // Conditionally launch add index ix_courseid_valueid.
+        // Secure the index creation.
+        $DB->delete_records('customlabel_course_metadata', array('valueid' => 0));
         if (!$dbman->index_exists($table, $index)) {
             $dbman->add_index($table, $index);
         }
