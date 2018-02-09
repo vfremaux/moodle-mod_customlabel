@@ -126,8 +126,10 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $data->typeid = $this->get_mappingid('customlabel_mtd_type', $data->typeid);
 
         // The data is actually inserted into the database later in inform_new_usage_id.
-        $newitemid = $DB->insert_record('customlabel_mtd_value', $data);
-        $this->set_mapping('customlabel_mtd_value', $oldid, $newitemid, false); // Has no related files
+        if ($data->typeid) {
+            $newitemid = $DB->insert_record('customlabel_mtd_value', $data);
+            $this->set_mapping('customlabel_mtd_value', $oldid, $newitemid, false); // Has no related files
+        }
     }
 
     protected function process_coursemetadata($data) {
@@ -137,11 +139,13 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $oldid = $data->id;
 
         $data->valueid = $this->get_mappingid('customlabel_mtd_value', $data->valueid);
-        $data->course = $this->get_courseid();
+        $data->courseid = $this->get_courseid();
 
         // The data is actually inserted into the database later in inform_new_usage_id.
-        $newitemid = $DB->insert_record('customlabel_course_metadata', $data);
-        $this->set_mapping('customlabel_course_metadata', $oldid, $newitemid, false); // Has no related files.
+        if ($data->valueid) {
+            $newitemid = $DB->insert_record('customlabel_course_metadata', $data);
+            $this->set_mapping('customlabel_course_metadata', $oldid, $newitemid, false); // Has no related files.
+        }
     }
 
 

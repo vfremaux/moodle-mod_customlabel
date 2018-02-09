@@ -31,8 +31,16 @@ if (!isset($CFG->classification_type_table)) {
     set_config('course_metadata_course_key', 'courseid');
 }
 
+/**
+ * This function is not implemented in this plugin, but is needed to mark
+ * the vf documentation custom volume availability.
+ */
+function mod_customlabel_supports_feature($feature) {
+    assert(1);
+}
+
 /*
- * make the name (printable in course summary) from real content of the label
+ * Make the name (printable in course summary) from real content of the label
  * @param string $customlabel
  * @param array $data an associative array containing the data
  */

@@ -35,7 +35,7 @@ trait customlabel_trait_heading {
 
         $field = new StdClass;
         $field->name = 'shortdesc';
-        $field->type = 'textarea';
+        $field->type = 'editor';
         $field->itemid = 0;
         $this->fields['shortdesc'] = $field;
     }
