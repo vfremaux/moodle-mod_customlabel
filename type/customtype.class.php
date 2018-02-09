@@ -149,7 +149,7 @@ class customlabel_type {
         }
 
         $result = array();
-        $optionsparts = preg_split('/; |<br\/>/', $value);
+        $optionsparts = preg_split('/ - |; |<br\/>/', $value);
         foreach ($optionsparts as $part) {
             foreach ($options as $key => $val) {
                 if (trim($part) == $val) {
@@ -452,7 +452,7 @@ class customlabel_type {
 
             // Check string domain if inexistant.
             $domain = (empty($field->domain)) ? 'customlabel' : $field->domain;
-            $sep = ($field->type == 'vdatasource') ? '<br/>' : '; ';
+            $sep = ($field->type == 'vdatasource') ? '<br/>' : ' - ';
 
             if (preg_match("/datasource$/", $field->type)) {
                 if (@$field->multiple) {

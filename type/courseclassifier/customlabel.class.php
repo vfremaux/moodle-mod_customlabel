@@ -64,7 +64,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $field->field = 'value';
             $field->select = $config->classification_value_type_key.' = '.$fieldid;
             $field->multiple = 'multiple';
-            $field->constraintson = 'level1,level2';
+            $field->constraintson = 'level1,level2,level3';
             $field->mandatory = false;
             $this->fields['level0'] = $field;
         }
@@ -77,9 +77,11 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $field->source = 'dbfieldkeyed';
             $field->table = $config->classification_value_table;
             $field->field = 'value';
+            $field->ordering = 'sortorder';
             $field->select = $config->classification_value_type_key.' = '.$fieldid;
             $field->multiple = 'multiple';
-            $field->constraintson = 'level0,level2';
+            $field->size = 8;
+            $field->constraintson = 'level0,level2,level3';
             $field->mandatory = false;
             $this->fields['level1'] = $field;
         }
@@ -92,9 +94,26 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $field->source = 'dbfieldkeyed';
             $field->table = $config->classification_value_table;
             $field->field = 'value';
+            $field->ordering = 'sortorder';
             $field->select = $config->classification_value_type_key.' = '.$fieldid;
             $field->multiple = 'multiple';
-            $field->constraintson = 'level0,level1';
+            $field->size = 8;
+            $field->constraintson = 'level0,level1,level3';
+            $field->mandatory = false;
+            $this->fields['level2'] = $field;
+        }
+
+        if ($fieldid = $DB->get_field($config->classification_type_table, 'id', array('code' => 'LEVEL3'))) {
+
+            $field = new StdClass;
+            $field->name = 'level3';
+            $field->type = 'datasource';
+            $field->source = 'dbfieldkeyed';
+            $field->table = $config->classification_value_table;
+            $field->field = 'value';
+            $field->select = $config->classification_value_type_key.' = '.$fieldid;
+            $field->multiple = 'multiple';
+            $field->constraintson = 'level0,level1,level2';
             $field->mandatory = false;
             $this->fields['level2'] = $field;
         }
@@ -120,7 +139,9 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $field->source = 'dbfieldkeyed';
             $field->table = $config->classification_value_table;
             $field->field = 'value';
+            $field->ordering = 'sortorder';
             $field->multiple = 'multiple';
+            $field->size = 8;
             $field->label = $coursefilter->name;
             $field->select = $config->classification_value_type_key.' = '.$coursefilter->id;
             $this->fields[$key] = $field;
@@ -248,7 +269,18 @@ class customlabel_type_courseclassifier extends customlabel_type {
                     $cc->$valuekey = $this->data->$optionkey;
                     $DB->insert_record($config->course_metadata_table, $cc);
                 }
+            } else {
+                $this->data->$optionkey;
             }
         }
+    }
+
+    protected function get_constraints($levels, $minus) {
+        for ($i = 0; $i < $levels; $i++) {
+            if ($i != $minus) {
+                $consttraintset[] = 'level'.$i;
+            }
+        }
+        return implode(',', $constraintset);
     }
 }
