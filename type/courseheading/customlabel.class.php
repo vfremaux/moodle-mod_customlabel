@@ -70,13 +70,13 @@ class customlabel_type_courseheading extends customlabel_type {
                 $PAGE->set_context(context_system::instance());
             }
             if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultcourseheading.png')) {
-                $field->default = $OUTPUT->pix_url('defaultheading', 'customlabeltype_courseheading');
+                $field->default = $OUTPUT->image_url('defaultheading', 'customlabeltype_courseheading');
             } else {
                 $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultcourseheading.png';
             }
         } else {
             if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
-                $field->default = $OUTPUT->pix_url('defaultheading', 'customlabeltype_courseheading');
+                $field->default = $OUTPUT->image_url('defaultheading', 'customlabeltype_courseheading');
             }
         }
         $this->fields['image'] = $field;

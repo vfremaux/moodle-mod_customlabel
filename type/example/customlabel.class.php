@@ -48,7 +48,7 @@ class customlabel_type_example extends customlabel_type {
     public function postprocess_data($course = null) {
         global $OUTPUT;
 
-        $this->data->headerimage = $OUTPUT->pix_url('thumb', 'customlabeltype_example');
+        $this->data->headerimage = $OUTPUT->image_url('thumb', 'customlabeltype_example');
     }
 }
 
