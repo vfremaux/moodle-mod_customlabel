@@ -88,6 +88,7 @@ $string['coursefilter'] = 'Course filter';
 $string['qualifiers'] = 'Qualifiers';
 $string['classifierstypes'] = 'Classifiers type';
 $string['classification'] = 'Classification';
+$string['lpclassificationhdr'] = 'Classified courses';
 $string['classificationvalues'] = 'Values';
 $string['constraints'] = 'Constraints';
 $string['commands'] = 'Commands';
