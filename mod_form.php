@@ -179,8 +179,13 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     $script = " applyconstraints('{$CFG->wwwroot}', '{$customclass->type}', this, '{$field->constraintson}');";
                 }
 
+                $translatedoptions = array();
+                foreach ($options as $key => $value) {
+                    $translatedoptions[$key] = format_string($value);
+                }
+
                 $attrs = array('onchange' => $script);
-                $select = &$mform->addElement('select', $field->name, $fieldlabel, $options, $attrs);
+                $select = &$mform->addElement('select', $field->name, $fieldlabel, $translatedoptions, $attrs);
                 if (!empty($field->multiple)) {
                     $select->setMultiple(true);
                 }

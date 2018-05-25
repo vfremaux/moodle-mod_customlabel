@@ -21,13 +21,23 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-
 require_once('../../config.php');
 
-$url = new moodle_url('/mod/customlabel/adminmetadata.php');
+if (is_dir($CFG->dirroot.'/blocks/course_status')) {
+    include_once($CFG->dirroot.'/blocks/course_status/xlib.php');
+}
 
 $value = optional_param('value', 0, PARAM_INT);
 $type = optional_param('typeid', 0, PARAM_INT);
+$params = array('value' => $value, 'typeid' => $type);
+$url = new moodle_url('/mod/customlabel/adminmetadata.php', $params);
+
+$context = context_system::instance();
+$PAGE->set_url($url);
+$PAGE->set_context($context);
+
+require_login();
+require_capability('moodle/site:config', $context);
 
 if ($value == 0 && $type == 0) {
     echo "<br/>";
@@ -42,15 +52,14 @@ if ($value != 0) {
         SELECT
             c.id,
             c.shortname,
-            c.fullname,
-            c.approval_status_id
+            c.fullname
         FROM
             {course} c,
             {customlabel_course_metadata} ccm,
             {customlabel_mtd_value} v
         WHERE
-            c.id = ccm.course AND
-            ccm.value = v.id AND
+            c.id = ccm.courseid AND
+            ccm.valueid = v.id AND
             v.id = $value
         ORDER BY
             c.fullname
@@ -71,8 +80,8 @@ if ($value != 0) {
             {customlabel_mtd_value} v,
             {customlabel_mtd_value} t
         WHERE
-            c.id = ccm.course AND
-            ccm.value = v.id AND
+            c.id = ccm.courseid AND
+            ccm.valueid = v.id AND
             v.type = t.id AND
             t.id = $type
         ORDER BY
@@ -85,19 +94,25 @@ if ($value != 0) {
 
 echo $OUTPUT->header();
 
-echo $OUTPUT->heading(get_string('lpclassificationheading', 'customlabel'));
+echo $OUTPUT->heading(get_string('lpclassificationhdr', 'customlabel'));
 
 if (!empty($courses)) {
     $strcourse = get_string('course');
     $strstatus = get_string('status');
 
+    $table = new html_table();
     $table->head = array("<b>$strcourse</b>", "<b>$strstatus</b>");
     $table->size = array('70%', '30%');
-    $table->width = array('570px');
+    $table->width = '90%';
     $table->align = array('left', 'center');
     foreach ($courses as $acourse) {
-        $courselink = "<a href=\"{$CFG->wwwroot}/course/view.php?id={$acourse->id}\">".format_string($acourse->fullname).'</a>';
-        $table->data[] = array($courselink, course_status_get_desc($acourse));
+        $curl = new moodle_url('/course/view.php', array('id' => $acourse->id));
+        $courselink = '<a href="'.$curl.'">'.format_string($acourse->fullname).'</a>';
+        if (function_exists('ext_course_status_get_desc')) {
+            $table->data[] = array($courselink, ext_course_status_get_desc($acourse));
+        } else {
+            $table->data[] = array($courselink, '');
+        }
     }
     echo html_writer::table($table);
     if ($value != 0) {
