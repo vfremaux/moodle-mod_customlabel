@@ -177,7 +177,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
             if (!empty($this->data->$showkey)) {
                 $this->data->classifiers = true;
                 $classif = new StdClass();
-                $classif->label = $coursefilter->name;
+                $classif->label = format_string($coursefilter->name);
                 $classif->values = $this->data->$key;
                 $this->data->classifierrows .= get_string('classifierrow', 'customlabeltype_courseclassifier', $classif);
             }

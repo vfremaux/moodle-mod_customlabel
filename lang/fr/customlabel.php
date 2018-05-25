@@ -31,6 +31,7 @@ $string['coursefilter'] = 'Filtre sur les cours';
 $string['configusesafestorage'] = 'Si activé, le contenu des étiquettes sera converti en stockage sûr au moment de leur édition. Le nouveau stockage sera utilisé à partir de ce moment.';
 $string['changetypeadvice'] = 'Vous allez changer la structure de cet élement.\\\\nLes anciennes données ne peuvent être conservées.\\\\nVoulez-vous continuer ?';
 $string['cleararea'] = 'Vider cette zone de fichiers';
+$string['lpclassificationhdr'] = 'Cours classés';
 $string['customlabeltools'] = 'Outils de masse pour les éléments personnalisables';
 $string['cssoverrides'] = 'Surcharges CSS';
 $string['cssoverridesdesc'] = 'Si ce champ est rempli avec des règles de style, alors ces règles seront rajoutées à la feuille de style générale pour modifier l\'apparence des elements de cours. Ceci nécessite une intervention dans le theme pour définir le point d\'insertion. Voir le fichier README.txt';

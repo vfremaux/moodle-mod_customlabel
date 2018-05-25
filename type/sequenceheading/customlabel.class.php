@@ -50,13 +50,13 @@ class customlabel_type_sequenceheading extends customlabel_type {
                 $PAGE->set_context(context_system::instance());
             }
             if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultsequenceheading.png')) {
-                $field->default = $OUTPUT->pix_url('defaultsequenceheading', 'customlabeltype_sequenceheading');
+                $field->default = $OUTPUT->image_url('defaultsequenceheading', 'customlabeltype_sequenceheading');
             } else {
                 $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultsequenceheading.png';
             }
         } else {
             if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
-                $field->default = $OUTPUT->pix_url('defaultsequenceheading', 'customlabeltype_sequenceheading');
+                $field->default = $OUTPUT->image_url('defaultsequenceheading', 'customlabeltype_sequenceheading');
             }
         }
         $this->fields['image'] = $field;
