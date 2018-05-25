@@ -127,7 +127,7 @@ if (!empty($values)) {
             $cmds .= "&nbsp;&nbsp;&nbsp;";
         }
         $params = array('value' => $avalue->id, 'typeid' => $type);
-        $lpshowclassifiedurl = new moodle_url('/local/admin/lpshowclassified.php', $params);
+        $lpshowclassifiedurl = new moodle_url('/mod/customlabel/showclassified.php', $params);
         $img = '<img src="'.$OUTPUT->pix_url('/t/hide').'">';
         $coursecount = ($avalue->courses) ? '<a href="'.$lpshowclassifiedurl.'">'.$avalue->courses.' '.$img.'</a>' : 0;
         $selcheck = '<input type="checkbox" name="items[]" value="'.$avalue->id.'" />';
