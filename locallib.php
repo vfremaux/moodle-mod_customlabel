@@ -103,7 +103,9 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
     }
 
     // Sort result against localized names.
-    $function = create_function('$a, $b', 'return strnatcmp($a->name, $b->name);');
+    $function = function($a, $b) {
+        return strnatcmp($a->name, $b->name);
+    };
     uasort($classes, $function);
 
     return $classes;

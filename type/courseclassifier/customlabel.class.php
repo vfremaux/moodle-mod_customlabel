@@ -77,8 +77,10 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $field->source = 'dbfieldkeyed';
             $field->table = $config->classification_value_table;
             $field->field = 'value';
+            $field->ordering = 'sortorder';
             $field->select = $config->classification_value_type_key.' = '.$fieldid;
             $field->multiple = 'multiple';
+            $field->size = 8;
             $field->constraintson = 'level0,level2,level3';
             $field->mandatory = false;
             $this->fields['level1'] = $field;
@@ -92,8 +94,10 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $field->source = 'dbfieldkeyed';
             $field->table = $config->classification_value_table;
             $field->field = 'value';
+            $field->ordering = 'sortorder';
             $field->select = $config->classification_value_type_key.' = '.$fieldid;
             $field->multiple = 'multiple';
+            $field->size = 8;
             $field->constraintson = 'level0,level1,level3';
             $field->mandatory = false;
             $this->fields['level2'] = $field;
@@ -135,7 +139,9 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $field->source = 'dbfieldkeyed';
             $field->table = $config->classification_value_table;
             $field->field = 'value';
+            $field->ordering = 'sortorder';
             $field->multiple = 'multiple';
+            $field->size = 8;
             $field->label = $coursefilter->name;
             $field->select = $config->classification_value_type_key.' = '.$coursefilter->id;
             $this->fields[$key] = $field;
@@ -171,7 +177,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
             if (!empty($this->data->$showkey)) {
                 $this->data->classifiers = true;
                 $classif = new StdClass();
-                $classif->label = $coursefilter->name;
+                $classif->label = format_string($coursefilter->name);
                 $classif->values = $this->data->$key;
                 $this->data->classifierrows .= get_string('classifierrow', 'customlabeltype_courseclassifier', $classif);
             }
@@ -263,6 +269,8 @@ class customlabel_type_courseclassifier extends customlabel_type {
                     $cc->$valuekey = $this->data->$optionkey;
                     $DB->insert_record($config->course_metadata_table, $cc);
                 }
+            } else {
+                $this->data->$optionkey;
             }
         }
     }
