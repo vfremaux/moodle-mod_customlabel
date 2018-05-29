@@ -427,6 +427,16 @@ function customlabel_cm_info_dynamic(&$cminfo) {
             return;
         }
 
+        // Check availability.
+        if (!$cminfo->uservisible) {
+            $cminfo->set_no_view_link();
+            $cminfo->set_content('');
+            $cminfo->set_user_visible(false);
+            $cminfo->set_available(false, false);
+            return;
+        }
+
+
         $context = context_module::instance($cminfo->id);
         $fileprocessedcontent = $customlabel->processedcontent;
         foreach ($instance->fields as $field) {
