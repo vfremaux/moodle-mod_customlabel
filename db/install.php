@@ -33,6 +33,12 @@ function xmldb_customlabel_install() {
 
     // Work effort.
 
+    $params = ['type' => 'filter', 'code' => 'WORKEFFORT'];
+    if ($DB->record_exists('customlabel_mtd_type', $params)) {
+        // Was already installed once.
+        return;
+    }
+
     $record = new stdClass();
     $record->type = 'filter';
     $record->code = 'WORKEFFORT';
