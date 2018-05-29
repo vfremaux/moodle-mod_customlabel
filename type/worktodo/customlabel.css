@@ -55,7 +55,7 @@ td.custombox-content.worktodo p {
 
 td.custombox-content.worktodo h1,
 td.custombox-content.worktodo h2,
-td.custombox-content.worktodo h3{
+td.custombox-content.worktodo h3 {
     background-image: none;
     color: #999999;
     font-weight: bolder;

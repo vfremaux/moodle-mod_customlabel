@@ -20,6 +20,7 @@
  * disabled length limitation for labels
  * define("LABEL_MAX_NAME_LENGTH", 50);
  */
+defined('MOODLE_INTERNAL') || die();
 
 if (!isset($CFG->classification_type_table)) {
     set_config('classification_type_table', 'customlabel_mtd_type');
@@ -219,7 +220,8 @@ function customlabel_update_instance($customlabelrec) {
         $customlabelrec->name = $customlabelrec->labelclass.'_'.$customlabelrec->coursemodule;
         $customlabelrec->fallbacktype = @$instance->fallbacktype;
     } else {
-        $customlabelrec->content = base64_encode(json_encode($customlabelrec)); // (force old storage to clear when recoded to safe mode)
+        // Force old storage to clear when recoded to safe mode.
+        $customlabelrec->content = base64_encode(json_encode($customlabelrec));
         $instance = customlabel_load_class($customlabelrec);
         $instance->preprocess_data();
         $instance->process_form_fields();
@@ -256,7 +258,9 @@ function customlabel_update_instance($customlabelrec) {
 
             // Saves all embdeded images or files into elements in a single text area from editordata.
             file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', 0 + @$field->itemid);
-            $customlabelrec->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($editordata['text'], $editordata['itemid'], 0 + @$field->itemid);
+            $customlabelrec->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($editordata['text'], 
+                                                                                      $editordata['itemid'],
+                                                                                      0 + @$field->itemid);
         }
 
         if ($field->type == 'filepicker') {
@@ -435,7 +439,6 @@ function customlabel_cm_info_dynamic(&$cminfo) {
             $cminfo->set_available(false, false);
             return;
         }
-
 
         $context = context_module::instance($cminfo->id);
         $fileprocessedcontent = $customlabel->processedcontent;
