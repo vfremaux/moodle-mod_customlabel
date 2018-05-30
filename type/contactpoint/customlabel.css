@@ -1,14 +1,14 @@
 table.custombox-contactpoint {
-   width: 100%;
+    width: 100%;
 }
 
 td.custombox-header-thumb.contactpoint {
-   border-right: 1px solid #e0e0e0 !important;
-   padding-right: 8px;
+    border-right: 1px solid #e0e0e0;
+    padding-right: 8px;
 }
 
 td.custombox-header-thumb.any {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_any_small.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_any_small.png");
     background-repeat: no-repeat;
     height: 73px;
     min-width: 25px;
@@ -17,7 +17,7 @@ td.custombox-header-thumb.any {
 
 #region-main td.custombox-header-thumb.any,
 #page-region-main td.custombox-header-thumb.any {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_any.png"); 
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_any.png");
     background-repeat: no-repeat;
     height: 73px;
     min-width: 65px;
@@ -158,7 +158,7 @@ td.custombox-content.contactpoint {
 
 td.custombox-content.contactpoint h1,
 td.custombox-content.contactpoint h2,
-td.custombox-content.contactpoint h3{
+td.custombox-content.contactpoint h3 {
     background-image: none;
     color: #585858;
     font-weight: bolder;

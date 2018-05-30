@@ -8,7 +8,7 @@ td.custombox-header-thumb.theorema {
 }
 
 td.custombox-header-thumb.theorema {
-    background-image: url("/mod/customlabel/type/theorema/pix/icon_theorema_small.png"); 
+    background-image: url("/mod/customlabel/type/theorema/pix/icon_theorema_small.png");
     background-repeat: no-repeat;
     height: 73px;
     min-width: 25px;
@@ -17,7 +17,7 @@ td.custombox-header-thumb.theorema {
 
 #region-main td.custombox-header-thumb.theorema,
 #page-region-main td.custombox-header-thumb.theorema {
-    background-image: url("/mod/customlabel/type/theorema/pix/icon_theorema.png"); 
+    background-image: url("/mod/customlabel/type/theorema/pix/icon_theorema.png");
     background-repeat: no-repeat;
     height: 73px;
     min-width: 65px;
@@ -36,14 +36,14 @@ td.custombox-content.theorema {
     padding-left: 8px;
 }
 
-div.custombox-demonstration-caption.theorema{
+div.custombox-demonstration-caption.theorema {
     font-size: 1.1em;
     padding-bottom: 5px;
     padding-left: 8px;
     padding-top: 10px;
 }
 
-div.custombox-demonstration.theorema{
+div.custombox-demonstration.theorema {
     background-color: #f0f0f0;
     border-radius: 4px;
     border: 1px solid #d0d0d0;
@@ -55,7 +55,7 @@ div.custombox-demonstration.theorema{
 
 td.custombox-content.theorema h1,
 td.custombox-content.theorema h2,
-td.custombox-content.theorema h3{
+td.custombox-content.theorema h3 {
     background-image: none !important;
     color: #888888 !important;
     font-weight: bolder !important;

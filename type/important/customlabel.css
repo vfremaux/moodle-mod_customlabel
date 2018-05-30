@@ -1,14 +1,14 @@
 table.custombox-important {
-   width: 100%;
+    width: 100%;
 }
 
 td.custombox-header-thumb.important {
-   border-right: 1px solid #f00000 !important;
-   padding-right: 8px;
+    border-right: 1px solid #f00000 !important;
+    padding-right: 8px;
 }
 
 td.custombox-header-thumb.important {
-    background-image: url("/mod/customlabel/type/important/pix/icon_important_small.png"); 
+    background-image: url("/mod/customlabel/type/important/pix/icon_important_small.png");
     background-repeat: no-repeat;
     height: 73px;
     min-width: 25px;
@@ -17,7 +17,7 @@ td.custombox-header-thumb.important {
 
 #region-main td.custombox-header-thumb.important,
 #page-region-main td.custombox-header-thumb.important {
-    background-image: url("/mod/customlabel/type/important/pix/icon_important.png"); 
+    background-image: url("/mod/customlabel/type/important/pix/icon_important.png");
     background-repeat: no-repeat;
     height: 73px;
     min-width: 65px;
@@ -38,7 +38,7 @@ td.custombox-content.important {
 
 td.custombox-content.important h1,
 td.custombox-content.important h2,
-td.custombox-content.important h3{
+td.custombox-content.important h3 {
     background-image: none !important;
     color:#9c2828 !important;
     font-weight: bolder !important;

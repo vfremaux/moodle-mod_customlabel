@@ -1,10 +1,10 @@
 table.custombox-tipsandtricks {
-   width: 100%;
+    width: 100%;
 }
 
 .custombox-header-thumb.tipsandtricks {
-   border-right: 1px solid #eeb9e9 !important;
-   padding-right: 8px;
+    border-right: 1px solid #eeb9e9 !important;
+    padding-right: 8px;
 }
 
 td.custombox-header-thumb.tipsandtricks {
@@ -37,10 +37,9 @@ td.custombox-content.tipsandtricks {
 
 td.custombox-content.tipsandtricks h1,
 td.custombox-content.tipsandtricks h2,
-td.custombox-content.tipsandtricks h3{
+td.custombox-content.tipsandtricks h3 {
     background-image: none !important;
     color: #931c8a !important;
     font-weight: bolder !important;
     padding-left: 0 !important;
 }
-
