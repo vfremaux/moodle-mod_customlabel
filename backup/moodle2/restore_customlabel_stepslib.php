@@ -14,19 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
+ * Define all the restore steps that will be used by the restore_customlabel_activity_task
+ *
  * @package customlabel
  * @subpackage backup-moodle2
  * @copyright 2010 onwards Valery Fremaux (valery.freamux@club-internet.fr)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
+defined('MOODLE_INTERNAL') || die();
 
-/**
- * Define all the restore steps that will be used by the restore_url_activity_task
- */
+require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
 /**
  * Structure step to restore one customlabel resource
@@ -116,7 +114,7 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
 
         // The data is actually inserted into the database later in inform_new_usage_id.
         $newitemid = $DB->insert_record('customlabel_mtd_type', $data);
-        $this->set_mapping('customlabel_mtd_type', $oldid, $newitemid, false); // Has no related files
+        $this->set_mapping('customlabel_mtd_type', $oldid, $newitemid, false); // Has no related files.
     }
 
     protected function process_metadatavalue($data) {

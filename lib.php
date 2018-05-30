@@ -258,7 +258,7 @@ function customlabel_update_instance($customlabelrec) {
 
             // Saves all embdeded images or files into elements in a single text area from editordata.
             file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', 0 + @$field->itemid);
-            $customlabelrec->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($editordata['text'], 
+            $customlabelrec->$fieldname = customlabel_file_rewrite_urls_to_pluginfile($editordata['text'],
                                                                                       $editordata['itemid'],
                                                                                       0 + @$field->itemid);
         }

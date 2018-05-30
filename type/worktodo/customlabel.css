@@ -49,8 +49,8 @@ td.custombox-content.worktodo p {
 }
 
 .custombox-worktype .custombox-value {
-    padding-left: 8px;
     height: 20px;
+    padding-left: 8px;
 }
 
 td.custombox-content.worktodo h1,
