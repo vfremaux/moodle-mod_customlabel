@@ -3,8 +3,8 @@ table.custombox-keypoints {
 }
 
 td.custombox-header-thumb.keypoints {
-   border-right:1px solid #F88A1D !important;
-   padding-right:8px;
+    border-right:1px solid #F88A1D !important;
+    padding-right:8px;
 }
 
 td.custombox-header-thumb.keypoints {
@@ -32,7 +32,7 @@ td.custombox-header-caption.keypoints {
 }
 
 td.custombox-content.keypoints {
-    min-height:100Px;
+    min-height:100px;
     padding-left:8px;
 }
 

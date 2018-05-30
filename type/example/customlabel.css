@@ -1,11 +1,11 @@
 table.custombox-example {
-   width: 100%;
+    width: 100%;
 }
 
 .custombox-header-thumb.example {
-   border-right: 1px solid #d8e018 !important;
-   padding-right: 8px;
-   width: 65px;
+    border-right: 1px solid #d8e018 !important;
+    padding-right: 8px;
+    width: 65px;
 }
 
 td.custombox-header-thumb.example {
@@ -39,7 +39,7 @@ td.custombox-content.example {
 
 td.custombox-content.example h1,
 td.custombox-content.example h2,
-td.custombox-content.example h3{
+td.custombox-content.example h3 {
     background-image: none !important;
     font-weight: bolder !important;
     padding-left: 0 !important;
