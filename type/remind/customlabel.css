@@ -1,10 +1,10 @@
 table.custombox-remind {
-   width: 100%;
+    width: 100%;
 }
 
 td.custombox-header-thumb.remind {
-   border-right: 1px solid #f00000 !important;
-   padding-right: 8px;
+    border-right: 1px solid #f00000 !important;
+    padding-right: 8px;
 }
 
 td.custombox-header-thumb.remind {
@@ -35,4 +35,3 @@ td.custombox-content.remindtext {
     min-height: 100px;
     padding-left: 8px;
 }
-
