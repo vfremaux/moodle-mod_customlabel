@@ -1,11 +1,11 @@
 table.custombox.localgoals {
-   width: 100%;
+    width: 100%;
 }
 
 .custombox-header-thumb.localgoals {
-   border-right: 1px solid #9b5992 !important;
-   padding-right: 8px;
-   width: 40px;
+    border-right: 1px solid #9b5992 !important;
+    padding-right: 8px;
+    width: 40px;
 }
 
 td.custombox-header-thumb.localgoals {
@@ -39,7 +39,7 @@ td.custombox-content.localgoals {
 
 td.custombox-content.localgoals h1,
 td.custombox-content.localgoals h2,
-td.custombox-content.localgoals h3{
+td.custombox-content.localgoals h3 {
     background-image:none !important;
     color:#9B5992 !important;
     font-weight:bolder !important;

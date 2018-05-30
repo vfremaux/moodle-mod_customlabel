@@ -1,5 +1,5 @@
 td.custombox-thumb.authornote {
-    background-image: url("/mod/customlabel/type/authornote/pix/icon_info_small.png"); 
+    background-image: url("/mod/customlabel/type/authornote/pix/icon_info_small.png");
     background-repeat: no-repeat;
     height: 73px;
     min-width: 25px;
@@ -8,7 +8,7 @@ td.custombox-thumb.authornote {
 
 #page-region-main td.custombox-thumb.authornote,
 #region-main td.custombox-thumb.authornote {
-    background-image: url("/mod/customlabel/type/authornote/pix/icon_info.png"); 
+    background-image: url("/mod/customlabel/type/authornote/pix/icon_info.png");
     background-repeat: no-repeat;
     height: 73px;
     min-width: 65px;
@@ -17,16 +17,14 @@ td.custombox-thumb.authornote {
 
 .custombox-content.authornote,
 .custombox-control.authornote {
-   background-color: #f0f0f0;
-   border: 1px solid #b0b0b0;
-   color: #404040;
-   padding: 3px;
-   width: 98%;
+    background-color: #f0f0f0;
+    border: 1px solid #b0b0b0;
+    color: #404040;
+    padding: 3px;
+    width: 98%;
 }
 
 .custombox-helper.authornote {
-   color: #606060;
-   font-size: 80%;
+    color: #606060;
+    font-size: 80%;
 }
-
-
