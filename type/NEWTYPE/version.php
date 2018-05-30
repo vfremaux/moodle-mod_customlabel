@@ -23,6 +23,7 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+defined('MOODLE_INTERNAL') || die();
 
 $plugin = new StdClass();
 $plugin->version  = 2015010300;  // The current module version (Date: YYYYMMDDXX).

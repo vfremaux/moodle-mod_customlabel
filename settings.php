@@ -21,12 +21,15 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/customlabel/adminlib.php');
 
-$ADMIN->add('modsettings', new admin_category('modcustomlabelfolder', new lang_string('pluginname', 'customlabel'), $module->is_enabled() === false));
+$label = new lang_string('pluginname', 'customlabel');
+$ADMIN->add('modsettings', new admin_category('modcustomlabelfolder', $label, $module->is_enabled() === false));
 
-$settings = new admin_settingpage($section, get_string('settings', 'customlabel'), 'moodle/site:config', $module->is_enabled() === false);
+$label = get_string('settings', 'customlabel');
+$settings = new admin_settingpage($section, $label, 'moodle/site:config', $module->is_enabled() === false);
 
 if ($ADMIN->fulltree) {
     $menu = array();

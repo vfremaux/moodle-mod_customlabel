@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Define all the restore steps that will be used by the restore_customlabel_activity_task
+ *
  * @package customlabel
  * @subpackage backup-moodle2
  * @copyright 2010 onwards Valery Fremaux (valery.freamux@club-internet.fr)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
+defined('MOODLE_INTERNAL') || die();
 
-/**
- * Define all the restore steps that will be used by the restore_url_activity_task
- */
+require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
 /**
  * Structure step to restore one customlabel resource
@@ -82,8 +82,8 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $data->course = $this->get_courseid();
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
-        // check the label subclass and fallback if not available here
-        // disabled classes are still restored
+        // Check the label subclass and fallback if not available here.
+        // Disabled classes are still restored.
         if (!in_array($data->labelclass, $classes)) {
             if (!empty($data->fallbacktype)) {
                 $data->labelclass = $data->fallbacktype;
@@ -96,10 +96,10 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $data->intro = '';
         $data->introformat = 0;
 
-        // insert the data record
+        // Insert the data record.
         $newitemid = $DB->insert_record('customlabel', $data);
 
-        // postupdate name
+        // Postupdate name.
         $this->postupdate($data, 'name', $oldid, $newitemid);
         $this->postupdate($data, 'title', $oldid, $newitemid);
 
@@ -114,7 +114,7 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
 
         // The data is actually inserted into the database later in inform_new_usage_id.
         $newitemid = $DB->insert_record('customlabel_mtd_type', $data);
-        $this->set_mapping('customlabel_mtd_type', $oldid, $newitemid, false); // Has no related files
+        $this->set_mapping('customlabel_mtd_type', $oldid, $newitemid, false); // Has no related files.
     }
 
     protected function process_metadatavalue($data) {
@@ -128,7 +128,7 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         // The data is actually inserted into the database later in inform_new_usage_id.
         if ($data->typeid) {
             $newitemid = $DB->insert_record('customlabel_mtd_value', $data);
-            $this->set_mapping('customlabel_mtd_value', $oldid, $newitemid, false); // Has no related files
+            $this->set_mapping('customlabel_mtd_value', $oldid, $newitemid, false); // Has no related files.
         }
     }
 
