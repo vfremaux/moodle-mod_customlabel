@@ -17,14 +17,14 @@ td.custombox-thumb.pedagogicadvice {
 
 .custombox-content.pedagogicadvice,
 .custombox-control.pedagogicadvice {
-   background-color: #f8e0f8;
-   border: 1px solid #d0d0d0;
-   color: #404040;
-   padding: 3px;
-   width: 98%;
+    background-color: #f8e0f8;
+    border: 1px solid #d0d0d0;
+    color: #404040;
+    padding: 3px;
+    width: 98%;
 }
 
 .custombox-helper.pedagogicadvice {
-   color: #606060;
-   font-size: 80%;
+    color: #606060;
+    font-size: 80%;
 }

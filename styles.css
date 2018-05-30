@@ -1,28 +1,28 @@
 .editing li.activity.customlabel .contentwithoutlink {
-    padding-right:  20px !important;
-    padding-top:  30px !important;
+    padding-right: 20px !important;
+    padding-top: 30px !important;
 }
 
 .editing li.activity.customlabel.label * {
-    font-weight:normal;
+    font-weight: normal;
 }
 
 .customlabel.label {
-    font-weight:initial;
+    font-weight: initial;
 }
 
 .constraint-cell {
-    text-align:center;
+    text-align: center;
 }
 
 .constraint-cell.included select {
-    background-color:#FFA0A0;
-    color:#800000;
+    background-color: #ffa0a0;
+    color: #800000;
 }
 
 .constraint-cell.included select {
-    background-color:#A0FFA0;
-    color:#008000;
+    background-color: #a0ffa0;
+    color: #008000;
 }
 
 .constraint-form-table td {
