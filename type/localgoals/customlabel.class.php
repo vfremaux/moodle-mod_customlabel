@@ -48,6 +48,6 @@ class customlabel_type_localgoals extends customlabel_type {
     public function postprocess_data($course = null) {
         global $OUTPUT;
 
-        $this->data->headerimage = $OUTPUT->image_url('thumb', 'customlabeltype_localgoals');
+        $this->data->headerimage = $OUTPUT->pix_url('thumb', 'customlabeltype_localgoals');
     }
 }

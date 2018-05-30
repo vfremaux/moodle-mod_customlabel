@@ -107,28 +107,28 @@ if (!empty($values)) {
 
         $params = array('view' => 'qualifiers', 'what' => 'delete', 'valueid' => $avalue->id, 'typeid' => $type);
         $deleteurl = new moodle_url('/mod/customlabel/adminmetadata.php', $params);
-        $cmds = '<a href="'.$deleteurl.'">'.$OUTPUT->pix_icon('/t/delete', get_string('delete')).'</a>';
+        $cmds = '<a href="'.$deleteurl.'"><img src="'.$OUTPUT->pix_url('/t/delete')."\" alt=".get_string('delete').'"></a>';
 
         $params = array('typeid' => $type, 'what' => 'edit', 'valueid' => $avalue->id);
         $editurl = new moodle_url('/mod/customlabel/adminmetadata.php', $params);
-        $cmds .= '&nbsp;<a href="'.$editurl.'">'.$OUTPUT->pix_icon('/t/edit').'</a>';
+        $cmds .= '&nbsp;<a href="'.$editurl.'"><img src="'.$OUTPUT->pix_url('/t/edit').'" /></a>';
         if ($i > 0) {
             $params = array('typeid' => $type, 'what' => 'up', 'valueid' => $avalue->id);
             $upurl = new moodle_url('/mod/customlabel/adminmetadata.php', $params);
-            $cmds .= '&nbsp;<a href="'.$upurl.'">'.$OUTPUT->pix_icon('/t/up').'</a>';
+            $cmds .= '&nbsp;<a href="'.$upurl.'"><img src="'.$OUTPUT->pix_url('/t/up').'" /></a>';
         } else {
             $cmds .= '&nbsp;&nbsp;&nbsp;';
         }
         if ($i < $valuecount - 1) {
             $params = array('typeid' => $type, 'what' => 'down', 'valueid' => $avalue->id);
             $downurl = new moodle_url('/mod/customlabel/adminmetadata.php', $params);
-            $cmds .= '&nbsp;<a href="'.$downurl.'">'.$OUTPUT->pix_icon('/t/down').'</a>';
+            $cmds .= '&nbsp;<a href="'.$downurl.'"><img src="'.$OUTPUT->pix_url('/t/down').'" /></a>';
         } else {
             $cmds .= "&nbsp;&nbsp;&nbsp;";
         }
         $params = array('value' => $avalue->id, 'typeid' => $type);
-        $lpshowclassifiedurl = new moodle_url('/local/admin/lpshowclassified.php', $params);
-        $img = $OUTPUT->pix_icon('/t/hide');
+        $lpshowclassifiedurl = new moodle_url('/mod/customlabel/showclassified.php', $params);
+        $img = '<img src="'.$OUTPUT->pix_url('/t/hide').'">';
         $coursecount = ($avalue->courses) ? '<a href="'.$lpshowclassifiedurl.'">'.$avalue->courses.' '.$img.'</a>' : 0;
         $selcheck = '<input type="checkbox" name="items[]" value="'.$avalue->id.'" />';
         $table->data[] = array($selcheck, $avalue->code, format_string($avalue->value), $coursecount, $cmds);

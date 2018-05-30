@@ -59,8 +59,8 @@ class customlabel_type_authornote extends customlabel_type {
         $this->data->customid = $customid;
         set_config('custom_unique_id', $customid);
 
-        $minusurl = $OUTPUT->image_url('minus', 'customlabel');
-        $plusurl = $OUTPUT->image_url('plus', 'customlabel');
+        $minusurl = $OUTPUT->pix_url('minus', 'customlabel');
+        $plusurl = $OUTPUT->pix_url('plus', 'customlabel');
         $this->data->initialcontrolimage = ($this->data->initiallyvisible) ? $minusurl : $plusurl;
 
         // For passing to javascript.
