@@ -26,4 +26,6 @@ require('../../config.php');
 
 $id = required_param('id', PARAM_INT);   // Course ID.
 
+require_login();
+
 redirect(new moodle_url('/course/view.php', array('id' => $id)));

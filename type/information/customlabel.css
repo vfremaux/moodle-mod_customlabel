@@ -1,10 +1,10 @@
 table.custombox-information {
-   width: 100%;
+    width: 100%;
 }
 
 td.custombox-header-thumb.information {
-   border-right: 1px solid #f00000 !important;
-   padding-right: 8px;
+    border-right: 1px solid #f00000 !important;
+    padding-right: 8px;
 }
 
 td.custombox-header-thumb.information {
@@ -25,7 +25,7 @@ td.custombox-header-thumb.information {
 }
 
 td.custombox-header-caption.information {
-    color:#d83030;
+    color: #d83030;
     font-size: 1.3em;
     font-weight: bolder;
     padding-left: 8px;

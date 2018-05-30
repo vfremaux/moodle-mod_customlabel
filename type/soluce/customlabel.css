@@ -1,5 +1,5 @@
 table.custombox-soluce {
-   width: 100%;
+    width: 100%;
 }
 
 .custombox-header-thumb.soluce {
@@ -38,10 +38,9 @@ td.custombox-content.soluce {
 
 td.custombox-content.soluce h1,
 td.custombox-content.soluce h2,
-td.custombox-content.soluce h3{
+td.custombox-content.soluce h3 {
     background-image: none !important;
     color: #2d6a17 !important;
     font-weight: bolder !important;
     padding-left: 0 !important;
 }
-
