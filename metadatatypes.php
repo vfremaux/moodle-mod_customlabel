@@ -102,33 +102,33 @@ if ($types) {
         $atype->courses = $DB->count_records_sql($sql, array($atype->id));
 
         // Delete command.
-        $piximage = $OUTPUT->pix_icon('/t/delete', get_string('delete'));
+        $piximage = '<img src="'.$OUTPUT->pix_url('/t/delete').'" alt="'.get_string('delete').'">';
         $cmdurl = clone($url);
         $cmdurl->params(array('view' => 'classifiers', 'what' => 'delete', 'typeid' => $atype->id));
         $cmds = '<a href="'.$cmdurl.'">'.$piximage.'</a>';
 
         // Edit command.
-        $piximage = $OUTPUT->pix_icon('/t/edit', get_string('editvalues', 'customlabel'));
+        $piximage = '<img src="'.$OUTPUT->pix_url('/t/edit').'" alt="'.get_string('editvalues', 'customlabel').'">';
         $cmdurl = clone($url);
         $cmdurl->params(array('view' => 'classifiers', 'what' => 'edit', 'typeid' => $atype->id));
         $cmds .= ' <a href="'.$cmdurl.'">'.$piximage.'</a>';
 
         if ($i > 0) {
             // Up command.
-            $piximage = $OUTPUT->pix_icon('/t/up', get_string('up', 'customlabel'));
+            $piximage = '<img src="'.$OUTPUT->pix_url('/t/up').'" alt="'.get_string('up', 'customlabel').'">';
             $cmdurl = clone($url);
             $cmdurl->params(array('view' => 'classifiers', 'what' => 'up', 'typeid' => $atype->id));
             $cmds .= ' <a href="'.$cmdurl.'" title="'.$upstr.'">'.$piximage.'</a>';
         }
         if ($i < $count - 1) {
-            $pixicon = $OUTPUT->pix_icon('/t/down', get_string('down', 'customlabel'));
+            $piximage = '<img src="'.$OUTPUT->pix_url('/t/down').'" alt="'.get_string('down', 'customlabel').'">';
             $cmdurl = clone($url);
             $cmdurl->params(array('view' => 'classifiers', 'what' => 'down', 'typeid' => $atype->id));
-            $cmds .= ' <a href="'.$cmdurl.'" title="'.$downstr.'">'.$pixicon.'</a>';
+            $cmds .= ' <a href="'.$cmdurl.'" title="'.$downstr.'">'.$piximage.'</a>';
         }
         $link = "<a href=\"{$url}?view=qualifiers&typeid={$atype->id}\">{$atype->name}</a> ";
         $counturl = new moodle_url('/mod/customlabel/showclassified.php', array('typeid' => $atype->id));
-        $img = $OUTPUT->pix_icon('/t/hide');
+        $img = '<img src="'.$OUTPUT->pix_url('/t/hide').'">';
         $coursecount = ($atype->courses) ? '<a href="'.$counturl.'">'.$atype->courses.' '.$img.'</a>' : 0;
         $typestr = get_string($atype->type, 'customlabel');
         $table->data[] = array($link, $typestr, $atype->code, format_string($atype->description), $coursecount, $cmds);

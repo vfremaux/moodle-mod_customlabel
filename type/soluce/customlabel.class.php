@@ -56,8 +56,8 @@ class customlabel_type_soluce extends customlabel_type {
 
         $customid = @$CFG->custom_unique_id + 1;
 
-        $minusurl = $OUTPUT->image_url('minus', 'customlabel');
-        $plusurl = $OUTPUT->image_url('plus', 'customlabel');
+        $minusurl = $OUTPUT->pix_url('minus', 'customlabel');
+        $plusurl = $OUTPUT->pix_url('plus', 'customlabel');
         $this->data->initialcontrolimage = ($this->data->initiallyvisible) ? $minusurl : $plusurl;
         $this->data->wwwroot = $CFG->wwwroot;
         $this->data->customid = $customid;

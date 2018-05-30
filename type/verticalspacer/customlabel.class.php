@@ -62,7 +62,7 @@ class customlabel_type_verticalspacer extends customlabel_type {
         $this->data->customid = $customid;
         $this->data->wwwroot = $CFG->wwwroot;
         $this->data->editing = $PAGE->user_is_editing();
-        $this->data->dragimageurl = $OUTPUT->image_url('dragpaddle', 'customlabeltype_verticalspacer')->out();
+        $this->data->dragimageurl = $OUTPUT->pix_url('dragpaddle', 'customlabeltype_verticalspacer')->out();
     }
 }
 

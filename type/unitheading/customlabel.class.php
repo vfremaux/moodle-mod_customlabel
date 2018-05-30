@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype_heading.trait.php');
@@ -41,13 +42,13 @@ class customlabel_type_unitheading extends customlabel_type {
                 $PAGE->set_context(context_system::instance());
             }
             if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultunitheading.png')) {
-                $field->default = $OUTPUT->image_url('defaultunitheading', 'customlabeltype_unitheading');
+                $field->default = $OUTPUT->pix_url('defaultunitheading', 'customlabeltype_unitheading');
             } else {
                 $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultunitheading.png';
             }
         } else {
             if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
-                $field->default = $OUTPUT->image_url('defaultunitheading', 'customlabeltype_unitheading');
+                $field->default = $OUTPUT->pix_url('defaultunitheading', 'customlabeltype_unitheading');
             }
         }
         $this->fields['image'] = $field;

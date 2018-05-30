@@ -49,13 +49,13 @@ class customlabel_type_sectionheading extends customlabel_type {
                 $PAGE->set_context(context_system::instance());
             }
             if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultsectionheading.png')) {
-                $field->default = $OUTPUT->image_url('defaultsectionheading', 'customlabeltype_sectionheading');
+                $field->default = $OUTPUT->pix_url('defaultsectionheading', 'customlabeltype_sectionheading');
             } else {
                 $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultsectionheading.png';
             }
         } else {
             if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
-                $field->default = $OUTPUT->image_url('defaultsectionheading', 'customlabeltype_sectionheading');
+                $field->default = $OUTPUT->pix_url('defaultsectionheading', 'customlabeltype_sectionheading');
             }
         }
         $this->fields['image'] = $field;
