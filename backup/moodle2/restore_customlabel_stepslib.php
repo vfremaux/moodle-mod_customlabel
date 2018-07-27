@@ -159,4 +159,16 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
             }
         }
     }
+
+    /**
+     * After restoring a course, reclaculate all customlabels as they may
+     * integrate dynamic context dependant information.
+     */
+    public function after_restore() {
+        global $DB;
+
+        $courseid = $this->task->get_courseid();
+        $course = $DB->get_record('course', array('id' => $courseid));
+        customlabel_course_regenerate($course, 'all');
+    }
 }
