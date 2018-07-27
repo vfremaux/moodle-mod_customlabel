@@ -23,9 +23,9 @@
  */
 namespace mod_customlabel\plugininfo;
 
-use core\plugininfo\base, core_plugin_manager, moodle_url;
-
 defined('MOODLE_INTERNAL') || die();
+
+use core\plugininfo\base, core_plugin_manager, moodle_url;
 
 class customlabeltype extends base {
     /**
