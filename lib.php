@@ -432,7 +432,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         }
 
         // Check availability.
-        if (!$cminfo->uservisible) {
+        if (empty($cminfo->uservisible)) {
             $cminfo->set_no_view_link();
             $cminfo->set_content('');
             $cminfo->set_user_visible(false);
