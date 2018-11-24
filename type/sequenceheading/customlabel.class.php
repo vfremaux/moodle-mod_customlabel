@@ -75,6 +75,13 @@ class customlabel_type_sequenceheading extends customlabel_type {
         $this->fields['imageposition'] = $field;
 
         $field = new StdClass();
+        $field->name = 'imagewidth';
+        $field->type = 'textfield';
+        $field->size = 20;
+        $field->default = '128';
+        $this->fields['imagewidth'] = $field;
+
+        $field = new StdClass();
         $field->name = 'verticalalign';
         $field->type = 'list';
         $field->options = array('top', 'middle', 'bottom');
@@ -91,41 +98,26 @@ class customlabel_type_sequenceheading extends customlabel_type {
 
         // Get virtual fields from course title.
         $storedimage = $this->get_file_url('image');
-        $imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
+        $this->data->imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
         if ($this->data->verticalalignoption == 'bottom') {
-            $valign = "50% 100%";
-            $valigncontent = "bottom";
-            $padding = 'padding-bottom:20px;';
+            $this->data->valign = "50% 100%";
+            $this->data->valigncontent = "bottom";
+            $this->data->padding = 'padding-bottom:20px;';
         } else if ($this->data->verticalalignoption == 'middle') {
-            $valign = "50% 50%";
-            $valigncontent = "middle";
-            $padding = '';
+            $this->data->valign = "50% 50%";
+            $this->data->valigncontent = "middle";
+            $this->data->padding = '';
         } else {
-            $valign = "50% 0%";
-            $valigncontent = "top";
-            $padding = 'padding-top:20px;';
+            $this->data->valign = "50% 0%";
+            $this->data->valigncontent = "top";
+            $this->data->padding = 'padding-top:20px;';
         }
         if ($this->data->imagepositionoption == 'left') {
-            $this->data->imageL = '<td width="100"
-                                       class="custombox-icon-left sequenceheading"
-                                       align="center"
-                                       valign="'.$valigncontent.'"
-                                       style="'.$padding.' background:url('.$imageurl.') '.$valign.' no-repeat transparent">';
-            $this->data->imageL .= $this->data->overimagetext;
-            $this->data->imageL .= '</td>';
-            $this->data->imageR = '';
+            $this->data->toleft = true;
+            $this->data->contentpadding = 'padding-left:15px;';
         } else if ($this->data->imagepositionoption == 'right') {
-            $this->data->imageL = '';
-            $this->data->imageR = '<td width="100"
-                                       class="custombox-icon-right sequenceheading"
-                                       align="center"
-                                       valign="'.$valigncontent.'"
-                                       style="'.$padding.' background:url('.$imageurl.') '.$valign.' no-repeat transparent">';
-            $this->data->imageR .= $this->data->overimagetext;
-            $this->data->imageR .= '</td>';
-        } else {
-            $this->data->imageL = '';
-            $this->data->imageR = '';
+            $this->data->toright = true;
+            $this->data->contentpadding = 'padding-right:15px;';
         }
     }
 }

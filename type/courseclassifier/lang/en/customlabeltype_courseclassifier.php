@@ -42,6 +42,7 @@ $string['fonction'] = 'Function';
 $string['showpeople'] = 'Show the public selector';
 $string['uselevels'] = 'Levels to use';
 $string['status'] = 'Course state';
+$string['otherclassifiers'] = 'Other classifying information';
 
 $string['family'] = 'special';
 

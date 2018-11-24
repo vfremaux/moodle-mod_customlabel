@@ -53,6 +53,7 @@ function customlabel_set_instance(&$block) {
     $data->content = $block->moduleinstance->content;
     $data->labelclass = $block->moduleinstance->labelclass; // Fixes broken serialized contents.
     $data->instance = $block->moduleinstance->id;
+    $data->coursemodule = $block->cm->id;
 
     if (!customlabel_type::module_is_visible($block->cm, $block->moduleinstance)) {
         return false;
@@ -64,6 +65,9 @@ function customlabel_set_instance(&$block) {
     }
 
     $instance = customlabel_load_class($data);
+    if (!$instance) {
+        print_error("Failed loading cuztomlabel class $data->labelclass for instance ");
+    }
 
     // Force refreshcontent in page format.
     $block->moduleinstance->processedcontent = $instance->make_content();

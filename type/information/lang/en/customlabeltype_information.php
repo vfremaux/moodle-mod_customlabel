@@ -33,6 +33,7 @@ $string['pluginname'] = 'Course element: Information';
 $string['typename'] = 'Information';
 $string['configtypename'] = 'Enable subtype Information';
 $string['informationtext'] = 'Information text';
+$string['information'] = 'Information';
 
 $string['family'] = 'pedagogic';
 

@@ -27,6 +27,7 @@ $string['keypoints:addinstance'] = 'Peut ajouter une instance';
 
 $string['pluginname'] = 'Elément de cours&nbsp;: A retenir';
 $string['typename'] = 'A retenir';
+$string['remind'] = 'Points clefs !';
 $string['configtypename'] = 'Enable subtype Key points';
 $string['keypoints'] = 'Rubrique \"A retenir\"&nbsp;';
 $string['keypointnum'] = 'Nombre de points&nbsp;';
@@ -46,6 +47,7 @@ $string['keypointitem12'] = 'Point 13&nbsp;';
 $string['keypointitem13'] = 'Point 14&nbsp;';
 $string['keypointitem14'] = 'Point 15&nbsp;';
 $string['keypointitem15'] = 'Point 16&nbsp;';
+$string['completion1'] = 'Les étudiants doivent avoir pointé tous les sous-items';
 
 $string['template'] = '
 <table class="custombox-keypoints" cellspacing="0" width="100%">

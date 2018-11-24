@@ -31,6 +31,7 @@ $string['fundamental:addinstance'] = 'Peut ajouter une instance';
 
 $string['pluginname'] = 'Elément de cours&nbsp;: Notion Fondamentale';
 $string['typename'] = 'Fondamentaux';
+$string['fundamental'] = 'Fondamentaux';
 $string['configtypename'] = 'Active le type Notion Fondamentale';
 $string['fundamentaltext'] = 'Notion fondamentale';
 

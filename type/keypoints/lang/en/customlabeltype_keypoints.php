@@ -28,6 +28,7 @@ $string['keypoints:addinstance'] = 'Can add an indstance';
 $string['pluginname'] = 'Course element: Key Points';
 $string['typename'] = 'Key points';
 $string['configtypename'] = 'Enable subtype Key points';
+$string['remind'] = 'Remind!';
 $string['keypointnum'] = 'Item count';
 $string['keypointitem0'] = 'Point 1';
 $string['keypointitem1'] = 'Point 2';
@@ -45,22 +46,8 @@ $string['keypointitem12'] = 'Point 13';
 $string['keypointitem13'] = 'Point 14';
 $string['keypointitem14'] = 'Point 15';
 $string['keypointitem15'] = 'Point 16';
+$string['completion1'] = 'Student must have checked marked all subitems';
 
 $string['family'] = 'pedagogic';
 
-$string['template'] = '
-<table class="custombox-keypoints" cellspacing="0" width="100%">
-<tr valign="top">
-    <td class="custombox-header-thumb keypoints" style="background-image : url(<%%icon%%>);" width="2%" rowspan="2">
-    </td>
-    <td class="custombox-header-caption keypoints" width="98%">
-        Remind !
-    </td>
-</tr>
-<tr valign="top">
-    <td class="custombox-content keypoints">
-        <%%keypointslist%%>
-    </td>
-</tr>
-</table>
-';
+$string['template'] = '<%%content%%>';

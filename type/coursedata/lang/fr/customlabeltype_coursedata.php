@@ -41,6 +41,8 @@ $string['prerequisites'] = 'Pré requis nécessaires';
 $string['learningmethod'] = 'Méthode(s) d\'enseignement&ensp;';
 $string['followers'] = 'Suites possibles&ensp;';
 $string['tablecaption'] = 'Titre de la table';
+$string['trainingid'] = 'Identifiant';
+$string['public'] = 'Public';
 $string['showgoals'] = 'Afficher les objectifs';
 $string['showconcepts'] = 'Afficher les concepts clefs&ensp;';
 $string['showteachingorganization'] = 'Afficher l\'Organisation pédagogique&ensp;';
@@ -51,6 +53,7 @@ $string['showlearningmethod'] = 'Afficher les méthode(s) d\'enseignement&ensp;'
 $string['showfollowers'] = 'Afficher les suites possibles&ensp;';
 $string['showtarget'] = 'Afficher le public&ensp;';
 $string['target'] = 'Public cible&ensp;';
+$string['teachingorg'] = 'Organisation pédagogique';
 $string['leftcolumnratio'] = 'Largeur colonne gauche';
 
 $string['template'] = '

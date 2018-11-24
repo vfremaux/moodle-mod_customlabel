@@ -31,7 +31,7 @@ class mod_customlabel_renderer extends plugin_renderer_base {
     public function set_choice($view, $q1, $q2) {
         global $DB, $OUTPUT;
 
-        $str = '';
+        $template = new StdClass();
 
         $config = get_config('customlabel');
         $choosestr = get_string('choose');
@@ -39,33 +39,16 @@ class mod_customlabel_renderer extends plugin_renderer_base {
         $table = $config->classification_type_table;
         $valuetypes = $DB->get_records_menu($table, array('type' => 'category'), 'name', 'id,name');
 
-        $str .= '<form name="choosesets" method="POST" action="'.$choiceurl.'">';
-        $str .= '<input type="hidden" name="view" value="'.$view.'" />';
-        $str .= '<table>';
-        $str .= '<tr>';
-        $str .= '<td>';
-        $str .= html_writer::select($valuetypes, 'value1', $q1->value);
-        $str .= '</td>';
-        $str .= '<td>';
-        $str .= html_writer::select($valuetypes, 'value2', $q2->value);
-        $str .= '</td>';
-        $str .= '<td>';
-        $str .= '<input type="submit" name="choose_btn" value="'.$choosestr.'" />';
-        $str .= '</td>';
-        $str .= '</tr>';
-        $str .= '</table>';
-        $str .= '</form>';
+        $template->choiceurl = $choiceurl;
+        $template->view = $view;
+        $template->valuetypesselect1 = html_writer::select($valuetypes, 'value1', $q1->value);
+        $template->valuetypesselect2 = html_writer::select($valuetypes, 'value2', $q2->value);
 
         if ($q1->value == $q2->value) {
-            $str .= '<br/>';
-            $str .= $OUTPUT->notification(get_string('sametypes', 'customlabel'));
-            $str .= '<br/>';
-            $str .= $OUTPUT->footer();
-            echo $str;
-            die;
+            $template->sametypesignal = $OUTPUT->notification(get_string('sametypes', 'customlabel'));
         }
 
-        return $str;
+        return $this->output->render_from_template('mod_customlabel/set_choice', $template);
     }
 
     public function constraints_form($view, $q1, $q2) {
@@ -96,26 +79,19 @@ class mod_customlabel_renderer extends plugin_renderer_base {
             }
         }
 
-        $str = '';
+        $template = new StdClass;
 
-        $formurl = new moodle_url('/mod/customlabel/adminmetadata.php');
-        $str .= '<form name="constraintsform" method="POST" action="'.$formurl.'">';
-        $str .= '<input type="hidden" name="view" value="'.$view.'" />';
-        $str .= '<input type="hidden" name="value1" value="'.$q1->value.'" />';
-        $str .= '<input type="hidden" name="value2" value="'.$q2->value.'" />';
-        $str .= '<input type="hidden" name="what" value="save" />';
-        $str .= '<table class="constraint-form-table">';
-        $str .= '<tr valign="top">';
-        $str .= '<td>';
-        $str .= '</td>';
+        $template->formurl = new moodle_url('/mod/customlabel/adminmetadata.php');
+        $template->view = $view;
+        $template->value1 = $q1->value;
+        $template->value2 = $q2->value;
 
         // Generate first row.
         if ($q2->valueset) {
             foreach ($q1->valueset as $avalue1) {
-                $str .= '<td align="center"><b>'.$avalue1->value.'</b></td>';
+                $template->value1set[] = $avalue1;
             }
         }
-        $str .= '</tr>';
 
         $options[0] = get_string('exclude', 'customlabel');
         $options[1] = get_string('include', 'customlabel');
@@ -123,11 +99,11 @@ class mod_customlabel_renderer extends plugin_renderer_base {
         $i = 0;
         if ($q2->valueset) {
             foreach ($q2->valueset as $avalue2) {
+                $value2settpl = $avalue2;
                 $j = 0;
-                $str .= '<tr valign="top">';
-                $str .= '<td align="left">'.$avalue2->value.'</td>';
                 if ($q1->valueset) {
                     foreach ($q1->valueset as $avalue1) {
+                        $valuesettpl = clone($avalue1);
                         $valuea = $avalue1->id;
                         $valueb = $avalue2->id;
 
@@ -139,20 +115,18 @@ class mod_customlabel_renderer extends plugin_renderer_base {
 
                         $value = @$values[$valuea][$valueb];
                         $valuekey = "ct_{$valuea}_{$valueb}";
-                        $class = ($value) ? 'included' : '';
-                        $str .= '<td class="constraint-cell '.$class.'">';
-                        $str .= html_writer::select($options, $valuekey, $value, null);
-                        $str .= '</td>';
+                        $class = ($value) ? 'green' : 'red';
+                        $attrs = array('class' => 'customlabel-constraint-select '.$class);
+                        $valuesettpl->optionsselect = html_writer::select($options, $valuekey, $value, '', $attrs);
+                        $value2settpl->valueset[] = $valuesettpl;
                         $j++;
                     }
                 }
-                $str .= '</tr>';
+                $template->value2set[] = $value2settpl;
                 $i++;
             }
         }
-        $str .= '</table>';
-        $str .= '</p>';
 
-        return $str;
+        return $this->output->render_from_template('mod_customlabel/constraint_form', $template);
     }
 }

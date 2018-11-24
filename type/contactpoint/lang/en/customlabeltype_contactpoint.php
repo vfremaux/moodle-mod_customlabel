@@ -31,6 +31,8 @@ $string['contactpoint:addinstance'] = 'Can add an instance';
 
 $string['pluginname'] = 'Course element : Contact Point';
 $string['typename'] = 'Contact point';
+$string['contactpoint'] = 'Contact point';
+$string['method'] = 'Method';
 $string['configtypename'] = 'Enable subtype Contact point';
 $string['instructions'] = 'Instructions';
 $string['contacttype'] = 'Contact type';

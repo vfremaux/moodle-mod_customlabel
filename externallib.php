@@ -175,6 +175,8 @@ class mod_customlabel_external extends external_api {
         }
 
         $instance = $DB->get_record('customlabel', array('id' => $instanceid));
+        $cm = get_coursemodule_from_instance('customlabel', $instanceid);
+        $instance->coursemodule = $cm->id;
 
         if ($attributekey == 'labelclass') {
             return $instance->labelclass;
@@ -248,7 +250,8 @@ class mod_customlabel_external extends external_api {
         }
 
         $instance = $DB->get_record('customlabel', array('id' => $instanceid));
-
+        $cm = get_coursemodule_from_instance('customlabel', $instanceid);
+        $instance->coursemodule = $cm->id;
         $instanceobj = customlabel_load_class($instance, true);
         debug_trace("Updating customlabel $attributekey with $value ");
         $instanceobj->update_data($attributekey, $value);

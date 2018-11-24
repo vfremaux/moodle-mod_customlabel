@@ -33,6 +33,7 @@ $string['pluginname'] = 'Elément de cours&nbsp;: Formule';
 $string['typename'] = 'Formule';
 $string['configtypename'] = 'Active le type Formule';
 $string['formuletext'] = 'Formule';
+$string['statement'] = 'Formule';
 
 $string['template'] = '
 <table class="custombox-formule" cellspacing="0" width="100%">

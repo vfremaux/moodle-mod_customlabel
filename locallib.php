@@ -42,7 +42,7 @@ if (!isset($CFG->classification_type_table)) {
  * @param int $context if a context is given, filters out any type that is not allowed against
  *                     roles held by the current user. Returns all types otherwise.
  * @param bool $ignoredisabled
- * @param $outputmode if unset will get an associative array, if set to 'names' will provide an array of names
+ * @param $outputmode if set to true will get an associative array, if set to 'names' will provide an array of names
  * @return a sorted array of class definitions as objects or an array of class names
  */
 function customlabel_get_classes($context = null, $ignoredisabled = true, $outputmode = false) {
@@ -94,7 +94,7 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
         }
     }
 
-    if ($outputmode == 'names') {
+    if ($outputmode === 'names') {
         return $classnames;
     }
 
@@ -158,7 +158,7 @@ function customlabel_get_fileareas() {
  * @param object $customlabel a customlabel record from the database
  * @param boolean $quiet if true, will be silent when failing finding the class reference
  * @return an instanciated classed object, loaded with the data in the record.
- * @uses $CFG
+ * @uses $CFG, $OUTPUT
  */
 function customlabel_load_class($customlabel, $quiet = false) {
     global $CFG, $OUTPUT;
@@ -171,7 +171,7 @@ function customlabel_load_class($customlabel, $quiet = false) {
     if (file_exists($classfile)) {
         include_once($classfile);
         $constructorfunction = "customlabel_type_{$customlabel->labelclass}";
-        $instance = new $constructorfunction($customlabel, $customlabel->labelclass);
+        $instance = new $constructorfunction($customlabel);
         return $instance;
     } else {
         if (debugging()) {
@@ -182,10 +182,11 @@ function customlabel_load_class($customlabel, $quiet = false) {
 }
 
 /**
+ * OBSOLETE
  * preprocesses for content serialization
  * @param object $customlabel
  * @return the filtered object
- */
+ *
 function customlabel_stripslashes_fields($customlabel) {
 
     // Unprotects single quote in fields.
@@ -198,13 +199,14 @@ function customlabel_stripslashes_fields($customlabel) {
     }
     return $customlabel;
 }
-
+*/
 
 /**
+ * OBSOLETE
  * preprocesses for content serialization
  * @param object $customlabel
  * @return the filtered object
- */
+ *
 function customlabel_addslashes_fields($customlabel) {
 
     // Protects single quote in fields.
@@ -218,6 +220,84 @@ function customlabel_addslashes_fields($customlabel) {
         }
     }
     return $customlabel;
+}
+*/
+
+function customlabel_process_fields(&$customlabelrec, &$instance) {
+
+    $customlabeldata = new StdClass;
+    $context = context_module::instance($customlabelrec->coursemodule);
+
+    foreach ($instance->fields as $field) {
+
+        $fieldname = $field->name;
+
+        if (!isset($customlabelrec->data->{$fieldname})) {
+            /*
+             * Odd thing when bouncing : When changing form and reloading alternate labelclass,
+             * mform->get_data() seems keeping the old form result.
+             */
+            $customlabelrec->{$fieldname} = @$_REQUEST[$fieldname];
+        }
+
+        // echo "Receiving $field->name of type $field->type as ".@$_REQUEST[$fieldname]."</br>";
+
+        /*
+        if ($field->type == 'date') {
+            $m = $customlabelrec->{$fieldname}['month'];
+            $d = $customlabelrec->{$fieldname}['day'];
+            $y = $customlabelrec->{$fieldname}['year'];
+            $timestamp = mktime(0, 0, 0, $m, $d, $y);
+            $customlabeldata->{$fieldname} = $timestamp;
+            unset($customlabelrec->{$fieldname});
+            continue;
+        }
+
+        if ($field->type == 'datetime') {
+            $h = $customlabelrec->{$fieldname}['hour'];
+            $m = $customlabelrec->{$fieldname}['min'];
+            $s = $customlabelrec->{$fieldname}['sec'];
+            $mo = $customlabelrec->{$fieldname}['month'];
+            $d = $customlabelrec->{$fieldname}['day'];
+            $y = $customlabelrec->{$fieldname}['year'];
+            $timestamp = mktime($h, $m, $s, $mo, $d, $y);
+            $customlabeldata->{$fieldname} = $timestamp;
+            unset($customlabelrec->{$fieldname});
+            continue;
+        }
+        */
+
+        if (preg_match('/editor/', $field->type)) {
+            $editorname = $fieldname.'_editor';
+            if (!isset($customlabelrec->$editorname)) {
+                $editordata = @$_REQUEST[$editorname]; // Odd thing when bouncing.
+            } else {
+                $editordata = $customlabelrec->$editorname; // Odd thing when bouncing.
+            }
+
+            // Saves all embdeded images or files into elements in a single text area.
+            file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
+            $t = $editordata['text'];
+            $customlabeldata->{$fieldname} = customlabel_file_rewrite_urls_to_pluginfile($t, $editordata['itemid'], $field->itemid);
+            unset($customlabelrec->{$fieldname});
+            continue;
+        }
+
+        if ($field->type == 'filepicker') {
+            $customlabeldata->{$fieldname} = @$customlabelrec->{$fieldname};
+            /*
+             * We need pass coursemodule as file storage context.
+             */
+            customlabel_save_draft_file($customlabelrec, $fieldname);
+            continue;
+        }
+
+        $customlabeldata->{$fieldname} = @$customlabelrec->{$fieldname};
+        unset($customlabelrec->{$fieldname});
+    }
+
+    // print_object($customlabeldata);
+    return $customlabeldata;
 }
 
 /**
@@ -372,6 +452,8 @@ function customlabel_regenerate(&$customlabel, $labelclassname, &$course) {
     if (!is_object($data)) {
         $data = new StdClass; // Reset old serialized data.
     };
+    $cm = get_coursemodule_from_instance('customlabel', $customlabel->id);
+    $data->coursemodule = $cm->id;
 
     // Realize a pseudo update.
     $data->content = $customlabel->content;
@@ -395,11 +477,11 @@ function customlabel_regenerate(&$customlabel, $labelclassname, &$course) {
  * Use by customlabel updater or by manual mass regeneration tools.
  * This may be needed if an administrator changes the elements templates
  * and need to recalculate all the course elements to use this change.
- * This function operzates in one single course
+ * This function operates in one single course
  * @param int $course the course id where to operate
  * @param mixed $labelclasses 'all' or an array of class names to operate in the course.
  */
-function customlabel_course_regenerate(&$course, $labelclasses = '') {
+function customlabel_course_regenerate(&$course, $labelclasses = '', $options = array()) {
     global $DB;
 
     if ($labelclasses == 'all') {
@@ -413,7 +495,14 @@ function customlabel_course_regenerate(&$course, $labelclasses = '') {
         $customlabels = $DB->get_records_select('customlabel', $select, array($course->id, $labelclassname));
         if ($customlabels) {
             foreach ($customlabels as $customlabel) {
-                customlabel_regenerate($customlabel, $labelclassname, $course);
+                if (!empty($options['verbose'])) {
+                    mtrace('Processing label '.$customlabel->id);
+                }
+                if (empty($options['dryrun'])) {
+                    customlabel_regenerate($customlabel, $labelclassname, $course);
+                } else {
+                    mtrace('Dry run. Nothing done.');
+                }
             }
         }
     }

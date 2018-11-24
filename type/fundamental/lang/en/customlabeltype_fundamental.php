@@ -31,6 +31,7 @@ $string['fundamental:addinstance'] = 'Can add an instance';
 
 $string['pluginname'] = 'Course element : Fundamental';
 $string['typename'] = 'Fundamental';
+$string['fundamental'] = 'Fundamental';
 $string['configtypename'] = 'Enable subtype Fundamental';
 $string['fundamentaltext'] = 'Fundamental';
 

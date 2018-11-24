@@ -73,6 +73,13 @@ class customlabel_type_sectionheading extends customlabel_type {
         $field->default = 'none';
         $this->fields['imageposition'] = $field;
 
+        $field = new StdClass();
+        $field->name = 'imagewidth';
+        $field->type = 'textfield';
+        $field->size = 20;
+        $field->default = '128';
+        $this->fields['imagewidth'] = $field;
+
     }
 
     /**
@@ -84,24 +91,13 @@ class customlabel_type_sectionheading extends customlabel_type {
 
         // Get virtual fields from course title.
         $storedimage = $this->get_file_url('image');
-        $imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
+        $this->data->imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
         if ($this->data->imagepositionoption == 'left') {
-            $this->data->imageL = "<td class=\"custombox-icon-left sectionheading\"
-                                       align=\"center\"
-                                       style=\"background:url({$imageurl}) 50% 50% no-repeat transparent\">";
-            $this->data->imageL .= $this->data->overimagetext;
-            $this->data->imageL .= '</td>';
-            $this->data->imageR = '';
+            $this->data->toleft = true;
+            $this->data->contentpadding = "padding-left:2em";
         } else if ($this->data->imagepositionoption == 'right') {
-            $this->data->imageL = '';
-            $this->data->imageR = "<td class=\"custombox-icon-right sectionheading\"
-                                       align=\"center\"
-                                       style=\"background:url({$imageurl}) 50% 50% no-repeat transparent\">";
-            $this->data->imageR .= $this->data->overimagetext;
-            $this->data->imageR .= '</td>';
-        } else {
-            $this->data->imageL = '';
-            $this->data->imageR = '';
+            $this->data->toright = true;
+            $this->data->contentpadding = "padding-right:2em";
         }
     }
 }

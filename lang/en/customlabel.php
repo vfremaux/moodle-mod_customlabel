@@ -36,6 +36,8 @@ $string['customlabelplugins'] = 'Plugins';
 $string['customlabeltypepluginname'] = 'Customlabel type name';
 $string['hideshow'] = 'Hide/Show';
 $string['settings'] = 'Settings';
+$string['choose'] = 'Choose';
+$string['save'] = 'Save settings';
 $string['managecustomlabeltypeplugins'] = 'Manage customlabel plugins';
 $string['disabledsubtypes'] = 'Disabled subtypes';
 $string['disabledsubtypesdesc'] = 'Any subtype mentionned in this field will be globally disabled for the whole site.';
@@ -60,6 +62,8 @@ $string['pluginadministration'] = 'Course element administration';
 $string['pluginname'] = 'Course element';
 $string['regenerate'] = 'Regenerate';
 $string['regeneration'] = 'Content mass regeneration';
+$string['resetall'] = 'Reset all';
+$string['resetlabeltypes'] = 'Reset label types';
 $string['resourcetypecustomlabel'] = 'Course element';
 $string['roleaccesstoelements'] = 'Access per role';
 $string['sametypes'] = 'You cannot constraint twice the same type';
@@ -70,6 +74,8 @@ $string['updateall'] = 'Update all instances';
 $string['updatelabels'] = 'Regenerate instances of {$a}';
 $string['updatescope'] = 'Updating scope';
 $string['usesafestorage'] = 'Use safe storage for content (base64)';
+$string['userstatesreset'] = 'User states have been reset';
+$string['withcompletions'] = 'Reset label completions';
 $string['modulename_help'] = "Course Elements provide you with pedagogic modules that are already layout and
 designed for serving some high level pedagogic needs. Course elements have subtypes that address common
 learning actions : work to do, soluce, see also (optional reference), local goals, reminder, and some

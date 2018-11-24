@@ -35,6 +35,7 @@ $string['configtypename'] = 'Active le type Titre de section';
 $string['heading'] = 'Titre de section&nbsp;';
 $string['shortdesc'] = 'Description courte&nbsp;';
 $string['imageposition'] = 'Position de l\'image&nbsp;';
+$string['imagewidth'] = 'Largeur de l\'image';
 $string['none'] = 'Pas d\'image';
 $string['left'] = 'A gauche';
 $string['right'] = 'A droite';

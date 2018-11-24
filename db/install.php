@@ -26,6 +26,50 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
+ * Defaults as an array of
+ * type, code, plugin name, destination table (types)
+ * typecode, code, plugin name, destination table (values)
+ */
+function xmldb_customlabel_qualifier_defaults($typesorvalues = 'types') {
+
+    if ($typesorvalues == 'types') {
+        return array(
+            array('filter', 'WORKEFFORT', 'customlabeltype_worktodo', 'customlabel_mtd_type'),
+            array('filter', 'WORKMODE', 'customlabeltype_worktodo', 'customlabel_mtd_type'),
+            array('filter', 'WORKTYPE', 'customlabeltype_worktodo', 'customlabel_mtd_type')
+        );
+    }
+
+    return array(
+        array('WORKEFFORT', 'NQ', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKEFFORT', 'VERYEASY', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKEFFORT', 'EASY', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKEFFORT', 'MEDIUM', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKEFFORT', 'HARD', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKEFFORT', 'VERYHARD', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+
+        array('WORKMODE', 'NQ', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKMODE', 'ALONEONLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKMODE', 'ALONEOFFLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKMODE', 'TEAMONLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKMODE', 'TEAMOFFLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKMODE', 'COURSEONLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKMODE', 'COURSEOFFLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKMODE', 'COACHSYNCHRONOUS', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKMODE', 'COACHASYNCHRONOUS', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+
+        array('WORKTYPE', 'NQ', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKTYPE', 'TRAINING', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKTYPE', 'WRITING', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKTYPE', 'INFOQUEST', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKTYPE', 'EXERCISE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKTYPE', 'PROJECT', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKTYPE', 'EXPERIMENT', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKTYPE', 'SYNTHESIS', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+    }
+}
+
+/**
  * Code run after the quiz module database tables have been created.
  */
 function xmldb_customlabel_install() {
@@ -33,244 +77,65 @@ function xmldb_customlabel_install() {
 
     // Work effort.
 
-    $params = ['type' => 'filter', 'code' => 'WORKEFFORT'];
+    $params = array('type' => 'filter', 'code' => 'WORKEFFORT');
     if ($DB->record_exists('customlabel_mtd_type', $params)) {
         // Was already installed once.
         return;
     }
 
-    $record = new stdClass();
-    $record->type = 'filter';
-    $record->code = 'WORKEFFORT';
-    $record->name = get_string('WORKEFFORT', 'customlabeltype_worktodo');
-    $record->description = get_string('WORKEFFORT_desc', 'customlabeltype_worktodo');
-    $record->sortorder = 1;
-    $typeid = $DB->insert_record('customlabel_mtd_type', $record);
+    $types = xmldb_customlabel_qualifier_defaults('types');
+    $i = 0;
+    $installedtypes = array();
+    foreach ($types as $type) {
+        list($fieldtype, $code, $plugin, $table) = $type;
+        $record = new stdClass();
+        $record->type = $fieldtype;
+        $record->code = $code;
+        $record->name = xmldb_customlabel_build_multilang($code, $plugin);
+        $record->description = xmldb_customlabel_build_multilang($code.'_desc', $plugin);
+        $record->sortorder = $i;
+        $installedtypes[$code] = $DB->insert_record($table, $record);
+        $i+;
+    }
 
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'NQ';
-    $record->value = get_string('NQ', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 1;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
+    $values = xmldb_customlabel_qualifier_defaults('values');
+    $i = 0;
+    foreach ($values as $value) {
+        list($fieldcode, $code, $plugin, $table, $parent) = $value;
+        $record = new stdClass();
+        $record->typeid  = $installedtypes[$fieldcode];
+        $record->code = $code;
+        $record->value = xmldb_customlabel_build_multilang($code, 'customlabeltype_worktodo');
+        $record->translatable = 0;
+        $record->sortorder = $i;
+        $record->parent = $parent;
+        $DB->insert_record($table, $record);
+        $i+;
+    }
+}
 
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'VERYEASY';
-    $record->value = get_string('VERYEASY', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 2;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
+/**
+ * Reload qualifier default strings with all languages available.
+ *
+ */
+function xmldb_customlabel_build_multilang($code, $plugin) {
 
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'EASY';
-    $record->value = get_string('EASY', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 3;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
+    $tag = 'span';
+    if (preg_match('/_desc', $code)) {
+        $tag = 'div';
+    }
 
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'MEDIUM';
-    $record->value = get_string('MEDIUM', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 4;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
+    // Find all the languages used.
+    if (!empty($CFG->langlist)) {
+        $langs = explode(',', $CFG->langlist);
+    } else {
+        $langs = get_string_manager()->get_list_of_translations();
+    }
 
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'HARD';
-    $record->value = get_string('HARD', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 5;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
+    foreach (array_keys($langs) as $lang) {
+        $langstring = new lang_string($code, $plugin, '', $lang);
+        $langvalues[] = '<'.$tag.' class="multilang" lang="'.$lang.'">'.$langstring->out().'</'.$tag.'>';
+    }
 
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'VERYHARD';
-    $record->value = get_string('VERYHARD', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 6;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    // Workmodes.
-
-    $record = new stdClass();
-    $record->type = 'filter';
-    $record->code = 'WORKMODE';
-    $record->name = get_string('WORKMODE', 'customlabeltype_worktodo');
-    $record->description = get_string('WORKMODE_desc', 'customlabeltype_worktodo');
-    $record->sortorder = 2;
-    $typeid = $DB->insert_record('customlabel_mtd_type', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'NQ';
-    $record->value = get_string('NQ', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 1;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'ALONEONLINE';
-    $record->value = get_string('ALONEONLINE', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 2;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'ALONEOFFLINE';
-    $record->value = get_string('ALONEOFFLINE', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 3;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'TEAMONLINE';
-    $record->value = get_string('TEAMONLINE', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 4;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'TEAMOFFLINE';
-    $record->value = get_string('TEAMOFFLINE', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 5;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'COURSEONLINE';
-    $record->value = get_string('COURSEONLINE', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 6;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'COURSEOFFLINE';
-    $record->value = get_string('COURSEOFFLINE', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 7;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'COACHSYNCHRONOUS';
-    $record->value = get_string('COACHSYNCHRONOUS', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 8;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'COACHASYNCHRONOUS';
-    $record->value = get_string('COACHASYNCHRONOUS', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 9;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    // Worktypes.
-
-    $record = new stdClass();
-    $record->type = 'filter';
-    $record->code = 'WORKTYPE';
-    $record->name = get_string('WORKTYPE', 'customlabeltype_worktodo');
-    $record->description = get_string('WORKTYPE_desc', 'customlabeltype_worktodo');
-    $record->sortorder = 3;
-    $typeid = $DB->insert_record('customlabel_mtd_type', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'NQ';
-    $record->value = get_string('NQ', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 2;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'TRAINING';
-    $record->value = get_string('TRAINING', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 2;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'WRITING';
-    $record->value = get_string('WRITING', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 2;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'INFOQUEST';
-    $record->value = get_string('INFOQUEST', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 2;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'EXERCISE';
-    $record->value = get_string('EXERCISE', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 2;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'PROJECT';
-    $record->value = get_string('PROJECT', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 2;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'EXPERIMENT';
-    $record->value = get_string('EXPERIMENT', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 2;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
-
-    $record = new stdClass();
-    $record->typeid  = $typeid;
-    $record->code = 'SYNTHESIS';
-    $record->value = get_string('SYNTHESIS', 'customlabeltype_worktodo');
-    $record->translatable = 0;
-    $record->sortorder = 2;
-    $record->parent = 0;
-    $DB->insert_record('customlabel_mtd_value', $record);
+    return implode('', $langvalues);
 }

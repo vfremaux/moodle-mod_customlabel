@@ -32,6 +32,7 @@ $string['pluginname'] = 'Course element: Formula';
 $string['typename'] = 'Formula';
 $string['configtypename'] = 'Enable subtype Formula';
 $string['formuletext'] = 'Formula';
+$string['statement'] = 'Formula';
 
 $string['family'] = 'pedagogic';
 

@@ -37,6 +37,8 @@ $string['concepts'] = 'Key concepts';
 $string['teachingorganization'] = 'Pedagogic organisation';
 $string['objectives'] = 'Learner\'s objectives';
 $string['duration'] = 'Duration ';
+$string['trainingid'] = 'Training ID';
+$string['public'] = 'Audience';
 $string['prerequisites'] = 'Prerequisites';
 $string['learningmethod'] = 'Learning method';
 $string['tablecaption'] = 'Table caption';
@@ -51,6 +53,7 @@ $string['showlearningmethod'] = 'Show Learning method';
 $string['showfollowers'] = 'Show Following courses ';
 $string['showtarget'] = 'Show Target';
 $string['target'] = 'Target';
+$string['teachingorg'] = 'Teaching organisation';
 $string['leftcolumnratio'] = 'Left column ratio';
 
 $string['family'] = 'meta';

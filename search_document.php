@@ -135,6 +135,7 @@ class customlabel_document_wrapper extends document_wrapper {
         $params = array('course' => $instance->course, 'module' => $coursemodule, 'instance' => $instance->id);
         $cm = $DB->get_record('course_modules', $params);
         $context = context_module::instance($cm->id);
+        $instance->coursemodule = $cm->id;
         $customclass = customlabel_load_class($instance, true);
         if ($customclass) {
             $arr = get_object_vars($instance);
@@ -160,6 +161,7 @@ class customlabel_document_wrapper extends document_wrapper {
         if ($customlabel) {
             $coursemodule = $DB->get_field('modules', 'id', array('name' => 'customlabel'));
             $cm = $DB->get_record('course_modules', array('module' => $coursemodule, 'instance' => $customlabel->id));
+            $customlabel->coursemodule = $cm->id;
             $customclass = customlabel_load_class($customlabel, true);
             $context = context_module::instance($cm->id);
             return new CustomLabelSearchDocument(get_object_vars($customlabel), $customclass, $context->id);

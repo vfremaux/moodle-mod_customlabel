@@ -32,7 +32,8 @@ $string['information:addinstance'] = 'Peut ajouter une instance';
 $string['pluginname'] = 'Elément de cours&nbsp;: Information';
 $string['typename'] = 'Information';
 $string['configtypename'] = 'Active le type Information';
-$string['information'] = 'Texte de l\'information&nbsp;';
+$string['informationtext'] = 'Texte de l\'information&nbsp;';
+$string['information'] = 'Information';
 
 $string['template'] = '
 <table class="custombox-information" cellspacing="0" width="100%">
