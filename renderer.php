@@ -29,12 +29,11 @@ defined('MOODLE_INTERNAL') || die();
 class mod_customlabel_renderer extends plugin_renderer_base {
 
     public function set_choice($view, $q1, $q2) {
-        global $DB, $OUTPUT;
+        global $DB;
 
         $template = new StdClass();
 
         $config = get_config('customlabel');
-        $choosestr = get_string('choose');
         $choiceurl = new moodle_url('/mod/customlabel/adminmetadata.php');
         $table = $config->classification_type_table;
         $valuetypes = $DB->get_records_menu($table, array('type' => 'category'), 'name', 'id,name');
@@ -45,7 +44,7 @@ class mod_customlabel_renderer extends plugin_renderer_base {
         $template->valuetypesselect2 = html_writer::select($valuetypes, 'value2', $q2->value);
 
         if ($q1->value == $q2->value) {
-            $template->sametypesignal = $OUTPUT->notification(get_string('sametypes', 'customlabel'));
+            $template->sametypesignal = $this->output->notification(get_string('sametypes', 'customlabel'));
         }
 
         return $this->output->render_from_template('mod_customlabel/set_choice', $template);

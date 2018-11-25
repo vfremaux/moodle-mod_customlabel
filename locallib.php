@@ -163,7 +163,7 @@ function customlabel_get_fileareas() {
 function customlabel_load_class($customlabel, $quiet = false) {
     global $CFG, $OUTPUT;
 
-    if (is_null($customlabel)) {
+    if (is_null($customlabel) && !$quiet) {
         print_error('errorclassloading', 'customlabel');
     }
 
@@ -469,7 +469,7 @@ function customlabel_regenerate(&$customlabel, $labelclassname, &$course) {
     $instance->postprocess_data($course);
     $customlabel->processedcontent = $instance->make_content('', $course); // This realizes the template.
     $customlabel->timemodified = time();
-    $result = $DB->update_record('customlabel', $customlabel);
+    $DB->update_record('customlabel', $customlabel);
     mtrace("\tfinished customlabel $customlabel->id");
 }
 

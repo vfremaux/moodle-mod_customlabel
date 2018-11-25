@@ -65,7 +65,7 @@ function xmldb_customlabel_qualifier_defaults($typesorvalues = 'types') {
         array('WORKTYPE', 'EXERCISE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
         array('WORKTYPE', 'PROJECT', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
         array('WORKTYPE', 'EXPERIMENT', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKTYPE', 'SYNTHESIS', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        array('WORKTYPE', 'SYNTHESIS', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0)
     );
 }
 
@@ -95,7 +95,7 @@ function xmldb_customlabel_install() {
         $record->description = xmldb_customlabel_build_multilang($code.'_desc', $plugin);
         $record->sortorder = $i;
         $installedtypes[$code] = $DB->insert_record($table, $record);
-        $i+;
+        $i++;
     }
 
     $values = xmldb_customlabel_qualifier_defaults('values');
@@ -110,7 +110,7 @@ function xmldb_customlabel_install() {
         $record->sortorder = $i;
         $record->parent = $parent;
         $DB->insert_record($table, $record);
-        $i+;
+        $i++;
     }
 }
 

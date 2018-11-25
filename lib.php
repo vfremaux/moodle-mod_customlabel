@@ -555,7 +555,7 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
  *   value depends on comparison type)
  */
 function customlabel_get_completion_state($course, $cm, $userid, $type) {
-    global $CFG, $DB;
+    global $DB;
 
     // Get customlabel details.
     if (!($instance = $DB->get_record('customlabel', array('id' => $cm->instance)))) {
