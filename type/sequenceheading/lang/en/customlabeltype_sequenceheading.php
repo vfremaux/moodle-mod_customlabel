@@ -33,6 +33,7 @@ $string['shortdesc'] = 'Short description';
 $string['imageurl'] = 'Alternate Image URL';
 $string['image'] = 'Title thumb image';
 $string['imageposition'] = 'Image position';
+$string['imagewidth'] = 'Image width';
 $string['left'] = 'Left';
 $string['right'] = 'Right';
 $string['none'] = 'Not visible';

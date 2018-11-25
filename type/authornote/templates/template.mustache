@@ -1,0 +1,46 @@
+{{!
+    This file is part of The Customlabel Module
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_customlabel/authornote
+
+    Classes required for JS:
+    * mod/customlabel/customlabel
+
+}}
+<!-- customlabeltype_authornote/template -->
+<div class="custombox-control authornote">
+    <img id="customctl-{{customid}}" src="{{{initialcontrolimageurl}}}" />
+    <span class="custombox-header-caption authornote">{{#str}}authornote, customlabeltype_authornote{{/str}}</span>
+</div>
+
+<div class="custombox-content authornote" id="custom-{{customid}}">
+
+    <div class="custombox-helper authornote">
+        <b>{{#str}}authornotesignal, customlabeltype_authornote{{/str}}</b>
+    </div>
+
+    <table width="100%" class="custombox-authornote">
+        <tr valign="top">
+            <td class="custombox-thumb authornote" style="background-image : url({{{iconurl}}});" width="2%"></td>
+            <td class="custombox-content authornote">
+                {{{authornote}}}
+            </td>
+        </tr>
+    </table>
+
+</div>
+<!-- /customlabeltype_authornote/template -->

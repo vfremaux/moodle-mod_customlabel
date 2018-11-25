@@ -32,6 +32,7 @@ class mod_customlabel_flexpage extends block_flexpagemod_lib_mod {
 
         $cm = $this->get_cm();
         $customlabel = $DB->get_record('customlabel', array('id' => $cm->instance));
+        $customlabel->coursemodule = $cm->id;
         $instance = customlabel_load_class($customlabel, $customlabel->labelclass);
         $block = null;
         $context = context_module::instance($cm->id);

@@ -29,6 +29,7 @@ $string['pluginname'] = 'Course element: Method';
 $string['typename'] = 'Operational Method';
 $string['configtypename'] = 'Enable subtype Method';
 $string['methodtext'] = 'Method text';
+$string['method'] = 'Method';
 
 $string['family'] = 'pedagogic';
 
