@@ -151,8 +151,6 @@ function customlabel_add_instance($customlabelrec) {
     $customlabelrec->fallbacktype = ''.@$instance->fallbacktype;
 
     $customlabelrec->content = base64_encode(json_encode($customlabeldata));
-    // $instance->data = $customlabeldata; // Load data into instance.
-    // $customlabelrec->processedcontent = $instance->make_content();
     $customlabelrec->timemodified = time();
     return $DB->insert_record('customlabel', $customlabelrec);
 }
@@ -177,25 +175,11 @@ function customlabel_update_instance($customlabelrec) {
         $customlabelrec->content = '';
         $customlabelrec->name = $customlabelrec->labelclass.'_'.$customlabelrec->coursemodule;
         $customlabelrec->fallbacktype = @$instance->fallbacktype;
-    /*
-    } else {
-        // Force old storage to clear when recoded to safe mode.
-        $customlabelrec->content = base64_encode(json_encode($customlabelrec));
-        $instance = customlabel_load_class($customlabelrec);
-        $instance->preprocess_data();
-        $instance->process_form_fields();
-        $instance->process_datasource_fields();
-        $instance->postprocess_data();
-        $customlabelrec->name = $instance->title;
-        $customlabelrec->fallbacktype = @$instance->fallbacktype;
-        $instance->posttemplate_data();
-    */
     }
 
     $customlabelrec->introformat = 0;
     $customlabelrec->timemodified = time();
     $customlabelrec->id = $customlabelrec->instance;
-    // $customlabelrec->processedcontent = '';
 
     // We make a true clone to process it from incoming data.
     $updatedinstance = customlabel_load_class($customlabelrec);
@@ -206,8 +190,6 @@ function customlabel_update_instance($customlabelrec) {
 
     $customlabelrec->content = base64_encode(json_encode($customlabeldata));
     $updatedinstance->data = $customlabeldata;
-    // $processedcontent = $updatedinstance->make_content();
-    // $customlabelrec->processedcontent = $processedcontent;
     $result = $DB->update_record('customlabel', $customlabelrec);
 
     if ($result && $typechanged) {

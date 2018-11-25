@@ -105,9 +105,10 @@ class customlabel_type_collapsedtext extends customlabel_type {
         }
         $this->data->openallstr = get_string('openall', 'customlabeltype_collapsedtext');
         $this->data->closeallstr = get_string('closeall', 'customlabeltype_collapsedtext');
-        $this->data->toggleicon = $OUTPUT->pix_icon('open', get_string('open', 'customlabeltype_collapsedtext'), 'customlabeltype_collapsedtext');
-        $this->data->openallicon = $OUTPUT->pix_icon('expandall', get_string('openall', 'customlabeltype_collapsedtext'), 'customlabeltype_collapsedtext');
-        $this->data->closeallicon = $OUTPUT->pix_icon('collapseall', get_string('closeall', 'customlabeltype_collapsedtext'), 'customlabeltype_collapsedtext');
+        $iconstr = get_string('open', 'customlabeltype_collapsedtext');
+        $this->data->toggleicon = $OUTPUT->pix_icon('open', $iconstr, 'customlabeltype_collapsedtext');
+        $this->data->openallicon = $OUTPUT->pix_icon('expandall', $this->data->openallstr, 'customlabeltype_collapsedtext');
+        $this->data->closeallicon = $OUTPUT->pix_icon('collapseall', $this->data->closeallstr, 'customlabeltype_collapsedtext');
 
         if (empty($this->cmid)) {
             debugging('here');

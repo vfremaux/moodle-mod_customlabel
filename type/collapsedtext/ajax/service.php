@@ -33,7 +33,7 @@ if ($action == 'open') {
     $customlabel = customlabel_load_class($instance);
 
     // Mark each chapter as a power of 2, 1 for chapter 1, 10 for chapter 2 and so on.
-    // If all chapter are marked, the customlabel is complete. ($item starts at 0)
+    // If all chapter are marked, the customlabel is complete. ($item starts at 0).
     $pow = pow(2, $item - 1);
 
     $params = array('userid' => $USER->id, 'customlabelid' => $instance->id);

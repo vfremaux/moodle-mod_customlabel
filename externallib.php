@@ -145,7 +145,8 @@ class mod_customlabel_external extends external_api {
     /**
      * Get one or all attributes from a course
      *
-     * @param string $cidsource the field for the course element identifier. 'idnumber' addresses the course module idnumber, while id
+     * @param string $cidsource the field for the course element identifier. 'idnumber'
+     * addresses the course module idnumber, while id
      * addresses the element instance record.
      * @param string $cid the courseid id. If 0, will get all the certificates of the site
      * @param string $attributekey the attribute key. If 0, will get all the attributes of the element
@@ -162,7 +163,7 @@ class mod_customlabel_external extends external_api {
         );
         $validparams = self::validate_element_parameters(self::get_attribute_parameters(), $parameters);
 
-        // do what needs to be done.
+        // Do what needs to be done.
         switch ($parameters['cidsource']) {
             case 'idnumber':
                 $cm = $DB->get_record('course_modules', array('idnumber' => $cid));
@@ -303,7 +304,7 @@ class mod_customlabel_external extends external_api {
         // Do not call elements as there are more id sources.
         $validparams = self::validate_parameters(self::refresh_parameters(), $parameters);
 
-        // do what needs to be done.
+        // Do what needs to be done.
         $instanceids = array();
         switch ($parameters['cidsource']) {
             case 'idnumber':
@@ -438,7 +439,8 @@ class mod_customlabel_external extends external_api {
 
         $type = $DB->get_record($config->classification_type_table, array('id' => $params['domainid']));
 
-        $domainvalues = $DB->get_records($config->classification_value_table, array($config->classification_value_type_key => $type->id));
+        $params = array($config->classification_value_type_key => $type->id);
+        $domainvalues = $DB->get_records($config->classification_value_table, $params);
 
         return $domainvalues;
     }

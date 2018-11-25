@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
-include("../../config.php");
+include('../../config.php');
 
 $type = required_param('type', PARAM_TEXT);
 $shape = required_param('shape', PARAM_TEXT);

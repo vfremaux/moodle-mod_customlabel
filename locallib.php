@@ -181,48 +181,6 @@ function customlabel_load_class($customlabel, $quiet = false) {
     }
 }
 
-/**
- * OBSOLETE
- * preprocesses for content serialization
- * @param object $customlabel
- * @return the filtered object
- *
-function customlabel_stripslashes_fields($customlabel) {
-
-    // Unprotects single quote in fields.
-    $customlabelarray = get_object_vars($customlabel);
-    if ($customlabelarray) {
-        foreach ($customlabelarray as $key => $value) {
-            $customlabel->{$key} = str_replace("\\'", "'", $customlabel->{$key});
-            $customlabel->{$key} = str_replace("\\\"", "\"", $customlabel->{$key});
-        }
-    }
-    return $customlabel;
-}
-*/
-
-/**
- * OBSOLETE
- * preprocesses for content serialization
- * @param object $customlabel
- * @return the filtered object
- *
-function customlabel_addslashes_fields($customlabel) {
-
-    // Protects single quote in fields.
-    $customlabelarray = get_object_vars($customlabel);
-    if ($customlabelarray) {
-        foreach ($customlabelarray as $key => $value) {
-            if ($key == 'content') {
-                $customlabel->{$key} = str_replace("\\", "\\\\", $customlabel->{$key});
-                $customlabel->{$key} = str_replace("'", "\\'", $customlabel->{$key});
-            }
-        }
-    }
-    return $customlabel;
-}
-*/
-
 function customlabel_process_fields(&$customlabelrec, &$instance) {
 
     $customlabeldata = new StdClass;
@@ -239,33 +197,6 @@ function customlabel_process_fields(&$customlabelrec, &$instance) {
              */
             $customlabelrec->{$fieldname} = @$_REQUEST[$fieldname];
         }
-
-        // echo "Receiving $field->name of type $field->type as ".@$_REQUEST[$fieldname]."</br>";
-
-        /*
-        if ($field->type == 'date') {
-            $m = $customlabelrec->{$fieldname}['month'];
-            $d = $customlabelrec->{$fieldname}['day'];
-            $y = $customlabelrec->{$fieldname}['year'];
-            $timestamp = mktime(0, 0, 0, $m, $d, $y);
-            $customlabeldata->{$fieldname} = $timestamp;
-            unset($customlabelrec->{$fieldname});
-            continue;
-        }
-
-        if ($field->type == 'datetime') {
-            $h = $customlabelrec->{$fieldname}['hour'];
-            $m = $customlabelrec->{$fieldname}['min'];
-            $s = $customlabelrec->{$fieldname}['sec'];
-            $mo = $customlabelrec->{$fieldname}['month'];
-            $d = $customlabelrec->{$fieldname}['day'];
-            $y = $customlabelrec->{$fieldname}['year'];
-            $timestamp = mktime($h, $m, $s, $mo, $d, $y);
-            $customlabeldata->{$fieldname} = $timestamp;
-            unset($customlabelrec->{$fieldname});
-            continue;
-        }
-        */
 
         if (preg_match('/editor/', $field->type)) {
             $editorname = $fieldname.'_editor';
@@ -296,7 +227,6 @@ function customlabel_process_fields(&$customlabelrec, &$instance) {
         unset($customlabelrec->{$fieldname});
     }
 
-    // print_object($customlabeldata);
     return $customlabeldata;
 }
 
@@ -322,7 +252,7 @@ function customlabel_save_draft_file(&$customlabel, $filearea) {
     if (!empty($customlabel->$fileareagroupname)) {
         $fileareagroup = (array)$customlabel->$fileareagroupname;
     } else if (!empty($_POST[$fileareagroupname])) {
-        $fileareagroup = $_POST[$fileareagroupname];
+        $fileareagroup = clean_param($_POST[$fileareagroupname], PARAM_TEXT);
     }
 
     if (!empty($fileareagroup)) {

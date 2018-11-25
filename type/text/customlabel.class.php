@@ -64,7 +64,7 @@ class customlabel_type_text extends customlabel_type {
         global $CFG;
 
         $this->data->label1 = get_string('readless', 'customlabeltype_text');
-        $this->data->label2 =  get_string('readmore', 'customlabeltype_text');
+        $this->data->label2 = get_string('readmore', 'customlabeltype_text');
 
         if (!empty($this->data->initiallyvisible)) {
             $this->data->initialstring = get_string('readless', 'customlabeltype_text');

@@ -36,7 +36,7 @@ class customlabel_type {
     public $fullaccess;
     public $content; // The encoded specific data.
     public $cmid; // The current course module.
-    public $processedcontent; // The expanded content, ready to print. OBSOLETE
+    public $processedcontent; // The expanded content, ready to print. OBSOLETE.
 
     /**
      * A customlabel has a type
@@ -48,7 +48,6 @@ class customlabel_type {
         $this->title = @$data->title;
         $this->type = $type;
         $this->fields = array();
-        // $this->data = $data;
         $this->instance = $data;
         $this->data = json_decode(base64_decode(@$data->content));
         $this->fullaccess = true;
@@ -467,7 +466,7 @@ class customlabel_type {
                  * to <fieldname>option data entry.
                  */
                 if (@$field->multiple) {
-                    
+
                     /*
                      * If multiple select or list, the value set
                      * is always an array, event if having a single value.
