@@ -1,0 +1,49 @@
+{{!
+    This file is part of The Customlabel Module
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_customlabel/sectionheading
+
+    Classes required for JS:
+    * mod/customlabel/customlabel
+
+}}
+<!-- customlabeltype_sectionheading/template -->
+<table class="custombox-sectionheading" width="100%">
+    <tr valign="top" class="custombox-icon sectionheading">
+
+        {{#toleft}}
+        <td width="{{imagewidth}}" class="custombox-icon-left sectionheading" align="center"
+                   style="background:url({{{imageurl}}}) 50% 50% no-repeat transparent">
+            {{overimagetext}}
+        </td>
+        {{/toleft}}
+
+        <td style="{{contentpadding}}">
+            <h2 class="custombox-caption sectionheading">{{{heading}}}</h2>
+            <p class="custombox-description sectionheading">{{{shortdesc}}}</p>
+        </td>
+
+        {{#toright}}
+        <td width="{{imagewidth}}" class="custombox-icon-right sectionheading" align="center"
+                   style="background:url({{{imageurl}}}) 50% 50% no-repeat transparent">
+            {{overimagetext}}
+        </td>
+        {{/toright}}
+
+    </tr>
+</table>
+<!-- customlabeltype_sectionheading/template -->

@@ -72,8 +72,7 @@ if ($value != 0) {
         SELECT
             c.id,
             c.shortname,
-            c.fullname,
-            c.approval_status_id
+            c.fullname
         FROM
             {course} c,
             {customlabel_course_metadata} ccm,
@@ -82,7 +81,7 @@ if ($value != 0) {
         WHERE
             c.id = ccm.courseid AND
             ccm.valueid = v.id AND
-            v.type = t.id AND
+            v.typeid = t.id AND
             t.id = $type
         ORDER BY
             c.fullname
@@ -107,7 +106,7 @@ if (!empty($courses)) {
     $table->align = array('left', 'center');
     foreach ($courses as $acourse) {
         $curl = new moodle_url('/course/view.php', array('id' => $acourse->id));
-        $courselink = '<a href="'.$curl.'">'.format_string($acourse->fullname).'</a>';
+        $courselink = '<a target="_blanck" href="'.$curl.'">'.format_string($acourse->fullname).'</a>';
         if (function_exists('ext_course_status_get_desc')) {
             $table->data[] = array($courselink, ext_course_status_get_desc($acourse));
         } else {

@@ -32,6 +32,7 @@ $string['sectionheading:addinstance'] = 'Can add an indstance';
 $string['configtypename'] = 'Enable subtype Section title';
 $string['heading'] = 'Section title';
 $string['imageposition'] = 'Image position';
+$string['imagewidth'] = 'Image width';
 $string['left'] = 'Left';
 $string['none'] = 'No image';
 $string['pluginname'] = 'Course element: Section Heading';

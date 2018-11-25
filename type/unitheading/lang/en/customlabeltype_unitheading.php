@@ -28,6 +28,7 @@ $string['unitheading:addinstance'] = 'Can add an instance';
 $string['configtypename'] = 'Enable subtype Unit title';
 $string['heading'] = 'Unit title';
 $string['imageposition'] = 'Image position';
+$string['imagewidth'] = 'Image width';
 $string['left'] = 'Left';
 $string['none'] = 'No image';
 $string['pluginname'] = 'Course element: Unit Heading';

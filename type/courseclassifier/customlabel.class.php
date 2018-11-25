@@ -49,7 +49,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
         $field = new StdClass;
         $field->name = 'uselevels';
         $field->type = 'list';
-        $field->options = array('1', '2', '3');
+        $field->options = array('1', '2', '3', '4');
         $field->straightoptions = true;
         $field->mandatory = true;
         $this->fields['uselevels'] = $field;
@@ -188,19 +188,37 @@ class customlabel_type_courseclassifier extends customlabel_type {
         $config = get_config('customlabel');
 
         $this->data->classifiers = false;
-        $this->data->classifierrows = '';
-        $coursefilters = $DB->get_records($config->classification_type_table, array('type' => 'coursefilter'));
 
-        foreach ($coursefilters as $coursefilter) {
-            $showkey = 'show'.strtolower($coursefilter->code);
-            $key = strtolower($coursefilter->code);
+        $classifiers = $DB->get_records($config->classification_type_table, array('type' => 'category'));
 
-            if (!empty($this->data->$showkey)) {
-                $this->data->classifiers = true;
-                $classif = new StdClass();
-                $classif->label = format_string($coursefilter->name);
-                $classif->values = $this->data->$key;
-                $this->data->classifierrows .= get_string('classifierrow', 'customlabeltype_courseclassifier', $classif);
+        foreach ($classifiers as $classif) {
+            if ($classif->code == 'LEVEL0') {
+                $key = 'level0';
+                $classifiertpl = new StdClass();
+                $classifiertpl->label = format_string($classif->name);
+                $classifiertpl->values = implode(', ', $this->get_datasource_values($this->fields['level0'], $this->data->$key));
+                $this->data->classifiers[] = $classifiertpl;
+            }
+            if ($classif->code == 'LEVEL1') {
+                $key = 'level1';
+                $classifiertpl = new StdClass();
+                $classifiertpl->label = format_string($classif->name);
+                $classifiertpl->values = implode(', ', $this->get_datasource_values($this->fields['level1'], $this->data->$key));
+                $this->data->classifiers[] = $classifiertpl;
+            }
+            if ($classif->code == 'LEVEL2') {
+                $key = 'level2';
+                $classifiertpl = new StdClass();
+                $classifiertpl->label = format_string($classif->name);
+                $classifiertpl->values = implode(', ', $this->get_datasource_values($this->fields['level2'], $this->data->$key));
+                $this->data->classifiers[] = $classifiertpl;
+            }
+            if ($classif->code == 'LEVEL3') {
+                $key = 'level3';
+                $classifiertpl = new StdClass();
+                $classifiertpl->label = format_string($classif->name);
+                $classifiertpl->values = implode(', ', $this->get_datasource_values($this->fields['level3'], $this->data->$key));
+                $this->data->classifiers[] = $classifiertpl;
             }
         }
     }

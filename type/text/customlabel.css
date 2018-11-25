@@ -10,3 +10,7 @@
 .custombox-text.readmorelink {
     text-align: right;
 }
+
+.custombox-text readmore.hidden {
+    display: none;
+}

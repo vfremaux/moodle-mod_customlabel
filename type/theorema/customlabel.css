@@ -37,7 +37,6 @@ td.custombox-content.theorema {
 }
 
 div.custombox-demonstration-caption.theorema {
-    font-size: 1.1em;
     padding-bottom: 5px;
     padding-left: 8px;
     padding-top: 10px;
@@ -64,4 +63,15 @@ td.custombox-content.theorema h3 {
 
 td.custombox-subdefinitions.theorema {
     padding-left: 50px;
+}
+
+.custombox-demonstration.theorema .comment {
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+}
+
+.custombox-demonstration.theorema .teacher-comment {
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+    color: #e00;
 }

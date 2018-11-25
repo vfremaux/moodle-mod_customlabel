@@ -29,6 +29,7 @@ $string['pluginname'] = 'Elément de cours&nbsp;: Rappel';
 $string['typename'] = 'Rappel';
 $string['configtypename'] = 'Active le type rappel';
 $string['remindtext'] = 'Texte du rappel&nbsp;';
+$string['remind'] = 'A retenir !';
 
 $string['template'] = '
 <table class="custombox-remind" cellspacing="0" width="100%">
