@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
-include('../../config.php');
+require('../../config.php');
 
 $type = required_param('type', PARAM_TEXT);
 $shape = required_param('shape', PARAM_TEXT);
@@ -46,13 +46,13 @@ if (file_exists($CFG->dirroot.'/mod/customlabel/pix/'.$shape.'.svg')) {
 }
 
 function hex_to_rgb($hex, $alpha = false) {
-   $hex      = str_replace('#', '', $hex);
-   $length   = strlen($hex);
-   $r = hexdec($length == 6 ? substr($hex, 0, 2) : ($length == 3 ? str_repeat(substr($hex, 0, 1), 2) : 0));
-   $g = hexdec($length == 6 ? substr($hex, 2, 2) : ($length == 3 ? str_repeat(substr($hex, 1, 1), 2) : 0));
-   $b = hexdec($length == 6 ? substr($hex, 4, 2) : ($length == 3 ? str_repeat(substr($hex, 2, 1), 2) : 0));
-   if ( $alpha ) {
-      return 'rgba('.$r.','.$g.','.$b.','.$alpha.')';
-   }
-   return 'rgb('.$r.','.$g.','.$b.')';
+    $hex = str_replace('#', '', $hex);
+    $length = strlen($hex);
+    $r = hexdec($length == 6 ? substr($hex, 0, 2) : ($length == 3 ? str_repeat(substr($hex, 0, 1), 2) : 0));
+    $g = hexdec($length == 6 ? substr($hex, 2, 2) : ($length == 3 ? str_repeat(substr($hex, 1, 1), 2) : 0));
+    $b = hexdec($length == 6 ? substr($hex, 4, 2) : ($length == 3 ? str_repeat(substr($hex, 2, 1), 2) : 0));
+    if ( $alpha ) {
+        return 'rgba('.$r.','.$g.','.$b.','.$alpha.')';
+    }
+    return 'rgb('.$r.','.$g.','.$b.')';
 }

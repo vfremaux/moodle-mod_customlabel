@@ -283,7 +283,6 @@ class mod_customlabel_mod_form extends moodleform_mod {
             if (preg_match('/editor|textarea/', $field->type)) {
 
                 $editorname = $fieldname.'_editor';
-                // $formdata->$fieldname = array('text' => $instance->data->{$fieldname}, 'format' => FORMAT_HTML);
                 $formdata->$fieldname = (isset($instance->data->{$fieldname})) ? $instance->data->{$fieldname} : '';
                 $editoroptions = self::editor_options();
                 $editoroptions['context'] = $this->context;
@@ -348,7 +347,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
         parent::set_data($formdata);
     }
 
-      function add_completion_rules() {
+    public function add_completion_rules() {
 
         $mform =& $this->_form;
 
@@ -363,7 +362,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
         }
     }
 
-    function completion_rule_enabled($data) {
+    public function completion_rule_enabled($data) {
         return (!empty($data['completion1enabled'])) ||
             (!empty($data['completion2senabled'])) ||
             (!empty($data['completion3enabled']));
