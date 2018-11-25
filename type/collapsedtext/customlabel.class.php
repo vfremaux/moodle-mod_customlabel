@@ -38,7 +38,6 @@ class customlabel_type_collapsedtext extends customlabel_type {
         $this->fields = array();
 
         // Introduces an architecture change with simplified and more direct component rendering.
-        $this->directdisplay = true;
         $this->hasamd = true;
 
         $chapternum = @$this->data->chapternum;

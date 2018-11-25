@@ -40,66 +40,15 @@ function customlabel_set_instance(&$block) {
     // Transfer content from title to content.
     $block->title = '';
 
-    // Fake unpacks object's load.
-    $data = json_decode(base64_decode($block->moduleinstance->content));
-
-    // If failed in getting content. It happens sometimes, ... do nothing to let content be safed manually.
-    if (is_null($data) || !is_object($data)) {
-        return false;
-    }
-
-    // Realize a pseudo update.
-    $data->title = $block->moduleinstance->title;
-    $data->content = $block->moduleinstance->content;
-    $data->labelclass = $block->moduleinstance->labelclass; // Fixes broken serialized contents.
-    $data->instance = $block->moduleinstance->id;
-    $data->coursemodule = $block->cm->id;
-
     if (!customlabel_type::module_is_visible($block->cm, $block->moduleinstance)) {
         return false;
     }
 
-    if (!isset($block->moduleinstance->title)) {
-        // Fixes broken serialized contents.
-        $block->moduleinstance->title = '';
-    }
+    $cminfo = new StdClass;
+    $cminfo->id = $block->cm->id;
+    $cminfo->instance = $block->moduleinstance->id;
 
-    $instance = customlabel_load_class($data);
-    if (!$instance) {
-        print_error("Failed loading cuztomlabel class $data->labelclass for instance ");
-    }
-
-    // Force refreshcontent in page format.
-    $block->moduleinstance->processedcontent = $instance->make_content();
-    $block->moduleinstance->name = $instance->title; // This realizes the template.
-    $block->moduleinstance->timemodified = time();
-    $block->content->text = $block->moduleinstance->processedcontent;
-    $result = $DB->update_record('customlabel', $block->moduleinstance);
-
-    $context = context_module::instance($block->cm->id);
-
-    // Post process each textarea field url replacement.
-    $fileprocessedcontent = $block->content->text;
-    foreach ($instance->fields as $field) {
-        if ($field->type == 'editor') {
-            if (!isset($field->itemid) || is_null($field->itemid)) {
-                $message = 'Course element textarea subfield needs explicit itemid in definition ';
-                $message .= $customlabel->labelclass.'::'.$field->name;
-                throw new coding_exception($message);
-            }
-            $fileprocessedcontent = customlabel_file_rewrite_pluginfile_urls($fileprocessedcontent,
-                'pluginfile.php', $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
-        }
-    }
-
-    // Pass all filters except multilang and multilangenhanced.
-    $filtermanager = filter_manager::instance();
-    $filtermanager->setup_page_for_filters($PAGE, $context); // Setup global stuff filters may have.
-    $filteroptions = array(
-        'noclean' => false,
-    );
-    $skipfilters = array('multilang', 'multilangenhanced');
-    $block->content->text = $filtermanager->filter_text($fileprocessedcontent, $context, $filteroptions, $skipfilters);
+    $block->content->text = customlabel_cm_info_dynamic($cminfo);
 
     return true;
 }

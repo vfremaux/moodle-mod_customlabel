@@ -66,7 +66,7 @@ function xmldb_customlabel_qualifier_defaults($typesorvalues = 'types') {
         array('WORKTYPE', 'PROJECT', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
         array('WORKTYPE', 'EXPERIMENT', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
         array('WORKTYPE', 'SYNTHESIS', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-    }
+    );
 }
 
 /**

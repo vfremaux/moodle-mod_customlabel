@@ -49,5 +49,3 @@ $string['keypointitem15'] = 'Point 16';
 $string['completion1'] = 'Student must have checked marked all subitems';
 
 $string['family'] = 'pedagogic';
-
-$string['template'] = '<%%content%%>';

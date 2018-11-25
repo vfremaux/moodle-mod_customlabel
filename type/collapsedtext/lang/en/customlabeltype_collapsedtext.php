@@ -48,4 +48,3 @@ for ($i = 1; $i <= 10; $i++) {
 }
 
 $string['family'] = 'generic';
-$string['template'] = '<%%content%%>';

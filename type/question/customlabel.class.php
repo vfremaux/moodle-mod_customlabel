@@ -87,7 +87,7 @@ class customlabel_type_question extends customlabel_type {
         $this->data->initialclass = ($this->data->initiallyvisible) ? '' : 'hidden';
         $this->data->hintinitialclass = ($this->data->hintinitiallyvisible) ? '' : 'hidden';
         $this->data->customid = $this->cmid;
-        if ($this->data->showansweron->enabled) {
+        if (!empty($this->data->showansweron) && $this->data->showansweron->enabled) {
             $qdate = mktime($this->data->showansweron->hour,
                             $this->data->showansweron->minute,
                             0,
@@ -98,6 +98,8 @@ class customlabel_type_question extends customlabel_type {
                 $this->data->canshow = true;
             }
             $this->data->opentime = userdate($qdate);
+        } else {
+            $this->data->canshow = true;
         }
 
         $context = context_course::instance($COURSE->id);

@@ -312,6 +312,8 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     static $customlabelcssloaded = array();
     static $customlabelamdloaded = array();
 
+    $iscminfo = get_class($cminfo) == 'cminfo';
+
     // Improve page format by testing if in current visble page.
     if ($COURSE->format == 'page') {
         $current = course_page::get_current_page($COURSE->id);
@@ -365,9 +367,11 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     }
 
     if (!customlabel_type::module_is_visible($cminfo, $customlabel)) {
-        $cminfo->set_no_view_link();
-        $cminfo->set_content('');
-        $cminfo->set_user_visible(false);
+        if ($iscminfo) {
+            $cminfo->set_no_view_link();
+            $cminfo->set_content('');
+            $cminfo->set_user_visible(false);
+        }
         return;
     }
 
@@ -386,24 +390,21 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         }
     }
 
-    /* if (empty($instance->directdisplay)) {
-        $content .= '<div class="customlabel-'.$customlabel->labelclass.'">'.$fileprocessedcontent.'</div>';
-    } else {
-    */
-        $instance->preprocess_data();
-        $instance->process_form_fields();
-        $instance->process_datasource_fields();
-        $instance->postprocess_data();
-        $template = 'customlabeltype_'.$customlabel->labelclass.'/template';
-        $content = $OUTPUT->render_from_template($template, $instance->data);
-    /*
-    }
-    */
+    $instance->preprocess_data();
+    $instance->process_form_fields();
+    $instance->process_datasource_fields();
+    $instance->postprocess_data();
+    $template = 'customlabeltype_'.$customlabel->labelclass.'/template';
+    $content = $OUTPUT->render_from_template($template, $instance->data);
 
     // Disable url form of the course module representation.
-    $cminfo->set_no_view_link();
-    $cminfo->set_content($content);
-    $cminfo->set_extra_classes('label'); // Important, or customlabel WILL NOT be deletable in topic/week course.
+    if ($iscminfo) {
+        $cminfo->set_no_view_link();
+        $cminfo->set_content($content);
+        $cminfo->set_extra_classes('label'); // Important, or customlabel WILL NOT be deletable in topic/week course.
+    } else {
+        return $content;
+    }
 }
 
 /**

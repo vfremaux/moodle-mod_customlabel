@@ -38,9 +38,11 @@ class customlabel_type_keypoints extends customlabel_type {
         $this->fields = array();
         $this->directdisplay = true;
 
-        $storeddata = json_decode(base64_decode(@$this->data->content));
-
-        $keypointnum = (!empty($storeddata->keypointnum)) ? $storeddata->keypointnum : 3;
+        $keypointnum = @$this->data->keypointnum;
+        if (!empty($data->keypointnum)) {
+            // What directly coming from form overrides.
+            $keypointnum = $data->keypointnum;
+        }
 
         $field = new StdClass;
         $field->name = 'keypointnum';
@@ -60,16 +62,15 @@ class customlabel_type_keypoints extends customlabel_type {
     }
 
     public function preprocess_data($course = null) {
-        global $CFG, $OUTPUT;
+
+        if ($this->instance->completion1enabled) {
+            $keypointtpl->feedbackmark = true;
+        }
 
         for ($i = 0; $i < $this->data->keypointnum; $i++) {
             $key = 'keypointitem'.$i;
             $keypointtpl = new StdClass;
             $keypointtpl->keypoint = $this->data->$key;
-
-            if ($this->instance->completion1enabled) {
-                $keypointtpl->feedbackmark = true;
-            }
 
             $this->data->keypoints[] = $keypointtpl;
         }

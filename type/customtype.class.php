@@ -32,6 +32,7 @@ class customlabel_type {
     public $type;
     public $fields;
     public $data; // The dynamic data values.
+    public $instance; // The customlabel record.
     public $fullaccess;
     public $content; // The encoded specific data.
     public $cmid; // The current course module.
@@ -217,7 +218,7 @@ class customlabel_type {
         if (is_array($values)) {
             $valuelist = implode("','", $values);
         } else {
-            $valuelist = $values;
+            $valuelist = str_replace("'", "\'", $values);
         }
 
         $fieldname = $field->field;

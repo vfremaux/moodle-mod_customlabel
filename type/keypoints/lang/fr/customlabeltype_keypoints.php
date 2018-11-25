@@ -48,19 +48,3 @@ $string['keypointitem13'] = 'Point 14&nbsp;';
 $string['keypointitem14'] = 'Point 15&nbsp;';
 $string['keypointitem15'] = 'Point 16&nbsp;';
 $string['completion1'] = 'Les étudiants doivent avoir pointé tous les sous-items';
-
-$string['template'] = '
-<table class="custombox-keypoints" cellspacing="0" width="100%">
-<tr valign="top">
-    <td class="custombox-header-thumb keypoints" style="background-image : url(<%%icon%%>);" width="2%" rowspan="2">
-    </td>
-    <td class="custombox-header-caption keypoints" width="98%">
-        A retenir !
-    </td>
-</tr>
-<tr valign="top">
-    <td class="custombox-content keypoints">
-        <%%keypointslist%%>
-    </td>
-</tr>
-</table>';
