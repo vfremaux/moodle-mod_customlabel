@@ -39,11 +39,11 @@ define(['jquery', 'core/config', 'core/log'], function($, cfg, log) {
             var customid = that.attr('id').replace('customctl-', 'custom-');
             var parts = that.attr('data').split(',');
 
-            if ($('#' + customid).css('display') === 'block') {
-                $('#' + customid).css('display', 'none');
+            if ($('#' + customid).hasClass('hidden')) {
+                $('#' + customid).removeClass('hidden');
                 that.html(parts[1]);
             } else {
-                $('#' + customid).css('display', 'block');
+                $('#' + customid).addClass('hidden');
                 that.html(parts[2]);
             }
         },

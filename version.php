@@ -33,7 +33,7 @@ $plugin->release = '3.5.0 (Build 2018111900)';
 $plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
-$plugin->codeincrement = '3.5.0007';
+$plugin->codeincrement = '3.5.0008';
 $plugin->privacy = 'dualrelease';
 $plugin->prolocations = array(
     'type/localdokuwikicontent',

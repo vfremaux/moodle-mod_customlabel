@@ -56,3 +56,5 @@ Further roadmap :
    - Remind subtype : let the student program a reminder message emission with the remind content
    - Keypoints : let the student check the keypoint to track self-mastering
    - Worktodo : add detail subtopics that can be self checked by student. All checks will complete.
+   - Question : add the possiblity for student to answer and assess the completion on the question
+   - SingleChoice (new type to forge) : Unique tiny QCM single choice question with completion maked on success or response.
