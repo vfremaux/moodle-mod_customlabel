@@ -29,6 +29,7 @@ $string['pluginname'] = 'Course element: Reminder';
 $string['typename'] = 'Remind';
 $string['configtypename'] = 'Enable subtype Remind';
 $string['remindtext'] = 'Remind text';
+$string['remind'] = 'Remind this!';
 
 $string['family'] = 'pedagogic';
 

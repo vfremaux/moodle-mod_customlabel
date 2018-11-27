@@ -1,0 +1,44 @@
+{{!
+    This file is part of The Customlabel Module
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_customlabel/authornote
+
+    Classes required for JS:
+    * mod/customlabel/customlabel
+
+}}
+<!-- customlabeltype_pedagogicadvice/template -->
+<div class="custombox-control pedagogicadvice">
+    <img id="customctl-{{customid}}" src="{{{initialcontrolimageurl}}}" />
+    <span class="custombox-header-caption pedagogicadvice">{{#str}}pedagogicadvice, customlabeltype_pedagogicadvice{{/str}}</b></span>
+</div>
+
+<div class="custombox-content pedagogicadvice" id="custom-{{customid}}">
+    <div class="custombox-helper pedagogicadvice">
+        <b>{{#str}}pedagogicnotesignal, customlabeltype_pedagogicadvice{{/str}}</b>
+    </div>
+
+    <table width="100%" class="custombox-pedagogicadvice">
+        <tr valign="top">
+            <td class="custombox-thumb pedagogicnote" style="background-image : url({{{iconurl}}});" width="2%"></td>
+            <td class="custombox-content pedagogicadvice">
+                {{{advice}}}
+            </td>
+        </tr>
+    </table>
+</div>
+<!-- /customlabeltype_pedagogicadvice/template -->
