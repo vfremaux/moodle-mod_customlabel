@@ -24,6 +24,10 @@ td.custombox-thumb.authornote {
     width: 98%;
 }
 
+custombox-content authornote.hidden{
+    display: none;
+}
+
 .custombox-helper.authornote {
     color: #606060;
     font-size: 80%;

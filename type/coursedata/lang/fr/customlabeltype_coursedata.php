@@ -41,6 +41,8 @@ $string['prerequisites'] = 'Pré requis nécessaires';
 $string['learningmethod'] = 'Méthode(s) d\'enseignement&ensp;';
 $string['followers'] = 'Suites possibles&ensp;';
 $string['tablecaption'] = 'Titre de la table';
+$string['trainingid'] = 'Identifiant';
+$string['public'] = 'Public';
 $string['showgoals'] = 'Afficher les objectifs';
 $string['showconcepts'] = 'Afficher les concepts clefs&ensp;';
 $string['showteachingorganization'] = 'Afficher l\'Organisation pédagogique&ensp;';
@@ -51,103 +53,5 @@ $string['showlearningmethod'] = 'Afficher les méthode(s) d\'enseignement&ensp;'
 $string['showfollowers'] = 'Afficher les suites possibles&ensp;';
 $string['showtarget'] = 'Afficher le public&ensp;';
 $string['target'] = 'Public cible&ensp;';
+$string['teachingorg'] = 'Organisation pédagogique';
 $string['leftcolumnratio'] = 'Largeur colonne gauche';
-
-$string['template'] = '
-<table class="custombox-coursedata">
-    <tr valign="top">
-        <th class="custombox-title coursedata" colspan="2">
-            <%%tablecaption%%>
-        </th>
-    </tr>
-    <%if %%showidnumber%% %>
-    <tr valign="top">
-        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Numéro d\'identification&nbsp;:
-        </td>
-        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
-            <%%idnumber%%>
-        </td>
-    </tr>
-    <%endif %>
-    <%if %%showtarget%% %>
-    <tr valign="top">
-        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Public&nbsp;:
-        </td>
-        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
-            <%%target%%>
-        </td>
-    </tr>
-    <%endif %>
-    <%if %%showgoals%% %>
-    <tr valign="top">
-        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Objectifs&nbsp;:
-        </td>
-        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
-            <%%goals%%>
-        </td>
-    </tr>
-    <%endif %>
-    <%if %%showobjectives%% %>
-    <tr valign="top">
-        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Acquisitions&nbsp;:
-        </td>
-        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
-            <%%objectives%%>
-        </td>
-    </tr>
-    <%endif %>
-    <%if %%showconcepts%% %>
-    <tr valign="top">
-        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Concepts&nbsp;:
-        </td>
-        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
-            <%%concepts%%>
-        </td>
-    </tr>
-    <%endif %>
-    <%if %%showduration%% %>
-    <tr valign="top">
-        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Durée :
-        </td>
-        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
-            <%%duration%%>
-        </td>
-    </tr>
-    <%endif %>
-    <%if %%showteachingorganization%% %>
-    <tr valign="top">
-        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Organisation de l\'enseignement&nbsp;:
-        </td>
-        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
-            <%%teachingorganization%%>
-        </td>
-    </tr>
-    <%endif %>
-    <%if %%showprerequisites%% %>
-    <tr valign="top">
-        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Prérequis&nbsp;:
-        </td>
-        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
-            <%%prerequisites%%>
-        </td>
-    </tr>
-    <%endif %>
-    <%if %%showfollowers%% %>
-    <tr valign="top">
-        <td class="custombox-param coursedata" width="<%%leftcolumnratio%%>">
-            Cours suivants&nbsp;:
-        </td>
-        <td class="custombox-value coursedata" width="<%%rightcolumnratio%%>">
-            <%%followers%%>
-        </td>
-    </tr>
-    <%endif %>
-</table>';

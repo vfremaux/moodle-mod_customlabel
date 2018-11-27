@@ -31,10 +31,12 @@ class customlabel_type {
     public $title;
     public $type;
     public $fields;
-    public $data; // The original DB record.
+    public $data; // The dynamic data values.
+    public $instance; // The customlabel record.
     public $fullaccess;
     public $content; // The encoded specific data.
-    public $processedcontent; // The expanded content, ready to print.
+    public $cmid; // The current course module.
+    public $processedcontent; // The expanded content, ready to print. OBSOLETE.
 
     /**
      * A customlabel has a type
@@ -42,10 +44,12 @@ class customlabel_type {
      * determines the nature of the data and the way it can be input.
      */
     public function __construct($data, $type = 'undefined') {
+        $this->cmid = @$data->coursemodule; // It is possible we have NOT, f.e. when we just loading the class as an empty object.
         $this->title = @$data->title;
         $this->type = $type;
         $this->fields = array();
-        $this->data = $data;
+        $this->instance = $data;
+        $this->data = json_decode(base64_decode(@$data->content));
         $this->fullaccess = true;
     }
 
@@ -90,7 +94,7 @@ class customlabel_type {
                 $fieldname = $field->field;
                 $fieldkey = (empty($field->key)) ? 'id' : $field->key;
                 $select = (!empty($field->select)) ? " WHERE {$field->select} " : '';
-                $ordering = (!empty($field->ordering)) ? " ORDER BY $field->ordering " : '';
+                $ordering = (!empty($field->ordering)) ? " ORDER BY {$field->ordering} " : '';
                 $sql = "
                     SELECT
                         `$fieldkey`,
@@ -213,23 +217,22 @@ class customlabel_type {
         if (is_array($values)) {
             $valuelist = implode("','", $values);
         } else {
-            $valuelist = $values;
+            $valuelist = str_replace("'", "\'", $values);
         }
 
-        $table = $CFG->prefix.$field->table;
         $fieldname = $field->field;
         $fieldkey = (empty($field->key)) ? 'id' : $field->key;
         $fieldselect = (@$field->select) ? "AND $field->select" : '';
         $select = " WHERE `$fieldkey` IN ('$valuelist') ". $fieldselect;
 
         $output = array();
-
+        $table = $field->table;
         $sql = "
             SELECT
                 {$fieldkey},
                 {$fieldname}
             FROM
-                {$table}
+                {{$table}}
                 $select
         ";
         $results = $DB->get_records_sql_menu($sql);
@@ -266,7 +269,11 @@ class customlabel_type {
 
     public function postprocess_icon() {
         global $OUTPUT;
+
+        // Old compat - Deprecated.
         $this->data->icon = $OUTPUT->pix_url('icon', 'customlabeltype_'.$this->type)->out();
+
+        $this->data->iconurl = $OUTPUT->pix_url('icon', 'customlabeltype_'.$this->type)->out();
     }
 
     /**
@@ -380,6 +387,7 @@ class customlabel_type {
      * post processes fields for rendering in templates
      */
     public function process_form_fields() {
+
         foreach ($this->fields as $key => $field) {
             // Assembles multiple list answers.
             if (preg_match("/list$/", $field->type)) {
@@ -441,21 +449,29 @@ class customlabel_type {
      */
     public function process_datasource_fields() {
         global $CFG;
-        static $processed = false;
-
-        if ($processed) {
-            return;
-        }
 
         // Assembles multiple list answers.
         foreach ($this->fields as $key => $field) {
 
             // Check string domain if inexistant.
             $domain = (empty($field->domain)) ? 'customlabel' : $field->domain;
+            // Depending on field type, change rendering separator.
             $sep = ($field->type == 'vdatasource') ? '<br/>' : ' - ';
 
             if (preg_match("/datasource$/", $field->type)) {
+                /*
+                 * for lists and datasources, the rendered value will take
+                 * place into the real field name entry.
+                 * the orginal optioncode stored in internal data model is translated
+                 * to <fieldname>option data entry.
+                 */
                 if (@$field->multiple) {
+
+                    /*
+                     * If multiple select or list, the value set
+                     * is always an array, event if having a single value.
+                     */
+
                     $name = str_replace('[]', '', $field->name);
                     $optionname = $name.'option';
 
@@ -463,28 +479,46 @@ class customlabel_type {
                     if (empty($this->data->{$optionname})) {
                         $this->data->{$optionname} = @$this->data->{$name};
                     }
-
                     $valuearray = @$this->data->{$optionname};
 
                     if (is_string($valuearray) && !empty($valuearray)) {
+                        /*
+                         * Usually comes from storage in which it has been serialed to a value list.
+                         *
+                         */
                         $valuearray = explode(',', $valuearray);
                     }
 
                     if (is_array($valuearray)) {
                         if (!empty($valuearray)) {
-                            if ($field->source == 'dbfieldkeyed') {
-                                $this->data->{$name} = implode($sep, $this->get_datasource_values($field, $valuearray));
-                            } else if ($field->source == 'dbfieldkey') {
-                                foreach ($valuearray as $value) {
-                                    $valuearraystr[] = get_string($value, $domain);
+                            switch ($field->source) {
+                                case 'dbfieldkeyed': {
+                                    // Content is direct value of source fields.
+                                    $sourcevalues = $this->get_datasource_values($field, $valuearray);
+                                    $this->data->{$name} = implode($sep, $sourcevalues);
+                                    break;
                                 }
-                                $this->data->{$name} = implode($sep, $valuearraystr);
-                            } else if ($field->source == 'function') {
-                                if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)) {
-                                    include_once($CFG->dirroot.$field->source);
+
+                                case 'dbfieldkey': {
+                                    // Content is the translated value of source fields.
+                                    foreach ($valuearray as $value) {
+                                        $valuearraystr[] = get_string($value, $domain);
+                                    }
+                                    $this->data->{$name} = implode($sep, $valuearraystr);
+                                    break;
                                 }
-                                $functionname = $field->function;
-                                $this->data->{$name} = $functionname($valuearray);
+
+                                case 'function': {
+                                    /*
+                                     * function needs returning a text formted scalar list.
+                                     */
+                                    if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)) {
+                                        include_once($CFG->dirroot.$field->source);
+                                    }
+                                    $functionname = $field->function;
+                                    $this->data->{$name} = $functionname($valuearray);
+                                    break;
+                                }
                             }
                         }
                     } else {
@@ -502,34 +536,50 @@ class customlabel_type {
                         }
                     }
                 } else {
+                    /*
+                     * We are a singlechoice
+                     */
                     $name = $field->name;
                     $nameoption = "{$name}option";
                     if (empty($this->data->{$name})) {
+                        // Nothing choosen.
                         continue;
                     }
+
+                    // If option codes have not been saved, save them.
                     if (empty($this->data->{$nameoption})) {
                         $this->data->{$nameoption} = $this->data->{$name};
                     }
-                    if ($field->source == 'dbfieldkeyed') {
-                        $this->data->{$name} = $this->get_datasource_values($field, $this->data->{$nameoption});
-                    } else if ($field->source == 'dbfieldkey') {
-                        $this->data->{$name} = get_string($this->data->{$nameoption}, $domain);
-                    } else if ($field->source == 'function') {
-                        // Function must have an optional first argument that can be scalar or array.
-                        if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)) {
-                            include_once($CFG->dirroot.$field->source);
+
+                    switch ($field->source) {
+                        case 'dbfieldkeyed': {
+                            $sourcevalue = $this->get_datasource_values($field, array($this->data->{$nameoption}));
+                            $this->data->{$name} = implode($sep, $sourcevalue);
+                            break;
                         }
-                        $functionname = $field->function;
-                        if (!empty($this->data->{$nameoption})) {
-                            $this->data->{$name} = $functionname(@$this->data->{$nameoption});
-                        } else {
-                            $this->data->{$name} = '';
+
+                        case 'dbfieldkey': {
+                            $this->data->{$name} = get_string($this->data->{$nameoption}, $domain);
+                            break;
+                        }
+
+                        case 'function': {
+                            // Function must have an optional first argument that can be scalar or array.
+                            if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)) {
+                                include_once($CFG->dirroot.$field->source);
+                            }
+                            $functionname = $field->function;
+                            if (!empty($this->data->{$nameoption})) {
+                                $this->data->{$name} = $functionname(@$this->data->{$nameoption});
+                            } else {
+                                $this->data->{$name} = '';
+                            }
+                            break;
                         }
                     }
                 }
             }
         }
-        $processed = true;
     }
 
     public function get_xml() {
@@ -656,6 +706,7 @@ class customlabel_type {
         if (empty($this->data->instance)) {
             return '';
         }
+
         $cm = get_coursemodule_from_instance('customlabel', $this->data->instance);
 
         // Fault tolerance.
@@ -696,14 +747,18 @@ class customlabel_type {
         }
     }
 
+    /**
+     * Accesss to an internal data value.
+     * @param string $field
+     */
     public function get_data($field) {
-        $internaldata = json_decode(base64_decode($this->data->content));
-        if (!array_key_exists($field, $this->fields)) {
-            return null;
-        }
-        return $internaldata->$field;
+        return $this->data->$field;
     }
 
+    /**
+     * Updates an internal data value.
+     * @param string $field
+     */
     public function update_data($field, $value) {
         global $DB;
 
@@ -724,5 +779,17 @@ class customlabel_type {
 
     public function set_instance($instance) {
         $this->data->instance = $instance;
+    }
+
+    /**
+     * Invoke amd modules if required.
+     */
+    public function require_js() {
+        global $PAGE;
+
+        if (!empty($this->hasamd)) {
+            $class = 'customlabeltype_'.$this->type.'/customlabel';
+            $PAGE->requires->js_call_amd($class, 'init');
+        }
     }
 }

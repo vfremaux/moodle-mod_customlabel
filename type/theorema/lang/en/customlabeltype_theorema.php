@@ -42,6 +42,10 @@ $string['corollary6'] = 'Corollary 7';
 $string['corollary7'] = 'Corollary 8';
 $string['corollary8'] = 'Corollary 9';
 $string['showdemonstration'] = 'Show demonstration';
+$string['willopenon'] = 'Will open on';
+$string['notavailableyet'] = 'Not yet available';
+$string['demoinitiallyvisible'] = 'Demonstration initially visible';
+$string['showdemonstrationon'] = 'Show demonstration on';
 $string['demonstration'] = 'Demonstration';
 
 $string['family'] = 'pedagogic';

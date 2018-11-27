@@ -64,14 +64,14 @@ class CustomLabelSearchDocument extends SearchDocument {
         $doc->title     = strip_tags($customlabel['title']);
         $doc->date      = $customlabel['timemodified'];
         $doc->author    = '';
-        $doc->contents  = strip_tags($customlabel['name']);
+        $doc->contents  = strip_tags($customlabel['processedcontent']);
         $doc->url       = customlabel_document_wrapper::make_link($customlabel['course']);
 
         /*
          * module specific information : extract fields from serialized content. Add those who are
          * lists as keyfields
          */
-        $content = json_decode(base64_decode($customlabel['processedcontent']));
+        $content = json_decode(base64_decode($customlabel['content']));
 
         $additionalkeys = null;
 
@@ -126,7 +126,7 @@ class customlabel_document_wrapper extends document_wrapper {
      * @return an array of searchable documents
      */
     public static function get_content_for_index(&$instance) {
-        global $CFG, $DB;
+        global $DB;
 
         // Starting with Moodle native resources.
         $documents = array();
@@ -135,8 +135,17 @@ class customlabel_document_wrapper extends document_wrapper {
         $params = array('course' => $instance->course, 'module' => $coursemodule, 'instance' => $instance->id);
         $cm = $DB->get_record('course_modules', $params);
         $context = context_module::instance($cm->id);
+        $instance->coursemodule = $cm->id;
         $customclass = customlabel_load_class($instance, true);
+
         if ($customclass) {
+
+            // Render content.
+            $cminfo = new StdClass;
+            $cminfo->id = $cm->id;
+            $cminfo->instance = $instance->id;
+            $instance->processedcontent = customlabel_cm_info_dynamic($cminfo);
+
             $arr = get_object_vars($instance);
             $documents[] = new CustomLabelSearchDocument($arr, $customclass, $context->id);
             mtrace("finished label {$instance->id}");
@@ -153,16 +162,24 @@ class customlabel_document_wrapper extends document_wrapper {
      * @return a searchable object or null if failure
      */
     public static function single_document($id, $itemtype) {
-        global $CFG, $DB;
+        global $DB;
 
-        $customlabel = $DB->get_record('customlabel', array('id' => $id));
+        $instance = $DB->get_record('customlabel', array('id' => $id));
 
         if ($customlabel) {
             $coursemodule = $DB->get_field('modules', 'id', array('name' => 'customlabel'));
-            $cm = $DB->get_record('course_modules', array('module' => $coursemodule, 'instance' => $customlabel->id));
-            $customclass = customlabel_load_class($customlabel, true);
+            $cm = $DB->get_record('course_modules', array('module' => $coursemodule, 'instance' => $instance->id));
+            $instance->coursemodule = $cm->id;
+            $customclass = customlabel_load_class($instance, true);
             $context = context_module::instance($cm->id);
-            return new CustomLabelSearchDocument(get_object_vars($customlabel), $customclass, $context->id);
+
+            // Render content.
+            $cminfo = new StdClass;
+            $cminfo->id = $cm->id;
+            $cminfo->instance = $instance->id;
+            $instance->processedcontent = customlabel_cm_info_dynamic($cminfo);
+
+            return new CustomLabelSearchDocument(get_object_vars($instance), $customclass, $context->id);
         }
         return null;
     }
@@ -212,7 +229,6 @@ class customlabel_document_wrapper extends document_wrapper {
      * @return true if access is allowed, false elsewhere
      */
     public static function check_text_access($path, $itemtype, $thisid, $user, $groupid, $contextid) {
-        global $CFG;
 
         // This_id binds to $course->id, but course check where already performed.
         if (!$info = self::search_get_objectinfo($itemtype, $thisid, $contextid)) {
@@ -220,12 +236,16 @@ class customlabel_document_wrapper extends document_wrapper {
         }
         $cm = $info->cm;
         $context = $info->context;
-        $instance = $info->instance;
+
         /*
          * check if found course module is visible
          * we cannot consider a content in hidden labels
          */
         if (!$cm->visible && !has_capability('moodle/course:viewhiddenactivities', $context)) {
+            return false;
+        }
+
+        if (!$cm->uservisible) {
             return false;
         }
         return true;

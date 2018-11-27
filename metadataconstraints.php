@@ -63,15 +63,7 @@ $renderer = $PAGE->get_renderer('mod_customlabel');
 
 echo $renderer->set_choice($view, $q1, $q2);
 
-echo $renderer->constraints_form($view, $q1, $q2);
+if ($q1->value != $q2->value) {
+    echo $renderer->constraints_form($view, $q1, $q2);
+}
 
-?>
-
-<p><table width="100%">
-    <tr>
-        <td align="center">
-            <input type="submit" name="go_btn" value="<?php print_string('update') ?>" />
-        </td>
-    </tr>
-</table></p>
-</form>

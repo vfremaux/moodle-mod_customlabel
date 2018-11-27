@@ -36,19 +36,4 @@ $string['example'] = 'Example';
 
 $string['family'] = 'pedagogic';
 
-$string['template'] = '
-<table class="custombox-example" cellspacing="0" width="100%">
-<tr valign="top">
-    <td class="custombox-header-thumb example" style="background-image : url(<%%icon%%>);" width="2%" rowspan="2">
-    </td>
-    <td class="custombox-header-caption example" width="98%">
-        Example...
-    </td>
-</tr>
-<tr>
-    <td class="custombox-content example">
-        <%%example%%>
-    </td>
-</tr>
-</table>';
 

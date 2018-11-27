@@ -61,6 +61,7 @@ require_login($course->id);
 if ($what == 'xml') {
     echo $OUTPUT->header();
     $customlabel = $DB->get_record('customlabel', array('id' => $l));
+    $customlabel->coursemodule = $cm->id;
     $instance = customlabel_load_class($customlabel);
     $xml = $instance->get_xml();
     $xml = str_replace('<', '&lt;', $xml);

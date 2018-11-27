@@ -69,19 +69,42 @@ class customlabel_type_question extends customlabel_type {
         $field->type = 'choiceyesno';
         $field->default = 0;
         $this->fields['initiallyvisible'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'showansweron';
+        $field->type = 'datetime';
+        $field->default = time() + DAYSECS * 7;
+        $this->fields['showansweron'] = $field;
     }
 
     public function preprocess_data() {
-        global $CFG, $OUTPUT;
-
-        $customid = @$CFG->custom_unique_id + 1;
+        global $OUTPUT, $COURSE;
 
         $minusurl = $OUTPUT->pix_url('minus', 'customlabel');
         $plusurl = $OUTPUT->pix_url('plus', 'customlabel');
-        $this->data->initialcontrolimage = ($this->data->initiallyvisible) ? $minusurl : $plusurl;
-        $this->data->hintinitialcontrolimage = ($this->data->hintinitiallyvisible) ? $minusurl : $plusurl;
-        $this->data->wwwroot = $CFG->wwwroot;
-        $this->data->customid = $customid;
-        set_config('custom_unique_id', $customid);
+        $this->data->initialcontrolimageurl = ($this->data->initiallyvisible) ? $minusurl : $plusurl;
+        $this->data->hintinitialcontrolimageurl = ($this->data->hintinitiallyvisible) ? $minusurl : $plusurl;
+        $this->data->initialclass = ($this->data->initiallyvisible) ? '' : 'hidden';
+        $this->data->hintinitialclass = ($this->data->hintinitiallyvisible) ? '' : 'hidden';
+        $this->data->customid = $this->cmid;
+        if (!empty($this->data->showansweron) && $this->data->showansweron->enabled) {
+            $qdate = mktime($this->data->showansweron->hour,
+                            $this->data->showansweron->minute,
+                            0,
+                            $this->data->showansweron->month,
+                            $this->data->showansweron->day,
+                            $this->data->showansweron->year);
+            if ($qdate < time()) {
+                $this->data->canshow = true;
+            }
+            $this->data->opentime = userdate($qdate);
+        } else {
+            $this->data->canshow = true;
+        }
+
+        $context = context_course::instance($COURSE->id);
+        if (has_capability('moodle/course:manageactivities', $context)) {
+            $this->data->hascap = true;
+        }
     }
 }

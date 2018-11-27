@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <circle class="circle customlabel-{{customlabeltype}}"
+                r="27.5"
+                cx="35"
+                cy="35"
+                stroke="{{stroke}}"
+                fill="{{stroke}}"/>
+    </g>
+</svg>
