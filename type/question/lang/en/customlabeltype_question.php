@@ -30,9 +30,14 @@ $string['question:addinstance'] = 'Can add an instance';
 
 $string['pluginname'] = 'Course element: Question';
 $string['typename'] = 'Question';
+$string['question'] = 'Question';
+$string['solution'] = 'Solution';
+$string['showansweron'] = 'Show answer on';
 $string['configtypename'] = 'Enable subtype Question';
 $string['questiontext'] = 'Question text';
 $string['answertext'] = 'Answer text';
+$string['willopenon'] = 'Will open on';
+$string['notavailableyet'] = 'Not yet available';
 $string['initiallyvisible'] = 'Answer initially visible';
 $string['hint'] = 'Hint';
 $string['hintinitiallyvisible'] = 'Hint initially visible';

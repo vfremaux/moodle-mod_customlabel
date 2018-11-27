@@ -29,10 +29,6 @@ defined('MOODLE_INTERNAL') || die();
 
 class constraints_controller {
 
-    private $valueset1;
-
-    private $valueset2;
-
     public function __construct($q1, $q2) {
         $this->q1 = $q1;
         $this->q2 = $q2;

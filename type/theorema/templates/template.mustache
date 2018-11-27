@@ -1,0 +1,72 @@
+{{!
+    This file is part of The Customlabel Module
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_customlabel/question
+
+    Classes required for JS:
+    * mod/customlabel/customlabel
+
+}}
+<!-- customlabeltype_theorema/template -->
+<table class="custombox-theorema" width="100%">
+
+    <tr valign="top">
+        <td class="custombox-header-thumb theorema" style="background-image : url({{{iconurl}}});" width="2%" rowspan="3">
+        </td>
+        <td class="custombox-header-caption theorema" width="98%">
+            {{#str}}theorema, customlabeltype_theorema{{/str}}
+        </td>
+    </tr>
+
+    <tr valign="top">
+        <td class="custombox-content theorema">
+            {{{theorema}}}
+        </td>
+    </tr>
+
+    <tr valign="top">
+        <td class="custombox-corollaries theorema">
+            {{{corollarylist}}}
+        </td>
+    </tr>
+
+    {{#showdemonstration}}
+    <tr valign="top">
+        <td class="custombox-header-foo theorema" width="2%"></td>
+        <td class="custombox-demonstration theorema">
+            <div class="custombox-demonstration-caption theorema">
+                {{#canshow}}
+                <img id="customctl-{{{customid}}}" src="{{{initialcontrolimageurl}}}" class="customctl" /> {{#str}}demonstration, customlabeltype_theorema{{/str}}
+                {{/canshow}}
+                {{^canshow}}
+                {{#str}}demonstration, customlabeltype_theorema{{/str}}<br/>
+                <span class="comment">{{#str}}notavailableyet, customlabeltype_theorema{{/str}}</span>
+                {{#hascap}}
+                <span class="teacher-comment">{{#str}}willopenon, customlabeltype_theorema{{/str}}: {{opentime}}</span>
+                {{/hascap}}
+                {{/canshow}}
+            </div>
+            <div class="custombox-demonstration theorema {{initialclass}}">
+                {{#canshow}}
+                {{{demonstration}}}
+                {{/canshow}}
+            </div>
+        </td>
+    </tr>
+    {{/showdemonstration}}
+</table>
+<!-- /customlabeltype_theorema/template -->

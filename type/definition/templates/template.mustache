@@ -1,0 +1,53 @@
+{{!
+    This file is part of The Customlabel Module
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_customlabel/definition
+
+    Classes required for JS:
+    * no classes
+}}
+<!-- customlabeltype_definition/template -->
+<table class="custombox-definition" width="100%">
+    <tr valign="top">
+        <td class="custombox-header-thumb definition" style="background-image : url({{{iconurl}}});" width="2%" rowspan="2">
+        </td>
+        <td class="custombox-header-caption definition" width="98%">
+            {{#str}}definition, customlabeltype_definition{{/str}}
+        </td>
+    </tr>
+
+    <tr valign="top">
+        <td class="custombox-content definition">
+            {{{definition}}}
+        </td>
+    </tr>
+
+    {{#hassubdefs}}
+    <tr valign="top">
+        <td class="custombox-foo definition" width="2%"></td>
+        <td class="custombox-subdefinitions definition">
+            <ul class=\"customlabel-subdefinition definition\">
+            {{#subdefs}}
+                <li>{{{subdef}}}</li>
+            {{/subdefs}}
+            </ul>
+        </td>
+    </tr>
+    {{/hassubdefs}}
+
+</table>
+<!-- /customlabeltype_definition/template -->

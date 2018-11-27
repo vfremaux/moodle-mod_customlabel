@@ -80,10 +80,26 @@ class customlabel_type_theorema extends customlabel_type {
         $field->itemid = $i + 1;
         $field->rows = 20;
         $this->fields['demonstration'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'demoinitiallyvisible';
+        $field->type = 'choiceyesno';
+        $field->default = 0;
+        $this->fields['demoinitiallyvisible'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'showdemonstrationon';
+        $field->type = 'datetime';
+        $field->default = time() + DAYSECS * 7;
+        $this->fields['showdemonstrationon'] = $field;
     }
 
     public function preprocess_data() {
+        global $OUTPUT, $COURSE;
 
+        $minusurl = $OUTPUT->pix_url('minus', 'customlabel');
+        $plusurl = $OUTPUT->pix_url('plus', 'customlabel');
+        $this->data->initialcontrolimageurl = ($this->data->demoinitiallyvisible) ? $minusurl : $plusurl;
         $this->data->corollarylist = "<ul class=\"customlabel-corollaries theorema\">\n";
         for ($i = 0; $i < $this->data->corollarynum; $i++) {
             $key = 'corollary'.$i;
@@ -91,5 +107,24 @@ class customlabel_type_theorema extends customlabel_type {
             $this->data->corollarylist .= (isset($this->data->$key)) ? "<li><i>{$title} :</i> {$this->data->$key}</li>\n" : '';
         }
         $this->data->corollarylist .= "</ul>\n";
+        $this->data->initialclass = ($this->data->demoinitiallyvisible) ? '' : 'hidden';
+        $this->data->customid = $this->cmid;
+        if ($this->data->showdemonstrationon->enabled) {
+            $qdate = mktime($this->data->showdemonstrationon->hour,
+                            $this->data->showdemonstrationon->minute,
+                            0,
+                            $this->data->showdemonstrationon->month,
+                            $this->data->showdemonstrationon->day,
+                            $this->data->showdemonstrationon->year);
+            if ($qdate < time()) {
+                $this->data->canshow = true;
+            }
+            $this->data->opentime = userdate($qdate);
+        }
+
+        $context = context_course::instance($COURSE->id);
+        if (has_capability('moodle/course:manageactivities', $context)) {
+            $this->data->hascap = true;
+        }
     }
 }
