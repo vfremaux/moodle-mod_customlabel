@@ -28,3 +28,12 @@
 .constraint-form-table td {
     padding: 5px;
 }
+
+/* general class for all subtypes */
+.custombox-content.hidden {
+    display:none;
+}
+
+form[name="chooseset"] {
+    margin-bottom: 15px;
+}

@@ -114,6 +114,57 @@ function xmldb_customlabel_upgrade($oldversion = 0) {
         upgrade_mod_savepoint(true, 2017061300, 'customlabel');
     }
 
+    if ($oldversion < 2018111700) {
+
+        // Define completoin fields to be added to customlabel.
+        $table = new xmldb_table('customlabel');
+        $field = new xmldb_field('completion1enabled');
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, 0, 'processedcontent');
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+
+            $field = new xmldb_field('completion2enabled');
+            $field->set_attributes(XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, 0, 'completion1enabled');
+            $dbman->add_field($table, $field);
+
+            $field = new xmldb_field('completion3enabled');
+            $field->set_attributes(XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, 0, 'completion2enabled');
+            $dbman->add_field($table, $field);
+        }
+
+        // Customlabel savepoint reached.
+        upgrade_mod_savepoint(true, 2018111700, 'customlabel');
+    }
+
+    if ($oldversion < 2018111900) {
+
+        // Define table customlabel_user_data to be created.
+        $table = new xmldb_table('customlabel_user_data');
+
+        // Adding fields to table customlabel_user_data.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('customlabelid', XMLDB_TYPE_INTEGER, '11', null, null, null, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '11', null, null, null, null);
+        $table->add_field('completion1', XMLDB_TYPE_INTEGER, '9', null, XMLDB_NOTNULL, null, 0);
+        $table->add_field('completion2', XMLDB_TYPE_INTEGER, '9', null, XMLDB_NOTNULL, null, 0);
+        $table->add_field('completion3', XMLDB_TYPE_INTEGER, '9', null, XMLDB_NOTNULL, null, 0);
+
+        // Adding keys to table customlabel_user_data.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Adding indexes to table customlabel_user_data.
+        $table->add_index('ix_userid_cid', XMLDB_INDEX_UNIQUE, array('userid', 'customlabelid'));
+
+        // Conditionally launch create table for customlabel_user_data.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Customlabel savepoint reached.
+        upgrade_mod_savepoint(true, 2018111900, 'customlabel');
+    }
+
     return $result;
 }
 
@@ -126,7 +177,7 @@ function customlabel_course_preprocess_filepickers($c) {
         foreach ($customlabels as $c) {
             mtrace("preprocessing customlabel $c->name ");
             $cm = get_coursemodule_from_instance('customlabel', $c->id);
-
+            $c->coursemodule = $cm->id;
             $instance = customlabel_load_class($c);
             foreach ($instance->fields as $f) {
                 if ($f->type == 'filepicker') {

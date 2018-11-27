@@ -29,6 +29,7 @@ $string['pluginname'] = 'Elément de cours&nbsp;: Méthode';
 $string['typename'] = 'Méthode';
 $string['configtypename'] = 'Active le type Méthode';
 $string['methodtext'] = 'Description de la méthode&nbsp;';
+$string['method'] = 'Méthode';
 
 $string['template'] = '
 <table class="custombox-method" cellspacing="0" width="100%">

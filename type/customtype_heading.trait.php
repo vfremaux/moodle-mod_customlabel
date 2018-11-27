@@ -39,4 +39,27 @@ trait customlabel_trait_heading {
         $field->itemid = 0;
         $this->fields['shortdesc'] = $field;
     }
+
+    public function standard_icon_fields() {
+
+        $field = new StdClass();
+        $field->name = 'overimagetext';
+        $field->type = 'textfield';
+        $field->size = 20;
+        $this->fields['overimagetext'] = $field;
+
+        $field = new StdClass();
+        $field->name = 'imageposition';
+        $field->type = 'list';
+        $field->options = array('none', 'left', 'right');
+        $field->default = 'none';
+        $this->fields['imageposition'] = $field;
+
+        $field = new StdClass();
+        $field->name = 'imagewidth';
+        $field->type = 'textfield';
+        $field->size = 20;
+        $field->default = '128';
+        $this->fields['imagewidth'] = $field;
+    }
 }

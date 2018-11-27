@@ -113,7 +113,12 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $oldid = $data->id;
 
         // The data is actually inserted into the database later in inform_new_usage_id.
-        $newitemid = $DB->insert_record('customlabel_mtd_type', $data);
+        $params = array('code' => $data->code);
+        if (!$oldrec = $DB->record_exists('customlabel_mtd_type', $params)) {
+            $newitemid = $DB->insert_record('customlabel_mtd_type', $data);
+        } else {
+            $newitemid = $oldrec->id;
+        }
         $this->set_mapping('customlabel_mtd_type', $oldid, $newitemid, false); // Has no related files.
     }
 
@@ -127,7 +132,12 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
 
         // The data is actually inserted into the database later in inform_new_usage_id.
         if ($data->typeid) {
-            $newitemid = $DB->insert_record('customlabel_mtd_value', $data);
+            $params = array('typeid' => $data->typeid, 'code' => $data->code);
+            if (!$oldrec = $DB->get_record('customlabel_mtd_value', $params)) {
+                $newitemid = $DB->insert_record('customlabel_mtd_value', $data);
+            } else {
+                $newitemid = $oldrec->id;
+            }
             $this->set_mapping('customlabel_mtd_value', $oldid, $newitemid, false); // Has no related files.
         }
     }
@@ -158,5 +168,17 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
                 $DB->set_field('customlabel', $fieldname, $newname, array('id' => $newid));
             }
         }
+    }
+
+    /**
+     * After restoring a course, reclaculate all customlabels as they may
+     * integrate dynamic context dependant information.
+     */
+    public function after_restore() {
+        global $DB;
+
+        $courseid = $this->task->get_courseid();
+        $course = $DB->get_record('course', array('id' => $courseid));
+        customlabel_course_regenerate($course, 'all');
     }
 }

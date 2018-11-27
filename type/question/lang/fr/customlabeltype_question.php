@@ -33,9 +33,14 @@ $string['typename'] = 'Question';
 $string['configtypename'] = 'Active le type question';
 $string['questiontext'] = 'Texte de la question&nbsp;';
 $string['answertext'] = 'Texte de la réponse&nbsp;';
+$string['showansweron'] = 'Afficher la réponse à partir de';
+$string['willopenon'] = 'Sera visible le';
+$string['notavailableyet'] = 'Pas encore disponible';
 $string['initiallyvisible'] = 'Réponse visible au chargement&nbsp;';
 $string['hint'] = 'Texte d\'indice&nbsp;';
 $string['hintinitiallyvisible'] = 'Indice visible au chargement&nbsp;';
+$string['question'] = 'Question';
+$string['solution'] = 'Réponse';
 
 $string['template'] = '
 <table class="custombox-question" cellspacing="0" width="100%">

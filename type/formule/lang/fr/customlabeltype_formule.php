@@ -33,20 +33,4 @@ $string['pluginname'] = 'Elément de cours&nbsp;: Formule';
 $string['typename'] = 'Formule';
 $string['configtypename'] = 'Active le type Formule';
 $string['formuletext'] = 'Formule';
-
-$string['template'] = '
-<table class="custombox-formule" cellspacing="0" width="100%">
-<tr valign="top">
-    <td class="custombox-header-thumb formule" style="background-image : url(<%%icon%%>);" width="2%" rowspan="2">
-    </td>
-    <td class="custombox-header-caption formule" width="98%">
-        Formule
-    </td>
-</tr>
-<tr valign="top">
-    <td class="custombox-content formuletext">
-        <%%formuletext%%>
-    </td>
-</tr>
-</table>
-';
+$string['statement'] = 'Formule';

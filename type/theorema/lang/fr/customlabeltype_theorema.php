@@ -42,6 +42,10 @@ $string['corollary6'] = 'Corollaire 7';
 $string['corollary7'] = 'Corollaire 8';
 $string['corollary8'] = 'Corollaire 9';
 $string['showdemonstration'] = 'Afficher la demonstration';
+$string['showdemonstrationon'] = 'Afficher la démonstration à partir de&nbsp;';
+$string['willopenon'] = 'Sera visible le';
+$string['notavailableyet'] = 'Pas encore disponible';
+$string['demoinitiallyvisible'] = 'Démonstration visible au chargement&nbsp;';
 $string['demonstration'] = 'Demonstration';
 
 $string['template'] = '

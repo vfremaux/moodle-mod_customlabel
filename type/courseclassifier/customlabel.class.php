@@ -44,12 +44,13 @@ class customlabel_type_courseclassifier extends customlabel_type {
         $field = new StdClass;
         $field->name = 'tablecaption';
         $field->type = 'textfield';
+        $field->default = get_string('courseclassification', 'customlabeltype_courseclassifier');
         $this->fields['tablecaption'] = $field;
 
         $field = new StdClass;
         $field->name = 'uselevels';
         $field->type = 'list';
-        $field->options = array('1', '2', '3');
+        $field->options = array('1', '2', '3', '4');
         $field->straightoptions = true;
         $field->mandatory = true;
         $this->fields['uselevels'] = $field;
@@ -161,40 +162,8 @@ class customlabel_type_courseclassifier extends customlabel_type {
         $DB->delete_records($config->course_metadata_table, array($config->course_metadata_course_key => $COURSE->id));
     }
 
-    public function preprocess_data() {
-        global $DB;
-
-        $config = get_config('customlabel');
-
-        $this->data->classifiers = false;
-        $this->data->classifierrows = '';
-        $coursefilters = $DB->get_records($config->classification_type_table, array('type' => 'coursefilter'));
-
-        foreach ($coursefilters as $coursefilter) {
-            $showkey = 'show'.strtolower($coursefilter->code);
-            $key = strtolower($coursefilter->code);
-
-            if (!empty($this->data->$showkey)) {
-                $this->data->classifiers = true;
-                $classif = new StdClass();
-                $classif->label = format_string($coursefilter->name);
-                $classif->values = $this->data->$key;
-                $this->data->classifierrows .= get_string('classifierrow', 'customlabeltype_courseclassifier', $classif);
-            }
-        }
-    }
-
-    /**
-     *
-     *
-     */
-    public function postprocess_data($course = null) {
-        global $COURSE, $DB;
-
-        if (!isset($this->data->coursemodule)) {
-            // We are not really updating data.
-            return;
-        }
+    public function post_update() {
+        global $DB, $COURSE;
 
         $config = get_config('customlabel');
 
@@ -208,42 +177,42 @@ class customlabel_type_courseclassifier extends customlabel_type {
         // Add updated level0.
         $cc = new StdClass;
         $cc->$coursekey = $COURSE->id;
-        if (!empty($this->data->level0option)) {
-            if (is_array($this->data->level0option)) {
-                foreach ($this->data->level0option as $method) {
+        if (!empty($this->data->level0)) {
+            if (is_array($this->data->level0)) {
+                foreach ($this->data->level0 as $method) {
                     $cc->$valuekey = $method;
                     $DB->insert_record($config->course_metadata_table, $cc);
                 }
             } else {
-                $cc->$valuekey = $this->data->level0option;
+                $cc->$valuekey = $this->data->level0;
                 $DB->insert_record($config->course_metadata_table, $cc);
             }
         }
 
         // Add updated level1.
         $cc->$coursekey = $COURSE->id;
-        if (!empty($this->data->level1option)) {
-            if (is_array($this->data->level1option)) {
-                foreach ($this->data->level1option as $method) {
+        if (!empty($this->data->level1)) {
+            if (is_array($this->data->level1)) {
+                foreach ($this->data->level1 as $method) {
                     $cc->$valuekey = $method;
                     $DB->insert_record($config->course_metadata_table, $cc);
                 }
             } else {
-                $cc->$valuekey = $this->data->level1option;
+                $cc->$valuekey = $this->data->level1;
                 $DB->insert_record($config->course_metadata_table, $cc);
             }
         }
 
         // Add updated level2.
         $cc->$coursekey = $COURSE->id;
-        if (!empty($this->data->level2option)) {
-            if (is_array($this->data->level2option)) {
-                foreach ($this->data->level2option as $method) {
+        if (!empty($this->data->level2)) {
+            if (is_array($this->data->level2)) {
+                foreach ($this->data->level2 as $method) {
                     $cc->$valuekey = $method;
                     $DB->insert_record($config->course_metadata_table, $cc);
                 }
             } else {
-                $cc->$valuekey = $this->data->level2option;
+                $cc->$valuekey = $this->data->level2;
                 $DB->insert_record($config->course_metadata_table, $cc);
             }
         }
@@ -257,7 +226,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
 
             $cc->$coursekey = $COURSE->id;
 
-            $optionkey = strtolower($coursefilter->code).'option';
+            $optionkey = strtolower($coursefilter->code);
 
             if (!empty($this->data->$optionkey)) {
                 if (is_array($this->data->$optionkey)) {
@@ -271,6 +240,63 @@ class customlabel_type_courseclassifier extends customlabel_type {
                 }
             } else {
                 $this->data->$optionkey;
+            }
+        }
+    }
+
+    public function preprocess_data() {
+        global $DB;
+
+        $config = get_config('customlabel');
+
+        $this->data->classifiers = false;
+
+        $classifiers = $DB->get_records($config->classification_type_table, array('type' => 'category'));
+        if ($classifiers) {
+            foreach ($classifiers as $classif) {
+                if ($classif->code == 'LEVEL0') {
+                    $key = 'level0';
+                    $classifiertpl = new StdClass();
+                    $classifiertpl->label = format_string($classif->name);
+                    $classifiertpl->values = implode(', ', $this->get_datasource_values($this->fields['level0'], $this->data->$key));
+                    $this->data->classifiers[] = $classifiertpl;
+                }
+                if ($classif->code == 'LEVEL1') {
+                    $key = 'level1';
+                    $classifiertpl = new StdClass();
+                    $classifiertpl->label = format_string($classif->name);
+                    $classifiertpl->values = implode(', ', $this->get_datasource_values($this->fields['level1'], $this->data->$key));
+                    $this->data->classifiers[] = $classifiertpl;
+                }
+                if ($classif->code == 'LEVEL2') {
+                    $key = 'level2';
+                    $classifiertpl = new StdClass();
+                    $classifiertpl->label = format_string($classif->name);
+                    $classifiertpl->values = implode(', ', $this->get_datasource_values($this->fields['level2'], $this->data->$key));
+                    $this->data->classifiers[] = $classifiertpl;
+                }
+                if ($classif->code == 'LEVEL3') {
+                    $key = 'level3';
+                    $classifiertpl = new StdClass();
+                    $classifiertpl->label = format_string($classif->name);
+                    $classifiertpl->values = implode(', ', $this->get_datasource_values($this->fields['level3'], $this->data->$key));
+                    $this->data->classifiers[] = $classifiertpl;
+                }
+            }
+        }
+
+        $coursefilters = $DB->get_records($config->classification_type_table, array('type' => 'coursefilter'));
+        if ($coursefilters) {
+            $this->data->hasfilters = true;
+            foreach ($coursefilters as $filter) {
+                $showkey = 'show'.strtolower($filter->code);
+                if (!empty($this->data->$showkey)) {
+                    $filtertpl = new StdClass();
+                    $filtertpl->label = format_string($filter->name);
+                    $key = strtolower($filter->code);
+                    $filtertpl->values = implode(', ', $this->get_datasource_values($this->fields[$key], $this->data->$key));
+                    $this->data->filters[] = $filtertpl;
+                }
             }
         }
     }
