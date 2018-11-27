@@ -58,3 +58,14 @@ td.custombox-content.answertext {
     min-height: 100px;
     padding: 10px 20px;
 }
+
+.custombox-header-collapser.question .comment {
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+}
+
+.custombox-header-collapser.question .teacher-comment {
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+    color: #e00;
+}

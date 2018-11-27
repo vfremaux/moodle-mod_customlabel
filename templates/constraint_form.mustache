@@ -1,0 +1,44 @@
+
+
+<!-- mod_customlabel/constraint_form -->
+<form name="constraintsform" method="POST" action="{{{formurl}}}">
+<input type="hidden" name="view" value="{{view}}" />
+<input type="hidden" name="value1" value="{{value1}}" />
+<input type="hidden" name="value2" value="{{value2}}" />
+<input type="hidden" name="what" value="save" />
+
+<table class="constraint-form-table">
+    <tr valign="top">
+
+        <td>
+        </td>
+
+        {{#value1set}}
+            <td align="center"><b>{{value}}</b></td>
+        {{/value1set}}
+    </tr>
+
+    {{#value2set}}
+    <tr valign="top">
+
+        <td align="left">{{value}}</td>
+
+        {{#valueset}}
+        <td class="constraint-cell {{class}}">
+            {{{optionsselect}}}
+        </td>
+        {{/valueset}}
+
+    </tr>
+    {{/value2set}}
+</table>
+
+<table width="100%">
+    <tr>
+        <td align="center">
+            <input type="submit" name="go_btn" value="{{#str}}save, mod_customlabel{{/str}}" />
+        </td>
+    </tr>
+</table>
+</form>
+<!-- /mod_customlabel/constraint_form -->

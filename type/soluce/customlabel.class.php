@@ -49,19 +49,21 @@ class customlabel_type_soluce extends customlabel_type {
         $field->name = 'initiallyvisible';
         $field->default = 1;
         $this->fields['initiallyvisible'] = $field;
+
+        $field = new StdClass();
+        $field->type = 'datetime';
+        $field->name = 'viewdate';
+        $this->fields['viewdate'] = $field;
     }
 
     public function preprocess_data($course = null) {
         global $CFG, $OUTPUT;
 
-        $customid = @$CFG->custom_unique_id + 1;
-
         $minusurl = $OUTPUT->pix_url('minus', 'customlabel');
         $plusurl = $OUTPUT->pix_url('plus', 'customlabel');
-        $this->data->initialcontrolimage = ($this->data->initiallyvisible) ? $minusurl : $plusurl;
-        $this->data->wwwroot = $CFG->wwwroot;
-        $this->data->customid = $customid;
-        set_config('custom_unique_id', $customid);
+        $this->data->initialcontrolimageurl = ($this->data->initiallyvisible) ? $minusurl : $plusurl;
+        $this->data->initialclass = ($this->data->initiallyvisible) ? '' : 'hidden';
+        $this->data->customid = $this->cmid;
     }
 }
 
