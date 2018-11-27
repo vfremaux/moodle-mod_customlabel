@@ -47,10 +47,14 @@ $plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
 <<<<<<< HEAD
+<<<<<<< HEAD
 $plugin->codeincrement = '3.5.0005';
 >>>>>>> MOODLE_35_STABLE
 =======
 $plugin->codeincrement = '3.5.0007';
+>>>>>>> MOODLE_35_STABLE
+=======
+$plugin->codeincrement = '3.5.0008';
 >>>>>>> MOODLE_35_STABLE
 $plugin->privacy = 'dualrelease';
 $plugin->prolocations = array(

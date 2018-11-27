@@ -33,6 +33,7 @@ $string['pluginname'] = 'Element de cours : Classification de cours';
 $string['courseclassifier'] = 'Classification de cours';
 $string['tablecaption'] = 'Titre de la table';
 $string['typename'] = 'Classification de cours';
+$string['courseclassification'] = 'Classification du cours';
 $string['configtypename'] = 'Active le type Classification de cours';
 $string['level0'] = 'Classification 1&nbsp;';
 $string['level1'] = 'Classification 2&nbsp;';
@@ -42,4 +43,5 @@ $string['fonction'] = 'Fonction&nbsp;';
 $string['showpeople'] = 'Afficher le critère de public';
 $string['uselevels'] = 'Niveaux actifs&nbsp;';
 $string['status'] = 'Etat de publication&nbsp;';
+$string['filters'] = 'Filtres des cours';
 
