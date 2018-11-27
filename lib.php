@@ -152,7 +152,12 @@ function customlabel_add_instance($customlabelrec) {
 
     $customlabelrec->content = base64_encode(json_encode($customlabeldata));
     $customlabelrec->timemodified = time();
-    return $DB->insert_record('customlabel', $customlabelrec);
+
+    $instance->pre_update();
+    $customlabelid = $DB->insert_record('customlabel', $customlabelrec);
+    $instance->post_update();
+
+    return $customlabelid;
 }
 
 /**
@@ -190,9 +195,15 @@ function customlabel_update_instance($customlabelrec) {
 
     $customlabelrec->content = base64_encode(json_encode($customlabeldata));
     $updatedinstance->data = $customlabeldata;
+
+    if ($typechanged) {
+        // Instance has changed of type in the meanwhile.
+        $updatedinstance->pre_update();
+    }
+
     $result = $DB->update_record('customlabel', $customlabelrec);
 
-    if ($result && $typechanged) {
+    if ($result) {
         // Instance has changed of type in the meanwhile.
         $updatedinstance->post_update();
     }

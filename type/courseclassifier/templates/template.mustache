@@ -33,19 +33,19 @@
     {{/classifiers}}
 </table>
 
-{{#hasotherclassifiers}}
-<table class="custombox-courseclassifier other">
+{{#hasfilters}}
+<table class="custombox-courseclassifier filter">
 
     <tr valign="top">
         <th class="custombox-title courseclassifier" colspan="2">
-            {{#str}}otherclassifiers, customlabeltype_courseclassifier{{/str}}
+            {{#str}}filters, customlabeltype_courseclassifier{{/str}}
         </th>
     </tr>
 
-    {{#classifierrows}}
+    {{#filters}}
     {{> customlabeltype_courseclassifier/classifierrow}}
-    {{/classifierrows}}
+    {{/filters}}
 
 </table>
-{{/hasotherclassifiers}}
+{{/hasfilters}}
 <!-- /customlabeltype_courseclassifier/template -->

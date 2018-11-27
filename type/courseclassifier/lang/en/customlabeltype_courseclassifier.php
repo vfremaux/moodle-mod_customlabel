@@ -32,6 +32,7 @@ $string['courseclassifier:addinstance'] = 'Can add an instance';
 $string['pluginname'] = 'Course element : Course classifier';
 $string['courseclassifier'] = 'Course classifier';
 $string['tablecaption'] = 'Table caption';
+$string['courseclassification'] = 'Course clasification';
 $string['typename'] = 'Course classifier';
 $string['configtypename'] = 'Enable subtype Course Classifier';
 $string['level0'] = 'Classification level 1';
@@ -42,7 +43,7 @@ $string['fonction'] = 'Function';
 $string['showpeople'] = 'Show the public selector';
 $string['uselevels'] = 'Levels to use';
 $string['status'] = 'Course state';
-$string['otherclassifiers'] = 'Other classifying information';
+$string['filters'] = 'Course filters';
 
 $string['family'] = 'special';
 
