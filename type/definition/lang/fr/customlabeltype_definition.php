@@ -46,26 +46,3 @@ $string['subdef7'] = 'Sous-définition 8&nbsp;';
 $string['subdef7'] = 'Sous-définition 9&nbsp;';
 $string['subdef9'] = 'Sous-définition 10&nbsp;';
 
-$string['template'] = '
-<table class="custombox-definition" cellspacing="0" width="100%">
-<tr valign="top">
-    <td class="custombox-header-thumb definition" style="background-image : url(<%%icon%%>);" width="2%" rowspan="2">
-    </td>
-    <td class="custombox-header-caption definition" width="98%">
-        Définition
-    </td>
-</tr>
-<tr valign="top">
-    <td class="custombox-content definition">
-        <%%definition%%>
-    </td>
-</tr>
-<%if %%hassubdeflist%% %>
-<tr valign="top">
-    <td class="custombox-foo definition" width="2%"></td>
-    <td class="custombox-subdefinitions definition">
-        <%%subdeflist%%>
-    </td>
-</tr>
-<%endif %>
-</table>';

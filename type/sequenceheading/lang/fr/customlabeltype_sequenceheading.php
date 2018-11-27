@@ -33,6 +33,7 @@ $string['shortdesc'] = 'Description courte';
 $string['imageurl'] = 'Image';
 $string['image'] = 'Image de vignette';
 $string['imageposition'] = 'Position de l\'image';
+$string['imagewidth'] = 'Largeur de l\'image';
 $string['left'] = 'Gauche';
 $string['right'] = 'Droite';
 $string['none'] = 'Non visible';

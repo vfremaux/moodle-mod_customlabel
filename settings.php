@@ -40,11 +40,6 @@ if ($ADMIN->fulltree) {
         }
     }
 
-    $label = get_string('regeneration', 'customlabel');
-    $settingurl = new moodle_url('/mod/customlabel/admin_updateall.php');
-    $desc = '<a href="'.$settingurl.'">'.get_string('regenerate', 'customlabel').'</a>';
-    $settings->add(new admin_setting_heading('regeneration', $label, $desc));
-
     $label = get_string('classification', 'customlabel');
     $settingurl = new moodle_url('/mod/customlabel/adminmetadata.php');
     $desc = '<a href="'.$settingurl.'">'.get_string('classification', 'customlabel').'</a>';
