@@ -305,7 +305,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     static $customlabelcssloaded = array();
     static $customlabelamdloaded = array();
 
-    $iscminfo = get_class($cminfo) == 'cminfo';
+    $iscminfo = (get_class($cminfo) == 'cminfo') || (get_class($cminfo) == 'cm_info');
 
     // Improve page format by testing if in current visble page.
     if ($COURSE->format == 'page') {
