@@ -39,6 +39,7 @@ class customlabel_type_verticalspacer extends customlabel_type {
         parent::__construct($data);
         $this->type = 'verticalspacer';
         $this->fields = array();
+        $this->hasamd = true;
 
         $field = new StdClass;
         $field->name = 'spacing';

@@ -44,14 +44,6 @@ class customlabel_type_definition extends customlabel_type {
         $field->rows = 20;
         $this->fields['definition'] = $field;
 
-        if (!isset($data->subdefsnum)) {
-            // Second chance, get it from stored data.
-            $storeddata = json_decode(base64_decode(@$this->data->content));
-            $subdefsnum = (!empty($storeddata->subdefsnum)) ? $storeddata->subdefsnum : 0;
-        } else {
-            $subdefsnum = $data->subdefsnum;
-        }
-
         $field = new StdClass;
         $field->name = 'subdefsnum';
         $field->type = 'list';
@@ -59,25 +51,31 @@ class customlabel_type_definition extends customlabel_type {
         $field->straightoptions = true;
         $this->fields['subdefsnum'] = $field;
 
-        for ($i = 0; $i < $subdefsnum; $i++) {
-            $field = new StdClass;
-            $field->name = 'subdef'.$i;
-            $field->type = 'editor';
-            $field->itemid = $i + 1;
-            $field->size = 60;
-            $this->fields['subdef'.$i] = $field;
+        if (!empty($this->data->subdefsnum)) {
+            for ($i = 0; $i < $this->data->subdefsnum; $i++) {
+                $field = new StdClass;
+                $field->name = 'subdef'.$i;
+                $field->type = 'editor';
+                $field->itemid = $i + 1;
+                $field->size = 60;
+                $this->fields['subdef'.$i] = $field;
+            }
         }
     }
 
-    public function preprocess_data() {
+    public function postprocess_data($course = null) {
 
-        $this->data->hassubdeflist = 0;
-        $this->data->subdeflist = "<ul class=\"customlabel-subdefinition definition\">\n";
-        for ($i = 0; $i < $this->data->subdefsnum; $i++) {
-            $key = 'subdef'.$i;
-            $this->data->subdeflist .= (isset($this->data->$key)) ? '<li>'.$this->data->$key."</li>\n" : '';
-            $this->data->hassubdeflist = 1;
+        $this->data->hassubdefs = false;
+        if ($this->data->subdefsnum) {
+            for ($i = 0; $i < $this->data->subdefsnum; $i++) {
+                $key = 'subdef'.$i;
+                $subdeftpl = new StdClass;
+                if (isset($this->data->$key)) {
+                    $subdeftpl->subdef = $this->data->$key;
+                    $this->data->subdefs[] = $subdeftpl;
+                    $this->data->hassubdefs = true;
+                }
+            }
         }
-        $this->data->subdeflist .= "</ul>\n";
     }
 }

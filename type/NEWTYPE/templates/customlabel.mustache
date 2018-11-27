@@ -1,0 +1,79 @@
+{{!
+    This file is part of The Customlabel Module
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_customlabel/NEWTYPE
+
+    Classes required for JS:
+    * no classes
+
+}}
+<!-- customlabeltype_NEWTYPE/template -->
+<!-- This is a layout template for the custom type NEWTYPE -->
+<!-- There should be a template for all used languages -->
+<!-- Remind : Template must be UTF8 encoded -->
+
+<!-- The first line calls the customization CSS -->
+<div class="labelcontent">
+    <table class="customlabeldemo">
+        <tr>
+            <th colspan="2">
+                {{{title}}}
+            </th>
+        <tr>
+        <tr>
+            <td class="param">
+                {{#str}}sample, customlabeltype_NEWTYPE{{/str}}
+            </td>
+            <td class="value">
+                {{{smalltext}}}
+            </td>
+        </tr>
+        <tr>
+            <td class="param">
+                {{#str}}longtextsample, customlabeltype_NEWTYPE{{/str}}
+            </td>
+            <td class="value">
+                {{{parag}}}
+            </td>
+        </tr>
+        <tr>
+            <td class="param">
+                {{#str}}list, customlabeltype_NEWTYPE{{/str}}
+            </td>
+            <td class="value">
+                {{{list}}}
+            </td>
+        </tr>
+        <tr>
+            <td class="param">
+                {{#str}}listmultiple, customlabeltype_NEWTYPE{{/str}}
+            </td>
+            <td class="value">
+                {{{listmultiple}}}
+            </td>
+        </tr>
+        <tr class="locked">
+            <td class="param">
+                {{#str}}lockedsample, customlabeltype_NEWTYPE{{/str}}
+            </td>
+            <td>
+                {{{lockedfield}}}
+            </td>
+        </tr>
+    </table>
+</div>
+<!-- /customlabeltype_NEWTYPE/template -->

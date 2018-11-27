@@ -4,19 +4,22 @@
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="customlabel" COMMENT="Defines labels" NEXT="customlabel_mtd_type">
+    <TABLE NAME="customlabel" COMMENT="Defines labels">
       <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="course"/>
-        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="name"/>
-        <FIELD NAME="name" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" PREVIOUS="course" NEXT="title"/>
-        <FIELD NAME="title" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" PREVIOUS="name" NEXT="labelclass"/>
-        <FIELD NAME="labelclass" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" PREVIOUS="title" NEXT="fallbacktype"/>
-        <FIELD NAME="fallbacktype" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" PREVIOUS="labelclass" NEXT="intro"/>
-        <FIELD NAME="intro" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" PREVIOUS="fallbacktype" NEXT="introformat"/>
-        <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false" PREVIOUS="intro" NEXT="timemodified"/>
-        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="introformat" NEXT="content" />
-        <FIELD NAME="content" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false" PREVIOUS="timemodified" NEXT="processedcontent"/>
-        <FIELD NAME="processedcontent" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false" PREVIOUS="content" />
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
+        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
+        <FIELD NAME="name" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="title" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="labelclass" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="fallbacktype" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="intro" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
+        <FIELD NAME="content" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false" />
+        <FIELD NAME="processedcontent" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false" />
+        <FIELD NAME="completion1enabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Nonzero if completion1 rule is required depending on element subtype." />
+        <FIELD NAME="completion2enabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Nonzero if completion2 rule is required depending on element subtype." />
+        <FIELD NAME="completion3enabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Nonzero if completion3 rule is required depending on element subtype." />
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" />
@@ -25,53 +28,82 @@
         <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
       </INDEXES>
     </TABLE>
-    <TABLE NAME="customlabel_mtd_type" COMMENT="Type of metadata" PREVIOUS="customlabel" NEXT="customlabel_mtd_value">
+    <TABLE NAME="customlabel_mtd_type" COMMENT="Type of metadata">
       <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="type"/>
-        <FIELD NAME="type" TYPE="char" LENGTH="40" NOTNULL="false" SEQUENCE="false" COMMENT="Type" PREVIOUS="id" NEXT="code"/>
-        <FIELD NAME="code" TYPE="char" LENGTH="15" NOTNULL="false" SEQUENCE="false" COMMENT="Name of type" PREVIOUS="type" NEXT="name"/>
-        <FIELD NAME="name" TYPE="char" LENGTH="40" NOTNULL="false" SEQUENCE="false" COMMENT="Name of type" PREVIOUS="code" NEXT="description"/>
-        <FIELD NAME="description" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" COMMENT="Textual description" PREVIOUS="name" NEXT="sortorder"/>
-        <FIELD NAME="sortorder" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Ordering" PREVIOUS="description"/>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
+        <FIELD NAME="type" TYPE="char" LENGTH="40" NOTNULL="false" SEQUENCE="false" COMMENT="Type" />
+        <FIELD NAME="code" TYPE="char" LENGTH="15" NOTNULL="false" SEQUENCE="false" COMMENT="Name of type" />
+        <FIELD NAME="name" TYPE="char" LENGTH="40" NOTNULL="false" SEQUENCE="false" COMMENT="Name of type" />
+        <FIELD NAME="description" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" COMMENT="Textual description" />
+        <FIELD NAME="sortorder" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Ordering" />
       </FIELDS>
       <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" />
       </KEYS>
+      <INDEXES>
+        <INDEX NAME="ix_code" UNIQUE="true" FIELDS="code" />
+      </INDEXES>
     </TABLE>
-    <TABLE NAME="customlabel_mtd_value" COMMENT="Values for metadata lists" PREVIOUS="customlabel_mtd_type" NEXT="customlabel_course_metadata">
+    <TABLE NAME="customlabel_mtd_value" COMMENT="Values for metadata lists">
       <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="typeid"/>
-        <FIELD NAME="typeid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="code"/>
-        <FIELD NAME="code" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" PREVIOUS="typeid" NEXT="value"/>
-        <FIELD NAME="value" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" PREVIOUS="code" NEXT="translatable"/>
-        <FIELD NAME="translatable" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="value" NEXT="sortorder" />
-        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" PREVIOUS="translatable" NEXT="parent" />
-        <FIELD NAME="parent" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" PREVIOUS="sortorder" />
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
+        <FIELD NAME="typeid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+        <FIELD NAME="code" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" />
+        <FIELD NAME="value" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" />
+        <FIELD NAME="translatable" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
+        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" />
+        <FIELD NAME="parent" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" />
       </FIELDS>
       <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" />
       </KEYS>
+      <INDEXES>
+        <INDEX NAME="ix_typeid" UNIQUE="false" FIELDS="typeid" />
+        <INDEX NAME="ix_parent" UNIQUE="false" FIELDS="parent" />
+      </INDEXES>
     </TABLE>
-    <TABLE NAME="customlabel_course_metadata" COMMENT="Classifies courses with metadata" PREVIOUS="customlabel_mtd_value" NEXT="customlabel_mtd_constraint">
+    <TABLE NAME="customlabel_course_metadata" COMMENT="Classifies courses with metadata">
       <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="courseid"/>
-        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Course" PREVIOUS="id" NEXT="valueid"/>
-        <FIELD NAME="valueid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="courseid"/>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Course" />
+        <FIELD NAME="valueid" TYPE="char" LENGTH="255" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
       </FIELDS>
       <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" />
       </KEYS>
+      <INDEXES>
+        <INDEX NAME="ix_courseid_valueid" UNIQUE="true" FIELDS="courseid, valueid" />
+      </INDEXES>
     </TABLE>
-    <TABLE NAME="customlabel_mtd_constraint" COMMENT="customlabel_mtd_constraint table retrofitted from MySQL" PREVIOUS="customlabel_course_metadata">
+    <TABLE NAME="customlabel_mtd_constraint" COMMENT="customlabel_mtd_constraint table retrofitted from MySQL">
       <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="value1"/>
-        <FIELD NAME="value1" TYPE="int" LENGTH="11" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="value2"/>
-        <FIELD NAME="value2" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="value1" NEXT="const"/>
-        <FIELD NAME="const" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="value2"/>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
+        <FIELD NAME="value1" TYPE="int" LENGTH="11" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+        <FIELD NAME="value2" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+        <FIELD NAME="const" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
       </FIELDS>
       <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" />
       </KEYS>
+      <INDEXES>
+        <INDEX NAME="ix_constraint" UNIQUE="true" FIELDS="value1,value2" />
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="customlabel_user_data" COMMENT="Records completion internal completion states for the user">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
+        <FIELD NAME="customlabelid" TYPE="int" LENGTH="11" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+        <FIELD NAME="userid" TYPE="int" LENGTH="11" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+        <FIELD NAME="completion1" TYPE="int" LENGTH="9" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
+        <FIELD NAME="completion2" TYPE="int" LENGTH="9" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
+        <FIELD NAME="completion3" TYPE="int" LENGTH="9" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" />
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="ix_userid_cid" UNIQUE="true" FIELDS="userid, customlabelid" />
+      </INDEXES>
     </TABLE>
   </TABLES>
 </XMLDB>
