@@ -165,6 +165,18 @@ function xmldb_customlabel_upgrade($oldversion = 0) {
         upgrade_mod_savepoint(true, 2018111900, 'customlabel');
     }
 
+    if ($oldversion < 2018120600) {
+
+        $table = new xmldb_table('customlabel_mtd_type');
+        $field = new xmldb_field('name');
+        $field->set_attributes(XMLDB_TYPE_CHAR, '255', null, null, null, null);
+
+        $field->change_field_precision($table, $field);
+
+        // Customlabel savepoint reached.
+        upgrade_mod_savepoint(true, 2018120600, 'customlabel');
+    }
+
     return $result;
 }
 

@@ -51,6 +51,7 @@ $string['showduration'] = 'Afficher la durée du parcours&ensp;';
 $string['showprerequisites'] = 'Afficher les pré requis nécessaires';
 $string['showlearningmethod'] = 'Afficher les méthode(s) d\'enseignement&ensp;';
 $string['showfollowers'] = 'Afficher les suites possibles&ensp;';
+$string['followingcourses'] = 'Cours suivants';
 $string['showtarget'] = 'Afficher le public&ensp;';
 $string['target'] = 'Public cible&ensp;';
 $string['teachingorg'] = 'Organisation pédagogique';
