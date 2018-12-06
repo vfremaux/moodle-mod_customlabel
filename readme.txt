@@ -133,3 +133,8 @@ Further roadmap :
    - Remind subtype : let the student program a reminder message emission with the remind content
    - Keypoints : let the student check the keypoint to track self-mastering
    - Worktodo : add detail subtopics that can be self checked by student. All checks will complete.
+
+# 2018120600
+####################################
+
+Raise metadata type name precision to 255 to afford translated names spans.

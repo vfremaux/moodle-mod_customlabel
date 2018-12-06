@@ -51,6 +51,7 @@ $string['showduration'] = 'Show Duration';
 $string['showprerequisites'] = 'Show Prerequisites';
 $string['showlearningmethod'] = 'Show Learning method';
 $string['showfollowers'] = 'Show Following courses ';
+$string['followingcourses'] = 'Following courses';
 $string['showtarget'] = 'Show Target';
 $string['target'] = 'Target';
 $string['teachingorg'] = 'Teaching organisation';
