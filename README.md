@@ -58,3 +58,8 @@ Further roadmap :
    - Worktodo : add detail subtopics that can be self checked by student. All checks will complete.
    - Question : add the possiblity for student to answer and assess the completion on the question
    - SingleChoice (new type to forge) : Unique tiny QCM single choice question with completion maked on success or response.
+
+# 2018120600
+####################################
+
+Raise metadata type name precision to 255 to afford translated names spans.
