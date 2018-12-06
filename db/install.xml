@@ -33,7 +33,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
         <FIELD NAME="type" TYPE="char" LENGTH="40" NOTNULL="false" SEQUENCE="false" COMMENT="Type" />
         <FIELD NAME="code" TYPE="char" LENGTH="15" NOTNULL="false" SEQUENCE="false" COMMENT="Name of type" />
-        <FIELD NAME="name" TYPE="char" LENGTH="40" NOTNULL="false" SEQUENCE="false" COMMENT="Name of type" />
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Name of type" />
         <FIELD NAME="description" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" COMMENT="Textual description" />
         <FIELD NAME="sortorder" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Ordering" />
       </FIELDS>
