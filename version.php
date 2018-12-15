@@ -43,13 +43,18 @@ $plugin->version  = 2018111900; // The current module version (Date: YYYYMMDDXX)
 >>>>>>> MOODLE_35_STABLE
 =======
 $plugin->version  = 2018120600; // The current module version (Date: YYYYMMDDXX).
+<<<<<<< HEAD
 >>>>>>> MOODLE_35_STABLE
 $plugin->requires = 2018042700;
+=======
+$plugin->requires = 2018112800;
+>>>>>>> MOODLE_36_STABLE
 $plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics).
-$plugin->release = '3.5.0 (Build 2018120600)';
+$plugin->release = '3.6.0 (Build 2018120600)';
 $plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -64,6 +69,9 @@ $plugin->codeincrement = '3.5.0008';
 =======
 $plugin->codeincrement = '3.5.0009';
 >>>>>>> MOODLE_35_STABLE
+=======
+$plugin->codeincrement = '3.6.0009';
+>>>>>>> MOODLE_36_STABLE
 $plugin->privacy = 'dualrelease';
 $plugin->prolocations = array(
     'type/localdokuwikicontent',
