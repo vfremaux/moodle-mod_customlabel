@@ -112,7 +112,7 @@ class customlabel_type_courseheading extends customlabel_type {
         global $COURSE, $DB;
 
         if (is_null($course)) {
-            $course = &$COURSE;
+            $course = clone($COURSE);
         }
 
         // Get virtual fields from course title.
