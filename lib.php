@@ -388,6 +388,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     $instance->process_form_fields();
     $instance->process_datasource_fields();
     $instance->postprocess_data();
+    $instance->postprocess_icon();
     $template = 'customlabeltype_'.$customlabel->labelclass.'/template';
     $content = $OUTPUT->render_from_template($template, $instance->data);
 

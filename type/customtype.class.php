@@ -292,6 +292,7 @@ class customlabel_type {
     /**
      * @param string $lang if set, will compile only content for this language. If not set and multilang filtering is on,
      * will compile as many versions of templates per installed language, pursuant proper template is available.
+     * DEPRECATED. 
      */
     public function make_content($lang = '', $course = null) {
         global $PAGE;
@@ -773,7 +774,7 @@ class customlabel_type {
 
         // Save back.
         $this->data->content = base64_encode(json_encode($internaldata));
-        $this->make_content();
+        // $this->make_content();
         $DB->update_record('customlabel', $this->data);
     }
 
