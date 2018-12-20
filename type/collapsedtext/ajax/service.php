@@ -69,30 +69,31 @@ if ($action == 'complete') {
 
     $cm = $DB->get_record('course_modules', array('id' => $cmid));
     $instance = $DB->get_record('customlabel', array('id' => $cm->instanceid));
+    if ($instance) {
+        $instance->coursemodule = $cm->id;
+        $customlabel = customlabel_load_class($instance);
 
-    $instance->coursemodule = $cm->id;
-    $customlabel = customlabel_load_class($instance);
+        $fullmark = pow(2, $customlabel->get_data('chapternum')) - 1;
 
-    $fullmark = pow(2, $customlabel->get_data('chapternum')) - 1;
+        $params = array('userid' => $USER->id, 'customlabelid' => $instance->id);
+        $ud = $DB->get_record('customlabel_user_data', $params);
+        if (!$ud) {
+            $ud = new StdClass;
+            $ud->userid = $USER->id;
+            $ud->customlabelid = $cm->instance;
+            $ud->completion1 = $fullmark;
+            $ud->timecompleted1 = time();
+            $DB->insert_record('customlabel_user_data', $ud);
+        } else {
+            $ud->completion1 = $fullmark;
+            $DB->update_record('customlabel_user_data', $ud);
+        }
+        $course = $DB->get_record('course', array('id' => $cm->course));
 
-    $params = array('userid' => $USER->id, 'customlabelid' => $instance->id);
-    $ud = $DB->get_record('customlabel_user_data', $params);
-    if (!$ud) {
-        $ud = new StdClass;
-        $ud->userid = $USER->id;
-        $ud->customlabelid = $cm->instance;
-        $ud->completion1 = $fullmark;
-        $ud->timecompleted1 = time();
-        $DB->insert_record('customlabel_user_data', $ud);
-    } else {
-        $ud->completion1 = $fullmark;
-        $DB->update_record('customlabel_user_data', $ud);
-    }
-    $course = $DB->get_record('course', array('id' => $cm->course));
-
-    $completion = new completion_info($course);
-    if (($completion->is_enabled($cm) == COMPLETION_TRACKING_AUTOMATIC) &&
-       $instance->completion1enabled) {
-        $completion->update_state($cm, COMPLETION_COMPLETE, $USER->id);
+        $completion = new completion_info($course);
+        if (($completion->is_enabled($cm) == COMPLETION_TRACKING_AUTOMATIC) &&
+           $instance->completion1enabled) {
+            $completion->update_state($cm, COMPLETION_COMPLETE, $USER->id);
+        }
     }
 }
