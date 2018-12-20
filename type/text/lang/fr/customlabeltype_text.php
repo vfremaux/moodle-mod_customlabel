@@ -25,9 +25,9 @@
 $string['text:view'] = 'Peut voir le contenu';
 $string['text:addinstance'] = 'Peut ajouter une instance';
 
-$string['pluginname'] = 'Elément de cours&nbsp;: Texte simple';
-$string['typename'] = 'Texte simple';
-$string['configtypename'] = 'Active le type Texte simple';
+$string['pluginname'] = 'Elément de cours&nbsp;: Texte double niveau';
+$string['typename'] = 'Texte double niveau';
+$string['configtypename'] = 'Active le type Texte niveau';
 $string['textcontent'] = 'Contenu&nbsp;';
 $string['readmorecontent'] = 'Texte supplémentaire';
 $string['initiallyvisible'] = 'Visible au chargement&nbsp;';
