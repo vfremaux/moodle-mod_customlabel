@@ -366,6 +366,7 @@ function customlabel_file_rewrite_urls_to_pluginfile($text, $draftitemid, $field
  * @param ref $customlabel a customlabel record
  * @param string $labelclassname the real class of the element.
  * @param string $course the current complete course record
+ * DEPRECATED
  *
  */
 function customlabel_regenerate(&$customlabel, $labelclassname, &$course) {
@@ -410,6 +411,7 @@ function customlabel_regenerate(&$customlabel, $labelclassname, &$course) {
  * This function operates in one single course
  * @param int $course the course id where to operate
  * @param mixed $labelclasses 'all' or an array of class names to operate in the course.
+ * DEPRECATED
  */
 function customlabel_course_regenerate(&$course, $labelclasses = '', $options = array()) {
     global $DB;
