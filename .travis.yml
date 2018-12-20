@@ -17,6 +17,7 @@ cache:
 
 php:
 <<<<<<< HEAD
+<<<<<<< HEAD
  - 5.6
  - 7.0
  - 7.1
@@ -26,12 +27,18 @@ env:
     - MOODLE_BRANCH=MOODLE_34_STABLE
 =======
  - 7.1
+=======
+>>>>>>> MOODLE_36_STABLE
  - 7.2
 
 env:
   global:
+<<<<<<< HEAD
     - MOODLE_BRANCH=MOODLE_35_STABLE
 >>>>>>> MOODLE_35_STABLE
+=======
+    - MOODLE_BRANCH=MOODLE_36_STABLE
+>>>>>>> MOODLE_36_STABLE
   matrix:
     - DB=mysqli
     - DB=pgsql
