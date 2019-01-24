@@ -8,7 +8,7 @@ td.custombox-header-thumb.information {
 }
 
 td.custombox-header-thumb.information {
-    background-image: url("/mod/customlabel/type/information/pix/icon_information_small.png");
+    background-image: url("/mod/customlabel/type/information/pix/icon_info_small.png");
     background-repeat: no-repeat;
     height: 73px;
     min-width: 25px;
@@ -17,7 +17,7 @@ td.custombox-header-thumb.information {
 
 #region-main td.custombox-header-thumb.information,
 #page-region-main td.custombox-header-thumb.information {
-    background-image: url("/mod/customlabel/type/information/pix/icon_information.png");
+    background-image: url("/mod/customlabel/type/information/pix/icon_info.png");
     background-repeat: no-repeat;
     height: 73px;
     min-width: 65px;
