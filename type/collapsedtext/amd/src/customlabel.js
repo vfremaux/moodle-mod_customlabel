@@ -79,9 +79,13 @@ define(['jquery', 'core/log', 'core/config'], function($, log, cfg) {
             if (toggle) {
                 if ($(collapseid).hasClass('collapsed')) {
                     $(collapseid).removeClass('collapsed');
+                    var src = $(collapsehandleid + ' img').attr('src');
+                    $(collapsehandleid + ' img').attr('src', src.replace('closed', 'open'));
                     customboxcollapsed.sendcompletion(cmid, itemid);
                 } else {
                     $(collapseid).addClass('collapsed');
+                    var src = $(collapsehandleid + ' img').attr('src');
+                    $(collapsehandleid + ' img').attr('src', src.replace('open', 'closed'));
                 }
             } else {
                 // Accordion behaviour. (close all before open).
