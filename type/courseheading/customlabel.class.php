@@ -142,8 +142,9 @@ class customlabel_type_courseheading extends customlabel_type {
             $this->data->imageL = '';
             $this->data->imageR = '';
         }
-        $cat = $DB->get_record('course_categories', array('id' => $course->category));
-        $this->data->category = $cat->name;
+        if ($cat = $DB->get_record('course_categories', array('id' => $course->category))) {
+            $this->data->category = $cat->name;
+        }
     }
 }
 
