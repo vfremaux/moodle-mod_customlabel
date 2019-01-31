@@ -138,3 +138,8 @@ Further roadmap :
 ####################################
 
 Raise metadata type name precision to 255 to afford translated names spans.
+
+X.X.0010
+#######################################
+
+Fix weird race condition between theme check and customlabel early rendering in cm dynamic data.
