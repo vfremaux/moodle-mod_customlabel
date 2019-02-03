@@ -202,6 +202,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 $attrs = array();
                 if (!empty($field->constraintson)) {
                     $attrs['class'] = 'constrained '.$customclass->type;
+                    $attrs['disabled'] = 'disabled'; // Let javascript liberate them when ready to process constraints.
                     $attrs['data-constraints'] = $field->constraintson;
                     $attrs['data-label-type'] = $customclass->type;
                     $attrs['data-cmid'] = @$this->coursemodule->id;

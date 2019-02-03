@@ -28,6 +28,7 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
             $('.customctl-string').bind('click', this.togglecustomstring);
             $('.customlabel-constraint').bind('click', this.constraint_colorize);
             $('select.constrained').bind('change', this.applyconstraints);
+            $('select.constrained').prop('disabled', null);
             $('.labeltypeselector').bind('change', this.typechangesubmit);
 
             log.debug("AMD Customlabels initialized");
