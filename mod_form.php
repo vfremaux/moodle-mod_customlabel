@@ -38,6 +38,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
      */
     public static function editor_options() {
         global $COURSE, $PAGE, $CFG;
+
         // TODO: add max files and max size support.
         $maxbytes = get_user_max_upload_file_size($PAGE->context, $CFG->maxbytes, $COURSE->maxbytes);
         return array(
@@ -48,7 +49,19 @@ class mod_customlabel_mod_form extends moodleform_mod {
     }
 
     public function definition() {
-        global $COURSE, $DB, $CFG;
+        global $COURSE, $DB, $CFG, $PAGE;
+        global $customlabelscriptsloaded;
+
+        // Setup amd module for mod_form.
+        $params = array();
+        $params['courseid'] = $COURSE->id;
+        $params['section'] = optional_param('section', 0, PARAM_INT);
+        $params['returntomod'] = optional_param('return', 0, PARAM_BOOL);
+        $params['updatelabelid'] = 0 + @$this->current->update;
+        if (!$customlabelscriptsloaded) {
+            $PAGE->requires->js_call_amd('mod_customlabel/customlabel', 'init', array($params));
+            $customlabelscriptsloaded = true;
+        }
 
         $context = context_course::instance($COURSE->id);
 
@@ -75,14 +88,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
-        $section = optional_param('section', 0, PARAM_INT);
-        $returntomod = optional_param('return', 0, PARAM_BOOL);
         if (has_capability('mod/customlabel:fullaccess', $context) || $customclass->fullaccess) {
-            $onchangeadvicestr = str_replace("'", "\'", get_string('changetypeadvice', 'customlabel'));
-            $labelid = 0 + @$this->current->update;
             $label = get_string('labelclass', 'customlabel');
-            $attrs = array('onchange' => "type_change_submit('$onchangeadvicestr', '$COURSE->id', '$section',
-                        '$returntomod', '".sesskey()."', '".$labelid."')", 'id' => 'menulabelclass');
+            $attrs = array('class' => 'labeltypeselector');
             $typeselect = & $mform->addElement('select', 'labelclass', $label, array(), $attrs);
             foreach ($qoptions as $family => $options) {
                 $label = '--- '.get_string('family'.$family, 'customlabel').' ---';
@@ -186,17 +194,23 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 // Very similar to lists, except options come from an external datasource.
                 $options = $customclass->get_datasource_options($field);
 
-                $script = '';
-                if (!empty($field->constraintson)) {
-                    $script = " applyconstraints('{$CFG->wwwroot}', '{$customclass->type}', this, '{$field->constraintson}');";
-                }
-
                 $translatedoptions = array();
                 foreach ($options as $key => $value) {
                     $translatedoptions[$key] = format_string($value);
                 }
 
-                $attrs = array('onchange' => $script);
+                $attrs = array();
+                if (!empty($field->constraintson)) {
+                    $attrs['class'] = 'constrained '.$customclass->type;
+                    $attrs['data-constraints'] = $field->constraintson;
+                    $attrs['data-label-type'] = $customclass->type;
+                    $attrs['data-cmid'] = @$this->coursemodule->id;
+                }
+
+                if (!empty($field->size)) {
+                    $attrs['size'] = $field->size;
+                }
+
                 $select = &$mform->addElement('select', $field->name, $fieldlabel, $translatedoptions, $attrs);
                 if (!empty($field->multiple)) {
                     $select->setMultiple(true);
