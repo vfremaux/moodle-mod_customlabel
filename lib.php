@@ -301,7 +301,7 @@ function customlabel_get_coursemodule_info($coursemodule) {
 function customlabel_cm_info_dynamic(&$cminfo) {
     global $DB, $PAGE, $CFG, $COURSE, $OUTPUT;
 
-    static $customlabelscriptsloaded = false;
+    global $customlabelscriptsloaded;
     static $customlabelcssloaded = array();
     static $customlabelamdloaded = array();
 

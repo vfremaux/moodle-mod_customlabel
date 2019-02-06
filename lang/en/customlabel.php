@@ -26,6 +26,13 @@ $string['customlabel:addinstance'] = 'Can add an instance';
 $string['customlabel:fullaccess'] = 'Full access to all fields';
 $string['customlabel:managemetadata'] = 'Manage metadata';
 
+$string['privacy:metadata:customlabel_user_data'] = 'Table where user completions initial conditions are stored';
+$string['privacy:metadata:customlabel_user_data:userid'] = 'User ID for which the completions are stored';
+$string['privacy:metadata:customlabel_user_data:customlabelid'] = 'ID of the customlabel instance recording completions';
+$string['privacy:metadata:customlabel_user_data:completion1'] = 'Completion value for rule 1 (depending on label use of completion)';
+$string['privacy:metadata:customlabel_user_data:completion2'] = 'Completion value for rule 2 (depending on label use of completion)';
+$string['privacy:metadata:customlabel_user_data:completion3'] = 'Completion value for rule 3 (depending on label use of completion)';
+
 $string['apparence'] = 'Apparence';
 $string['changetypeadvice'] = "You are about to thange the internal data structure of this element. Old content cannot be maintained. Continue?";
 $string['cleararea'] = 'Clear this file area';
