@@ -271,9 +271,9 @@ class customlabel_type {
         global $OUTPUT;
 
         // Old compat - Deprecated.
-        $this->data->icon = $OUTPUT->image_url('icon', 'customlabeltype_'.$this->type)->out();
-
-        $this->data->iconurl = $OUTPUT->image_url('icon', 'customlabeltype_'.$this->type)->out();
+        $iconurl = $OUTPUT->image_url('icon_'.$this->type, 'customlabeltype_'.$this->type);
+        $this->data->icon = $iconurl;
+        $this->data->iconurl = $iconurl;
     }
 
     /**

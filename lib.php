@@ -383,7 +383,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         }
     }
 
-    if ($PAGE->pagetype != 'course-modedit') {
+    if ($PAGE->pagetype != 'course-modedit' && !defined('AJAX_SCRIPT') && !AJAX_SCRIPT) {
         // In edit form, some race conditions between theme and rendering goes wrong when not admin...
         $instance->preprocess_data();
         $instance->process_form_fields();
