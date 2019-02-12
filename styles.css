@@ -37,3 +37,7 @@
 form[name="chooseset"] {
     margin-bottom: 15px;
 }
+
+.customlabel-constraint-select.green {
+    background-color:#bbfaa3;
+}

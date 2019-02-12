@@ -52,6 +52,7 @@
     </tr>
     {{/hint}}
 
+    {{^isqcmchallenge}}
     <tr>
         <td class="custombox-header-collapser question" align="left">
             {{#canshow}}
@@ -74,6 +75,33 @@
             {{/canshow}}
         </td>
     </tr>
+    {{/isqcmchallenge}}
+
+    {{#isqcmchallenge}}
+    <tr valign="top">
+        <td  id="custom-{{cmid}}" class="custombox-content questiontext">
+            {{#qcmanswer}}
+            <div class="custombox-qcm-answer {{answerclass}}" id="custombox-qcm-answer-{{cmid}}-{{aid}}">
+                <div class="custombox-qcm-input custombox-qcm-input-{{cmid}}">
+                    {{^locked}}
+                    <input type="radio" name="answer_{{cmid}}_{{aid}}" value="1" {{checked}} />
+                    {{/locked}}
+                </div>
+                <div class="custombox-qcm-text {{answeredclass}}">{{{answertext}}}</div>
+            </div>
+            {{/qcmanswer}}
+        </td>
+    </tr>
+    {{^locked}}
+    <tr valign="top">
+        <td  id="custom-{{cmid}}-submit" class="custombox-content questiontext">
+            <input type="button" name="custombox-qcm-btn-{{cmid}}"
+                   class="custombox-qcm-btn"
+                   value="{{#str}}submitqcm, customlabeltype_question{{/str}}" />
+        </td>
+    </tr>
+    {{/locked}}
+    {{/isqcmchallenge}}
 
 </table>
 <!-- /customlabeltype_question/template -->
