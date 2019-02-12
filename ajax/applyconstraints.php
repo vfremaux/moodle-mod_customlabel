@@ -20,6 +20,7 @@ require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 $config = get_config('customlabel');
 
 $type = required_param('type', PARAM_ALPHA); // The qualifier ID that has been choosen.
+$cmid = optional_param('cmid', '', PARAM_INT); // The qualifier ID that has been choosen.
 $selector = required_param('selector', PARAM_TEXT); // Unused.
 $constraints = required_param('constraints', PARAM_RAW); // A list of qualifiers that constrain the actual choice.
 $targetstr = required_param('targets', PARAM_TEXT); // The list of qualifiers/fields that are concerned.
@@ -27,8 +28,6 @@ $selection = optional_param('selection', null, PARAM_TEXT); // The current selec
 $variant = optional_param('variant', '', PARAM_TEXT);
 
 $constraintsarr = explode(',', $constraints);
-
-debug_trace("type: $type\nselector: $selector\nconstraints: $constraints\ntargets: $targetstr\nselection $selection");
 
 // Rebuild proper associative structure from flatten array.
 if (!empty($selection)) {
@@ -52,10 +51,17 @@ if (!$targets = explode(',', $targetstr)) {
 }
 
 // We just need the definition.
-$customlabel = new StdClass;
-$customlabel->labelclass = $type;
-$customlabel->title = '';
-$instance = customlabel_load_class($customlabel, true);
+if (empty($cmid)) {
+    $customlabel = new StdClass;
+    $customlabel->labelclass = $type;
+    $customlabel->title = '';
+    $instance = customlabel_load_class($customlabel, true);
+    $instance->uselevels = 2;
+} else {
+    $cm = $DB->get_record('course_modules', array('id' => $cmid));
+    $cutomlabelrec = $DB->get_record('customlabel', array('id' => $cm->instance));
+    $instance = customlabel_load_class($cutomlabelrec);
+}
 
 /*
  * make a structure with options and reduce possible options to
@@ -119,8 +125,12 @@ if (!empty($constraints)) {
 $listvalues = array();
 
 foreach ($targets as $target) {
+    if ($target >= $instance->uselevels) {
+        continue;
+    }
+
     // This filters option lists against constraints.
-    if ($typevalues = $instance->get_datasource_options($instance->fields[$target])) {
+    if ($typevalues = $instance->get_datasource_options($instance->fields['level'.$target])) {
         $options = array();
         foreach ($typevalues as $id => $value) {
             // We must check if not fully excluded.
@@ -132,20 +142,15 @@ foreach ($targets as $target) {
                 $options[$id] = $value;
             }
         }
-        $field = $instance->fields[$target];
-
-        $script = '';
-        if (!empty($field->constraintson)) {
-            $script = ' applyconstraints'.$variant.'(\''.$CFG->wwwroot.'\', \''.$instance->type.'\', this, \''.$field->constraintson.'\') ';
-        }
+        $field = $instance->fields['level'.$target];
 
         $selectid = ($variant == 'menu') ? 'menu'.$field->name : 'id_'.$field->name;
 
         if (empty($field->multiple)) {
-            $params = array('onchange' => $script, 'id' => $selectid);
+            $params = array('id' => $selectid);
             $return[$target] = html_writer::select($options, $field->name, @$preselection[$target], array(), $params);
         } else {
-            $params = array('onchange' => $script, 'multiple' => 'multiple', 'size' => '6', 'id' => $selectid);
+            $params = array('multiple' => 'multiple', 'size' => '6', 'id' => $selectid);
             $return[$target] = html_writer::select($options, "{$field->name}[]", @$preselection[$target], array(), $params);
         }
     }
