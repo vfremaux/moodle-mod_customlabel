@@ -69,3 +69,13 @@ td.custombox-content.answertext {
     opacity: 0.5;
     color: #e00;
 }
+
+.custombox-qcm-input,
+.custombox-qcm-text {
+    display: table-cell;
+    padding: 10px;
+}
+
+.custombox-qcm-input {
+    width: 30%;
+}
