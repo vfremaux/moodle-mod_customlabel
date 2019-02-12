@@ -26,6 +26,13 @@ $string['customlabel:addinstance'] = 'Peut ajouter une instance';
 $string['customlabel:fullaccess'] = 'Accès total';
 $string['customlabel:managemetadata'] = 'Gérer les métadonnées de classification';
 
+$string['privacy:metadata:customlabel_user_data'] = 'Table où les valeurs internes d\'achèvement sont stoquées';
+$string['privacy:metadata:customlabel_user_data:userid'] = 'Identifiant de l\'utilisateur qui possèdes des valeurs internes d\'achèvement';
+$string['privacy:metadata:customlabel_user_data:customlabelid'] = 'Identifiant de l\élément de cours complété par l\'utilisateur';
+$string['privacy:metadata:customlabel_user_data:completion1'] = 'Valeur de la règle 1 d\'achèvement (suivant le type d\'élément de cours)';
+$string['privacy:metadata:customlabel_user_data:completion2'] = 'Valeur de la règle 2 d\'achèvement (suivant le type d\'élément de cours)';
+$string['privacy:metadata:customlabel_user_data:completion3'] = 'Valeur de la règle 3 d\'achèvement (suivant le type d\'élément de cours)';
+
 $string['apparence'] = 'Apparence';
 $string['coursefilter'] = 'Filtre sur les cours';
 $string['configusesafestorage'] = 'Si activé, le contenu des étiquettes sera converti en stockage sûr au moment de leur édition. Le nouveau stockage sera utilisé à partir de ce moment.';

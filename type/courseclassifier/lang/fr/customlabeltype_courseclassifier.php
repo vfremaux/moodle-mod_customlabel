@@ -30,7 +30,7 @@ $string['courseclassifier:view'] = 'Peut voir le contenu';
 $string['courseclassifier:addinstance'] = 'Peut ajouter une instance';
 
 $string['pluginname'] = 'Element de cours : Classification de cours';
-$string['courseclassifier'] = 'Classification de cours';
+$string['courseclassifier'] = 'Classification du cours';
 $string['tablecaption'] = 'Titre de la table';
 $string['typename'] = 'Classification de cours';
 $string['courseclassification'] = 'Classification du cours';
@@ -43,5 +43,5 @@ $string['fonction'] = 'Fonction&nbsp;';
 $string['showpeople'] = 'Afficher le critère de public';
 $string['uselevels'] = 'Niveaux actifs&nbsp;';
 $string['status'] = 'Etat de publication&nbsp;';
-$string['filters'] = 'Filtres des cours';
+$string['filters'] = 'Autres éléments d\'indexation';
 
