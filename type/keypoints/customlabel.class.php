@@ -70,7 +70,7 @@ class customlabel_type_keypoints extends customlabel_type {
         for ($i = 0; $i < $this->data->keypointnum; $i++) {
             $key = 'keypointitem'.$i;
             $keypointtpl = new StdClass;
-            $keypointtpl->keypoint = $this->data->$key;
+            $keypointtpl->keypoint = @$this->data->$key;
 
             $this->data->keypoints[] = $keypointtpl;
         }

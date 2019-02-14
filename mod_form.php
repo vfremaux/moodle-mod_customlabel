@@ -27,7 +27,6 @@ defined('MOODLE_INTERNAL') || die;
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
 require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 $PAGE->requires->js('/mod/customlabel/js/modform.js', false); // Needs being in footer to get oldtype.
-$PAGE->requires->js('/mod/customlabel/js/applyconstraints.js', false); // Needs being in footer to get oldtype.
 
 class mod_customlabel_mod_form extends moodleform_mod {
 

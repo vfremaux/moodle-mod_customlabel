@@ -89,7 +89,7 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
             var labeltype = that.attr('data-label-type');
             var cmid = that.attr('data-cmid');
 
-            var i,j;
+            var i;
 
             if (targets === '') {
                 return;
@@ -100,7 +100,7 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
 
             // Get constraints in activated select.
             i = 0;
-            sourceseloptions = $('#' + that.attr('id') + " option");
+            var sourceseloptions = $('#' + that.attr('id') + " option");
             sourceseloptions.each(function() {
                 if ($(this).prop('selected')) {
                     selectedopts.push($(this).val());
@@ -119,13 +119,13 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
             };
 
             for (var target in targetsarr) {
-                targetname = 'level' + targetsarr[target];
+                var targetname = 'level' + targetsarr[target];
                 selectedtargetopts[i] = targetname;
                 targetelms.push($('#id_' + targetname).first());
                 i++;
                 selectedtargetopts[i] = [];
 
-                targetseloptions = $('#id_' + targetname + " option:selected");
+                var targetseloptions = $('#id_' + targetname + " option:selected");
                 targetseloptions.each(extractvalues);
 
                 i++;
@@ -137,7 +137,7 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
                 value.prop('disabled', true);
             });
 
-            var formvaluestring = urlencode(JSON.stringify(selectedtargetopts));
+            var formvaluestring = encodeURIComponent(JSON.stringify(selectedtargetopts));
 
             var url = cfg.wwwroot + "/mod/customlabel/ajax/applyconstraints.php?";
             url += "selector=" + that.attr('name');
@@ -147,15 +147,14 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
             url += "&constraints=" + optionstring;
             url += '&selection=' + formvaluestring;
 
-            $.get(url, '', function(data, status) {
+            $.get(url, '', function(data) {
                 // var selectors = JSON.parse(data);
-                selectors = data;
+                var selectors = data;
 
                 var targetsarr = targets.split(',');
 
                 // Dispatch in selectors.
                 for (var target in targetsarr) {
-                    var targetname = 'level' + target;
                     if (selectors[targetsarr[target]]) {
                         var str = '<input type="hidden" name="level' + targetsarr[target];
                         str += '" value="_qf__force_multiselect_submission">';

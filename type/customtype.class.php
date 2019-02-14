@@ -271,7 +271,7 @@ class customlabel_type {
         global $OUTPUT;
 
         // Old compat - Deprecated.
-        $iconurl = $OUTPUT->pix_url('icon', 'customlabeltype_'.$this->type);
+        $iconurl = $OUTPUT->pix_url('icon_'.$this->type, 'customlabeltype_'.$this->type);
         $this->data->icon = $iconurl;
         $this->data->iconurl = $iconurl;
     }
@@ -418,7 +418,10 @@ class customlabel_type {
                     $name = $field->name;
                     $optionname = "{$name}option";
                     if (!isset($this->data->{$optionname})) {
-                        $optionvalue = $this->data->{$optionname} = $this->data->{$name};
+                        if (isset($this->data->{$name})) {
+                            // This is to protect cases where the type implementation receives new list params.
+                            $optionvalue = $this->data->{$optionname} = $this->data->{$name};
+                        }
                     } else {
                         $optionvalue = $this->data->{$optionname};
                     }
