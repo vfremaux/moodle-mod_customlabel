@@ -305,6 +305,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     static $customlabelcssloaded = array();
     static $customlabelamdloaded = array();
 
+    // Specific > 3.5
     $iscminfo = (get_class($cminfo) == 'cminfo') || (get_class($cminfo) == 'cm_info');
 
     // Improve page format by testing if in current visble page.
@@ -383,7 +384,10 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         }
     }
 
-    if ($PAGE->pagetype != 'course-modedit' && !AJAX_SCRIPT) {
+    // Specific > 3.5
+    $info = optional_param('info', '', PARAM_TEXT);
+    $gettingmoduleupdate = $info == 'core_course_get_module';
+    if ($PAGE->pagetype != 'course-modedit' && !AJAX_SCRIPT || $gettingmoduleupdate) {
         // In edit form, some race conditions between theme and rendering goes wrong when not admin...
         $instance->preprocess_data();
         $instance->process_form_fields();
