@@ -31,6 +31,11 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
             $('select.constrained').prop('disabled', null);
             $('.labeltypeselector').bind('change', this.typechangesubmit);
 
+            // Trigg the first classifier after loading
+            $('#id_level0').trigger('change');
+            $('#id_level1').trigger('change');
+            $('#id_level2').trigger('change');
+
             log.debug("AMD Customlabels initialized");
         },
 
@@ -89,7 +94,9 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
             var labeltype = that.attr('data-label-type');
             var cmid = that.attr('data-cmid');
 
-            var i;
+            log.debug("Applying constraints on " + that.attr('id'));
+
+            var i = 0;
 
             if (targets === '') {
                 return;
@@ -99,7 +106,6 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
             var selectedopts = [];
 
             // Get constraints in activated select.
-            i = 0;
             var sourceseloptions = $('#' + that.attr('id') + " option");
             sourceseloptions.each(function() {
                 if ($(this).prop('selected')) {
@@ -111,14 +117,16 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
 
             // Get selection constraints in targets select.
             var selectedtargetopts = [];
+            var targetvalues = [];
             var targetelms = [];
-            i = 0;
 
             var extractvalues = function() {
                 selectedtargetopts[i].push($(this).val());
+                targetvalues[targetsarr[target]].push($(this).val());
             };
 
             for (var target in targetsarr) {
+                targetvalues[targetsarr[target]] = [];
                 var targetname = 'level' + targetsarr[target];
                 selectedtargetopts[i] = targetname;
                 targetelms.push($('#id_' + targetname).first());
@@ -132,7 +140,6 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
             }
 
             // Invalidate targets waiting for constraints resolution
-            log.debug(targetelms);
             $.each(targetelms, function(index, value) {
                 value.prop('disabled', true);
             });
@@ -163,6 +170,16 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
                     }
                 }
                 customlabel.rebindconstraints();
+
+                // Finish by reslecting what was initially selected.
+                log.debug(targetvalues);
+                for (var levelid in targetvalues) {
+                    var selectvalue = targetvalues[levelid][0];
+                    if (selectvalue > 0) {
+                        $('#id_level' + levelid + " option[value=" + selectvalue + "]").attr("selected", true);
+                    }
+                }
+
             }, 'json');
         },
 
