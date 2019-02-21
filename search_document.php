@@ -42,6 +42,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/local/search/documents/document.php');
 require_once($CFG->dirroot.'/local/search/documents/document_wrapper.class.php');
 require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
+require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 
 /**
  * constants for document definition
