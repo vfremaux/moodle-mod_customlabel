@@ -45,14 +45,14 @@ if ($action == 'submit') {
         $ud = new StdClass;
         $ud->userid = $USER->id;
         $ud->customlabelid = $cm->instance;
-        $ud->completion1 = $status;
-        $ud->completion2 = $answernum;
+        $ud->completion1 = 0 + $status;
+        $ud->completion2 = 0 + $givenanswer;
         $ud->completion3 = 1; // Number of tries.
         $ud->timecompleted1 = time();
         $ud->id = $DB->insert_record('customlabel_user_data', $ud);
     } else {
-        $ud->completion1 = $status;
-        $ud->completion2 = $answernum;
+        $ud->completion1 = 0 + $status;
+        $ud->completion2 = 0 + $givenanswer;
         $ud->completion3 += 1; // Number of tries.
         $DB->update_record('customlabel_user_data', $ud);
     }
@@ -73,5 +73,19 @@ if ($action == 'submit') {
             $completion->update_state($cm, COMPLETION_COMPLETE, $USER->id);
         }
     }
+
+    $attempts = $customlabel->get_data('attempts');
+    $locked = false;
+    if (!empty($attempts) && ($ud->completion3 >= @$this->data->attempts)) {
+        $locked = true;
+    }
+
+    $output = new StdClass;
+    $output->cmid = $cmid;
+    $output->aid = $givenanswer;
+    $output->status = $status;
+    $output->locked = $locked;
+
+    echo json_encode($output);
 }
 

@@ -35,7 +35,7 @@ define(['jquery', 'core/log', 'core/config'], function($, log, cfg) {
             var aid = 0;
             if (answers.length > 0) {
                 var answer = answers.first();
-                aid = answer.attr('name').replace('answer_' + cmid + '_', '');
+                aid = answer.attr('value');
             }
 
             // Send data to submission.
@@ -44,7 +44,23 @@ define(['jquery', 'core/log', 'core/config'], function($, log, cfg) {
             url += '&cmid=' + cmid;
             url += '&answernum=' + aid;
 
-            $.get(url);
+            $('.custombox-qcm-answer-' + cmid).removeClass('correct');
+            $('.custombox-qcm-answer-' + cmid).removeClass('incorrect');
+
+            $.get(url, function(data){
+                // Reset all answer styles.
+                if (data.status === 2) {
+                    $('#custombox-qcm-answer-' + data.cmid + '-' + data.aid).addClass('correct');
+                } else {
+                    $('#custombox-qcm-answer-' + data.cmid + '-' + data.aid).addClass('incorrect');
+                }
+
+                // Lock question if max attempts reached or good answer is given.
+                if (data.locked || (data.status === 2)) {
+                    $('.custombox-qcm-input-' + data.cmid + ' input').prop('disabled', true);
+                    $('#custom-' + data.cmid + 'submit input').prop('disabled', true);
+                }
+            }, 'json');
         }
     };
 

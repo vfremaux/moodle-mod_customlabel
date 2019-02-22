@@ -44,9 +44,27 @@ $string['solution'] = 'Réponse';
 $string['isqcmchallenge'] = 'Est une question QCM interactive';
 $string['shuffleanswers'] = 'Mélanger les réponses';
 $string['attempts'] = 'Nombre de tentatives avant verrouillage';
-$string['correctanswer'] = 'Réponse correcte (ligne)';
+$string['correctanswer'] = 'Réponse correcte';
 $string['submitqcm'] = 'Enregistrer la réponse';
 
 $string['completion1'] = 'L\'étudiant a répondu.';
 $string['completion2'] = 'L\'étudiant a répondu et a une bonne réponse.';
 
+$string['answertext_help'] = 'Pour une question simple sans comportement QCM, entrez votre réponse comme du texte
+formatté. Pour le comportement QCM, entrez une suite de réponses comme des paragraphes en les séparant par un quadruple tiret : "----" :
+
+<pre>
+&lt;p&gt;Réponse 1&lt;/p&gt;----
+&lt;p&gt;Réponse 2&lt;/p&gt;----
+&lt;p&gt;Réponse 3&lt;/p&gt;</pre>
+
+ou
+
+<pre>Réponse 1\\n----\\nRéponse 2\\n----\\nRéponse 3</pre>
+
+';
+
+$string['isqcmchallenge_help'] = 'Une question interactive QCM permet de répondre directement dans la question et d\'enregistrer sa réponse.
+Selon les conditions données pour l\'achèvement, elle pourra participer à l\'achèvement du cours.';
+
+$string['correctanswer_help'] = 'Assurez-vous d\'avoir effectivement une réponse à cet indice. Les réponses sont numérotées implicitement à partir de 1.';
