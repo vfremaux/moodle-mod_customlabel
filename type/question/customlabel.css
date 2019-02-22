@@ -32,8 +32,7 @@ td.custombox-header-caption.question {
 }
 
 td.custombox-content.questiontext {
-    color: #a00000;
-    font-size: 1.3em;
+    font-size: 1.1em;
     min-height: 100px;
     padding: 8px 10px;
 }
@@ -68,6 +67,18 @@ td.custombox-content.answertext {
     -moz-opacity: 0.5;
     opacity: 0.5;
     color: #e00;
+}
+
+.custombox-qcm-answer.incorrect {
+    border: 1px solid #f88;
+    background-color: #fcc;
+    border-radius: 8px;
+}
+
+.custombox-qcm-answer.correct {
+    border: 1px solid #8f8;
+    background-color: #cfc;
+    border-radius: 8px;
 }
 
 .custombox-qcm-input,

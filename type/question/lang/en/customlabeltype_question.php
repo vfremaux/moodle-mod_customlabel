@@ -44,9 +44,25 @@ $string['hintinitiallyvisible'] = 'Hint initially visible';
 $string['isqcmchallenge'] = 'Is a QCM question challenge';
 $string['shuffleanswers'] = 'Shuffle answers';
 $string['attempts'] = 'Number of attempts before locking';
-$string['correctanswer'] = 'Correct answer (linenumber)';
+$string['correctanswer'] = 'Correct answer';
 $string['completion1'] = 'Student has answed the question.';
 $string['completion2'] = 'Student has answed the question and has good answer.';
 $string['submitqcm'] = 'Submit your answer';
+$string['answertext_help'] = 'For simple question without challenge, just type answer text. For QCM challenges, enter a set of answers. Separate answers with a "----" ex :
+
+<pre>&lt;p&gt;Answer 1&lt;/p&gt;----
+&lt;p&gt;Answer 2&lt;/p&gt;----
+&lt;p&gt;Answer 3&lt;/p&gt;</pre>
+
+or 
+
+<pre>Answer 1\\n----\\nAnswer 2\\n----\\nAnswer 3</pre>
+
+';
+
+$string['isqcmchallenge_help'] = 'A QCM challenge is an interactive question the student can answer to and record his changes.
+Depending on completion settings, the question might participate to course completion triggering.';
+
+$string['correctanswer_help'] = 'Ensure you have an answer at this position. Numering starts with 1.';
 
 $string['family'] = 'pedagogic';
