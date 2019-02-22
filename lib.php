@@ -387,7 +387,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     // Specific > 3.5
     $info = optional_param('info', '', PARAM_TEXT);
     $gettingmoduleupdate = $info == 'core_course_get_module';
-    if ($PAGE->pagetype != 'course-modedit' && !AJAX_SCRIPT && !$gettingmoduleupdate) {
+    if ($PAGE->pagetype != 'course-modedit' && !AJAX_SCRIPT || $gettingmoduleupdate) {
         // In edit form, some race conditions between theme and rendering goes wrong when not admin...
         $instance->preprocess_data();
         $instance->process_form_fields();

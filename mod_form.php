@@ -241,7 +241,11 @@ class mod_customlabel_mod_form extends moodleform_mod {
             }
 
             if (!empty($field->help)) {
-                $mform->addHelpButton($field->name, $field->help, 'customlabeltype_'.$customlabel->labelclass);
+                if ($field->type == 'editor') {
+                    $mform->addHelpButton($field->name.'_editor', $field->help, 'customlabeltype_'.$customlabel->labelclass);
+                } else {
+                    $mform->addHelpButton($field->name, $field->help, 'customlabeltype_'.$customlabel->labelclass);
+                }
             }
 
             $mform->setDefault($fieldname, @$field->default);
