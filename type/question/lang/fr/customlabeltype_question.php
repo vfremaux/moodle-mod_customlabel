@@ -53,14 +53,15 @@ $string['completion2'] = 'L\'étudiant a répondu et a une bonne réponse.';
 $string['answertext_help'] = 'Pour une question simple sans comportement QCM, entrez votre réponse comme du texte
 formatté. Pour le comportement QCM, entrez une suite de réponses comme des paragraphes en les séparant par un quadruple tiret : "----" :
 
+<p>Exemple :</p>
+
 <pre>
-&lt;p&gt;Réponse 1&lt;/p&gt;----
-&lt;p&gt;Réponse 2&lt;/p&gt;----
-&lt;p&gt;Réponse 3&lt;/p&gt;</pre>
-
-ou
-
-<pre>Réponse 1\\n----\\nRéponse 2\\n----\\nRéponse 3</pre>
+Réponse 1
+----
+Réponse 2
+----
+Réponse 3
+</pre>
 
 ';
 

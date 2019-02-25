@@ -25,7 +25,6 @@ td.custombox-header-thumb.question {
 }
 
 td.custombox-header-caption.question {
-    color: #d83030;
     font-size: 1.3em;
     font-weight: bolder;
     padding-left: 8px;
@@ -46,7 +45,6 @@ td.custombox-content.hint {
     background-color: #d0d0ff;
     color: #0000a0;
     font-size: 1.1em;
-    min-height: 100px;
     padding: 10px 20px;
 }
 
@@ -81,12 +79,12 @@ td.custombox-content.answertext {
     border-radius: 8px;
 }
 
-.custombox-qcm-input,
-.custombox-qcm-text {
+.custombox-qcm-input {
     display: table-cell;
-    padding: 10px;
+    padding-right: 10px;
 }
 
-.custombox-qcm-input {
-    width: 30%;
+.custombox-qcm-text {
+    display: table-cell;
+    padding-right: 10px;
 }
