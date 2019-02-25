@@ -52,22 +52,6 @@ class customlabel_type_question extends customlabel_type {
                 }
             }
         }
-        $answeroptions = array(1);
-        if (!empty($data->isqcmchallenge)) {
-            $answers = explode("\n", $data->answertext);
-            $answernum = count($answers);
-            $answeroptions = array();
-            for ($i = 2 ; $i <= $answernum - 1 ; $i++) {
-                $answeroptions[] = $i;
-            }
-
-            if (!empty($data->correctanswer)) {
-                // Given correct answer is out of bounds.
-                if ($data->correctanswer > $answernum) {
-                    unset($data->correctanswer);
-                }
-            }
-        }
 
         $field = new StdClass;
         $field->name = 'questiontext';
@@ -94,6 +78,7 @@ class customlabel_type_question extends customlabel_type {
         $field->type = 'editor';
         $field->rows = 20;
         $field->itemid = 2;
+        $field->help = 'answertext';
         $this->fields['answertext'] = $field;
 
         $field = new StdClass;
@@ -112,6 +97,7 @@ class customlabel_type_question extends customlabel_type {
         $field->name = 'isqcmchallenge';
         $field->type = 'choiceyesno';
         $field->default = false;
+        $field->help = 'isqcmchallenge';
         $this->fields['isqcmchallenge'] = $field;
 
         $field = new StdClass;
@@ -123,22 +109,24 @@ class customlabel_type_question extends customlabel_type {
 
         $field = new StdClass;
         $field->name = 'attempts';
-        $field->type = 'text';
+        $field->type = 'textfield';
         $field->default = 0;
+        $field->size = 3;
         $field->disabledif = array('isqcmchallenge', 'neq', 1);
         $this->fields['attempts'] = $field;
 
         $field = new StdClass;
         $field->name = 'correctanswer';
         $field->type = 'list';
-        $field->options = $answeroptions;
+        $field->options = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         $field->straightoptions = true;
+        $field->help = 'correctanswer';
         $field->disabledif = array('isqcmchallenge', 'neq', 1);
         $this->fields['correctanswer'] = $field;
     }
 
     public function preprocess_data() {
-        global $OUTPUT, $COURSE, $USER;
+        global $OUTPUT, $COURSE, $USER, $DB;
 
         $minusurl = $OUTPUT->image_url('minus', 'customlabel');
         $plusurl = $OUTPUT->image_url('plus', 'customlabel');
@@ -166,9 +154,9 @@ class customlabel_type_question extends customlabel_type {
 
         // Prepare questions
         if (!empty($this->data->isqcmchallenge)) {
-            $this->data->answertext = str_replace('</p><p>', "</p><p>\n", $this->data->answertext);
-            $answers = explode("\n", $this->data->answertext);
-            $correctanswer = $answers[$this->data->correctanswer];
+            $answers = $this->decode_answertext();
+
+            $correctanswer = @$answers[$this->data->correctanswer];
 
             // Get eventual stored answer.
             $params = array('customlabelid' => $this->instance->id, 'userid' => $USER->id);
@@ -185,6 +173,8 @@ class customlabel_type_question extends customlabel_type {
                 shuffle($answers);
             }
 
+            $this->data->locked = false;
+
             foreach ($answers as $answer) {
                 $qcmanswertpl = new StdClass;
                 $qcmanswertpl->answertext = $answer;
@@ -194,13 +184,14 @@ class customlabel_type_question extends customlabel_type {
                         $qcmanswertpl->checked = 'checked="checked"';
 
                         if ($userdata->completion2 == $this->data->correctanswer) {
-                            $qcmanswertpl->answerclass = 'success';
+                            $qcmanswertpl->answerclass = 'correct';
+                            $this->data->locked = true;
                         } else {
-                            $qcmanswertpl->answerclass = 'error';
+                            $qcmanswertpl->answerclass = 'incorrect';
                         }
                     }
 
-                    if ($this->data->attempts && ($userdata->completion3 >= $this->data->attempts)) {
+                    if (!empty($this->data->attempts) && ($userdata->completion3 >= @$this->data->attempts)) {
                         $this->data->locked = true;
                     }
                 }
@@ -251,5 +242,16 @@ class customlabel_type_question extends customlabel_type {
         }
 
         return $return;
+    }
+
+    protected function decode_answertext() {
+        $answers = explode('----', $this->data->answertext);
+        foreach ($answers as &$a) {
+            $a = preg_replace('/<p><\/p>/', '', $a);
+            $a = preg_replace('/^(<br>)+/s', '', $a);
+            $a = preg_replace('/^\s*\<p\>/s', '', $a);
+            $a = preg_replace('/\<\/p\>\s*$/s', '', $a);
+        }
+        return $answers;
     }
 }
