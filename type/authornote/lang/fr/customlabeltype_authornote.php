@@ -32,6 +32,7 @@ $string['authornote:addinstance'] = 'Peut ajouter une instance';
 $string['pluginname'] = 'Elément de cours : Note de conception';
 $string['typename'] = 'Note de conception';
 $string['authornote'] = 'Note de conception';
+$string['authornotesignal'] = '(Cette note n\'est visible que par les auteurs du cours)';
 $string['initiallyvisible'] = 'Visible au chargement';
 $string['configtypename'] = 'Activer Note de conception';
 
