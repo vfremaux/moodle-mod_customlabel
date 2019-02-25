@@ -232,7 +232,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
             } else {
 
-                echo "Unknown or unsupported type : $field->type";
+                echo "Unknown or unsupported type : {$customclass->type}@{$field->name}, type is $field->type";
 
             }
 
