@@ -41,46 +41,31 @@ $string['hint'] = 'Texte d\'indice&nbsp;';
 $string['hintinitiallyvisible'] = 'Indice visible au chargement&nbsp;';
 $string['question'] = 'Question';
 $string['solution'] = 'Réponse';
+$string['isqcmchallenge'] = 'Est une question QCM interactive';
+$string['shuffleanswers'] = 'Mélanger les réponses';
+$string['attempts'] = 'Nombre de tentatives avant verrouillage';
+$string['correctanswer'] = 'Réponse correcte';
+$string['submitqcm'] = 'Enregistrer la réponse';
 
-$string['template'] = '
-<table class="custombox-question" cellspacing="0" width="100%">
-<tr valign="top">
-    <td class="custombox-header-thumb question" style="background-image : url(<%%icon%%>);" width="2%" rowspan="6">
-    </td>
-    <td class="custombox-header-caption question" width="96%">
-        Question !
-    </td>
-</tr>
-<tr valign="top">
-    <td class="custombox-content questiontext">
-        <%%questiontext%%>
-    </td>
-</tr>
-<%if %%hint%% %>
-<tr>
-    <td class="custombox-header-collapser question" align="left">
-        <a href="javascript:togglecustom(\'<%%customid%%>hint\', \'<%%wwwroot%%>\')"><img id="customctl<%%customid%%>hint" src="<%%hintinitialcontrolimage%%>" /></a> Indice
-    </td>
-</tr>
-<tr valign="top" id="custom<%%customid%%>hint">
-    <td class="custombox-content hint">
-        <%%hint%%>
-    </td>
-</tr>
-<%endif %>
-<tr valign="top">
-    <td class="custombox-header-collapser question" align="left">
-        <a href="javascript:togglecustom(\'<%%customid%%>\', \'<%%wwwroot%%>\')"><img id="customctl<%%customid%%>" src="<%%initialcontrolimage%%>" /></a> Solution
-    </td>
-</tr>
-<tr valign="top" id="custom<%%customid%%>">
-    <td class="custombox-content answertext">
-        <%%answertext%%>
-    </td>
-</tr>
-</table>
-<script type="text/javascript">
-setupcustom(\'<%%customid%%>hint\', \'<%%hintinitiallyvisible%%>\', \'<%%wwwroot%%>\');
-setupcustom(\'<%%customid%%>\', \'<%%initiallyvisible%%>\', \'<%%wwwroot%%>\');
-</script>
+$string['completion1'] = 'L\'étudiant a répondu.';
+$string['completion2'] = 'L\'étudiant a répondu et a une bonne réponse.';
+
+$string['answertext_help'] = 'Pour une question simple sans comportement QCM, entrez votre réponse comme du texte
+formatté. Pour le comportement QCM, entrez une suite de réponses comme des paragraphes en les séparant par un quadruple tiret : "----" :
+
+<p>Exemple :</p>
+
+<pre>
+Réponse 1
+----
+Réponse 2
+----
+Réponse 3
+</pre>
+
 ';
+
+$string['isqcmchallenge_help'] = 'Une question interactive QCM permet de répondre directement dans la question et d\'enregistrer sa réponse.
+Selon les conditions données pour l\'achèvement, elle pourra participer à l\'achèvement du cours.';
+
+$string['correctanswer_help'] = 'Assurez-vous d\'avoir effectivement une réponse à cet indice. Les réponses sont numérotées implicitement à partir de 1.';

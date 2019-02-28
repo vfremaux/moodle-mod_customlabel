@@ -8,7 +8,7 @@ td.custombox-header-thumb.keypoints {
 }
 
 td.custombox-header-thumb.keypoints {
-    background-image: url("/mod/customlabel/type/keypoints/pix/icon_reminder_small.png"); 
+    background-image: url("/mod/customlabel/type/keypoints/pix/icon_keypoints_small.png"); 
     background-repeat: no-repeat;
     height:73px;
     min-width:25px;
@@ -17,7 +17,7 @@ td.custombox-header-thumb.keypoints {
 
 #region-main td.custombox-header-thumb.keypoints,
 #page-region-main td.custombox-header-thumb.keypoints {
-    background-image: url("/mod/customlabel/type/keypoints/pix/icon_reminder.png");
+    background-image: url("/mod/customlabel/type/keypoints/pix/icon_keypoints.png");
     background-repeat: no-repeat;
     height:73px;
     min-width:65px;

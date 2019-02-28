@@ -301,7 +301,7 @@ function customlabel_get_coursemodule_info($coursemodule) {
 function customlabel_cm_info_dynamic(&$cminfo) {
     global $DB, $PAGE, $CFG, $COURSE, $OUTPUT;
 
-    static $customlabelscriptsloaded = false;
+    global $customlabelscriptsloaded;
     static $customlabelcssloaded = array();
     static $customlabelamdloaded = array();
 
@@ -384,13 +384,16 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         }
     }
 
-    $instance->preprocess_data();
-    $instance->process_form_fields();
-    $instance->process_datasource_fields();
-    $instance->postprocess_data();
-    $instance->postprocess_icon();
-    $template = 'customlabeltype_'.$customlabel->labelclass.'/template';
-    $content = $OUTPUT->render_from_template($template, $instance->data);
+    if ($PAGE->pagetype != 'course-modedit' && !AJAX_SCRIPT) {
+        // In edit form, some race conditions between theme and rendering goes wrong when not admin...
+        $instance->preprocess_data();
+        $instance->process_form_fields();
+        $instance->process_datasource_fields();
+        $instance->postprocess_data();
+        $instance->postprocess_icon();
+        $template = 'customlabeltype_'.$customlabel->labelclass.'/template';
+        $content = $OUTPUT->render_from_template($template, $instance->data);
+    }
 
     // Disable url form of the course module representation.
     if ($iscminfo) {

@@ -250,7 +250,11 @@ function customlabel_save_draft_file(&$customlabel, $filearea) {
     if (!empty($customlabel->$fileareagroupname)) {
         $fileareagroup = (array)$customlabel->$fileareagroupname;
     } else if (!empty($_POST[$fileareagroupname])) {
-        $fileareagroup = clean_param($_POST[$fileareagroupname], PARAM_TEXT);
+        if (is_array($_POST[$fileareagroupname])) {
+            $fileareagroup = clean_param_array($_POST[$fileareagroupname], PARAM_TEXT);
+        } else {
+            $fileareagroup = clean_param($_POST[$fileareagroupname], PARAM_TEXT);
+        }
     }
 
     if (!empty($fileareagroup)) {

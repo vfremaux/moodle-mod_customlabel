@@ -54,6 +54,8 @@ class customlabel_type_contactpoint extends customlabel_type {
     public function postprocess_icon() {
         global $OUTPUT;
 
-        $this->data->icon = $OUTPUT->pix_url('icon_'.$this->data->contacttypeoption, 'customlabeltype_'.$this->type)->out();
+        $iconurl = $OUTPUT->pix_url('icon_'.$this->data->contacttypeoption, 'customlabeltype_'.$this->type)->out();
+        $this->data->icon = $iconurl;
+        $this->data->iconurl = $iconurl;
     }
 }

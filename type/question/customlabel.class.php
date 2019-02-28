@@ -23,6 +23,9 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
+define('CUSTOMLABEL_QUESTION_ANSWERED', 1);
+define('CUSTOMLABEL_QUESTION_ANSWER_IS_CORRECT', 2);
+
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
@@ -36,6 +39,19 @@ class customlabel_type_question extends customlabel_type {
         parent::__construct($data);
         $this->type = 'question';
         $this->fields = array();
+
+        $this->hasamd = true;
+
+        if (isset($data->content)) {
+            // $data is a customlabel record not yet decoded. This comes from modedit.php
+            $preset = json_decode(base64_decode($data->content));
+            if (!empty($preset)) {
+                // Decode content and append members to $data.
+                foreach ($preset as $key => $value) {
+                    $data->$key = $value;
+                }
+            }
+        }
 
         $field = new StdClass;
         $field->name = 'questiontext';
@@ -62,6 +78,7 @@ class customlabel_type_question extends customlabel_type {
         $field->type = 'editor';
         $field->rows = 20;
         $field->itemid = 2;
+        $field->help = 'answertext';
         $this->fields['answertext'] = $field;
 
         $field = new StdClass;
@@ -75,10 +92,41 @@ class customlabel_type_question extends customlabel_type {
         $field->type = 'datetime';
         $field->default = time() + DAYSECS * 7;
         $this->fields['showansweron'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'isqcmchallenge';
+        $field->type = 'choiceyesno';
+        $field->default = false;
+        $field->help = 'isqcmchallenge';
+        $this->fields['isqcmchallenge'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'shuffleanswers';
+        $field->type = 'choiceyesno';
+        $field->default = true;
+        $field->disabledif = array('isqcmchallenge', 'neq', 1);
+        $this->fields['shuffleanswers'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'attempts';
+        $field->type = 'textfield';
+        $field->default = 0;
+        $field->size = 3;
+        $field->disabledif = array('isqcmchallenge', 'neq', 1);
+        $this->fields['attempts'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'correctanswer';
+        $field->type = 'list';
+        $field->options = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        $field->straightoptions = true;
+        $field->help = 'correctanswer';
+        $field->disabledif = array('isqcmchallenge', 'neq', 1);
+        $this->fields['correctanswer'] = $field;
     }
 
     public function preprocess_data() {
-        global $OUTPUT, $COURSE;
+        global $OUTPUT, $COURSE, $USER, $DB;
 
         $minusurl = $OUTPUT->pix_url('minus', 'customlabel');
         $plusurl = $OUTPUT->pix_url('plus', 'customlabel');
@@ -102,9 +150,108 @@ class customlabel_type_question extends customlabel_type {
             $this->data->canshow = true;
         }
 
+        $this->data->cmid = $this->cmid;
+
+        // Prepare questions
+        if (!empty($this->data->isqcmchallenge)) {
+            $answers = $this->decode_answertext();
+
+            $correctanswer = @$answers[$this->data->correctanswer];
+
+            // Get eventual stored answer.
+            $params = array('customlabelid' => $this->instance->id, 'userid' => $USER->id);
+            $userdata = $DB->get_record('customlabel_user_data', $params);
+
+            // Prepare a reverse index array.
+            $i = 1;
+            foreach ($answers as $answer) {
+                $reverseanswers[$answer] = $i;
+                $i++;
+            }
+
+            if (!empty($this->data->shuffleanswers)) {
+                shuffle($answers);
+            }
+
+            $this->data->locked = false;
+
+            foreach ($answers as $answer) {
+                $qcmanswertpl = new StdClass;
+                $qcmanswertpl->answertext = $answer;
+                $qcmanswertpl->aid = $reverseanswers[$answer];
+                if ($userdata) {
+                    if ($qcmanswertpl->aid == $userdata->completion2) {
+                        $qcmanswertpl->checked = 'checked="checked"';
+
+                        if ($userdata->completion2 == $this->data->correctanswer) {
+                            $qcmanswertpl->answerclass = 'correct';
+                            $this->data->locked = true;
+                        } else {
+                            $qcmanswertpl->answerclass = 'incorrect';
+                        }
+                    }
+
+                    if (!empty($this->data->attempts) && ($userdata->completion3 >= @$this->data->attempts)) {
+                        $this->data->locked = true;
+                    }
+                }
+                $this->data->qcmanswer[] = $qcmanswertpl;
+            }
+        }
+
         $context = context_course::instance($COURSE->id);
         if (has_capability('moodle/course:manageactivities', $context)) {
             $this->data->hascap = true;
         }
+    }
+
+    /**
+     * Called from the module add_completion_rules @see mod/customlabel/lib.php
+     * Add customized per type completion rules (up to 3)
+     * @param object $mform the completion form
+     */
+    static public function add_completion_rules($mform) {
+
+        $mform->addElement('checkbox', 'completion1enabled', '', get_string('completion1', 'customlabeltype_question'));
+        $mform->addElement('checkbox', 'completion2enabled', '', get_string('completion2', 'customlabeltype_question'));
+
+        return array('completion1enabled', 'completion2enabled');
+    }
+
+    /**
+     * Provides the complete value to match for each used completion.
+     * @param int $completionix the completion index from 1 to 3.
+     */
+    public function complete_value($completionix) {
+        global $DB, $USER;
+
+        $return = false;
+
+        switch ($completionix) {
+            case 1 : {
+                $return = CUSTOMLABEL_QUESTION_ANSWERED;
+                break;
+            }
+            case 2 : {
+                $return = CUSTOMLABEL_QUESTION_ANSWER_IS_CORRECT;
+                break;
+            }
+            case 3 : {
+                break;
+            }
+        }
+
+        return $return;
+    }
+
+    protected function decode_answertext() {
+        $answers = explode('----', $this->data->answertext);
+        foreach ($answers as &$a) {
+            $a = preg_replace('/<p><\/p>/', '', $a);
+            $a = preg_replace('/^(<br>)+/s', '', $a);
+            $a = preg_replace('/^\s*\<p\>/s', '', $a);
+            $a = preg_replace('/\<\/p\>\s*$/s', '', $a);
+        }
+        return $answers;
     }
 }
