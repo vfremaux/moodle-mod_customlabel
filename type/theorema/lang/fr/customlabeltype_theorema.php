@@ -47,34 +47,3 @@ $string['willopenon'] = 'Sera visible le';
 $string['notavailableyet'] = 'Pas encore disponible';
 $string['demoinitiallyvisible'] = 'Démonstration visible au chargement&nbsp;';
 $string['demonstration'] = 'Demonstration';
-
-$string['template'] = '
-<table class="custombox-theorema" cellspacing="0" width="100%">
-<tr valign="top">
-    <td class="custombox-header-thumb theorema" style="background-image : url(<%%icon%%>);" width="2%" rowspan="3">
-    </td>
-    <td class="custombox-header-caption theorema" width="98%">
-        Théorème
-    </td>
-</tr>
-<tr valign="top">
-    <td class="custombox-content theorema">
-        <%%theorema%%>
-    </td>
-</tr>
-<tr valign="top">
-    <td class="custombox-corollaries theorema">
-        <%%corollarylist%%>
-    </td>
-</tr>
-<%if %%showdemonstration%% %>
-<tr valign="top">
-    <td class="custombox-header-foo theorema" width="2%"></td>
-    <td class="custombox-demonstration theorema">
-        <div class="custombox-demonstration-caption theorema">Démonstration</div>
-        <div class="custombox-demonstration theorema"><%%demonstration%%></div>
-    </td>
-</tr>
-<%endif %>
-</table>
-';

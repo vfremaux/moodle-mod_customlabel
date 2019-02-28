@@ -25,15 +25,13 @@ td.custombox-header-thumb.question {
 }
 
 td.custombox-header-caption.question {
-    color: #d83030;
     font-size: 1.3em;
     font-weight: bolder;
     padding-left: 8px;
 }
 
 td.custombox-content.questiontext {
-    color: #a00000;
-    font-size: 1.3em;
+    font-size: 1.1em;
     min-height: 100px;
     padding: 8px 10px;
 }
@@ -47,7 +45,6 @@ td.custombox-content.hint {
     background-color: #d0d0ff;
     color: #0000a0;
     font-size: 1.1em;
-    min-height: 100px;
     padding: 10px 20px;
 }
 
@@ -68,4 +65,26 @@ td.custombox-content.answertext {
     -moz-opacity: 0.5;
     opacity: 0.5;
     color: #e00;
+}
+
+.custombox-qcm-answer.incorrect {
+    border: 1px solid #f88;
+    background-color: #fcc;
+    border-radius: 8px;
+}
+
+.custombox-qcm-answer.correct {
+    border: 1px solid #8f8;
+    background-color: #cfc;
+    border-radius: 8px;
+}
+
+.custombox-qcm-input {
+    display: table-cell;
+    padding-right: 10px;
+}
+
+.custombox-qcm-text {
+    display: table-cell;
+    padding-right: 10px;
 }

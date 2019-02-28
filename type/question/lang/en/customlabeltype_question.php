@@ -41,48 +41,28 @@ $string['notavailableyet'] = 'Not yet available';
 $string['initiallyvisible'] = 'Answer initially visible';
 $string['hint'] = 'Hint';
 $string['hintinitiallyvisible'] = 'Hint initially visible';
+$string['isqcmchallenge'] = 'Is a QCM question challenge';
+$string['shuffleanswers'] = 'Shuffle answers';
+$string['attempts'] = 'Number of attempts before locking';
+$string['correctanswer'] = 'Correct answer';
+$string['completion1'] = 'Student has answed the question.';
+$string['completion2'] = 'Student has answed the question and has good answer.';
+$string['submitqcm'] = 'Submit your answer';
+$string['answertext_help'] = 'For simple question without challenge, just type answer text. For QCM challenges, enter a set of answers. Separate answers with a "----" ex :
+
+<pre>&lt;p&gt;Answer 1&lt;/p&gt;----
+&lt;p&gt;Answer 2&lt;/p&gt;----
+&lt;p&gt;Answer 3&lt;/p&gt;</pre>
+
+or 
+
+<pre>Answer 1\\n----\\nAnswer 2\\n----\\nAnswer 3</pre>
+
+';
+
+$string['isqcmchallenge_help'] = 'A QCM challenge is an interactive question the student can answer to and record his changes.
+Depending on completion settings, the question might participate to course completion triggering.';
+
+$string['correctanswer_help'] = 'Ensure you have an answer at this position. Numering starts with 1.';
 
 $string['family'] = 'pedagogic';
-
-$string['template'] = '
-<table class="custombox-question" cellspacing="0" width="100%">
-<tr valign="top">
-    <td class="custombox-header-thumb question" style="background-image : url(<%%icon%%>);" width="2%" rowspan="6">
-    </td>
-    <td class="custombox-header-caption question" width="96%">
-        Question !
-    </td>
-</tr>
-<tr valign="top">
-    <td class="custombox-content questiontext">
-        <%%questiontext%%>
-    </td>
-</tr>
-<%if %%hint%% %>
-<tr>
-    <td class="custombox-header-collapser question" align="left" >
-        <a href="javascript:togglecustom(\'<%%customid%%>hint\', \'<%%wwwroot%%>\')"><img id="customctl<%%customid%%>hint" src="<%%hintinitialcontrolimage%%>" /></a> Hint
-    </td>
-</tr>
-<tr valign="top" id="custom<%%customid%%>hint">
-    <td class="custombox-content hint">
-        <%%hint%%>
-    </td>
-</tr>
-<%endif %>
-<tr>
-    <td class="custombox-header-collapser question" align="left">
-        <a href="javascript:togglecustom(\'<%%customid%%>\', \'<%%wwwroot%%>\')"><img id="customctl<%%customid%%>" src="<%%initialcontrolimage%%>" /></a> Solution
-    </td>
-</tr>
-<tr valign="top" id="custom<%%customid%%>">
-    <td class="custombox-content questiontext">
-        <%%answertext%%>
-    </td>
-</tr>
-</table>
-<script type="text/javascript">
-setupcustom(\'<%%customid%%>\', \'<%%initiallyvisible%%>\', \'<%%wwwroot%%>\');
-setupcustom(\'<%%customid%%>hint\', \'<%%hintinitiallyvisible%%>\', \'<%%wwwroot%%>\');
-</script>
-';
