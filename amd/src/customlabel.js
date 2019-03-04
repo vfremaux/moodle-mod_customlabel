@@ -29,7 +29,7 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
             $('.customlabel-constraint').bind('click', this.constraint_colorize);
             $('select.constrained').bind('change', this.applyconstraints);
             $('select.constrained').prop('disabled', null);
-            $('.labeltypeselector').bind('change', this.typechangesubmit);
+            $('#id_labelclass').bind('change', this.typechangesubmit);
 
             // Trigg the first classifier after loading
             $('#id_level0').trigger('change');
