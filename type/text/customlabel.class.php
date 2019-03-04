@@ -74,6 +74,18 @@ class customlabel_type_text extends customlabel_type {
             $this->data->initialstring = get_string('readmore', 'customlabeltype_text');
             $this->data->initialclass = 'hidden';
         }
+
+        $context = context_module::instance($this->cmid);
+        // Weird fix.
+        $this->data->textcontent = preg_replace('/@@PLUGINFILE\:\:\d+@@/', '@@PLUGINFILE@@', $this->data->textcontent);
+        $this->data->textcontent = file_rewrite_pluginfile_urls($this->data->textcontent,
+                'pluginfile.php', $context->id, 'mod_customlabel', 'contentfiles', $this->fields['textcontent']->itemid);
+
+        // Weird fix.
+        $this->data->readmorecontent = preg_replace('/@@PLUGINFILE\:\:\d+@@/', '@@PLUGINFILE@@', $this->data->readmorecontent);
+        $this->data->readmorecontent = file_rewrite_pluginfile_urls($this->data->readmorecontent,
+                'pluginfile.php', $context->id, 'mod_customlabel', 'contentfiles', $this->fields['readmorecontent']->itemid);
+
         $this->data->customid = $this->cmid;
     }
 }

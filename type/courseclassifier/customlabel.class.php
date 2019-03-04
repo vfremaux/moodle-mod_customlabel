@@ -51,6 +51,11 @@ class customlabel_type_courseclassifier extends customlabel_type {
                 }
             }
         }
+
+        if (empty($data)) {
+            $data = new StdClass;
+        }
+
         if (empty($data->uselevels)) {
             $data->uselevels = 2;
         }
@@ -165,6 +170,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $field->field = 'value';
             $field->ordering = 'sortorder';
             $field->multiple = 'multiple';
+            $field->isfilter = 1;
             $field->size = 8;
             $field->label = $coursefilter->name;
             $field->select = $config->classification_value_type_key.' = '.$coursefilter->id;
