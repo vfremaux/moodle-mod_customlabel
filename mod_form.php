@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
 require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
-$PAGE->requires->js('/mod/customlabel/js/modform.js', false); // Needs being in footer to get oldtype.
+$PAGE->requires->js_call_amd('mod_customlabel/customlabel', 'init'); // Needs being in footer to get oldtype.
 
 class mod_customlabel_mod_form extends moodleform_mod {
 
@@ -384,6 +384,31 @@ class mod_customlabel_mod_form extends moodleform_mod {
         return (!empty($data['completion1enabled'])) ||
             (!empty($data['completion2senabled'])) ||
             (!empty($data['completion3enabled']));
+    }
+
+    /**
+     * Allows module to modify the data returned by form get_data().
+     * This method is also called in the bulk activity completion form.
+     *
+     * Only available on moodleform_mod.
+     *
+     * @param stdClass $data the form data to be modified.
+     */
+    public function data_postprocessing($data) {
+        parent::data_postprocessing($data);
+        // Turn off completion settings if the checkboxes aren't ticked
+        if (!empty($data->completionunlocked)) {
+            $autocompletion = !empty($data->completion) && $data->completion==COMPLETION_TRACKING_AUTOMATIC;
+            if (empty($data->completion1enabled) || !$autocompletion) {
+                $data->completion1enabled = 0;
+            }
+            if (empty($data->completion2enabled) || !$autocompletion) {
+                $data->completion2enabled = 0;
+            }
+            if (empty($data->completion3enabled) || !$autocompletion) {
+                $data->completion3enabled = 0;
+            }
+        }
     }
 
     protected function resolve_customlabel() {
