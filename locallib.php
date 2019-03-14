@@ -77,6 +77,9 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
             if ($ignoredisabled && preg_match('/\\b'.$entry.'\\b/', $disabledtypes)) {
                 continue;
             }
+            if (($entry == 'stealthactivity') && empty($CFG->allowstealth)) {
+                continue;
+            }
             if (!is_null($context) &&
                     (has_capability('customlabeltype/'.$entry.':addinstance', $context) ||
                             ($context->contextlevel == CONTEXT_SYSTEM))) {
@@ -442,4 +445,21 @@ function customlabel_course_regenerate(&$course, $labelclasses = '', $options = 
             }
         }
     }
+}
+
+function customlabel_get_stealth_cms() {
+    global $COURSE;
+
+    $coursemodinfo = get_fast_modinfo($COURSE);
+    $allcms = $coursemodinfo->get_cms();
+    $stealthcms = [];
+    if (!empty($allcms)){
+        foreach ($allcms as $cm) {
+            if ($cm->is_stealth()) {
+                $stealthcms[$cm->id] = format_string($cm->name);
+            }
+        }
+    }
+
+    return $stealthcms;
 }

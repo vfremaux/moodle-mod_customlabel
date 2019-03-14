@@ -17,17 +17,22 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+defined('MOODLE_INTERNAL') || die();
 
-$string['seealso:view'] = 'Can view the content';
-$string['seealso:addinstance'] = 'Can add an indstance';
+$string['stealthactivity:view'] = 'Peut voir le contenu';
+$string['stealthactivity:addinstance'] = 'Peut ajouter une instance';
 
-$string['pluginname'] = 'Course element: See Also';
-$string['typename'] = 'See Also';
-$string['configtypename'] = 'Enable subtype See Also';
-$string['seealso'] = 'See also&nbsp;';
-
-$string['family'] = 'pedagogic';
+$string['pluginname'] = 'Elément de cours : Activité furtive';
+$string['typename'] = 'Activité furtive';
+$string['configtypename'] = 'Active le type Activité Furtive';
+$string['stealthmodule'] = 'Module furtif';
+$string['thumbnail'] = 'Vignette';
+$string['layout'] = 'Mise en page';
+$string['singleimage'] = 'Image unique';
+$string['singleimageanddescription'] = 'Image et description';
+$string['thumbandtitle'] = 'Vignette et titre';
+$string['thumbtitleimageanddescription'] = 'Titre vignette et description';
