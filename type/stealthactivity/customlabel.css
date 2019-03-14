@@ -1,0 +1,42 @@
+table.custombox-stealtactivity {
+    width: 100%;
+}
+
+.custombox-stealtactivity.singleimage {
+    test-align: center;
+}
+
+.custombox-stealthactivity.flex {
+    display: flex;
+    padding-left: 95px;
+}
+
+.custombox-stealthactivity.flex .single-image,
+custombox-definition.stealthactivity.flex .single-image {
+    width: 33%;
+}
+
+.custombox-stealthactivity.flex .description,
+custombox-definition.stealthactivity.flex  .description {
+    width: 66%;
+    padding-left:10px;
+}
+
+td.custombox-header-caption.stealtactivity {
+    font-size: 1.3em;
+    font-weight: bolder;
+    padding-left: 8px;
+}
+
+td.custombox-content.stealtactivity {
+    min-height: 100px;
+    padding-left: 8px;
+}
+
+td.custombox-content.stealtactivity h1,
+td.custombox-content.stealtactivity h2,
+td.custombox-content.stealtactivity h3 {
+    background-image: none;
+    font-weight: bolder;
+    padding-left: 0;
+}

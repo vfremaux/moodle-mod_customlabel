@@ -30,19 +30,3 @@ $string['pluginname'] = 'Elément de cours&nbsp;: Voir aussi';
 $string['typename'] = 'Voir aussi';
 $string['configtypename'] = 'Active le type Voir aussi';
 $string['seealso'] = 'Voir aussi&nbsp;';
-
-$string['template'] = '
-<table class="custombox-seealso" cellspacing="0" width="100%">
-<tr valign="top">
-    <td class="custombox-header-thumb seealso" style="background-image : url(<%%icon%%>);" width="2%" rowspan="2">
-    </td>
-    <td class="custombox-header-caption seealso" width="98%">
-        Voir aussi&nbsp;!
-    </td>
-</tr>
-<tr valign="top">
-    <td class="custombox-content seealso">
-        <%%seealso%%>
-    </td>
-</tr>
-</table>';
