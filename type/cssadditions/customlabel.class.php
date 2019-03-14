@@ -17,17 +17,38 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+defined('MOODLE_INTERNAL') || die();
 
-$string['seealso:view'] = 'Can view the content';
-$string['seealso:addinstance'] = 'Can add an indstance';
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
-$string['pluginname'] = 'Course element: See Also';
-$string['typename'] = 'See Also';
-$string['configtypename'] = 'Enable subtype See Also';
-$string['seealso'] = 'See also&nbsp;';
+/**
+ *
+ *
+ */
 
-$string['family'] = 'pedagogic';
+class customlabel_type_cssadditions extends customlabel_type {
+
+    public function __construct($data) {
+        parent::__construct($data);
+        $this->type = 'cssadditions';
+        $this->fields = array();
+
+        $field = new StdClass;
+        $field->name = 'css';
+        $field->type = 'textarea';
+        $this->fields['css'] = $field;
+    }
+
+    /**
+     *
+     *
+     */
+    public function postprocess_data($course = null) {
+        $this->data->css = '<STYLE>'.$this->data->css.'</STYLE>';
+    }
+}
+

@@ -15,6 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * This is a local class contextual translation file for field names and list options.
+ * this file is automatically loaded by the /mod/customlabel/lang/xx_utf8/customlabel.php
+ * module language file.
+ *
  * @package    mod_customlabel
  * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
@@ -22,12 +26,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
-$string['seealso:view'] = 'Can view the content';
-$string['seealso:addinstance'] = 'Can add an indstance';
+$string['cssadditions:view'] = 'Can view the content';
+$string['cssadditions:addinstance'] = 'Can add an instance';
 
-$string['pluginname'] = 'Course element: See Also';
-$string['typename'] = 'See Also';
-$string['configtypename'] = 'Enable subtype See Also';
-$string['seealso'] = 'See also&nbsp;';
+$string['pluginname'] = 'Course element : CSS Additions';
+$string['typename'] = 'Css Additions';
+$string['configtypename'] = 'Enable subtype CSS additions';
+$string['css'] = 'Course additional css';
 
-$string['family'] = 'pedagogic';
+$string['family'] = 'meta';
+

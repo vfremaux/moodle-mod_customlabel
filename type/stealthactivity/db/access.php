@@ -21,13 +21,34 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+defined('MOODLE_INTERNAL') || die();
 
-$string['seealso:view'] = 'Can view the content';
-$string['seealso:addinstance'] = 'Can add an indstance';
 
-$string['pluginname'] = 'Course element: See Also';
-$string['typename'] = 'See Also';
-$string['configtypename'] = 'Enable subtype See Also';
-$string['seealso'] = 'See also&nbsp;';
+$capabilities = array(
 
-$string['family'] = 'pedagogic';
+    // Controls who can add this type.
+    'customlabeltype/stealthactivity:addinstance' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'legacy' => array(
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW
+        )
+    ),
+
+    // Controls visibility of labeltype on role base.
+    'customlabeltype/stealthactivity:view' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'legacy' => array(
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW,
+            'student' => CAP_ALLOW,
+            'user' => CAP_ALLOW,
+            'guest' => CAP_ALLOW,
+        )
+    ),
+);
