@@ -19,26 +19,13 @@
  *
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux (valery.fremaux@gmail.com)
- * @copyright  2013 onwards Valery Fremaux (valery.fremaux@gmail.com)
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2018120600; // The current module version (Date: YYYYMMDDXX).
-$plugin->requires = 2018042700;
-$plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics).
-$plugin->release = '3.5.0 (Build 2018120600)';
-$plugin->maturity = MATURITY_STABLE;
+$plugin = new StdClass();
+$plugin->version  = 2019031000;  // The current module version (Date: YYYYMMDDXX).
+$plugin->component = 'customlabeltype_cssadditions';   // Full name of the plugin (used for diagnostics).
 
-// Non moodle attributes.
-$plugin->codeincrement = '3.5.0013';
-$plugin->privacy = 'dualrelease';
-$plugin->prolocations = array(
-    'type/localdokuwikicontent',
-    'type/genericpractices',
-    'type/genericgoals',
-    'type/processgoals',
-    'type/processpractices',
-);

@@ -68,3 +68,9 @@ X.X.0010
 #######################################
 
 Fix weird race condition between theme check and customlabel early rendering in cm dynamic data.
+
+X.X.0013
+#######################################
+
+Fix ajax errors when deleting or duplicating a course module on teacher role.
+Add new cssadditions type

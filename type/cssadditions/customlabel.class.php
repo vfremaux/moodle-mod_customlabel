@@ -15,30 +15,40 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
- *
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux (valery.fremaux@gmail.com)
- * @copyright  2013 onwards Valery Fremaux (valery.fremaux@gmail.com)
+ * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2018120600; // The current module version (Date: YYYYMMDDXX).
-$plugin->requires = 2018042700;
-$plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics).
-$plugin->release = '3.5.0 (Build 2018120600)';
-$plugin->maturity = MATURITY_STABLE;
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
-// Non moodle attributes.
-$plugin->codeincrement = '3.5.0013';
-$plugin->privacy = 'dualrelease';
-$plugin->prolocations = array(
-    'type/localdokuwikicontent',
-    'type/genericpractices',
-    'type/genericgoals',
-    'type/processgoals',
-    'type/processpractices',
-);
+/**
+ *
+ *
+ */
+
+class customlabel_type_cssadditions extends customlabel_type {
+
+    public function __construct($data) {
+        parent::__construct($data);
+        $this->type = 'cssadditions';
+        $this->fields = array();
+
+        $field = new StdClass;
+        $field->name = 'css';
+        $field->type = 'textarea';
+        $this->fields['css'] = $field;
+    }
+
+    /**
+     *
+     *
+     */
+    public function postprocess_data($course = null) {
+        $this->data->css = '<STYLE>'.$this->data->css.'</STYLE>';
+    }
+}
+

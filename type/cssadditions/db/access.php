@@ -25,23 +25,33 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+defined('MOODLE_INTERNAL') || die();
 
-$string['courseclassifier:view'] = 'Peut voir le contenu';
-$string['courseclassifier:addinstance'] = 'Peut ajouter une instance';
+$capabilities = array(
 
-$string['pluginname'] = 'Element de cours : Classification de cours';
-$string['courseclassifier'] = 'Classification du cours';
-$string['tablecaption'] = 'Titre de la table';
-$string['typename'] = 'Classification de cours';
-$string['courseclassification'] = 'Classification du cours';
-$string['configtypename'] = 'Active le type Classification de cours';
-$string['level0'] = 'Classification 1 ';
-$string['level1'] = 'Classification 2 ';
-$string['level2'] = 'Classification 3 ';
-$string['people'] = 'Public&nbsp;';
-$string['fonction'] = 'Fonction&nbsp;';
-$string['showpeople'] = 'Afficher le critère de public';
-$string['uselevels'] = 'Niveaux actifs&nbsp;';
-$string['status'] = 'Etat de publication&nbsp;';
-$string['filters'] = 'Autres éléments d\'indexation';
+    // Controls who can add this type.
+    'customlabeltype/cssadditions:addinstance' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'legacy' => array(
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW
+        )
+    ),
 
+    // Controls visibility of labeltype on role base.
+    'customlabeltype/cssadditions:view' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'legacy' => array(
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW,
+            'student' => CAP_ALLOW,
+            'user' => CAP_ALLOW,
+            'guest' => CAP_ALLOW,
+        )
+    ),
+);
