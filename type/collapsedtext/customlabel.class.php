@@ -64,7 +64,7 @@ class customlabel_type_collapsedtext extends customlabel_type {
         $field->name = 'chapternum';
         $field->type = 'list';
         $field->straightoptions = true;
-        $field->options = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        $field->options = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30);
         $field->default = 3;
         $this->fields['chapternum'] = $field;
 

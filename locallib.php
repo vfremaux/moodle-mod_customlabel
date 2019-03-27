@@ -447,16 +447,53 @@ function customlabel_course_regenerate(&$course, $labelclasses = '', $options = 
     }
 }
 
-function customlabel_get_stealth_cms() {
-    global $COURSE;
+/**
+ * Get all stealth modules. On page format, there is no need
+ * of stealth modules as this is naturally handled with the
+ * page publishing (or not) concept.
+ */
+function customlabel_get_stealth_cms($activeoptions = '', $course = null) {
+    global $COURSE, $DB;
 
-    $coursemodinfo = get_fast_modinfo($COURSE);
-    $allcms = $coursemodinfo->get_cms();
+    if (is_null($course)) {
+        $course = $COURSE;
+    }
+
+    $coursemodinfo = get_fast_modinfo($course);
     $stealthcms = [];
-    if (!empty($allcms)){
-        foreach ($allcms as $cm) {
-            if ($cm->is_stealth()) {
-                $stealthcms[$cm->id] = format_string($cm->name);
+
+    if ($course->format !== 'page') {
+        $allcms = $coursemodinfo->get_cms();
+        if (!empty($allcms)){
+            foreach ($allcms as $cm) {
+                if ($cm->is_stealth()) {
+                    $stealthcms[$cm->id] = format_string($cm->name);
+                }
+            }
+        }
+    } else {
+
+        // Get all course modules that remained unpublished on pages.
+        $sql = "
+            SELECT
+                id as modid,
+                fpi.id as pageid
+            FROM
+                {course_modules} cm
+            LEFT JOIN
+                {format_page_item} fpi
+            ON
+                fpi.moduleid = cm.id
+            WHERE
+                fpi.id IS NULL
+        ";
+        $cms = $DB->get_records_sql($sql);
+
+        if ($cms) {
+            foreach (array_keys($cms) as $cm) {
+                // Convert into cm_info.
+                $cminfo = $coursemodinfo->get_cm($cm->modid);
+                $stealthcms[$cm->modid] = format_string($cminfo->name);
             }
         }
     }

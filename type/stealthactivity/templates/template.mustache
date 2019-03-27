@@ -22,6 +22,18 @@
 
 }}
 <!-- customlabeltype_stealthactivity/template-->
+{{#notyetconfigured}}
+    {{#str}}notyetconfigured, customlabeltype_stealthactivity{{/str}}
+{{/notyetconfigured}}
+
+{{#brokenmodule}}
+<div class="error">
+    {{#str}}brokenmodule, customlabeltype_stealthactivity{{/str}}
+</div>
+{{/brokenmodule}}
+
+{{^notyetconfigured}}
+{{^brokenmodule}}
 {{#singleimage}}
 <div  class="custombox-stealtactivity singleimage" width="100%">
     <a href="{{{moduleurl}}}"><img src="{{{thumbnail}}}"></a>
@@ -65,4 +77,6 @@
     </div>
 </div>
 {{/thumbtitleanddescription}}
+{{/brokenmodule}}
+{{/notyetconfigured}}
 <!-- customlabeltype_stealthactivity/template -->

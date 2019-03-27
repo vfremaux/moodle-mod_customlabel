@@ -66,32 +66,41 @@ class customlabel_type_stealthactivity extends customlabel_type {
 
         $storedimage = $this->get_file_url('thumbnail');
 
-        $cminfo = $modinfo->get_cm($this->data->stealthmoduleoption);
-        $this->data->thumbnail = (!empty($storedimage)) ? $storedimage : $cminfo->get_icon_url();
-
-        if ($description = $DB->get_field($cminfo->modname, 'intro', ['id' => $cminfo->instance])) {
-            $this->data->description = format_text($description);
+        if (empty($this->data->stealthmoduleoption)) {
+            $this->data->notyetconfigured = true;
+            return;
         }
 
-        $this->data->title = format_string($cminfo->name);
-        $this->data->moduleurl = new moodle_url('/mod/'.$cminfo->modname.'/view.php', ['id' => $cminfo->id]);
+        try {
+            $cminfo = $modinfo->get_cm($this->data->stealthmoduleoption);
+            $this->data->thumbnail = (!empty($storedimage)) ? $storedimage : $cminfo->get_icon_url();
 
-        if (empty($this->data->layoutoption)) {
-            $this->data->layoutoption = 'thumbandtitle';
-        }
-        $attrname = $this->data->layoutoption;
-        $this->data->$attrname = true;
-
-        $thiscm = $modinfo->get_cm($this->cmid);
-        // check and synchronise completion state.
-        $completion = new completion_info($COURSE);
-        if ($completion->is_enabled($cminfo)) {
-            $params = ['userid' => $USER->id, 'coursemoduleid' => $cminfo->id];
-            if ($completionrec = $DB->get_record('course_modules_completion', $params)) {
-                $completion->update_state($thiscm, $completionrec->completionstate);
-            } else {
-                $completion->update_state($thiscm, COMPLETION_INCOMPLETE);
+            if ($description = $DB->get_field($cminfo->modname, 'intro', ['id' => $cminfo->instance])) {
+                $this->data->description = format_text($description);
             }
+
+            $this->data->title = format_string($cminfo->name);
+            $this->data->moduleurl = new moodle_url('/mod/'.$cminfo->modname.'/view.php', ['id' => $cminfo->id]);
+
+            if (empty($this->data->layoutoption)) {
+                $this->data->layoutoption = 'thumbandtitle';
+            }
+            $attrname = $this->data->layoutoption;
+            $this->data->$attrname = true;
+
+            $thiscm = $modinfo->get_cm($this->cmid);
+            // check and synchronise completion state.
+            $completion = new completion_info($COURSE);
+            if ($completion->is_enabled($cminfo)) {
+                $params = ['userid' => $USER->id, 'coursemoduleid' => $cminfo->id];
+                if ($completionrec = $DB->get_record('course_modules_completion', $params)) {
+                    $completion->update_state($thiscm, $completionrec->completionstate);
+                } else {
+                    $completion->update_state($thiscm, COMPLETION_INCOMPLETE);
+                }
+            }
+        } catch (Exception $e) {
+            $this->data->brokenmodule = true;
         }
     }
 }
