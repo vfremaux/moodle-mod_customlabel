@@ -26,6 +26,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin = new StdClass();
-$plugin->version  = 2019031201;  // The current module version (Date: YYYYMMDDXX).
+$plugin->version  = 2019031202;  // The current module version (Date: YYYYMMDDXX).
 $plugin->component = 'customlabeltype_stealthactivity';   // Full name of the plugin (used for diagnostics).
 

@@ -384,18 +384,23 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         }
     }
 
-    // Specific > 3.5
+    // Specific >= 3.5
     $info = optional_param('info', '', PARAM_TEXT);
-    $gettingmoduleupdate = $info == 'core_course_get_module';
+    $gettingmoduleupdate = in_array($info, array('core_course_get_module', 'core_course_edit_module'));
     if ((($PAGE->pagetype != 'course-modedit') && !AJAX_SCRIPT) || $gettingmoduleupdate) {
         // In edit form, some race conditions between theme and rendering goes wrong when not admin...
         $instance->preprocess_data();
         $instance->process_form_fields();
         $instance->process_datasource_fields();
-        $instance->postprocess_data();
-        $instance->postprocess_icon();
-        $template = 'customlabeltype_'.$customlabel->labelclass.'/template';
-        $content = $OUTPUT->render_from_template($template, $instance->data);
+        try {
+            $instance->postprocess_data();
+            $instance->postprocess_icon();
+            $template = 'customlabeltype_'.$customlabel->labelclass.'/template';
+            $content = $OUTPUT->render_from_template($template, $instance->data);
+        } catch (Exception $e) {
+            assert(1);
+            // Quiet any exception here. Resolve case of Editing Teachers.
+        }
     }
 
     // Disable url form of the course module representation.

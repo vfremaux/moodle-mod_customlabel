@@ -148,3 +148,9 @@ X.X.0011
 #######################################
 
 Turn constraints resolution in course classifier to amd standard.
+
+X.X.0013
+#######################################
+
+Fix ajax errors when deleting or duplicating a course module on teacher role.
+Add new cssadditions type
