@@ -42,6 +42,7 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
         rebindconstraints: function() {
             $('select.constrained').off('change');
             $('select.constrained').bind('change', this.applyconstraints);
+            log.debug("AMD Customlabels constraints rebound");
         },
 
         togglecustom: function() {
@@ -171,7 +172,7 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
                 }
                 customlabel.rebindconstraints();
 
-                // Finish by reslecting what was initially selected.
+                // Finish by reselecting what was initially selected.
                 log.debug(targetvalues);
                 for (var levelid in targetvalues) {
                     var selectvalue = targetvalues[levelid][0];
@@ -179,6 +180,7 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
                         $('#id_level' + levelid + " option[value=" + selectvalue + "]").attr("selected", true);
                     }
                 }
+                $('.select.constrained').prop('disabled', false);
 
             }, 'json');
         },

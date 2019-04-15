@@ -292,7 +292,7 @@ class customlabel_type {
     /**
      * @param string $lang if set, will compile only content for this language. If not set and multilang filtering is on,
      * will compile as many versions of templates per installed language, pursuant proper template is available.
-     * DEPRECATED. 
+     * DEPRECATED.
      */
     public function make_content($lang = '', $course = null) {
         global $PAGE;
