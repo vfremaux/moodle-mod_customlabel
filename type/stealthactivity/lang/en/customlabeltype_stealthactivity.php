@@ -35,21 +35,8 @@ $string['singleimage'] = 'Single image';
 $string['singleimageanddescription'] = 'Image and description';
 $string['thumbtitleanddescription'] = 'Title image and description';
 $string['thumbandtitle'] = 'Thumb and title';
+$string['brokenmodule'] = 'The sealth module you are proxying in this customlabel seems being gone or is not any more
+reachable. Please reconsider configuration of this element.';
+$string['notyetconfigured'] = 'The stealthactivity block is not yet configured. Please consider configuration of this element.';
 
 $string['family'] = 'pedagogic';
-
-$string['template'] = '
-<table class="custombox-seealso" cellspacing="0" width="100%">
-<tr valign="top">
-    <td class="custombox-header-thumb seealso" style="background-image : url(<%%icon%%>);" width="2%" rowspan="2">
-    </td>
-    <td class="custombox-header-caption seealso" width="98%">
-        See also!
-    </td>
-</tr>
-<tr valign="top">
-    <td class="custombox-content seealso">
-        <%%seealso%%>
-    </td>
-</tr>
-</table>';

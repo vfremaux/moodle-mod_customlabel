@@ -389,10 +389,10 @@ class customlabel_type_courseclassifier extends customlabel_type {
 
         $coursefilters = $DB->get_records($config->classification_type_table, array('type' => 'coursefilter'));
         if ($coursefilters) {
-            $this->data->hasfilters = true;
             foreach ($coursefilters as $filter) {
                 $showkey = 'show'.strtolower($filter->code);
                 if (!empty($this->data->$showkey)) {
+                    $this->data->hasfilters = true;
                     $filtertpl = new StdClass();
                     $filtertpl->label = format_string($filter->name);
                     $key = strtolower($filter->code);

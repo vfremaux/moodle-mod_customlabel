@@ -36,3 +36,5 @@ $string['singleimage'] = 'Image unique';
 $string['singleimageanddescription'] = 'Image et description';
 $string['thumbandtitle'] = 'Vignette et titre';
 $string['thumbtitleimageanddescription'] = 'Titre vignette et description';
+$string['brokenmodule'] = 'L\'activité furtive que vous publiez par cet élément de cours semble ne plus exister. Cet élément demande une reconfiguration.';
+$string['notyetconfigured'] = 'Cet élément de cours n\'est pas encore configuré.';

@@ -61,6 +61,7 @@ $plugin->maturity = MATURITY_STABLE;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 $plugin->codeincrement = '3.5.0005';
 >>>>>>> MOODLE_35_STABLE
 =======
@@ -83,6 +84,9 @@ $plugin->codeincrement = '3.6.0011';
 >>>>>>> MOODLE_36_STABLE
 =======
 $plugin->codeincrement = '3.6.0012';
+>>>>>>> MOODLE_36_STABLE
+=======
+$plugin->codeincrement = '3.6.0013';
 >>>>>>> MOODLE_36_STABLE
 $plugin->privacy = 'dualrelease';
 $plugin->prolocations = array(
