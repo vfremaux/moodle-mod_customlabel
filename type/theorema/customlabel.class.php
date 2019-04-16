@@ -99,7 +99,7 @@ class customlabel_type_theorema extends customlabel_type {
 
         $minusurl = $OUTPUT->pix_url('minus', 'customlabel');
         $plusurl = $OUTPUT->pix_url('plus', 'customlabel');
-        $this->data->initialcontrolimageurl = ($this->data->demoinitiallyvisible) ? $minusurl : $plusurl;
+        $this->data->initialcontrolimageurl = (!empty($this->data->demoinitiallyvisible)) ? $minusurl : $plusurl;
         $this->data->corollarylist = "<ul class=\"customlabel-corollaries theorema\">\n";
         for ($i = 0; $i < $this->data->corollarynum; $i++) {
             $key = 'corollary'.$i;
@@ -107,9 +107,9 @@ class customlabel_type_theorema extends customlabel_type {
             $this->data->corollarylist .= (isset($this->data->$key)) ? "<li><i>{$title} :</i> {$this->data->$key}</li>\n" : '';
         }
         $this->data->corollarylist .= "</ul>\n";
-        $this->data->initialclass = ($this->data->demoinitiallyvisible) ? '' : 'hidden';
+        $this->data->initialclass = (!empty($this->data->demoinitiallyvisible)) ? '' : 'hidden';
         $this->data->customid = $this->cmid;
-        if ($this->data->showdemonstrationon->enabled) {
+        if (!empty($this->data->showdemonstrationon->enabled)) {
             $qdate = mktime($this->data->showdemonstrationon->hour,
                             $this->data->showdemonstrationon->minute,
                             0,

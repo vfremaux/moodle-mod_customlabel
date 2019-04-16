@@ -59,8 +59,8 @@ if (empty($cmid)) {
     $instance->uselevels = 2;
 } else {
     $cm = $DB->get_record('course_modules', array('id' => $cmid));
-    $cutomlabelrec = $DB->get_record('customlabel', array('id' => $cm->instance));
-    $instance = customlabel_load_class($cutomlabelrec);
+    $customlabelrec = $DB->get_record('customlabel', array('id' => $cm->instance));
+    $instance = customlabel_load_class($customlabelrec);
 }
 
 /*
@@ -125,7 +125,7 @@ if (!empty($constraints)) {
 $listvalues = array();
 
 foreach ($targets as $target) {
-    if ($target >= $instance->uselevels) {
+    if ($target >= $instance->data->uselevels) {
         continue;
     }
 
@@ -146,11 +146,22 @@ foreach ($targets as $target) {
 
         $selectid = ($variant == 'menu') ? 'menu'.$field->name : 'id_'.$field->name;
 
+        $params = array();
+        if (!empty($field->constraintson) && $cmid) {
+            $params['class'] = 'constrained '.$instance->type;
+            // $params['disabled'] = ''; // Let javascript liberate them when ready to process constraints.
+            $params['data-constraints'] = $field->constraintson;
+            $params['data-label-type'] = $instance->type;
+            $params['data-cmid'] = $cmid;
+        }
+
         if (empty($field->multiple)) {
-            $params = array('id' => $selectid);
+            $params['id'] = $selectid;
             $return[$target] = html_writer::select($options, $field->name, @$preselection[$target], array(), $params);
         } else {
-            $params = array('multiple' => 'multiple', 'size' => '6', 'id' => $selectid);
+            $params['multiple'] = 'multiple';
+            $params['size'] = '6';
+            $params['id'] = $selectid;
             $return[$target] = html_writer::select($options, "{$field->name}[]", @$preselection[$target], array(), $params);
         }
     }

@@ -384,15 +384,27 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         }
     }
 
-    if ($PAGE->pagetype != 'course-modedit' && !AJAX_SCRIPT) {
+    // 3.1 ajax fix. Detect Ajax duplicate and let draw the label.
+    $class = optional_param('class', false, PARAM_TEXT);
+    $field = optional_param('field', false, PARAM_TEXT);
+    $isajaxduplicate = $class == 'resource' && $field == 'duplicate';
+    global $FULLME;
+    $ispluginfile = preg_match('/pluginfile/', $FULLME);
+
+    if (!$ispluginfile && $PAGE->pagetype != 'course-modedit' && !AJAX_SCRIPT || $isajaxduplicate) {
         // In edit form, some race conditions between theme and rendering goes wrong when not admin...
         $instance->preprocess_data();
         $instance->process_form_fields();
         $instance->process_datasource_fields();
-        $instance->postprocess_data();
-        $instance->postprocess_icon();
-        $template = 'customlabeltype_'.$customlabel->labelclass.'/template';
-        $content = $OUTPUT->render_from_template($template, $instance->data);
+        try {
+            $instance->postprocess_data();
+            $instance->postprocess_icon();
+            $template = 'customlabeltype_'.$customlabel->labelclass.'/template';
+            $content = $OUTPUT->render_from_template($template, $instance->data);
+        } catch (Exception $e) {
+            assert(1);
+            // Quiet any exception here. Resolve case of Editing Teachers.
+        }
     }
 
     // Disable url form of the course module representation.
