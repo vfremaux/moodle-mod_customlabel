@@ -391,7 +391,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     global $FULLME;
     $ispluginfile = preg_match('/pluginfile/', $FULLME);
 
-    if (!$pluginfile && $PAGE->pagetype != 'course-modedit' && !AJAX_SCRIPT || $isajaxduplicate) {
+    if (!$ispluginfile && $PAGE->pagetype != 'course-modedit' && !AJAX_SCRIPT || $isajaxduplicate) {
         // In edit form, some race conditions between theme and rendering goes wrong when not admin...
         $instance->preprocess_data();
         $instance->process_form_fields();
