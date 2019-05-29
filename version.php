@@ -26,71 +26,24 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-$plugin->version  = 2017061300; // The current module version (Date: YYYYMMDDXX).
-<<<<<<< HEAD
-$plugin->requires = 2017110800;
-$plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics).
-$plugin->release = '3.4.0 (Build 2017061300)';
-$plugin->maturity = MATURITY_STABLE;
-
-// Non moodle attributes.
-$plugin->codeincrement = '3.4.0005';
-=======
-=======
-$plugin->version  = 2018111900; // The current module version (Date: YYYYMMDDXX).
->>>>>>> MOODLE_35_STABLE
-=======
-$plugin->version  = 2018120600; // The current module version (Date: YYYYMMDDXX).
-<<<<<<< HEAD
->>>>>>> MOODLE_35_STABLE
-$plugin->requires = 2018042700;
-=======
+$plugin->version  = 2019050900; // The current module version (Date: YYYYMMDDXX).
 $plugin->requires = 2018112800;
->>>>>>> MOODLE_36_STABLE
 $plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics).
-$plugin->release = '3.6.0 (Build 2018120600)';
+$plugin->release = '3.6.0 (Build 2019050900)';
 $plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-$plugin->codeincrement = '3.5.0005';
->>>>>>> MOODLE_35_STABLE
-=======
-$plugin->codeincrement = '3.5.0007';
->>>>>>> MOODLE_35_STABLE
-=======
-$plugin->codeincrement = '3.5.0008';
->>>>>>> MOODLE_35_STABLE
-=======
-$plugin->codeincrement = '3.5.0009';
->>>>>>> MOODLE_35_STABLE
-=======
-$plugin->codeincrement = '3.6.0009';
->>>>>>> MOODLE_36_STABLE
-=======
-$plugin->codeincrement = '3.6.0010';
->>>>>>> MOODLE_36_STABLE
-=======
-$plugin->codeincrement = '3.6.0011';
->>>>>>> MOODLE_36_STABLE
-=======
-$plugin->codeincrement = '3.6.0012';
->>>>>>> MOODLE_36_STABLE
-=======
-$plugin->codeincrement = '3.6.0013';
->>>>>>> MOODLE_36_STABLE
+$plugin->codeincrement = '3.6.0014';
 $plugin->privacy = 'dualrelease';
 $plugin->prolocations = array(
+    'type/coursedata',
+    'type/pedagogicadvice',
+    'type/pedagogicadvice',
+    'type/authordata',
+    'type/authornote',
+    'type/courseclassifier',
     'type/localdokuwikicontent',
+    'type/cssadditions',
     'type/genericpractices',
     'type/genericgoals',
     'type/processgoals',

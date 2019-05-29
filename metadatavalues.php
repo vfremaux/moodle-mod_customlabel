@@ -43,6 +43,10 @@ if (!$types) {
     return;
 }
 
+foreach ($types as $key => $typename) {
+    $types[$key] = format_string($typename);
+}
+
 // Form and controller.
 
 if ($action == 'edit') {

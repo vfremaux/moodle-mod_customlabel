@@ -201,6 +201,10 @@ function customlabel_process_fields(&$customlabelrec, &$instance) {
             $customlabelrec->{$fieldname} = @$_REQUEST[$fieldname];
         }
 
+        if ($customlabelrec->{$fieldname} == '_qf__force_multiselect_submission') {
+            $customlabelrec->{$fieldname} = '';
+        }
+
         if (preg_match('/editor/', $field->type)) {
             $editorname = $fieldname.'_editor';
             if (!isset($customlabelrec->$editorname)) {
@@ -464,7 +468,7 @@ function customlabel_get_stealth_cms($activeoptions = '', $course = null) {
 
     if ($course->format !== 'page') {
         $allcms = $coursemodinfo->get_cms();
-        if (!empty($allcms)){
+        if (!empty($allcms)) {
             foreach ($allcms as $cm) {
                 if ($cm->is_stealth()) {
                     $stealthcms[$cm->id] = format_string($cm->name);

@@ -289,11 +289,32 @@ class customlabel_type {
         return $this->data->processedcontent;
     }
 
+    public function make_content() {
+        global $OUTPUT;
+
+        $content = '';
+        $this->preprocess_data();
+        $this->process_form_fields();
+        $this->process_datasource_fields();
+        try {
+            $this->postprocess_data();
+            $this->postprocess_icon();
+            $template = 'customlabeltype_'.$this->type.'/template';
+            $content = $OUTPUT->render_from_template($template, $this->data);
+        } catch (Exception $e) {
+            assert(1);
+            // Quiet any exception here. Resolve case of Editing Teachers.
+        }
+
+        return $content;
+    }
+
     /**
      * @param string $lang if set, will compile only content for this language. If not set and multilang filtering is on,
      * will compile as many versions of templates per installed language, pursuant proper template is available.
-     * DEPRECATED. 
+     * DEPRECATED.
      */
+    /*
     public function make_content($lang = '', $course = null) {
         global $PAGE;
 
@@ -315,11 +336,14 @@ class customlabel_type {
 
         return $this->data->processedcontent;
     }
+    */
 
     /**
      * realizes the template (the standard way is to compile content fields
      * in a HTML template.
+     * DEPRECATED
      */
+    /*
     public function make_template($lang = '') {
         global $CFG, $USER, $COURSE;
 
@@ -383,6 +407,7 @@ class customlabel_type {
         }
         return $content;
     }
+    */
 
     /**
      * post processes fields for rendering in templates

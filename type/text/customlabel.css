@@ -3,6 +3,15 @@
     margin-left: 65px;
 }
 
+#page-region-pre .custombox-text {
+    margin-right: 5px;
+}
+
+#page-region-post .custombox-text {
+    margin-left: 5px;
+}
+
+
 .custombox-text ul {
     margin-left: 10px;
 }

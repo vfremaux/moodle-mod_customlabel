@@ -52,15 +52,17 @@ if (!$targets = explode(',', $targetstr)) {
 
 // We just need the definition.
 if (empty($cmid)) {
+    // When first creating a course module.
     $customlabel = new StdClass;
     $customlabel->labelclass = $type;
     $customlabel->title = '';
     $instance = customlabel_load_class($customlabel, true);
-    $instance->uselevels = 2;
+    $instance->data = new StdClass;
+    $instance->data->uselevels = 2;
 } else {
     $cm = $DB->get_record('course_modules', array('id' => $cmid));
-    $cutomlabelrec = $DB->get_record('customlabel', array('id' => $cm->instance));
-    $instance = customlabel_load_class($cutomlabelrec);
+    $customlabelrec = $DB->get_record('customlabel', array('id' => $cm->instance));
+    $instance = customlabel_load_class($customlabelrec);
 }
 
 /*
@@ -98,7 +100,7 @@ if (!empty($constraints)) {
         $params[] = $constraint;
         $params[] = $constraint;
 
-        debug_trace("SQL : $sql / $constraint ");
+        // debug_trace("SQL : $sql / $constraint ");
         if ($constraintpeerrecs = $DB->get_records_sql($sql, $params)) {
             foreach ($constraintpeerrecs as $apeer) {
                 if ($apeer->value1 == $constraint) {
@@ -125,7 +127,7 @@ if (!empty($constraints)) {
 $listvalues = array();
 
 foreach ($targets as $target) {
-    if ($target >= $instance->uselevels) {
+    if ($target >= $instance->data->uselevels) {
         continue;
     }
 
@@ -146,11 +148,24 @@ foreach ($targets as $target) {
 
         $selectid = ($variant == 'menu') ? 'menu'.$field->name : 'id_'.$field->name;
 
+        $params = array();
+        if (!empty($field->constraintson)) {
+            $params['class'] = 'constrained '.$instance->type;
+            // $params['disabled'] = ''; // Let javascript liberate them when ready to process constraints.
+            $params['data-constraints'] = $field->constraintson;
+            $params['data-label-type'] = $instance->type;
+            if ($cmid) {
+                $params['data-cmid'] = $cmid;
+            }
+        }
+
         if (empty($field->multiple)) {
-            $params = array('id' => $selectid);
+            $params['id'] = $selectid;
             $return[$target] = html_writer::select($options, $field->name, @$preselection[$target], array(), $params);
         } else {
-            $params = array('multiple' => 'multiple', 'size' => '6', 'id' => $selectid);
+            $params['multiple'] = 'multiple';
+            $params['size'] = '6';
+            $params['id'] = $selectid;
             $return[$target] = html_writer::select($options, "{$field->name}[]", @$preselection[$target], array(), $params);
         }
     }
