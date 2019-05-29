@@ -177,6 +177,19 @@ function xmldb_customlabel_upgrade($oldversion = 0) {
         upgrade_mod_savepoint(true, 2018120600, 'customlabel');
     }
 
+    if ($oldversion < 2019050900) {
+
+        $table = new xmldb_table('customlabel_course_metadata');
+        $field = new xmldb_field('cmid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0, 'valueid');
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Customlabel savepoint reached.
+        upgrade_mod_savepoint(true, 2019050900, 'customlabel');
+    }
+
     return $result;
 }
 

@@ -42,6 +42,7 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
         rebindconstraints: function() {
             $('select.constrained').off('change');
             $('select.constrained').bind('change', this.applyconstraints);
+            log.debug("AMD Customlabels constraints rebound");
         },
 
         togglecustom: function() {
@@ -99,6 +100,7 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
             var i = 0;
 
             if (targets === '') {
+                log.debug("No targets ");
                 return;
             }
             var targetsarr = targets.split(',');
@@ -139,7 +141,7 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
                 i++;
             }
 
-            // Invalidate targets waiting for constraints resolution
+            // Invalidate targets waiting for constraints resolution. Do not invalidate if mothing selected.
             $.each(targetelms, function(index, value) {
                 value.prop('disabled', true);
             });
@@ -171,14 +173,14 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
                 }
                 customlabel.rebindconstraints();
 
-                // Finish by reslecting what was initially selected.
-                log.debug(targetvalues);
+                // Finish by reselecting what was initially selected.
                 for (var levelid in targetvalues) {
                     var selectvalue = targetvalues[levelid][0];
                     if (selectvalue > 0) {
                         $('#id_level' + levelid + " option[value=" + selectvalue + "]").attr("selected", true);
                     }
                 }
+                $('.select.constrained').prop('disabled', false);
 
             }, 'json');
         },

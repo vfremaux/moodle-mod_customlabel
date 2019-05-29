@@ -204,7 +204,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     $attrs['disabled'] = 'disabled'; // Let javascript liberate them when ready to process constraints.
                     $attrs['data-constraints'] = $field->constraintson;
                     $attrs['data-label-type'] = $customclass->type;
-                    $attrs['data-cmid'] = @$this->coursemodule->id;
+                    $attrs['data-cmid'] = @$this->_cm->id;
                 }
 
                 if (!empty($field->size)) {
@@ -340,7 +340,8 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
             if ($field->type == 'date' || $field->type == 'datetime') {
                 // Convert stored value into timestamp.
-                if (is_object($instance->data->$fieldname)) {
+                $t = 0;
+                if (!empty($instance->data->$fieldname) && is_object($instance->data->$fieldname)) {
                     $t = mktime($instance->data->$fieldname->hour,
                                 $instance->data->$fieldname->minute,
                                 0,
@@ -398,7 +399,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
         parent::data_postprocessing($data);
         // Turn off completion settings if the checkboxes aren't ticked
         if (!empty($data->completionunlocked)) {
-            $autocompletion = !empty($data->completion) && $data->completion==COMPLETION_TRACKING_AUTOMATIC;
+            $autocompletion = !empty($data->completion) && $data->completion == COMPLETION_TRACKING_AUTOMATIC;
             if (empty($data->completion1enabled) || !$autocompletion) {
                 $data->completion1enabled = 0;
             }

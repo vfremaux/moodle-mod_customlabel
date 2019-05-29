@@ -81,6 +81,11 @@ if ($ADMIN->fulltree) {
     $desc = get_string('configcoursemetadatavaluekey_desc', 'customlabel');
     $settings->add(new admin_setting_configtext($key, $label, $desc, 'valueid'));
 
+    $key = 'customlabel/course_metadata_cmid_key';
+    $label = get_string('configcoursemetadatacmidkey', 'customlabel');
+    $desc = get_string('configcoursemetadatacmidkey_desc', 'customlabel');
+    $settings->add(new admin_setting_configtext($key, $label, $desc, 'cmid'));
+
     $key = 'customlabel/classification_value_table';
     $label = get_string('configclassificationvaluetable', 'customlabel');
     $desc = get_string('configclassificationvaluetable_desc', 'customlabel');
