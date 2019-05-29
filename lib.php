@@ -143,6 +143,7 @@ function customlabel_add_instance($customlabelrec) {
     $instance->coursemodule = $customlabelrec->coursemodule;
 
     $customlabeldata = customlabel_process_fields($customlabelrec, $instance);
+    $instance->data = $customlabeldata;
 
     /*
      * this saves into readable data information about which legacy type to use
@@ -222,14 +223,16 @@ function customlabel_delete_instance($id) {
     if (! $customlabel = $DB->get_record('customlabel', array('id' => "$id"))) {
         return false;
     }
+
     $cm = get_coursemodule_from_instance('customlabel', $customlabel->id);
-    $customlabel->coursemodule = $cm->id;
+    $customlabel->coursemodule = $cm->id; // Will be known as cmid in instance.
     $context = context_module::instance($cm->id);
 
     // Call subtype delete handler.
 
     $instance = customlabel_load_class($customlabel, true);
     if ($instance) {
+        debug_trace("Calling on delete for $customlabel->labelclass:$cm->id ");
         $instance->on_delete();
     }
 
@@ -387,7 +390,11 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     // Specific >= 3.5
     $info = optional_param('info', '', PARAM_TEXT);
     $gettingmoduleupdate = in_array($info, array('core_course_get_module', 'core_course_edit_module'));
-    if ((($PAGE->pagetype != 'course-modedit') && !AJAX_SCRIPT) || $gettingmoduleupdate) {
+    global $FULLME;
+    $ispluginfile = preg_match('/pluginfile/', $FULLME);
+
+    if (!$ispluginfile && (($PAGE->pagetype != 'course-modedit') && !AJAX_SCRIPT) || $gettingmoduleupdate) {
+
         // In edit form, some race conditions between theme and rendering goes wrong when not admin...
         $instance->preprocess_data();
         $instance->process_form_fields();
