@@ -18,6 +18,7 @@
 
 .custombox-text.readmorelink {
     text-align: right;
+    width: 250px;
 }
 
 .custombox-text readmore.hidden {

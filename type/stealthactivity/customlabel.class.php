@@ -60,7 +60,7 @@ class customlabel_type_stealthactivity extends customlabel_type {
     }
 
     public function postprocess_data($course = null) {
-        global $OUTPUT, $COURSE, $DB, $USER;
+        global $OUTPUT, $COURSE, $DB, $USER, $PAGE;
 
         $modinfo = get_fast_modinfo($COURSE);
 
@@ -80,7 +80,12 @@ class customlabel_type_stealthactivity extends customlabel_type {
             }
 
             $this->data->title = format_string($cminfo->name);
-            $this->data->moduleurl = new moodle_url('/mod/'.$cminfo->modname.'/view.php', ['id' => $cminfo->id]);
+            // $this->data->moduleurl = new moodle_url('/mod/'.$cminfo->modname.'/view.php', ['id' => $cminfo->id]);
+            $this->data->moduleurl = $cminfo->url;
+            $this->data->onclick = $cminfo->onclick;
+
+            $courserenderer = $PAGE->get_renderer('course');
+            $this->data->cmlink = $courserenderer->course_section_cm_name($cminfo, array());
 
             if (empty($this->data->layoutoption)) {
                 $this->data->layoutoption = 'thumbandtitle';
@@ -103,5 +108,53 @@ class customlabel_type_stealthactivity extends customlabel_type {
             $this->data->brokenmodule = true;
         }
     }
+
+    protected function course_section_cm_classes(cm_info $mod) {
+        $linkclasses = '';
+        $textclasses = '';
+        if ($mod->uservisible) {
+            $conditionalhidden = $this->is_cm_conditionally_hidden($mod);
+            $accessiblebutdim = (!$mod->visible || $conditionalhidden) &&
+                has_capability('moodle/course:viewhiddenactivities', $mod->context);
+            if ($accessiblebutdim) {
+                $linkclasses .= ' dimmed';
+                $textclasses .= ' dimmed_text';
+                if ($conditionalhidden) {
+                    $linkclasses .= ' conditionalhidden';
+                    $textclasses .= ' conditionalhidden';
+                }
+            }
+            if ($mod->is_stealth()) {
+                // Stealth activity is the one that is not visible on course page.
+                // It still may be displayed to the users who can manage it.
+                $linkclasses .= ' stealth';
+                $textclasses .= ' stealth';
+            }
+        } else {
+            $linkclasses .= ' dimmed';
+            $textclasses .= ' dimmed dimmed_text';
+        }
+        return array($linkclasses, $textclasses);
+    }
+
+    /**
+     * Checks if course module has any conditions that may make it unavailable for
+     * all or some of the students
+     *
+     * This function is internal and is only used to create CSS classes for the module name/text
+     *
+     * @param cm_info $mod
+     * @return bool
+     */
+    protected function is_cm_conditionally_hidden(cm_info $mod) {
+        global $CFG;
+        $conditionalhidden = false;
+        if (!empty($CFG->enableavailability)) {
+            $info = new \core_availability\info_module($mod);
+            $conditionalhidden = !$info->is_available_for_all();
+        }
+        return $conditionalhidden;
+    }
+
 }
 

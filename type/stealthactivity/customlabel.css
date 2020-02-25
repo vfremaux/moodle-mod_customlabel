@@ -40,3 +40,8 @@ td.custombox-content.stealtactivity h3 {
     font-weight: bolder;
     padding-left: 0;
 }
+
+.custombox-header-caption.stealthactivity,
+.custombox-header-image.stealthactivity {
+    display: inline-block;
+}
