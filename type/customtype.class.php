@@ -49,7 +49,11 @@ class customlabel_type {
         $this->type = $type;
         $this->fields = array();
         $this->instance = $data;
-        $this->data = json_decode(base64_decode(@$data->content));
+        if (isset($data->content)) {
+            $this->data = json_decode(base64_decode($data->content));
+        } else {
+            $this->data = $data;
+        }
         $this->fullaccess = true;
     }
 
@@ -270,8 +274,8 @@ class customlabel_type {
     public function postprocess_icon() {
         global $OUTPUT;
 
-        // Old compat - Deprecated.
         $iconurl = $OUTPUT->image_url('icon_'.$this->type, 'customlabeltype_'.$this->type);
+        // Old compat - Deprecated.
         $this->data->icon = $iconurl;
         $this->data->iconurl = $iconurl;
     }

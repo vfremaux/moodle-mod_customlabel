@@ -11,6 +11,10 @@
     font-weight: initial;
 }
 
+.customlabel.label b {
+    font-weight: bolder;
+}
+
 .constraint-cell {
     text-align: center;
 }
@@ -40,4 +44,20 @@ form[name="chooseset"] {
 
 .customlabel-constraint-select.green {
     background-color:#bbfaa3;
+}
+
+td.custombox-header-thumb,
+td.custombox-thumb {
+    padding-top: 1.2em;
+}
+
+@media all and (max-width: 480px) {
+    td.custombox-header-thumb {
+        background-size: 100%;
+        padding-top: 0.2em;
+    }
+
+    .custombox-header-thumb:after {
+        font-size: 18px;
+    }
 }

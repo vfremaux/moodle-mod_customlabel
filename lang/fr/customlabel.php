@@ -47,6 +47,7 @@ $string['disabledsubtypesdesc'] = 'Tout type mentionné dans ce champ sera désa
 $string['customlabelplugins'] = 'Plugins';
 $string['settings'] = 'Réglages';
 $string['choose'] = 'Choisir';
+$string['errorreservedname'] = '"TYPE" est un nom réservé et ne peut être admis comme code de catégorie ou de filtre.';
 $string['save'] = 'Enregistrer';
 $string['managecustomlabeltypeplugins'] = 'Gérer les sous-plugins de l\'élément de cours';
 $string['doupdate'] = 'Régénérer !!';
