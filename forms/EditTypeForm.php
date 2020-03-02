@@ -77,7 +77,7 @@ class EditTypeForm extends moodleform {
             $errors['name'] = get_string('emptytypenameerror', 'customlabel');
         }
 
-        if (in_array($data['code'], ['type'])) {
+        if (in_array($data['code'], ['type']) {
             $errors['code'] = get_string('errorreservedname', 'customlabel');
         }
 

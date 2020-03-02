@@ -35,3 +35,21 @@ $string['readmore'] = 'Read more...';
 $string['readless'] = 'Read less...';
 
 $string['family'] = 'generic';
+
+$string['template'] = '
+<!-- standard default template for unclassed label. Don\'t change -->
+<div class="custombox-text">
+<%%textcontent%%>
+</div>
+<%if %%readmorecontent%% %>
+<div class="custombox-text readmorelink">
+    <a href="javascript:togglecustomstring(\'<%%customid%%>\', \'Read more...\', \'Read less...\')" ><span id="customctl<%%customid%%>"><%%initialstring%%></span></a>
+</div>
+<div class="custombox-text readmore" id="custom<%%customid%%>">
+<%%readmorecontent%%>
+</div>
+<%endif %>
+<script type="text/javascript">
+setupcustomstring(\'<%%customid%%>\', \'<%%initiallyvisible%%>\', \'Read more...\', \'Read less...\');
+</script>
+';

@@ -134,10 +134,6 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 $mform->addElement('hidden', $field->name, @$field->default);
                 $mform->setType($field->name, PARAM_TEXT);
 
-            } else if ($field->type == 'header') {
-
-                $mform->addElement('header', $field->name, $field->header);
-
             } else if ($field->type == 'choiceyesno') {
 
                 $mform->addElement('selectyesno', $field->name, $fieldlabel);
