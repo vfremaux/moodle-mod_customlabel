@@ -99,7 +99,7 @@ class customlabel_type_theorema extends customlabel_type {
 
         $minusurl = $OUTPUT->image_url('minus', 'customlabel');
         $plusurl = $OUTPUT->image_url('plus', 'customlabel');
-        $this->data->initialcontrolimageurl = ($this->data->demoinitiallyvisible) ? $minusurl : $plusurl;
+        $this->data->initialcontrolimageurl = (@$this->data->demoinitiallyvisible) ? $minusurl : $plusurl;
         $this->data->corollarylist = "<ul class=\"customlabel-corollaries theorema\">\n";
         for ($i = 0; $i < $this->data->corollarynum; $i++) {
             $key = 'corollary'.$i;
@@ -107,15 +107,15 @@ class customlabel_type_theorema extends customlabel_type {
             $this->data->corollarylist .= (isset($this->data->$key)) ? "<li><i>{$title} :</i> {$this->data->$key}</li>\n" : '';
         }
         $this->data->corollarylist .= "</ul>\n";
-        $this->data->initialclass = ($this->data->demoinitiallyvisible) ? '' : 'hidden';
+        $this->data->initialclass = (@$this->data->demoinitiallyvisible) ? '' : 'hidden';
         $this->data->customid = $this->cmid;
-        if ($this->data->showdemonstrationon->enabled) {
-            $qdate = mktime($this->data->showdemonstrationon->hour,
-                            $this->data->showdemonstrationon->minute,
+        if (@$this->data->showdemonstrationon->enabled) {
+            $qdate = mktime(@$this->data->showdemonstrationon->hour,
+                            @$this->data->showdemonstrationon->minute,
                             0,
-                            $this->data->showdemonstrationon->month,
-                            $this->data->showdemonstrationon->day,
-                            $this->data->showdemonstrationon->year);
+                            @$this->data->showdemonstrationon->month,
+                            @$this->data->showdemonstrationon->day,
+                            @$this->data->showdemonstrationon->year);
             if ($qdate < time()) {
                 $this->data->canshow = true;
             }

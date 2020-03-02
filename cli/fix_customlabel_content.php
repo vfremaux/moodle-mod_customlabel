@@ -41,7 +41,7 @@ Options:
     --dryrun                Changes nothing in db, just tell
     --course                Just process this course
 
-    \$ sudo -u www-data /usr/bin/php mod/customlabel/cli/fix_course_metadata.php [--host=http://myvhost.mymoodle.org]
+    \$ sudo -u www-data /usr/bin/php mod/customlabel/cli/fix_customlabel_content.php [--host=http://myvhost.mymoodle.org]
     ";
 
 

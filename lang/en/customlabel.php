@@ -54,6 +54,7 @@ $string['errorclassloading'] = 'Error loading : Null class';
 $string['errorfailedloading'] = 'Failed loading class for custom label {$a}. Reverting to "text" customlabel.';
 $string['errorinsertvalue'] = 'Could not insert a new value';
 $string['errorupdatevalue'] = 'Could not update a new value';
+$string['errorreservedname'] = '"TYPE" is a reserved name and cannot be used as code.';
 $string['exportdata'] = 'Export data to XML';
 $string['labelclass'] = 'Label type';
 $string['labelclasses'] = 'Element classes';
