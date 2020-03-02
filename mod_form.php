@@ -110,6 +110,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
         $customlabelnextid = $DB->get_field('customlabel', 'MAX(id)', array()) + 1;
         $mform->setDefault('title', $customlabel->labelclass.'_'.$customlabelnextid);
         $mform->setType('title', PARAM_TEXT);
+        $mform->setAdvanced('title');
 
         if (!$customclass) {
             print_error("Custom label class lacks of definition");
@@ -132,6 +133,10 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
                 $mform->addElement('hidden', $field->name, @$field->default);
                 $mform->setType($field->name, PARAM_TEXT);
+
+            } else if ($field->type == 'header') {
+
+                $mform->addElement('header', $field->name, $field->header);
 
             } else if ($field->type == 'choiceyesno') {
 

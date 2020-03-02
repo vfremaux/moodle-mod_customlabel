@@ -73,7 +73,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id" />
       </KEYS>
       <INDEXES>
-        <INDEX NAME="ix_courseid_valueid" UNIQUE="true" FIELDS="courseid, valueid" />
+        <INDEX NAME="ix_courseid_valueid" UNIQUE="true" FIELDS="courseid, valueid, cmid" />
       </INDEXES>
     </TABLE>
     <TABLE NAME="customlabel_mtd_constraint" COMMENT="customlabel_mtd_constraint table retrofitted from MySQL">

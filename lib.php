@@ -232,7 +232,6 @@ function customlabel_delete_instance($id) {
 
     $instance = customlabel_load_class($customlabel, true);
     if ($instance) {
-        debug_trace("Calling on delete for $customlabel->labelclass:$cm->id ");
         $instance->on_delete();
     }
 
@@ -313,7 +312,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
 
     // Improve page format by testing if in current visble page.
     if ($COURSE->format == 'page') {
-        $current = course_page::get_current_page($COURSE->id);
+        $current = \format\page\course_page::get_current_page($COURSE->id);
         if (!$DB->record_exists('format_page_items', array('cmid' => $cminfo->id, 'pageid' => $current->id))) {
             return;
         }
@@ -372,28 +371,14 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         return;
     }
 
-    $context = context_module::instance($cminfo->id);
-    $fileprocessedcontent = $customlabel->processedcontent;
-    foreach ($instance->fields as $field) {
-        if ($field->type == 'editor' || $field->type == 'textarea') {
-            if (!isset($field->itemid) || is_null($field->itemid)) {
-                $message = 'Course element textarea subfield needs explicit itemid in definition ';
-                $message .= $customlabel->labelclass.'::'.$field->name;
-                throw new coding_exception($message);
-            }
-            $fileprocessedcontent = customlabel_file_rewrite_pluginfile_urls($fileprocessedcontent, 'pluginfile.php',
-                                                                             $context->id, 'mod_customlabel', 'contentfiles',
-                                                                             $field->itemid);
-        }
-    }
-
     // Specific >= 3.5
     $info = optional_param('info', '', PARAM_TEXT);
     $gettingmoduleupdate = in_array($info, array('core_course_get_module', 'core_course_edit_module'));
     global $FULLME;
     $ispluginfile = preg_match('/pluginfile/', $FULLME);
+    $istogglecompletion = preg_match('/togglecompletion/', $FULLME);
 
-    if (!$ispluginfile && (($PAGE->pagetype != 'course-modedit') && !AJAX_SCRIPT) || $gettingmoduleupdate) {
+    if (!$ispluginfile && (($PAGE->pagetype != 'course-modedit') && !AJAX_SCRIPT && !$istogglecompletion) || $gettingmoduleupdate) {
 
         // In edit form, some race conditions between theme and rendering goes wrong when not admin...
         $instance->preprocess_data();
@@ -401,12 +386,28 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         $instance->process_datasource_fields();
         try {
             $instance->postprocess_data();
-            $instance->postprocess_icon();
+            if ($PAGE->state == moodle_page::STATE_BEFORE_HEADER) {
+                $instance->postprocess_icon();
+            }
             $template = 'customlabeltype_'.$customlabel->labelclass.'/template';
             $content = $OUTPUT->render_from_template($template, $instance->data);
         } catch (Exception $e) {
             assert(1);
             // Quiet any exception here. Resolve case of Editing Teachers.
+        }
+    }
+
+    $context = context_module::instance($cminfo->id);
+    foreach ($instance->fields as $field) {
+        if ($field->type == 'editor' || $field->type == 'textarea') {
+            if (!isset($field->itemid) || is_null($field->itemid)) {
+                $message = 'Course element textarea subfield needs explicit itemid in definition ';
+                $message .= $customlabel->labelclass.'::'.$field->name;
+                throw new coding_exception($message);
+            }
+            $content = customlabel_file_rewrite_pluginfile_urls($content, 'pluginfile.php',
+                                                                             $context->id, 'mod_customlabel', 'contentfiles',
+                                                                             $field->itemid);
         }
     }
 

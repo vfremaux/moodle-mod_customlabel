@@ -8,7 +8,7 @@ table.custombox-worktodo {
 }
 
 .custombox-header-thumb.worktodo {
-    background-image: url("/mod/customlabel/type/worktodo/pix/icon_todo_small.png");
+    background-image: url("/mod/customlabel/type/worktodo/pix/icon_worktodo_small.png");
     background-repeat: no-repeat;
     height: 73px;
     min-width: 25px;
@@ -17,7 +17,7 @@ table.custombox-worktodo {
 
 #region-main td.custombox-header-thumb.worktodo,
 #page-region-main td.custombox-header-thumb.worktodo {
-    background-image: url("/mod/customlabel/type/worktodo/pix/icon_todo.png");
+    background-image: url("/mod/customlabel/type/worktodo/pix/icon_worktodo.png");
     background-repeat: no-repeat;
     height: 73px;
     min-width: 65px;

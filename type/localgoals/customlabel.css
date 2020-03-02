@@ -9,7 +9,7 @@ table.custombox.localgoals {
 }
 
 td.custombox-header-thumb.localgoals {
-    background-image: url("/mod/customlabel/type/localgoals/pix/icon_goals_small.png"); 
+    background-image: url("/mod/customlabel/type/localgoals/pix/icon_localgoals_small.png"); 
     background-repeat: no-repeat;
     height: 73px;
     min-width: 25px;
@@ -18,7 +18,7 @@ td.custombox-header-thumb.localgoals {
 
 #region-main td.custombox-header-thumb.localgoals,
 #page-region-main td.custombox-header-thumb.localgoals {
-    background-image: url("/mod/customlabel/type/localgoals/pix/icon_goals.png"); 
+    background-image: url("/mod/customlabel/type/localgoals/pix/icon_localgoals.png"); 
     background-repeat: no-repeat;
     height: 73px;
     min-width: 65px;

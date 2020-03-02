@@ -8,7 +8,7 @@ table.custombox-soluce {
 }
 
 .custombox-header-thumb.soluce {
-    background-image: url("/mod/customlabel/type/soluce/pix/icon_solution_small.png");
+    background-image: url("/mod/customlabel/type/soluce/pix/icon_soluce_small.png");
     background-repeat: no-repeat;
     height: 73px;
     min-width: 25px;
@@ -17,7 +17,7 @@ table.custombox-soluce {
 
 #region-main .custombox-header-thumb.soluce,
 #page-region-main .custombox-header-thumb.soluce {
-    background-image: url("/mod/customlabel/type/soluce/pix/icon_solution.png");
+    background-image: url("/mod/customlabel/type/soluce/pix/icon_soluce.png");
     background-repeat: no-repeat;
     height: 73px;
     min-width: 65px;
