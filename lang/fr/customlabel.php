@@ -40,13 +40,14 @@ $string['changetypeadvice'] = 'Vous allez changer la structure de cet élement.\
 $string['cleararea'] = 'Vider cette zone de fichiers';
 $string['lpclassificationhdr'] = 'Cours classés';
 $string['customlabeltools'] = 'Outils de masse pour les éléments personnalisables';
-$string['cssoverrides'] = 'Surcharges CSS';
-$string['cssoverridesdesc'] = 'Si ce champ est rempli avec des règles de style, alors ces règles seront rajoutées à la feuille de style générale pour modifier l\'apparence des elements de cours. Ceci nécessite une intervention dans le theme pour définir le point d\'insertion. Voir le fichier README.txt';
+$string['defaultskin'] = 'Skin par défaut';
+$string['defaultskin_desc'] = 'Un preset de style pour les elements de cours';
 $string['disabledsubtypes'] = 'Types d\'éléments désactivés';
 $string['disabledsubtypesdesc'] = 'Tout type mentionné dans ce champ sera désactivé au niveau site. Les contenus existants pour ce type d\'éléments seront ignorés.';
 $string['customlabelplugins'] = 'Plugins';
 $string['settings'] = 'Réglages';
 $string['choose'] = 'Choisir';
+$string['errorreservedname'] = '"TYPE" est un nom réservé et ne peut être admis comme code de catégorie ou de filtre.';
 $string['save'] = 'Enregistrer';
 $string['managecustomlabeltypeplugins'] = 'Gérer les sous-plugins de l\'élément de cours';
 $string['doupdate'] = 'Régénérer !!';
@@ -85,6 +86,13 @@ $string['typecode'] = 'Code';
 $string['show'] = 'Montrer&ensp;';
 $string['typetype'] = 'Type';
 $string['withcompletions'] = 'Réinitialier aussi les achèvements des labels';
+
+// Skins
+$string['defaultstyle'] = 'Apparence par défaut';
+$string['flatstyle'] = 'Style "Flat design"';
+$string['coloredstyle'] = 'Titres colorés';
+$string['flatcoloredstyle'] = '"Flat design" et titres colorés';
+
 
 $string['typecode_help'] = '
 <p>Ce code peut aider les extractions et exploitations de données dans des systèmes tiers à partir d\'extractions produites dans les blocs
@@ -154,19 +162,21 @@ $string['notypes'] = 'Aucun classifieur défini';
 $string['model'] = 'Data Model';
 $string['classificationmodel'] = 'Modèle de données pour classification';
 $string['classificationtypetable'] = 'Table des domaines';
-$string['classificationtypetable_help'] = 'This table provides domains of classification. A domain holds a set of values.';
+$string['classificationtypetable_help'] = 'Cette table contient les domaines de classification et les filtres. Un domaine ou filtre est associé à un jeu de valeurs.';
 $string['classificationvaluetable'] = 'Table des valeurs de domaine';
-$string['classificationvaluetable_help'] = 'This table provides all values for all classifiers defined in the Type Table.';
+$string['classificationvaluetable_help'] = 'Cette table contient l\'ensemble des tags pour tous les classifieurs et filtres.';
 $string['classificationvaluetypekey'] = 'Clef de type pour les valeurs';
-$string['classificationvaluetypekey_help'] = 'This must define the table column name that is used to key the type ownership on values.';
+$string['classificationvaluetypekey_help'] = 'Ceci définit le nom de la colonne de la table de valeurs qui pointe la définition du domaine ou filtre.';
 $string['classificationconstrainttable'] = 'Table des contraintes';
-$string['classificationconstrainttable_help'] = 'This table is capable to map the value pairs wich are not compatible.';
+$string['classificationconstrainttable_help'] = 'Cette table enregistre l\'ensemble des couples qui forment des associations valides de valeur entre les différents jeux de tags.';
 $string['coursemetadatatable'] = 'Table des métadonnées de cours';
-$string['coursemetadatatable_help'] = 'This table provides course to metadata bindings.';
+$string['coursemetadatatable_help'] = 'Cette table lie les cours et les tags de métadonnées.';
+$string['coursemetadatacmidkey'] = 'Clef des identifiants de module (source de la métadonnée)';
+$string['coursemetadatacmidkey_help'] = 'Ceci définit le nom de colonne dans la table de métadonnées qui lie l\'affectation de métadonnée à un module de cours qui en a été à l\'origine.';
 $string['coursemetadatavaluekey'] = 'Clef des valeurs (métadonnées de cours)';
-$string['coursemetadatavaluekey_help'] = 'This must define a column name in database that maps a record to a metadata value.';
+$string['coursemetadatavaluekey_help'] = 'Ceci définit le nom de colonne dans la table de métadonnée qui pointe une métadonnée affectée à un cours.';
 $string['coursemetadatacoursekey'] = 'Clef de cours (métadonnées de cours)';
-$string['coursemetadatacoursekey_help'] = 'This must define a column name in database that maps a record to a course ID.';
+$string['coursemetadatacoursekey_help'] = 'Ceci définit le nom de colonne dans la table de métadonnée qui pointe le cours auquel la métadonnée est attribuée.';
 
 // Known types.
 $string['text'] = 'Texte';

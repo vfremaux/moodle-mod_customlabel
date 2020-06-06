@@ -21,21 +21,20 @@
     * no classes
 }}
 <!-- customlabeltype_coursedata/example -->
-<table class="custombox-example" width="100%">
+{{> mod_customlabel/start }}
 
-    <tr valign="top">
-        <td class="custombox-header-thumb example" style="background-image : url({{{iconurl}}});" width="2%" rowspan="2">
-        </td>
-        <td class="custombox-header-caption example" width="98%">
-            {{#str}}example, customlabeltype_example{{/str}}
-        </td>
-    </tr>
+    <div class="custombox-container {{labelclass}}">
+        <div class="custombox-flexline {{labelclass}}">
+            <div class="custombox-header-caption {{labelclass}} {{skin}}">
+                <h4>{{#str}}example, customlabeltype_example{{/str}}</h4>
+            </div>
+        </div>
 
-    <tr>
-        <td class="custombox-content example">
+        <div class="custombox-flexline {{labelclass}}">
+            <div>
             {{{example}}}
-        </td>
-    </tr>
-
-</table>
+            </div>
+        </div>
+    </div>
+{{> mod_customlabel/end }}
 <!-- /customlabeltype_coursedata/example -->

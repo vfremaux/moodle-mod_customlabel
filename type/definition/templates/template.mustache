@@ -21,33 +21,29 @@
     * no classes
 }}
 <!-- customlabeltype_definition/template -->
-<table class="custombox-definition" width="100%">
-    <tr valign="top">
-        <td class="custombox-header-thumb definition" style="background-image : url({{{iconurl}}});" width="2%" rowspan="2">
-        </td>
-        <td class="custombox-header-caption definition" width="98%">
-            {{#str}}definition, customlabeltype_definition{{/str}}
-        </td>
-    </tr>
+{{> mod_customlabel/start }}
+    <div class="custombox-container {{labelclass}}">
+        <div class="custombox-flexline {{labelclass}}">
+            <div class="custombox-header-caption {{labelclass}}" width="98%">
+                <h4>{{#str}}definition, customlabeltype_definition{{/str}}</h4>
+            </div>
+        </div>
 
-    <tr valign="top">
-        <td class="custombox-content definition">
+        <div class="custombox-flexline {{labelclass}}">
+            <div>
             {{{definition}}}
-        </td>
-    </tr>
+            </div>
+        </div>
 
-    {{#hassubdefs}}
-    <tr valign="top">
-        <td class="custombox-foo definition" width="2%"></td>
-        <td class="custombox-subdefinitions definition">
-            <ul class=\"customlabel-subdefinition definition\">
+        {{#hassubdefs}}
+        <div class="custombox-flexline {{labelclass}}">
+            <ul class="customlabel-subdefinition {{labelclass}}">
             {{#subdefs}}
                 <li>{{{subdef}}}</li>
             {{/subdefs}}
             </ul>
-        </td>
-    </tr>
-    {{/hassubdefs}}
-
-</table>
+        </div>
+        {{/hassubdefs}}
+    </div>
+{{> mod_customlabel/end }}
 <!-- /customlabeltype_definition/template -->

@@ -22,20 +22,19 @@
 
 }}
 <!-- customlabeltype_method/template -->
-<table class="custombox-method" width="100%">
+{{> mod_customlabel/start }}
+    <div class="custombox-container {{labelclass}}">
+        <div class="custombox-flexline {{labelclass}}">
+            <div class="custombox-header-caption {{labelclass}}" width="98%">
+                <h4>{{#str}}method, customlabeltype_method{{/str}}</h4>
+            </div>
+        </div>
 
-    <tr valign="top">
-        <td class="custombox-header-thumb method" style="background-image : url({{{iconurl}}});" width="2%" rowspan="2">
-        </td>
-        <td class="custombox-header-caption method" width="98%">
-            {{#str}}method, customlabeltype_method{{/str}}
-        </td>
-    </tr>
+        <div class="custombox-flexline {{labelclass}}">
+            <div>
+                {{{methodtext}}}
+            </div>
+        </div>
 
-    <tr valign="top">
-        <td class="custombox-content methodtext">
-            {{{methodtext}}}
-        </td>
-    </tr>
-
-</table>
+{{> mod_customlabel/end }}
+<!-- /customlabeltype_method/template -->

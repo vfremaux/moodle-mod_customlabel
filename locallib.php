@@ -171,7 +171,7 @@ function customlabel_load_class($customlabel, $quiet = false) {
     if (file_exists($classfile)) {
         include_once($classfile);
         $constructorfunction = "customlabel_type_{$customlabel->labelclass}";
-        $instance = new $constructorfunction($customlabel);
+        $instance = new $constructorfunction($customlabel, $customlabel->labelclass);
         return $instance;
     } else {
         if (debugging()) {
@@ -196,6 +196,10 @@ function customlabel_process_fields(&$customlabelrec, &$instance) {
              * mform->get_data() seems keeping the old form result.
              */
             $customlabelrec->{$fieldname} = @$_REQUEST[$fieldname];
+        }
+
+        if ($customlabelrec->{$fieldname} == '_qf__force_multiselect_submission') {
+            $customlabelrec->{$fieldname} = '';
         }
 
         if (preg_match('/editor/', $field->type)) {

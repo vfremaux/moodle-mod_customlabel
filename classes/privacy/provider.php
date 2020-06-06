@@ -44,7 +44,7 @@ class provider implements \core_privacy\local\metadata\provider {
      * @param   int           $userid       The user to search.
      * @return  contextlist   $contextlist  The list of contexts used in this plugin.
      */
-  public static function get_contexts_for_userid(int $userid) : contextlist {
+    public static function get_contexts_for_userid(int $userid) : contextlist {
         $contextlist = new contextlist();
 
         // Fetching customodules context should be sufficiant to get contexts where user is involved in.

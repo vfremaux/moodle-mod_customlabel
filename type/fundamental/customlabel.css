@@ -1,37 +1,63 @@
-table.custombox-fundamental {
+.custombox-fundamental {
     width: 100%;
 }
 
-td.custombox-header-thumb.fundamental {
-    border-right: 1px solid #f00000 !important;
-    padding-right: 8px;
+.custombox-header-thumb.fundamental.colored {
+    border-right: 1px solid #d2567f;
 }
 
-td.custombox-header-thumb.fundamental {
-    background-image: url("/mod/customlabel/type/fundamental/pix/icon_fundamental_small.png");
+.custombox-header-caption.fundamental.colored {
+    color: #d2567f;
+}
+
+.custombox-header-thumb.fundamental {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_fundamental.png");
     background-repeat: no-repeat;
     height: 73px;
-    min-width: 25px;
-    width: 25px;
 }
 
-#region-main td.custombox-header-thumb.fundamental,
-#page-region-main td.custombox-header-thumb.fundamental {
-    background-image: url("/mod/customlabel/type/fundamental/pix/icon_fundamental.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
+#region-main .custombox-header-thumb.fundamental,
+#page-region-main .custombox-header-thumb.fundamental {
+    min-width: 80px;
+    width: 80px;
 }
 
-td.custombox-header-caption.fundamental {
-    color: #d83030;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
+#page-region-pre .custombox-header-thumb.fundamental,
+#region-pre .custombox-header-thumb.fundamental,
+#region-post .custombox-header-thumb.fundamental,
+#page-region-post .custombox-header-thumb.fundamental {
+    background-size: 70%;
+    min-width: 35px;
+    width: 35px;
 }
 
-td.custombox-content.fundamentaltext {
+.custombox-content.fundamentaltext {
     min-height: 100px;
-    padding-left: 8px;
+}
+
+.custombox-header-thumb.fundamental.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/A94C9A_spot.png");
+    text-align: center;
+}
+
+#region-main .custombox-header-thumb.fundamental.flatstyle,
+#page-region-main .custombox-header-thumb.fundamental.flatstyle {
+    background-position: 30% 0%;
+}
+
+.custombox-header-thumb.fundamental.flatstyle:after {
+    content: "\f19c";
+    font-family: "fontAwesome";
+    color: white;
+    font-size: 32px;
+}
+
+#page-region-pre .custombox-header-thumb.fundamental.flatstyle:after,
+#region-pre .custombox-header-thumb.fundamental.flatstyle:after,
+#region-post .custombox-header-thumb.fundamental.flatstyle:after,
+#page-region-post .custombox-header-thumb.fundamental.flatstyle:after {
+    font-size: 12px;
+    position: relative;
+    top: -15px;
+    left: -5px;
 }

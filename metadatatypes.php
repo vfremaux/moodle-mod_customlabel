@@ -126,7 +126,8 @@ if ($types) {
             $cmdurl->params(array('view' => 'classifiers', 'what' => 'down', 'typeid' => $atype->id));
             $cmds .= ' <a href="'.$cmdurl.'" title="'.$downstr.'">'.$pixicon.'</a>';
         }
-        $link = "<a href=\"{$url}?view=qualifiers&typeid={$atype->id}\">{$atype->name}</a> ";
+        $typename = format_string($atype->name);
+        $link = "<a href=\"{$url}?view=qualifiers&typeid={$atype->id}\">{$typename}</a> ";
         $counturl = new moodle_url('/mod/customlabel/showclassified.php', array('typeid' => $atype->id));
         $img = $OUTPUT->pix_icon('/t/hide', get_string('hide'));
         $coursecount = ($atype->courses) ? '<a href="'.$counturl.'">'.$atype->courses.' '.$img.'</a>' : 0;

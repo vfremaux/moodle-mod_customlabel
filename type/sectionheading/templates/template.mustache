@@ -26,9 +26,9 @@
     <tr valign="top" class="custombox-icon sectionheading">
 
         {{#toleft}}
-        <td width="{{imagewidth}}" class="custombox-icon-left sectionheading" align="center"
-                   style="background:url({{{imageurl}}}) 50% 50% no-repeat transparent">
-            {{overimagetext}}
+        <td width="{{imagewidth}}" class="custombox-icon-left sectionheading" align="center">
+            <img src="{{{imageurl}}}"  style="z-index: 1"/>
+            <div class="overimage" style="z-index: 2">{{overimagetext}}</div>
         </td>
         {{/toleft}}
 
@@ -38,9 +38,9 @@
         </td>
 
         {{#toright}}
-        <td width="{{imagewidth}}" class="custombox-icon-right sectionheading" align="center"
-                   style="background:url({{{imageurl}}}) 50% 50% no-repeat transparent">
-            {{overimagetext}}
+        <td width="{{imagewidth}}" class="custombox-icon-right sectionheading" align="center">
+            <img src="{{{imageurl}}}"  style="z-index: 1" />
+            <div class="overimage" style="z-index: 2">{{overimagetext}}</div>
         </td>
         {{/toright}}
 

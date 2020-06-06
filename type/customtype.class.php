@@ -49,7 +49,11 @@ class customlabel_type {
         $this->type = $type;
         $this->fields = array();
         $this->instance = $data;
-        $this->data = json_decode(base64_decode(@$data->content));
+        if (isset($data->content)) {
+            $this->data = json_decode(base64_decode($data->content));
+        } else {
+            $this->data = $data;
+        }
         $this->fullaccess = true;
     }
 
@@ -270,8 +274,8 @@ class customlabel_type {
     public function postprocess_icon() {
         global $OUTPUT;
 
-        // Old compat - Deprecated.
         $iconurl = $OUTPUT->image_url('icon_'.$this->type, 'customlabeltype_'.$this->type);
+        // Old compat - Deprecated.
         $this->data->icon = $iconurl;
         $this->data->iconurl = $iconurl;
     }
@@ -289,98 +293,34 @@ class customlabel_type {
         return $this->data->processedcontent;
     }
 
-    /**
-     * @param string $lang if set, will compile only content for this language. If not set and multilang filtering is on,
-     * will compile as many versions of templates per installed language, pursuant proper template is available.
-     * DEPRECATED. 
-     */
-    public function make_content($lang = '', $course = null) {
-        global $PAGE;
+    public function make_content() {
+        global $OUTPUT, $PAGE;
 
-        $this->preprocess_data(); // Hooking to subclasses specialization.
+        $config = get_config('customlabel');
+
+        $content = '';
+        $this->preprocess_data();
         $this->process_form_fields();
         $this->process_datasource_fields();
-        $this->postprocess_data($course); // Hooking to subclasses specialization after all field and source field processing done.
-        $this->postprocess_icon();
-        $this->data->currenttheme = $PAGE->theme->name;
-        $this->data->title = $this->title;
-        $this->data->processedcontent = $this->make_template($lang);
+        try {
+            $this->postprocess_data();
+            $this->postprocess_icon();
+            $this->data->labelclass = $this->type;
+            $template = 'customlabeltype_'.$this->type.'/template';
+            $this->data->skin = $config->defaultskin;
 
-        if (empty($this->data->processedcontent)) {
-            // Arbitrary name if missing.
-            $this->data->processedcontent = "customlabel{$customlabel->instance}";
-        }
-
-        $this->posttemplate_data();
-
-        return $this->data->processedcontent;
-    }
-
-    /**
-     * realizes the template (the standard way is to compile content fields
-     * in a HTML template.
-     */
-    public function make_template($lang = '') {
-        global $CFG, $USER, $COURSE;
-
-        $content = '';
-        $context = context_course::instance($COURSE->id);
-
-        if (!empty($lang)) {
-             $languages[] = $lang;
-        } else {
-            if (strpos(@$CFG->textfilters, 'filter/multilang') !== false ||
-                    strpos(@$CFG->textfilters, 'filter/multilangenhanced') !== false) {
-                // We have multilang.
-                $languages = array_keys(get_list_of_languages());
-            } else {
-                $languages[] = current_language();
-            }
-        }
-
-        $content = '';
-        foreach ($languages as $lang) {
-            $template = $this->get_template($lang);
-            if (!$template && !empty($CFG->defaultlang)) {
-                $template = $this->get_template($CFG->defaultlang);
+            $themename = $PAGE->theme->name;
+            $override = get_config('theme_'.$themename, 'customlabelskin');
+            if (!empty($override)) {
+                $this->data->skin = $override;
             }
 
-            if ($template) {
-                $contentlang = '<span class="multilang" lang="'.$lang.'" >';
-                $contentlang .= $this->process_conditional($template);
-                $contentlang .= '</span>';
-                if (!empty($this->data)) {
-                    $CFG->multilang_target_language = $lang;
-                    foreach ($this->data as $key => $value) {
-
-                        if (is_array($value) || is_object($value)) {
-                            continue;
-                        }
-                        if (file_exists($CFG->dirroot.'/filter/multilangenhanced/filter.php')) {
-                            include_once($CFG->dirroot.'/filter/multilangenhanced/filter.php');
-                            $filter = new filter_multilangenhanced($context, array());
-                            $cond = preg_match('/option$/', $key) || preg_match('/^http?:\/\//', $value);
-                            $formattedvalue = $cond ? $value : $filter->filter($value);
-                        } else {
-                            $formattedvalue = $value;
-                        }
-                        $contentlang = str_replace("<%%{$key}%%>", $formattedvalue, $contentlang);
-
-                    }
-                    // Cleanup any unused tags and final replacements.
-                    $contentlang = str_replace("<%%WWWROOT%%>", $CFG->wwwroot, $contentlang);
-                    $contentlang = str_replace("<%%COURSEID%%>", $COURSE->id, $contentlang);
-                    $contentlang = str_replace("<%%USERID%%>", $USER->id, $contentlang);
-                    $contentlang = preg_replace("/<%%.*?%%>/", '', $contentlang);
-                    unset($CFG->multilang_target_language);
-                }
-            } else {
-                $contentlang = '<span class="multilang" lang="'.$lang.'" >';
-                $contentlang .= get_string('nocontentforthislanguage', 'customlabel');
-                $contentlang .= '</span>';
-            }
-            $content .= $contentlang;
+            $content = $OUTPUT->render_from_template($template, $this->data);
+        } catch (Exception $e) {
+            assert(1);
+            // Quiet any exception here. Resolve case of Editing Teachers.
         }
+
         return $content;
     }
 
@@ -499,7 +439,7 @@ class customlabel_type {
                                 case 'dbfieldkeyed': {
                                     // Content is direct value of source fields.
                                     $sourcevalues = $this->get_datasource_values($field, $valuearray);
-                                    $this->data->{$name} = implode($sep, $sourcevalues);
+                                    $this->data->{$name} = format_string(implode($sep, $sourcevalues));
                                     break;
                                 }
 
@@ -520,7 +460,7 @@ class customlabel_type {
                                         include_once($CFG->dirroot.$field->source);
                                     }
                                     $functionname = $field->function;
-                                    $this->data->{$name} = $functionname($valuearray);
+                                    $this->data->{$name} = format_string($functionname($valuearray));
                                     break;
                                 }
                             }
@@ -528,7 +468,7 @@ class customlabel_type {
                     } else {
                         if ($field->source == 'dbfieldkeyed') {
                             // Fake a one value array.
-                            $this->data->{$name} = implode($sep, $this->get_datasource_values($field, array($valuearray)));
+                            $this->data->{$name} = format_string(implode($sep, $this->get_datasource_values($field, array($valuearray))));
                         } else {
                             if (!empty($this->data->{$name})) {
                                 $key = ''.$this->data->{$name};
@@ -558,7 +498,7 @@ class customlabel_type {
                     switch ($field->source) {
                         case 'dbfieldkeyed': {
                             $sourcevalue = $this->get_datasource_values($field, array($this->data->{$nameoption}));
-                            $this->data->{$name} = implode($sep, $sourcevalue);
+                            $this->data->{$name} = format_string(implode($sep, $sourcevalue));
                             break;
                         }
 
@@ -574,7 +514,7 @@ class customlabel_type {
                             }
                             $functionname = $field->function;
                             if (!empty($this->data->{$nameoption})) {
-                                $this->data->{$name} = $functionname(@$this->data->{$nameoption});
+                                $this->data->{$name} = format_string($functionname(@$this->data->{$nameoption}));
                             } else {
                                 $this->data->{$name} = '';
                             }
@@ -795,5 +735,41 @@ class customlabel_type {
             $class = 'customlabeltype_'.$this->type.'/customlabel';
             $PAGE->requires->js_call_amd($class, 'init');
         }
+    }
+
+    /*
+     * Fetchs the current theme name in a hard way, without invoking PAGE
+     * To be use in early steps of page construction to avoid theme initialisation issues.
+     */
+    protected function hard_fetch_theme_name() {
+        global $COURSE, $DB, $CFG;
+        static $coursethemes = [];
+
+        if (array_key_exists($COURSE->id, $coursethemes)) {
+            return $coursethemes[$COURSE->id];
+        }
+
+        if (!empty($COURSE->theme)) {
+            $coursethemes[$COURSE->id] = $COURSE->theme;
+            return $coursethemes[$COURSE->id];
+        }
+
+        $coursecat = $DB->get_record('course_categories', ['id' => $COURSE->category]);
+
+        if (!empty($coursecat->theme)) {
+            $coursethemes[$COURSE->id] = $coursecat->theme;
+            return $coursethemes[$COURSE->id];
+        }
+
+        while (!is_null($coursecat) && !empty($coursecat->parent)) {
+            $coursecat = $DB->get_record('course_categories', ['id' => $coursecat->parent]);
+            if (!empty($coursecat->theme)) {
+                $coursethemes[$COURSE->id] = $coursecat->theme;
+                return $coursethemes[$COURSE->id];
+            }
+        }
+
+        $coursethemes[$COURSE->id] = $CFG->theme;
+        return $coursethemes[$COURSE->id];
     }
 }

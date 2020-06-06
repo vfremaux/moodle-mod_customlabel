@@ -29,9 +29,13 @@ $string['formule:view'] = 'Can view the content';
 $string['formule:addinstance'] = 'Can add an instance';
 
 $string['pluginname'] = 'Course element: Formula';
-$string['typename'] = 'Formula';
+$string['typename'] = 'Formula ';
 $string['configtypename'] = 'Enable subtype Formula';
 $string['formuletext'] = 'Formula';
+$string['formulename'] = 'Formula name';
 $string['statement'] = 'Formula';
+$string['development'] = 'Development: ';
+$string['showdevelopment'] = 'Show development';
+$string['developmentinitiallyvisible'] = 'Development initially visible';
 
 $string['family'] = 'pedagogic';
