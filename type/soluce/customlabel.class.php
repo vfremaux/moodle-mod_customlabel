@@ -57,7 +57,7 @@ class customlabel_type_soluce extends customlabel_type {
     }
 
     public function preprocess_data($course = null) {
-        global $CFG, $OUTPUT;
+        global $OUTPUT;
 
         $minusurl = $OUTPUT->image_url('minus', 'customlabel');
         $plusurl = $OUTPUT->image_url('plus', 'customlabel');

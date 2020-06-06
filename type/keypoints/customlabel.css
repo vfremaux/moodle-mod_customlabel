@@ -1,41 +1,66 @@
-table.custombox-keypoints {
+.custombox-keypoints {
     width: 100%;
 }
 
-td.custombox-header-thumb.keypoints {
-    border-right:1px solid #F88A1D !important;
-    padding-right:8px;
+.custombox-header-thumb.keypoints.colored {
+    border-right: 1px solid #c76205;
 }
 
-td.custombox-header-thumb.keypoints {
-    background-image: url("/mod/customlabel/type/keypoints/pix/icon_keypoints_small.png"); 
+.custombox-header-caption.keypoints.colored {
+    color: #c76205;
+}
+
+.custombox-header-thumb.keypoints {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_keypoints.png");
     background-repeat: no-repeat;
     height:73px;
-    min-width:25px;
-    width:25px;
 }
 
-#region-main td.custombox-header-thumb.keypoints,
-#page-region-main td.custombox-header-thumb.keypoints {
-    background-image: url("/mod/customlabel/type/keypoints/pix/icon_keypoints.png");
-    background-repeat: no-repeat;
-    height:73px;
-    min-width:65px;
-    width:65px;
+#region-main .custombox-header-thumb.keypoints,
+#page-region-main .custombox-header-thumb.keypoints {
+    min-width:80px;
+    width:80px;
 }
 
-td.custombox-header-caption.keypoints {
-    color:#F88A1D;
-    font-size:1.3em;
-    font-weight:bolder;
-    padding-left:8px;
+#page-region-pre .custombox-header-thumb.keypoints,
+#region-pre .custombox-header-thumb.keypoints,
+#region-post .custombox-header-thumb.keypoints,
+#page-region-post .custombox-header-thumb.keypoints {
+    background-size: 70%;
+    min-width:35px;
+    width:35px;
 }
 
-td.custombox-content.keypoints {
-    min-height:100px;
-    padding-left:8px;
+.custombox-content.keypoints {
+    min-height: 100px;
 }
 
-td.custombox-content.keypoints ul {
+.custombox-content.keypoints ul {
     list-style-position: outside;
+}
+.custombox-header-thumb.keypoints.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/orangespot.png");
+    text-align: center;
+}
+
+#page-region-main .custombox-header-thumb.keypoints.flatstyle,
+#region-main .custombox-header-thumb.keypoints.flatstyle {
+    background-position: 30% 0%;
+}
+
+.custombox-header-thumb.keypoints.flatstyle:after {
+    content: "\f0f3"; /* fa-bell */
+    font-family: "fontAwesome";
+    color: white;
+    font-size:32px;
+}
+
+#page-region-pre .custombox-header-thumb.keypoints.flatstyle:after,
+#region-pre .custombox-header-thumb.keypoints.flatstyle:after,
+#region-post .custombox-header-thumb.keypoints.flatstyle:after,
+#page-region-post .custombox-header-thumb.keypoints.flatstyle:after {
+    font-size:12px;
+    position: relative;
+    top: -15px;
+    left: -5px;
 }

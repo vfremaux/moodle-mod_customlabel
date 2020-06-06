@@ -1,166 +1,119 @@
-table.custombox-contactpoint {
+.custombox-contactpoint {
     width: 100%;
 }
 
-td.custombox-header-thumb.contactpoint {
-    border-right: 1px solid #e0e0e0;
-    padding-right: 8px;
+.custombox-header-thumb.contactpoint.colored {
+    border-right: 1px solid #1d0299;
 }
 
-td.custombox-header-thumb.any {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_any_small.png");
+.custombox-header-caption.contactpoint.colored {
+    color: #1D0299;
+}
+
+.custombox-header-thumb.contactpoint {
     background-repeat: no-repeat;
     height: 73px;
-    min-width: 25px;
-    width: 25px;
 }
 
-#region-main td.custombox-header-thumb.any,
-#page-region-main td.custombox-header-thumb.any {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_any.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
+#region-main .custombox-header-thumb.contactpoint,
+#page-region-main .custombox-header-thumb.contactpoint {
+    min-width: 80px;
+    width: 80px;
 }
 
-td.custombox-header-thumb.anywritten {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_anywritten_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    width: 25px;
+#page-region-pre .custombox-header-thumb.contactpoint,
+#region-pre .custombox-header-thumb.contactpoint,
+#region-post .custombox-header-thumb.contactpoint,
+#page-region-post .custombox-header-thumb.contactpoint {
+    background-size: 70%;
+    min-width: 35px;
+    width: 35px;
 }
 
-#region-main td.custombox-header-thumb.anywritten,
-#page-region-main td.custombox-header-thumb.anywritten {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_anywritten.jpg");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
+.custombox-header-thumb.any {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_any.png");
 }
 
-td.custombox-header-thumb.phone {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_phone_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    width: 25px;
+.custombox-header-thumb.anywritten {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_anywritten.png");
 }
 
-#region-main td.custombox-header-thumb.phone,
-#page-region-main td.custombox-header-thumb.phone {
+.custombox-header-thumb.phone {
     background-image: url("/mod/customlabel/type/contactpoint/pix/icon_phone.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
 }
 
-td.custombox-header-thumb.mail{
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_mail_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    width: 25px;
-}
-
-#region-main td.custombox-header-thumb.mail,
-#page-region-main td.custombox-header-thumb.mail {
+.custombox-header-thumb.mail {
     background-image: url("/mod/customlabel/type/contactpoint/pix/icon_mail.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
 }
 
-td.custombox-header-thumb.meeting {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_meeting_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    width: 25px;
-}
-
-#region-main td.custombox-header-thumb.meeting,
-#page-region-main td.custombox-header-thumb.meeting {
+.custombox-header-thumb.meeting {
     background-image: url("/mod/customlabel/type/contactpoint/pix/icon_meeting.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
 }
 
-td.custombox-header-thumb.onlinevocal {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_onlinevocal_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    width: 25px;
-}
-
-#region-main td.custombox-header-thumb.onlinevocal,
-#page-region-main td.custombox-header-thumb.onlinevocal {
+.custombox-header-thumb.onlinevocal {
     background-image: url("/mod/customlabel/type/contactpoint/pix/icon_onlinevocal.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
 }
 
-td.custombox-header-thumb.chat {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_chat_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    width: 25px;
-}
-
-#region-main td.custombox-header-thumb.chat,
-#page-region-main td.custombox-header-thumb.chat {
+.custombox-header-thumb.chat {
     background-image: url("/mod/customlabel/type/contactpoint/pix/icon_chat.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
 }
 
-td.custombox-header-thumb.facetoface {
-    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_facetoface_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    width: 25px;
-}
-
-#region-main td.custombox-header-thumb.facetoface,
-#page-region-main td.custombox-header-thumb.facetoface {
+.custombox-header-thumb.facetoface {
     background-image: url("/mod/customlabel/type/contactpoint/pix/icon_facetoface.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
 }
 
-td.custombox-header-caption.contactpoint {
-    color: #b8b8b8;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
-}
-
-span.custombox-header-caption.contacttype {
-    color: #bdbddd;
-    font-size: 0.8em;
-    font-weight: bolder;
-    padding-left: 8px;
-    text-align: right;
-}
-
-td.custombox-content.contactpoint {
+.custombox-content.contactpoint {
     min-height: 100px;
-    padding-left: 8px;
 }
 
-td.custombox-content.contactpoint h1,
-td.custombox-content.contactpoint h2,
-td.custombox-content.contactpoint h3 {
-    background-image: none;
-    color: #585858;
-    font-weight: bolder;
-    padding-left: 0;
+/* contact points */
+.custombox-header-thumb.contactpoint.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/darkbluespot.png");
+    text-align: center;
+}
+
+#page-region-main .custombox-header-thumb.contactpoint.flatstyle,
+#region-main .custombox-header-thumb.contactpoint.flatstyle {
+    background-position: 30% 0%;
+}
+
+.custombox-header-thumb.contactpoint.flatstyle:after {
+    content: "\f0ec"; /* fa-exchange */
+    font-family: "fontAwesome";
+    color: white;
+    font-size: 32px;
+}
+
+.custombox-header-thumb.contactpoint.phone.flatstyle:after {
+    content: "\f095"; /* fa-phone */
+}
+
+.custombox-header-thumb.contactpoint.mail.flatstyle:after {
+    content: "\f0e0"; /* fa-envelope */
+}
+
+.custombox-header-thumb.contactpoint.onlinevocal.flatstyle:after {
+    content: "\f025"; /* fa-headphones */
+}
+
+.custombox-header-thumb.contactpoint.facetoface.flatstyle:after {
+    content: "\f183\f183"; /* fa-male * 2 */
+}
+
+.custombox-header-thumb.contactpoint.meeting.flatstyle:after {
+    content: "\f0c0"; /* fa-users */
+}
+
+.custombox-header-thumb.contactpoint.chat.flatstyle:after {
+    content: "\f120"; /* fa-terminal */
+}
+
+#page-region-pre .custombox-header-thumb.contactpoint.flatstyle:after,
+#region-pre .custombox-header-thumb.contactpoint.flatstyle:after,
+#region-post .custombox-header-thumb.contactpoint.flatstyle:after,
+#page-region-post .custombox-header-thumb.contactpoint.flatstyle:after {
+    font-size: 12px;
+    position: relative;
+    top: -15px;
+    left: -5px;
 }

@@ -1,37 +1,79 @@
-table.custombox-formule {
+.custombox-formule {
     width: 100%;
 }
 
-td.custombox-header-thumb.formule {
-    border-right: 1px solid #f00000 !important;
-    padding-right: 8px;
+.custombox-header-thumb.formule.colored {
+    border-right: 1px solid #f00000;
 }
 
-td.custombox-header-thumb.formule {
-    background-image: url("/mod/customlabel/type/formule/pix/icon_formule_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 25px;
-    width: 25px;
-}
-
-#region-main td.custombox-header-thumb.formule,
-#page-region-main td.custombox-header-thumb.formule {
-    background-image: url("/mod/customlabel/type/formule/pix/icon_formule.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
-}
-
-td.custombox-header-caption.formule {
+.custombox-header-caption.formule.colored {
     color: #d83030;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
 }
 
-td.custombox-content.formuletext {
+.custombox-header-thumb.formule {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_formule.png");
+    background-repeat: no-repeat;
+    height: 73px;
+}
+
+#region-main .custombox-header-thumb.formule,
+#page-region-main .custombox-header-thumb.formule {
+    min-width: 80px;
+    width: 80px;
+}
+
+#page-region-pre .custombox-header-thumb.formule,
+#region-pre .custombox-header-thumb.formule,
+#region-post .custombox-header-thumb.formule,
+#page-region-post .custombox-header-thumb.formule {
+    background-size: 70%;
+    min-width: 35px;
+    width: 35px;
+}
+
+.custombox-content.formule {
     min-height: 100px;
-    padding-left: 8px;
+}
+
+.custombox-formula-container {
+    width: 100%;
+    text-align: center;
+}
+
+.custombox-formula {
+    margin: auto;
+    font-size: 1.3em;
+    letter-spacing: 0.5px;
+    font-style: italic;
+    font-weight: normal;
+    padding:10px;
+    display: inline-block;
+}
+
+/* Formule */
+.custombox-header-thumb.formule.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/orangespot.png");
+    text-align: center;
+}
+
+#page-region-main .custombox-header-thumb.formule.flatstyle,
+#region-main .custombox-header-thumb.formule.flatstyle {
+    background-position: 30% 0%;
+}
+
+.custombox-header-thumb.formule.flatstyle:after {
+    content: "\F13D"; /* fa-anchor */
+    font-family: "fontAwesome";
+    color: white;
+    font-size: 32px;
+}
+
+#page-region-pre .custombox-header-thumb.formule.flatstyle:after,
+#region-pre .custombox-header-thumb.formule.flatstyle:after,
+#region-post .custombox-header-thumb.formule.flatstyle:after,
+#page-region-post .custombox-header-thumb.formule.flatstyle:after {
+    font-size:12px;
+    position: relative;
+    top: -15px;
+    left: -5px;
 }

@@ -1,0 +1,63 @@
+.custombox-prerequisite {
+    width: 100%;
+}
+
+.custombox-header-thumb.prerequisite.colored {
+    border-right: 1px solid #c76205;
+}
+
+.custombox-header-caption.prerequisite.colored {
+    color: #c76205;
+}
+
+.custombox-header-thumb.prerequisite {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_prerequisite.png");
+    background-repeat: no-repeat;
+    height: 73px;
+}
+
+#region-main .custombox-header-thumb.prerequisite,
+#page-region-main .custombox-header-thumb.prerequisite {
+    min-width: 80px;
+    width: 80px;
+}
+
+#page-region-pre .custombox-header-thumb.prerequisite,
+#region-pre .custombox-header-thumb.prerequisite,
+#region-post .custombox-header-thumb.prerequisite,
+#page-region-post .custombox-header-thumb.prerequisite {
+    background-size: 70%;
+    min-width: 35px;
+    width: 35px;
+}
+
+.custombox-content.prerequisite {
+    min-height: 100px;
+}
+
+.custombox-header-thumb.prerequisite.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/yellow_spot.png");
+    text-align: center;
+}
+
+#page-region-main .custombox-header-thumb.prerequisite.flatstyle,
+#region-main .custombox-header-thumb.prerequisite.flatstyle {
+    background-position: 30% 0%;
+}
+
+.custombox-header-thumb.prerequisite.flatstyle:after {
+    content: "\f00c...";
+    font-family: "fontAwesome";
+    color: white;
+    font-size: 32px;
+}
+
+#page-region-pre .custombox-header-thumb.prerequisite.flatstyle:after,
+#region-pre .custombox-header-thumb.prerequisite.flatstyle:after,
+#region-post .custombox-header-thumb.prerequisite.flatstyle:after,
+#page-region-post .custombox-header-thumb.prerequisite.flatstyle:after {
+    font-size: 12px;
+    position: relative;
+    top: -15px;
+    left: -5px;
+}

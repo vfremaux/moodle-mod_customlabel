@@ -16,10 +16,8 @@
 // jshint undef:false, unused:false, scripturl:true
 
 /**
- * Javascript controller for controlling the sections.
- *
- * @module     local_jmeterdriver/jobs
- * @package    local_jmeterdriver
+ * @module     customlabeltype_verticalspacer
+ * @package    customlabeltype
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define(['jquery', 'core/config', 'core/log'], function($, cfg, log) {
@@ -48,10 +46,10 @@ define(['jquery', 'core/config', 'core/log'], function($, cfg, log) {
             var fullid = that.attr('id').replace('verticalspacer-handle-', '');
             var spacerid = 'custombox-verticalspacer-' + fullid;
             var parts = fullid.split('-');
-            var courseid = parts[0];
             var customid = parts[1];
 
-            customboxverticalspacer.verticalspacerlocation[customid] = parseInt($('#' + spacerid).css('height').replace(/em|px/, ''));
+            var spacerheight = $('#' + spacerid).css('height').replace(/em|px/, '');
+            customboxverticalspacer.verticalspacerlocation[customid] = parseInt(spacerheight);
             customboxverticalspacer.verticalspacerpagelocation[customid] = e.pageY;
             customboxverticalspacer.catched = true;
             e.stopImmediatePropagation();
@@ -94,8 +92,8 @@ define(['jquery', 'core/config', 'core/log'], function($, cfg, log) {
             var fullid = that.attr('id').replace('verticalspacer-handle-', '');
             var parts = fullid.split('-');
             var spacerid = 'custombox-verticalspacer-' + fullid;
-            var courseid = parts[0];
             var customid = parts[1];
+            var dist, height, newheight;
 
             if (customboxverticalspacer.verticalspacerlocation[customid] != 0) {
                 dist = e.pageY - customboxverticalspacer.verticalspacerpagelocation[customid];
