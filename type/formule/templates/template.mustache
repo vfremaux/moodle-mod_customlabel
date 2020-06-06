@@ -22,21 +22,36 @@
 
 }}
 <!-- customlabeltype_commentbox/formule -->
-<table class="custombox-formule" width="100%">
+{{> mod_customlabel/start }}
+    <div class="custombox-container {{labelclass}}">
+        <div class="custombox-flexline {{labelclass}}">
+            <div class="custombox-header-caption {{labelclass}} {{skin}}">
+                <h4>{{#str}}statement, customlabeltype_formule{{/str}}{{#hasname}}: {{formulename}}{{/hasname}}</h4>
+            </div>
+        </div>
 
-    <tr valign="top">
-        <td class="custombox-header-thumb formule" style="background-image: url({{{iconurl}}});" width="2%" rowspan="2">
-        </td>
-        <td class="custombox-header-caption formule" width="98%">
-            {{#str}}statement, customlabeltype_formule{{/str}}
-        </td>
-    </tr>
+        <div class="custombox-flexline {{labelclass}}">
+            <div class="custombox-formula-container">
+                <div class="custombox-formula">
+                    {{{formuletext}}}
+                </div>
+            </div>
+        </div>
 
-    <tr valign="top">
-        <td class="custombox-content formuletext">
-            <div class="formule-container">{{{formuletext}}}</div>
-        </td>
-    </tr>
+        {{#showdevelopment}}
+        <div class="custombox-flexline {{labelclass}}">
+            <div class="custombox-development-caption {{labelclass}}">
+                <img id="customctl-{{{customid}}}" src="{{{initialcontrolimageurl}}}" class="customctl" /> {{#str}}development, customlabeltype_formule{{/str}}
+            </div>
+        </div>
 
-</table>
+        <div class="custombox-flexline {{labelclass}}">
+            <div id="custom-{{{customid}}}" class="custombox-developement {{labelclass}} {{initialclass}}">
+                {{{development}}}
+            </div>
+        </div>
+
+        {{/showdevelopment}}
+
+{{> mod_customlabel/end }}
 <!-- /customlabeltype_commentbox/formule -->

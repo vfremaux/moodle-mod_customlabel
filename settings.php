@@ -47,14 +47,36 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_heading('apparence', get_string('apparence', 'customlabel'), ''));
 
-    $key = 'customlabel/cssoverrides';
-    $label = get_string('cssoverrides', 'customlabel');
-    $desc = get_string('cssoverridesdesc', 'customlabel');
-    $settings->add(new admin_setting_configtextarea($key, $label, $desc, '', PARAM_RAW, 80, 10));
+    $key = 'customlabel/defaultskin';
+    $label = get_string('defaultskin', 'customlabel');
+    $desc = get_string('defaultskin_desc', 'customlabel');
+    $skinoptions = [
+        'default' => get_string('defaultstyle', 'customlabel'),
+        'flatstyle' => get_string('flatstyle', 'customlabel'),
+        'colored' => get_string('coloredstyle', 'customlabel'),
+        'flatstyle colored' => get_string('flatcoloredstyle', 'customlabel')
+    ];
+
+    $namedskins = glob($CFG->dirroot.'/mod/customlabel/pix/skins/*');
+    if (!empty($namedskins)) {
+        foreach ($namedskins as $skinpath) {
+            $skinname = basename($skinpath);
+            if ($skinname == '.' || $skinname == '..') {
+                continue;
+            }
+            if (!is_dir($skinpath)) {
+                continue;
+            }
+            $skinoptions[$skinname] = $skinname;
+        }
+    }
+
+    $default = 'default';
+    $settings->add(new admin_setting_configselect($key, $label, $desc, $default, $skinoptions));
 
     $key = 'customlabel/disabled';
     $label = get_string('disabledsubtypes', 'customlabel');
-    $desc = get_string('disabledsubtypesdesc', 'customlabel');
+    $desc = get_string('disabledsubtypes_desc', 'customlabel');
     $settings->add(new admin_setting_configtextarea($key, $label, $desc, '', PARAM_RAW, 80, 10));
 
     /*
@@ -80,6 +102,11 @@ if ($ADMIN->fulltree) {
     $label = get_string('configcoursemetadatavaluekey', 'customlabel');
     $desc = get_string('configcoursemetadatavaluekey_desc', 'customlabel');
     $settings->add(new admin_setting_configtext($key, $label, $desc, 'valueid'));
+
+    $key = 'customlabel/course_metadata_cmid_key';
+    $label = get_string('configcoursemetadatacmidkey', 'customlabel');
+    $desc = get_string('configcoursemetadatacmidkey_desc', 'customlabel');
+    $settings->add(new admin_setting_configtext($key, $label, $desc, 'cmid'));
 
     $key = 'customlabel/classification_value_table';
     $label = get_string('configclassificationvaluetable', 'customlabel');

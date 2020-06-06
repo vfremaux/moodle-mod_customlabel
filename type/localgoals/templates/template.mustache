@@ -22,21 +22,21 @@
 
 }}
 <!-- customlabeltype_localgoals/template -->
-<table class="custombox-localgoals" width="100%">
+{{> mod_customlabel/start }}
+    <div class="custombox-container {{labelclass}}">
 
-    <tr valign="top">
-        <td class="custombox-header-thumb localgoals" style="background-image : url({{iconurl}}});" width="2%" rowspan="2">
-        </td>
-        <td class="custombox-header-caption localgoals" width="98%">
-            {{#str}}localgoals, customlabeltype_localgoals{{/str}}
-        </td>
-    </tr>
+        <div class="custombox-flexline {{labelclass}}">
+             <div class="custombox-header-caption {{labelclass}} {{skin}}">
+                <h4>{{#str}}localgoals, customlabeltype_localgoals{{/str}}</h4>
+            </div>
+        </div>
 
-    <tr valign="top">
-        <td class="custombox-content localgoals">
-            {{{localgoals}}}
-        </td>
-    </tr>
+        <div class="custombox-flexline {{labelclass}}">
+            <div>
+                {{{localgoals}}}
+            </div>
+        </div>
 
-</table>
+    </div>
+{{> mod_customlabel/end }}
 <!-- /customlabeltype_localgoals/template -->

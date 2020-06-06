@@ -36,8 +36,8 @@ $string['privacy:metadata:customlabel_user_data:completion3'] = 'Completion valu
 $string['apparence'] = 'Apparence';
 $string['changetypeadvice'] = "You are about to thange the internal data structure of this element. Old content cannot be maintained. Continue?";
 $string['cleararea'] = 'Clear this file area';
-$string['cssoverrides'] = 'CSS Overrides';
-$string['cssoverridesdesc'] = 'If this field is used, Styling rules herein written will be appended to the global stylesheet to alter customlabel apparence. this needs your theme has been tuned to define the insertion point. See README.txt.';
+$string['defaultskin'] = 'Default skin for labels';
+$string['defaultskin_desc'] = 'Chooses a base css template for all labels.';
 $string['customlabeltools'] = 'Mass tools for custom labels';
 $string['customlabelplugins'] = 'Plugins';
 $string['customlabeltypepluginname'] = 'Customlabel type name';
@@ -47,13 +47,14 @@ $string['choose'] = 'Choose';
 $string['save'] = 'Save settings';
 $string['managecustomlabeltypeplugins'] = 'Manage customlabel plugins';
 $string['disabledsubtypes'] = 'Disabled subtypes';
-$string['disabledsubtypesdesc'] = 'Any subtype mentionned in this field will be globally disabled for the whole site.';
+$string['disabledsubtypes_desc'] = 'Any subtype mentionned in this field will be globally disabled for the whole site.';
 $string['doupdate'] = 'Update !!';
 $string['editvalues'] = 'Edit values';
 $string['errorclassloading'] = 'Error loading : Null class';
 $string['errorfailedloading'] = 'Failed loading class for custom label {$a}. Reverting to "text" customlabel.';
 $string['errorinsertvalue'] = 'Could not insert a new value';
 $string['errorupdatevalue'] = 'Could not update a new value';
+$string['errorreservedname'] = '"TYPE" is a reserved name and cannot be used as code.';
 $string['exportdata'] = 'Export data to XML';
 $string['labelclass'] = 'Label type';
 $string['labelclasses'] = 'Element classes';
@@ -91,6 +92,12 @@ editorial value such as using prefitted image bank, or tagging courses,
 You just need to enter the appropriate data in each module
 and register.
 ";
+
+// Skins
+$string['defaultstyle'] = 'Default skin';
+$string['flatstyle'] = 'Flat style';
+$string['coloredstyle'] = 'Colored titles';
+$string['flatcoloredstyle'] = 'Flat and colored titles';
 
 // Metadata.
 $string['adminmetadata'] = 'Classifiers configuration';
@@ -167,6 +174,8 @@ $string['classificationconstrainttable'] = 'Constraints table';
 $string['classificationconstrainttable_help'] = 'This table is capable to map the value pairs wich are not compatible.';
 $string['coursemetadatatable'] = 'course metadata tagging table';
 $string['coursemetadatatable_help'] = 'This table provides course to metadata bindings.';
+$string['coursemetadatacmidkey'] = 'Tagging field for course module id (metadata to value binding)';
+$string['coursemetadatacmidkey_help'] = 'This must define a column name in database that maps a record to a course module instance.';
 $string['coursemetadatavaluekey'] = 'Tagging field for values (metadata to value binding)';
 $string['coursemetadatavaluekey_help'] = 'This must define a column name in database that maps a record to a metadata value.';
 $string['coursemetadatacoursekey'] = 'Tagging key for course (course to metadata binding)';
@@ -186,8 +195,10 @@ $string['configcoursemetadatatable'] = 'Table for metadata binding';
 $string['configcoursemetadatatable_desc'] = 'This table binds relation between a course record and any metadata pointed by ab id. The metadata should reside in the following metadata value table.';
 $string['configcoursemetadatacoursekey'] = 'Course key name in metadata binder';
 $string['configcoursemetadatacoursekey_desc'] = 'This is the name of the field that serves as course foreign key in the metadata table. The content of this field should be a valid COURSE id.';
+$string['configcoursemetadatacmidkey'] = 'Course module id key name in metadata binder';
+$string['configcoursemetadatacmidkey_desc'] = 'This is the name of the field that serves as course module foreign key in the metadata table.';
 $string['configcoursemetadatavaluekey'] = 'Value key name in metadata binder';
-$string['configcoursemetadatavaluekey_desc'] = 'This is the name of the filed that serves as data value foreign key in the metadata table.';
+$string['configcoursemetadatavaluekey_desc'] = 'This is the name of the field that serves as data value foreign key in the metadata table.';
 $string['configclassificationvaluetable'] = 'Table for classification values';
 $string['configclassificationvaluetable_desc'] = 'This is the table where to find the metadata values';
 $string['configclassificationvaluetypekey'] = 'Type key name in value table';

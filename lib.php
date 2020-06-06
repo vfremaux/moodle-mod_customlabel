@@ -143,6 +143,7 @@ function customlabel_add_instance($customlabelrec) {
     $instance->coursemodule = $customlabelrec->coursemodule;
 
     $customlabeldata = customlabel_process_fields($customlabelrec, $instance);
+    $instance->data = $customlabeldata;
 
     /*
      * this saves into readable data information about which legacy type to use
@@ -222,8 +223,9 @@ function customlabel_delete_instance($id) {
     if (! $customlabel = $DB->get_record('customlabel', array('id' => "$id"))) {
         return false;
     }
+
     $cm = get_coursemodule_from_instance('customlabel', $customlabel->id);
-    $customlabel->coursemodule = $cm->id;
+    $customlabel->coursemodule = $cm->id; // Will be known as cmid in instance.
     $context = context_module::instance($cm->id);
 
     // Call subtype delete handler.
@@ -290,6 +292,36 @@ function customlabel_get_coursemodule_info($coursemodule) {
     return $info;
 }
 
+function customlabel_cm_info_dynamic(&$cminfo) {
+    global $DB;
+
+    $iscminfo = (get_class($cminfo) == 'cminfo') || (get_class($cminfo) == 'cm_info');
+
+    // Apply role restriction here.
+    if (!$customlabel = $DB->get_record('customlabel', array('id' => $cminfo->instance))) {
+        return;
+    }
+
+    $customlabel->coursemodule = $cminfo->id;
+    $instance = customlabel_load_class($customlabel, true);
+
+    if (!customlabel_type::module_is_visible($cminfo, $customlabel)) {
+        if ($iscminfo) {
+            $cminfo->set_no_view_link();
+            $cminfo->set_content('');
+            $cminfo->set_user_visible(false);
+        }
+        return;
+    }
+
+    if ($iscminfo) {
+        $cminfo->set_no_view_link();
+        $cminfo->set_extra_classes('label'); // Important, or customlabel WILL NOT be deletable in topic/week course.
+    } else {
+        return $content;
+    }
+}
+
 /**
  * This function makes a last post process of the cminfo information
  * for module info caching in memory when course displays. Here we
@@ -298,19 +330,21 @@ function customlabel_get_coursemodule_info($coursemodule) {
  * content display rules.
  * @todo : reevaluate strategy. this may still be used for improving standard formats.
  */
-function customlabel_cm_info_dynamic(&$cminfo) {
+function customlabel_cm_info_view(&$cminfo) {
     global $DB, $PAGE, $CFG, $COURSE, $OUTPUT;
 
     global $customlabelscriptsloaded;
     static $customlabelcssloaded = array();
     static $customlabelamdloaded = array();
 
+    $config = get_config('customlabel');
+
     // Specific > 3.5
     $iscminfo = (get_class($cminfo) == 'cminfo') || (get_class($cminfo) == 'cm_info');
 
     // Improve page format by testing if in current visble page.
     if ($COURSE->format == 'page') {
-        $current = course_page::get_current_page($COURSE->id);
+        $current = \format\page\course_page::get_current_page($COURSE->id);
         if (!$DB->record_exists('format_page_items', array('cmid' => $cminfo->id, 'pageid' => $current->id))) {
             return;
         }
@@ -342,7 +376,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     $content = '';
 
     if (!in_array($customlabel->labelclass, $customlabelcssloaded)) {
-        $cssurl = '/mod/customlabel/type/'.$customlabel->labelclass.'/customlabel.css';
+        $cssurl = '/mod/customlabel/typestyle.php?type='.$customlabel->labelclass;
         if (!$PAGE->requires->is_head_done()) {
             $PAGE->requires->css($cssurl);
         } else {
@@ -361,11 +395,6 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     }
 
     if (!customlabel_type::module_is_visible($cminfo, $customlabel)) {
-        if ($iscminfo) {
-            $cminfo->set_no_view_link();
-            $cminfo->set_content('');
-            $cminfo->set_user_visible(false);
-        }
         return;
     }
 
@@ -387,25 +416,52 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     // Specific >= 3.5
     $info = optional_param('info', '', PARAM_TEXT);
     $gettingmoduleupdate = in_array($info, array('core_course_get_module', 'core_course_edit_module'));
-    if ((($PAGE->pagetype != 'course-modedit') && !AJAX_SCRIPT) || $gettingmoduleupdate) {
+    global $FULLME;
+    $ispluginfile = preg_match('/pluginfile/', $FULLME);
+    $istogglecompletion = preg_match('/togglecompletion/', $FULLME);
+
+    if (!$ispluginfile && (($PAGE->pagetype != 'course-modedit') && !AJAX_SCRIPT && !$istogglecompletion) || $gettingmoduleupdate) {
+
         // In edit form, some race conditions between theme and rendering goes wrong when not admin...
-        $instance->preprocess_data();
-        $instance->process_form_fields();
-        $instance->process_datasource_fields();
         try {
+            $instance->preprocess_data();
+            $instance->process_form_fields();
+            $instance->process_datasource_fields();
             $instance->postprocess_data();
             $instance->postprocess_icon();
+            $instance->data->labelclass = $customlabel->labelclass;
             $template = 'customlabeltype_'.$customlabel->labelclass.'/template';
-            $content = $OUTPUT->render_from_template($template, $instance->data);
+            $instance->data->skin = $config->defaultskin;
+
+            $themename = $PAGE->theme->name;
+            $override = get_config('theme_'.$themename, 'customlabelskin');
+            if (!empty($override)) {
+                $instance->data->skin = $override;
+            }
+
+            $content .= $OUTPUT->render_from_template($template, $instance->data);
         } catch (Exception $e) {
             assert(1);
             // Quiet any exception here. Resolve case of Editing Teachers.
         }
     }
 
+    $context = context_module::instance($cminfo->id);
+    foreach ($instance->fields as $field) {
+        if ($field->type == 'editor' || $field->type == 'textarea') {
+            if (!isset($field->itemid) || is_null($field->itemid)) {
+                $message = 'Course element textarea subfield needs explicit itemid in definition ';
+                $message .= $customlabel->labelclass.'::'.$field->name;
+                throw new coding_exception($message);
+            }
+            $content = customlabel_file_rewrite_pluginfile_urls($content, 'pluginfile.php',
+                                                                             $context->id, 'mod_customlabel', 'contentfiles',
+                                                                             $field->itemid);
+        }
+    }
+
     // Disable url form of the course module representation.
     if ($iscminfo) {
-        $cminfo->set_no_view_link();
         $cminfo->set_content($content);
         $cminfo->set_extra_classes('label'); // Important, or customlabel WILL NOT be deletable in topic/week course.
     } else {
