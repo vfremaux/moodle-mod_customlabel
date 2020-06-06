@@ -25,11 +25,11 @@
 $string['keypoints:view'] = 'Peut voir le contenu';
 $string['keypoints:addinstance'] = 'Peut ajouter une instance';
 
-$string['pluginname'] = 'Elément de cours&nbsp;: A retenir';
-$string['typename'] = 'A retenir';
+$string['pluginname'] = 'Elément de cours&nbsp;: Ponts Clefs';
+$string['typename'] = 'Points clefs';
 $string['remind'] = 'Points clefs !';
-$string['configtypename'] = 'Enable subtype Key points';
-$string['keypoints'] = 'Rubrique \"A retenir\"&nbsp;';
+$string['configtypename'] = 'Activer les points clefs';
+$string['keypoints'] = 'Rubrique \"Points clefs\"&nbsp;';
 $string['keypointnum'] = 'Nombre de points&nbsp;';
 $string['keypointitem0'] = 'Point 1&nbsp;';
 $string['keypointitem1'] = 'Point 2&nbsp;';

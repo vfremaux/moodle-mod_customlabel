@@ -22,6 +22,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
+// Privacy.
+$string['privacy:metadata'] = 'Le composant d\'élément de cours CollapsedText ne détient directement aucune donnée relative aux utilisateurs.';
+
 $string['collapsedtext:view'] = 'Peut voir le contenu';
 $string['collapsedtext:addinstance'] = 'Peut ajouter une instance';
 

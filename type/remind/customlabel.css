@@ -1,37 +1,63 @@
-table.custombox-remind {
+.custombox-remind {
     width: 100%;
 }
 
-td.custombox-header-thumb.remind {
-    border-right: 1px solid #f00000 !important;
-    padding-right: 8px;
+.custombox-header-thumb.remind.colored {
+    border-right: 1px solid #c76205;
 }
 
-td.custombox-header-thumb.remind {
-    background-image: url("/mod/customlabel/type/remind/pix/icon_remind_small.png");
+.custombox-header-caption.remind.colored {
+    color: #c76205;
+}
+
+.custombox-header-thumb.remind {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_remind.png");
     background-repeat: no-repeat;
     height: 73px;
-    min-width: 25px;
-    width: 25px;
 }
 
-#region-main td.custombox-header-thumb.remind,
-#page-region-main td.custombox-header-thumb.remind {
-    background-image: url("/mod/customlabel/type/remind/pix/icon_remind.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
+#region-main .custombox-header-thumb.remind,
+#page-region-main .custombox-header-thumb.remind {
+    min-width: 80px;
+    width: 80px;
 }
 
-td.custombox-header-caption.remind {
-    color: #d83030;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
+#page-region-pre .custombox-header-thumb.remind,
+#region-pre .custombox-header-thumb.remind,
+#region-post .custombox-header-thumb.remind,
+#page-region-post .custombox-header-thumb.remind {
+    background-size: 70%;
+    min-width: 35px;
+    width: 35px;
 }
 
-td.custombox-content.remindtext {
+.custombox-content.remind {
     min-height: 100px;
-    padding-left: 8px;
+}
+
+.custombox-header-thumb.remind.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/orangespot.png");
+    text-align: center;
+}
+
+#page-region-main .custombox-header-thumb.remind.flatstyle,
+#region-main .custombox-header-thumb.remind.flatstyle {
+    background-position: 30% 0%;
+}
+
+.custombox-header-thumb.remind.flatstyle:after {
+    content: "\f0e7";
+    font-family: "fontAwesome";
+    color: white;
+    font-size: 32px;
+}
+
+#page-region-pre .custombox-header-thumb.remind.flatstyle:after,
+#region-pre .custombox-header-thumb.remind.flatstyle:after,
+#region-post .custombox-header-thumb.remind.flatstyle:after,
+#page-region-post .custombox-header-thumb.remind.flatstyle:after {
+    font-size: 12px;
+    position: relative;
+    top: -15px;
+    left: -5px;
 }

@@ -1,45 +1,63 @@
-table.custombox-tipsandtricks {
+.custombox-tipsandtricks {
     width: 100%;
 }
 
+.custombox-header-thumb.tipsandtricks.colored {
+    border-right: 1px solid #c76205;
+}
+
+.custombox-header-caption.tipsandtricks.colored {
+    color: #c76205;
+}
+
 .custombox-header-thumb.tipsandtricks {
-    border-right: 1px solid #eeb9e9 !important;
-    padding-right: 8px;
-}
-
-td.custombox-header-thumb.tipsandtricks {
-    background-image: url("/mod/customlabel/type/tipsandtricks/pix/icon_idea_small.png");
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_tipsandtricks.png");
     background-repeat: no-repeat;
     height: 73px;
-    width: 25px;
 }
 
-#region-main td.custombox-header-thumb.tipsandtricks,
-#page-region-main td.custombox-header-thumb.tipsandtricks {
-    background-image: url("/mod/customlabel/type/tipsandtricks/pix/icon_idea.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
+#region-main .custombox-header-thumb.tipsandtricks,
+#page-region-main .custombox-header-thumb.tipsandtricks {
+    min-width: 80px;
+    width: 80px;
 }
 
-td.custombox-header-caption.tipsandtricks {
-    color: #b11ba3;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
+#page-region-pre .custombox-header-thumb.tipsandtricks,
+#region-pre .custombox-header-thumb.tipsandtricks,
+#region-post .custombox-header-thumb.tipsandtricks,
+#page-region-post .custombox-header-thumb.tipsandtricks {
+    background-size: 70%;
+    min-width: 35px;
+    width: 35px;
 }
 
-td.custombox-content.tipsandtricks {
+.custombox-content.tipsandtricks {
     min-height: 100px;
-    padding-left: 8px;
 }
 
-td.custombox-content.tipsandtricks h1,
-td.custombox-content.tipsandtricks h2,
-td.custombox-content.tipsandtricks h3 {
-    background-image: none !important;
-    color: #931c8a !important;
-    font-weight: bolder !important;
-    padding-left: 0 !important;
+.custombox-header-thumb.tipsandtricks.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/greenspot.png");
+    text-align: center;
+}
+
+#page-region-main .custombox-header-thumb.tipsandtricks.flatstyle,
+#region-main .custombox-header-thumb.tipsandtricks.flatstyle {
+    background-position:30% 0%;
+}
+
+.custombox-header-thumb.tipsandtricks.flatstyle:after {
+    content: "\f0eb"; /* fa-lighttube-o */
+    font-family: "fontAwesome";
+    color: white;
+    font-size: 32px;
+}
+
+#page-region-pre .custombox-header-thumb.tipsandtricks.flatstyle:after,
+#region-pre .custombox-header-thumb.tipsandtricks.flatstyle:after,
+#region-post .custombox-header-thumb.tipsandtricks.flatstyle:after,
+#page-region-post .custombox-header-thumb.tipsandtricks.flatstyle:after {
+    font-size: 12px;
+    position: relative;
+    top: -15px;
+    left: -5px;
 }

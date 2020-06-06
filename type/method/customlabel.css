@@ -1,37 +1,63 @@
-table.custombox-method {
+.custombox-method {
     width: 100%;
 }
 
-td.custombox-header-thumb.method {
-    border-right: 1px solid #f00000 !important;
-    padding-right: 8px;
+.custombox-header-thumb.method.colored {
+    border-right: 1px solid #c76205;
 }
 
-td.custombox-header-thumb.method {
-    background-image: url("/mod/customlabel/type/method/pix/icon_method_small.png");
+.custombox-header-caption.method.colored {
+    color: #c76205;
+}
+
+.custombox-header-thumb.method {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_method.png");
     background-repeat: no-repeat;
     height: 73px;
-    min-width: 25px;
-    width: 25px;
 }
 
-#region-main td.custombox-header-thumb.method,
-#page-region-main td.custombox-header-thumb.method {
-    background-image: url("/mod/customlabel/type/method/pix/icon_method.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
+#region-main .custombox-header-thumb.method,
+#page-region-main .custombox-header-thumb.method {
+    min-width: 80px;
+    width: 80px;
 }
 
-td.custombox-header-caption.method {
-    color: #d83030;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
+#page-region-pre .custombox-header-thumb.method,
+#region-pre .custombox-header-thumb.method,
+#region-post .custombox-header-thumb.method,
+#page-region-post .custombox-header-thumb.method {
+    background-size: 70%;
+    min-width: 35px;
+    width: 35px;
 }
 
-td.custombox-content.methodtext {
+.custombox-content.methodtext {
     min-height: 100px;
-    padding-left: 8px;
+}
+
+.custombox-header-thumb.method.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/F3003A_spot.png");
+    text-align: center;
+}
+
+#page-region-main .custombox-header-thumb.method.flatstyle,
+#region-main .custombox-header-thumb.method.flatstyle {
+    background-position: 30% 0%;
+}
+
+.custombox-header-thumb.method.flatstyle:after {
+    content: "\f085";
+    font-family: "fontAwesome";
+    color: white;
+    font-size: 32px;
+}
+
+#page-region-pre .custombox-header-thumb.method.flatstyle:after,
+#region-pre .custombox-header-thumb.method.flatstyle:after,
+#region-post .custombox-header-thumb.method.flatstyle:after,
+#page-region-post .custombox-header-thumb.method.flatstyle:after {
+    font-size: 12px;
+    position: relative;
+    top: -15px;
+    left: -5px;
 }

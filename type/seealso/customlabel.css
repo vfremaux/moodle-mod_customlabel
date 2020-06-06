@@ -1,46 +1,63 @@
-table.custombox-seealso {
+.custombox-seealso {
     width: 100%;
 }
 
-td.custombox-header-thumb.seealso {
-    border-right: 1px solid #ecedba !important;
-    padding-right: 8px;
-    width: 40px;
+.custombox-header-thumb.seealso.colored {
+    border-right: 1px solid #c76205;
 }
 
-td.custombox-header-thumb.seealso {
-    background-image: url("/mod/customlabel/type/seealso/pix/icon_seealso_small.png");
+.custombox-header-caption.seealso.colored {
+    color: #c76205;
+}
+
+.custombox-header-thumb.seealso {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_seealso.png");
     background-repeat: no-repeat;
     height: 73px;
-    width: 25px;
 }
 
-#region-main td.custombox-header-thumb.seealso,
-#page-region-main td.custombox-header-thumb.seealso {
-    background-image: url("/mod/customlabel/type/seealso/pix/icon_seealso.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
+#region-main .custombox-header-thumb.seealso,
+#page-region-main .custombox-header-thumb.seealso {
+    min-width: 80px;
+    width: 80px;
 }
 
-td.custombox-header-caption.seealso {
-    color: #b0a820;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
+#page-region-pre .custombox-header-thumb.seealso,
+#region-pre .custombox-header-thumb.seealso,
+#region-post .custombox-header-thumb.seealso,
+#page-region-post .custombox-header-thumb.seealso {
+    background-size: 70%;
+    min-width: 35px;
+    width: 35px;
 }
 
-td.custombox-content.seealso {
+.custombox-content.seealso {
     min-height: 100px;
-    padding-left: 8px;
 }
 
-td.custombox-content.seealso h1,
-td.custombox-content.seealso h2,
-td.custombox-content.seealso h3 {
-    background-image: none !important;
-    color: #8a8d21 !important;
-    font-weight: bolder !important;
-    padding-left: 0 !important;
+.custombox-header-thumb.seealso.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/graydark_spot.png");
+    text-align: center;
+}
+
+#page-region-main .custombox-header-thumb.seealso.flatstyle,
+#region-main .custombox-header-thumb.seealso.flatstyle {
+    background-position: 30% 0%;
+}
+
+.custombox-header-thumb.seealso.flatstyle:after {
+    content: "\f141"; /* fa-ellipsis-h */
+    font-family: "fontAwesome", sans-serif;
+    color: white;
+    font-size: 32px;
+}
+
+#page-region-pre .custombox-header-thumb.seealso.flatstyle:after,
+#region-pre .custombox-header-thumb.seealso.flatstyle:after,
+#region-post .custombox-header-thumb.seealso.flatstyle:after,
+#page-region-post .custombox-header-thumb.seealso.flatstyle:after {
+    font-size: 12px;
+    position: relative;
+    top: -15px;
+    left: -5px;
 }

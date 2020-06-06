@@ -36,8 +36,8 @@ $string['privacy:metadata:customlabel_user_data:completion3'] = 'Completion valu
 $string['apparence'] = 'Apparence';
 $string['changetypeadvice'] = "You are about to thange the internal data structure of this element. Old content cannot be maintained. Continue?";
 $string['cleararea'] = 'Clear this file area';
-$string['cssoverrides'] = 'CSS Overrides';
-$string['cssoverridesdesc'] = 'If this field is used, Styling rules herein written will be appended to the global stylesheet to alter customlabel apparence. this needs your theme has been tuned to define the insertion point. See README.txt.';
+$string['defaultskin'] = 'Default skin for labels';
+$string['defaultskin_desc'] = 'Chooses a base css template for all labels.';
 $string['customlabeltools'] = 'Mass tools for custom labels';
 $string['customlabelplugins'] = 'Plugins';
 $string['customlabeltypepluginname'] = 'Customlabel type name';
@@ -47,7 +47,7 @@ $string['choose'] = 'Choose';
 $string['save'] = 'Save settings';
 $string['managecustomlabeltypeplugins'] = 'Manage customlabel plugins';
 $string['disabledsubtypes'] = 'Disabled subtypes';
-$string['disabledsubtypesdesc'] = 'Any subtype mentionned in this field will be globally disabled for the whole site.';
+$string['disabledsubtypes_desc'] = 'Any subtype mentionned in this field will be globally disabled for the whole site.';
 $string['doupdate'] = 'Update !!';
 $string['editvalues'] = 'Edit values';
 $string['errorclassloading'] = 'Error loading : Null class';
@@ -68,6 +68,7 @@ $string['name'] = 'Label';
 $string['nocontentforthislanguage'] = 'No content available for this language<br/>';
 $string['pluginadministration'] = 'Course element administration';
 $string['pluginname'] = 'Course element';
+$string['plugindefault'] = 'Plugin default skin';
 $string['regenerate'] = 'Regenerate';
 $string['regeneration'] = 'Content mass regeneration';
 $string['resetall'] = 'Reset all';
@@ -92,6 +93,12 @@ editorial value such as using prefitted image bank, or tagging courses,
 You just need to enter the appropriate data in each module
 and register.
 ";
+
+// Skins
+$string['defaultstyle'] = 'Default skin';
+$string['flatstyle'] = 'Flat style';
+$string['coloredstyle'] = 'Colored titles';
+$string['flatcoloredstyle'] = 'Flat and colored titles';
 
 // Metadata.
 $string['adminmetadata'] = 'Classifiers configuration';

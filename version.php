@@ -38,7 +38,6 @@ $plugin->privacy = 'dualrelease';
 $plugin->prolocations = array(
     'type/coursedata',
     'type/pedagogicadvice',
-    'type/pedagogicadvice',
     'type/authordata',
     'type/authornote',
     'type/courseclassifier',

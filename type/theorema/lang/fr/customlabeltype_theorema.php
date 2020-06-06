@@ -30,6 +30,7 @@ $string['pluginname'] = 'Elément de cours : Théorème';
 $string['typename'] = 'Théorème';
 $string['configtypename'] = 'Active le type Théorème';
 $string['theorema'] = 'Enoncé de théorème';
+$string['theoremaname'] = 'Nom du théoreme';
 $string['corollarynum'] = 'Nombre de corollaires';
 $string['corollary'] = 'Corollaire';
 $string['corollary0'] = 'Corollaire 1';
