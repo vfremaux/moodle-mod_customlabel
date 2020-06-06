@@ -33,4 +33,9 @@ $string['pluginname'] = 'Elément de cours&nbsp;: Formule';
 $string['typename'] = 'Formule';
 $string['configtypename'] = 'Active le type Formule';
 $string['formuletext'] = 'Formule';
-$string['statement'] = 'Formule';
+$string['formulename'] = 'Nom de la formule';
+$string['statement'] = 'Formule ';
+$string['development'] = 'Dévelopement : ';
+$string['showdevelopment'] = 'Afficher le dévelopment';
+$string['developmentinitiallyvisible'] = 'Développement initialement visible';
+

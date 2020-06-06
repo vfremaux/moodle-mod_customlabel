@@ -48,7 +48,7 @@ function customlabel_set_instance(&$block) {
     $cminfo->id = $block->cm->id;
     $cminfo->instance = $block->moduleinstance->id;
 
-    $block->content->text = customlabel_cm_info_dynamic($cminfo);
+    $block->content->text = customlabel_cm_info_view($cminfo);
 
     return true;
 }

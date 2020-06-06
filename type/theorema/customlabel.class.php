@@ -38,18 +38,27 @@ class customlabel_type_theorema extends customlabel_type {
         $this->fields = array();
 
         $field = new StdClass;
+        $field->name = 'theoremaname';
+        $field->type = 'textfield';
+        $field->size = 255;
+        $this->fields['theoremaname'] = $field;
+
+        $field = new StdClass;
         $field->name = 'theorema';
         $field->type = 'editor';
         $field->itemid = 0;
         $field->rows = 20;
         $this->fields['theorema'] = $field;
 
-        if (!isset($data->corollarynum)) {
-            // Second chance, get it from stored data.
-            $storeddata = json_decode(base64_decode(@$this->data->content));
-            $subdefsnum = (!empty($storeddata->corollarynum)) ? $storeddata->corollarynum : 0;
-        } else {
+        if (!empty($data->corollarynum)) {
             $subdefsnum = $data->corollarynum;
+        } else {
+            // Second chance.
+            if (!empty($this->data->corollarynum)) {
+                $subdefsnum = $this->data->corollarynum;
+            } else {
+                $subdefsnum = 0;
+            }
         }
 
         $field = new StdClass;
@@ -100,6 +109,8 @@ class customlabel_type_theorema extends customlabel_type {
         $minusurl = $OUTPUT->image_url('minus', 'customlabel');
         $plusurl = $OUTPUT->image_url('plus', 'customlabel');
         $this->data->initialcontrolimageurl = (@$this->data->demoinitiallyvisible) ? $minusurl : $plusurl;
+        $this->data->initialclass = (@$this->data->demoinitiallyvisible) ? '' : 'hidden';
+
         $this->data->corollarylist = "<ul class=\"customlabel-corollaries theorema\">\n";
         for ($i = 0; $i < $this->data->corollarynum; $i++) {
             $key = 'corollary'.$i;
@@ -107,24 +118,28 @@ class customlabel_type_theorema extends customlabel_type {
             $this->data->corollarylist .= (isset($this->data->$key)) ? "<li><i>{$title} :</i> {$this->data->$key}</li>\n" : '';
         }
         $this->data->corollarylist .= "</ul>\n";
-        $this->data->initialclass = (@$this->data->demoinitiallyvisible) ? '' : 'hidden';
         $this->data->customid = $this->cmid;
-        if (@$this->data->showdemonstrationon->enabled) {
+        if (!empty($this->data->showdemonstrationon->enabled)) {
             $qdate = mktime(@$this->data->showdemonstrationon->hour,
                             @$this->data->showdemonstrationon->minute,
                             0,
                             @$this->data->showdemonstrationon->month,
                             @$this->data->showdemonstrationon->day,
                             @$this->data->showdemonstrationon->year);
-            if ($qdate < time()) {
+            if ($qdate <= time()) {
                 $this->data->canshow = true;
             }
             $this->data->opentime = userdate($qdate);
+        } else {
+            // If not timed, let can show.
+            $this->data->canshow = true;
         }
 
         $context = context_course::instance($COURSE->id);
         if (has_capability('moodle/course:manageactivities', $context)) {
             $this->data->hascap = true;
         }
+
+        $this->data->hasname = !empty($this->data->theoremaname);
     }
 }

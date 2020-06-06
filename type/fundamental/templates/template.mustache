@@ -22,21 +22,18 @@
 
 }}
 <!-- customlabeltype_fundamental/template -->
-<table class="custombox-fundamental" width="100%">
+{{> mod_customlabel/start }}
+    <div class="custombox-container {{labelclass}}">
+        <div class="custombox-flexline {{labelclass}}">
+            <div class="custombox-header-caption {{labelclass}}" width="98%">
+                <h4>{{#str}}fundamental, customlabeltype_fundamental{{/str}}</h4>
+            </div>
+        </div>
 
-    <tr valign="top">
-        <td class="custombox-header-thumb fundamental" width="2%" rowspan="2">
-        </td>
-        <td class="custombox-header-caption fundamental" width="98%">
-            {{#str}}fundamental, customlabeltype_fundamental{{/str}}
-        </td>
-    </tr>
-
-    <tr valign="top">
-        <td class="custombox-content fundamentaltext">
-            {{{fundamentaltext}}}
-        </td>
-    </tr>
-
-</table>
+        <div class="custombox-flexline {{labelclass}}">
+            <div>
+                {{{fundamentaltext}}}
+            </div>
+        </div>
+{{> mod_customlabel/end}}
 <!-- /customlabeltype_fundamental/template -->

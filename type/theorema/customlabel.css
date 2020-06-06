@@ -1,39 +1,38 @@
-table.custombox-theorema {
+.custombox-theorema {
     width: 100%;
 }
 
-td.custombox-header-thumb.theorema {
-    border-right: 1px solid #f00000 !important;
-    padding-right: 8px;
+.custombox-header-thumb.theorema.colored {
+    border-right: 1px solid #d2c233;
 }
 
-td.custombox-header-thumb.theorema {
-    background-image: url("/mod/customlabel/type/theorema/pix/icon_theorema_small.png");
+.custombox-header-caption.theorema.colored {
+    color: #d2c233;
+}
+
+.custombox-header-thumb.theorema {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_theorema.png");
     background-repeat: no-repeat;
     height: 73px;
-    min-width: 25px;
-    width: 25px;
 }
 
-#region-main td.custombox-header-thumb.theorema,
-#page-region-main td.custombox-header-thumb.theorema {
-    background-image: url("/mod/customlabel/type/theorema/pix/icon_theorema.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
+#region-main .custombox-header-thumb.theorema,
+#page-region-main .custombox-header-thumb.theorema {
+    min-width: 80px;
+    width: 80px;
 }
 
-td.custombox-header-caption.theorema {
-    color: #d83030;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
+#page-region-pre .custombox-header-thumb.theorema,
+#region-pre .custombox-header-thumb.theorema,
+#region-post .custombox-header-thumb.theorema,
+#page-region-post .custombox-header-thumb.thorema {
+    background-size: 70%;
+    min-width: 35px;
+    width: 35px;
 }
 
-td.custombox-content.theorema {
+.custombox-content.theorema {
     min-height: 100px;
-    padding-left: 8px;
 }
 
 div.custombox-demonstration-caption.theorema {
@@ -51,17 +50,7 @@ div.custombox-demonstration.theorema {
     padding: 4px;
 }
 
-
-td.custombox-content.theorema h1,
-td.custombox-content.theorema h2,
-td.custombox-content.theorema h3 {
-    background-image: none !important;
-    color: #888888 !important;
-    font-weight: bolder !important;
-    padding-left: 0 !important;
-}
-
-td.custombox-subdefinitions.theorema {
+.custombox-subdefinitions.theorema {
     padding-left: 50px;
 }
 
@@ -74,4 +63,31 @@ td.custombox-subdefinitions.theorema {
     -moz-opacity: 0.5;
     opacity: 0.5;
     color: #e00;
+}
+
+.custombox-header-thumb.theorema.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/orangespot.png");
+    text-align: center;
+}
+
+#page-region-main .custombox-header-thumb.theorema.flatstyle,
+#region-main .custombox-header-thumb.theorema.flatstyle {
+    background-position: 30% 0%;
+}
+
+td.custombox-header-thumb.theorema.flatstyle:after {
+    content: "\f12e";
+    font-family: "fontAwesome";
+    color: white;
+    font-size: 32px;
+}
+
+#page-region-pre .custombox-header-thumb.theorema.flatstyle:after,
+#region-pre .custombox-header-thumb.theorema.flatstyle:after,
+#region-post .custombox-header-thumb.theorema.flatstyle:after,
+#page-region-post .custombox-header-thumb.thorema.flatstyle:after {
+    font-size: 12px;
+    position: relative;
+    top: -15px;
+    left: -5px;
 }
