@@ -1,46 +1,66 @@
-table.custombox-important {
+.custombox-important {
     width: 100%;
 }
 
-td.custombox-header-thumb.important {
-    border-right: 1px solid #f00000 !important;
-    padding-right: 8px;
+.custombox-header-thumb.important.colored {
+    border-right: 1px solid #d83030;
 }
 
-td.custombox-header-thumb.important {
-    background-image: url("/mod/customlabel/type/important/pix/icon_important_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 25px;
-    width: 25px;
-}
-
-#region-main td.custombox-header-thumb.important,
-#page-region-main td.custombox-header-thumb.important {
-    background-image: url("/mod/customlabel/type/important/pix/icon_important.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
-}
-
-td.custombox-header-caption.important {
+.custombox-header-caption.important.colored {
     color: #d83030;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
 }
 
-td.custombox-content.important {
+.custombox-header-thumb.important {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_important.png");
+    background-repeat: no-repeat;
+    height: 73px;
+}
+
+#region-main .custombox-header-thumb.important,
+#page-region-main .custombox-header-thumb.important {
+    min-width: 80px;
+    width: 80px;
+}
+
+#page-region-pre .custombox-header-thumb.important,
+#region-pre .custombox-header-thumb.important,
+#region-post .custombox-header-thumb.important,
+#page-region-post .custombox-header-thumb.important {
+    background-size: 70%;
+    min-width: 35px;
+    width: 35px;
+}
+
+.custombox-content.important {
     min-height: 100px;
-    padding-left: 8px;
 }
 
-td.custombox-content.important h1,
-td.custombox-content.important h2,
-td.custombox-content.important h3 {
-    background-image: none !important;
-    color:#9c2828 !important;
-    font-weight: bolder !important;
-    padding-left: 0 !important;
+.custombox-header-thumb.important.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/reddark_spot.png");
+    background-repeat: no-repeat;
+    height:73px;
+    text-align:center;
+}
+
+#page-region-main .custombox-header-thumb.important.flatstyle,
+#region-main .custombox-header-thumb.important.flatstyle {
+    background-position: 30% 0%;
+}
+
+.custombox-header-thumb.important.flatstyle:after {
+    content: "!"; /* fa-bookmark-o */
+    font-family: "sans-serif";
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+#page-region-pre .custombox-header-thumb.important.flatstyle:after,
+#region-pre .custombox-header-thumb.important.flatstyle:after,
+#region-post .custombox-header-thumb.important.flatstyle:after,
+#page-region-post .custombox-header-thumb.important.flatstyle:after {
+    font-size:12px;
+    position: relative;
+    top: -15px;
+    left: -5px;
 }

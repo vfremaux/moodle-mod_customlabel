@@ -117,7 +117,16 @@ class customlabel_type_courseheading extends customlabel_type {
 
         // Get virtual fields from course title.
         $this->data->courseheading = format_string($course->fullname);
-        $this->data->coursedesc = format_text($course->summary, $course->summaryformat);
+
+        $text = $course->summary;
+        $file = 'pluginfile.php';
+        $context = context_course::instance($course->id);
+        $component = 'course';
+        $filearea = 'summary';
+        $text = file_rewrite_pluginfile_urls($text, $file, $context->id, $component, $filearea, null);
+        $formatted = format_text($text, $course->summaryformat);
+        $this->data->coursedesc = $formatted;
+
         $this->data->idnumber = $course->idnumber;
         $this->data->shortname = $course->shortname;
         $storedimage = $this->get_file_url('image');

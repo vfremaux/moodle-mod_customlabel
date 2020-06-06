@@ -3,12 +3,12 @@
     padding-top: 30px !important;
 }
 
-.editing li.activity.customlabel.label * {
-    font-weight: normal;
-}
-
 .customlabel.label {
     font-weight: initial;
+}
+
+.customlabel.label b {
+    font-weight: bolder;
 }
 
 .constraint-cell {
@@ -40,4 +40,53 @@ form[name="chooseset"] {
 
 .customlabel-constraint-select.green {
     background-color:#bbfaa3;
+}
+
+/* element type form chooser separator */
+#id_labelclass option[disabled="disabled"] {
+    background-color: #eee;
+}
+
+td.custombox-header-thumb,
+td.custombox-thumb {
+    padding-top: 1.2em;
+}
+
+.custombox-content {
+    padding-left: 20px;
+}
+
+.custombox-meta-element {
+    -moz-opacity: 0.8;
+    opacity: 0.8;
+    background-color: #eee;
+    border: 1px dashed #ddd;
+}
+
+.custombox-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.custombox-header-thumb {
+    border-right : #ddd 1px solid;
+}
+
+.custombox-flexline {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+@media all and (max-width: 480px) {
+    td.custombox-header-thumb {
+        background-size: 100%;
+        padding-top: 0.2em;
+    }
+
+    .custombox-header-thumb:after {
+        font-size: 18px;
+    }
 }

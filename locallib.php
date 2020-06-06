@@ -77,9 +77,6 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
             if ($ignoredisabled && preg_match('/\\b'.$entry.'\\b/', $disabledtypes)) {
                 continue;
             }
-            if (($entry == 'stealthactivity') && empty($CFG->allowstealth)) {
-                continue;
-            }
             if (!is_null($context) &&
                     (has_capability('customlabeltype/'.$entry.':addinstance', $context) ||
                             ($context->contextlevel == CONTEXT_SYSTEM))) {
@@ -174,7 +171,7 @@ function customlabel_load_class($customlabel, $quiet = false) {
     if (file_exists($classfile)) {
         include_once($classfile);
         $constructorfunction = "customlabel_type_{$customlabel->labelclass}";
-        $instance = new $constructorfunction($customlabel);
+        $instance = new $constructorfunction($customlabel, $customlabel->labelclass);
         return $instance;
     } else {
         if (debugging()) {
@@ -449,58 +446,4 @@ function customlabel_course_regenerate(&$course, $labelclasses = '', $options = 
             }
         }
     }
-}
-
-/**
- * Get all stealth modules. On page format, there is no need
- * of stealth modules as this is naturally handled with the
- * page publishing (or not) concept.
- */
-function customlabel_get_stealth_cms($activeoptions = '', $course = null) {
-    global $COURSE, $DB;
-
-    if (is_null($course)) {
-        $course = $COURSE;
-    }
-
-    $coursemodinfo = get_fast_modinfo($course);
-    $stealthcms = [];
-
-    if ($course->format !== 'page') {
-        $allcms = $coursemodinfo->get_cms();
-        if (!empty($allcms)) {
-            foreach ($allcms as $cm) {
-                if ($cm->is_stealth()) {
-                    $stealthcms[$cm->id] = format_string($cm->name);
-                }
-            }
-        }
-    } else {
-
-        // Get all course modules that remained unpublished on pages.
-        $sql = "
-            SELECT
-                id as modid,
-                fpi.id as pageid
-            FROM
-                {course_modules} cm
-            LEFT JOIN
-                {format_page_item} fpi
-            ON
-                fpi.moduleid = cm.id
-            WHERE
-                fpi.id IS NULL
-        ";
-        $cms = $DB->get_records_sql($sql);
-
-        if ($cms) {
-            foreach (array_keys($cms) as $cm) {
-                // Convert into cm_info.
-                $cminfo = $coursemodinfo->get_cm($cm->modid);
-                $stealthcms[$cm->modid] = format_string($cminfo->name);
-            }
-        }
-    }
-
-    return $stealthcms;
 }

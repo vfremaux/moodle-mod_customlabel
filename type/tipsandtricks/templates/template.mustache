@@ -22,21 +22,20 @@
 
 }}
 <!-- customlabeltype_tipsandtricks/template -->
-<table class="custombox-tipsandtricks" width="100%">
+{{> mod_customlabel/start }}
+<div class="custombox-container {{labelclass}}">
+    <div class="custombox-flexline {{labelclass}}">
+        <div class="custombox-header-caption {{labelclass}} {{skin}}">
+            <h4>{{#str}}tipsandtricks, customlabeltype_tipsandtricks{{/str}}</h4>
+        </div>
+    </div>
 
-    <tr valign="top">
-        <td class="custombox-header-thumb tipsandtricks" style="background-image : url({{{iconurl}}});" width="2%" rowspan="2">
-        </td>
-        <td class="custombox-header-caption tipsandtricks" width="98%">
-            {{#str}}tipsandtricks, customlabeltype_tipsandtricks{{/str}}
-        </td>
-    </tr>
-
-    <tr valign="top">
-        <td class="custombox-content tipsandtricks">
+    <div class="custombox-flexline {{labelclass}}">
+        <div>
             {{{tipsandtricks}}}
-        </td>
-    </tr>
+        </div>
+    </div>
 
-</table>
+</div>
+{{> mod_customlabel/end }}
 <!-- /customlabeltype_tipsandtricks/template -->

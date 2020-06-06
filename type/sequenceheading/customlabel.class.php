@@ -28,6 +28,8 @@ require_once($CFG->dirroot.'/mod/customlabel/type/customtype_heading.trait.php')
 
 class customlabel_type_sequenceheading extends customlabel_type {
 
+    public $localthumb;
+
     use customlabel_trait_heading;
 
     public function __construct($data) {
@@ -39,36 +41,49 @@ class customlabel_type_sequenceheading extends customlabel_type {
 
         $this->standard_name_fields();
 
-        $field = new StdClass();
-        $field->name = 'image';
-        $field->type = 'filepicker';
-        $field->destination = 'url';
-        $field->default = '';
-        if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
-            if (!isloggedin()) {
-                // Give a context to the page if missing. f.e when invoking pluginfile.
-                $PAGE->set_context(context_system::instance());
-            }
-            if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultsequenceheading.png')) {
-                $field->default = $OUTPUT->image_url('defaultsequenceheading', 'customlabeltype_sequenceheading');
-            } else {
-                $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultsequenceheading.png';
-            }
-        } else {
-            if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
-                $field->default = $OUTPUT->image_url('defaultsequenceheading', 'customlabeltype_sequenceheading');
+        // Test if theme has an alternative strategy to illustrate course modules.
+        $this->localthumb = true;
+        $themename = $this->hard_fetch_theme_name(); // Cannot use $PAGE->theme here.
+        include_once($CFG->dirroot.'/theme/'.$themename.'/lib.php');
+        $modthumbavailabilityfunc = 'theme_'.$themename.'_supports_feature';
+        if (function_exists($modthumbavailabilityfunc)) {
+            if ($modthumbavailabilityfunc('course/modthumbs')) {
+                $this->localthumb = false;
             }
         }
-        $this->fields['image'] = $field;
 
-        $this->standard_icon_fields();
+        if ($this->localthumb) {
+            $field = new StdClass();
+            $field->name = 'image';
+            $field->type = 'filepicker';
+            $field->destination = 'url';
+            $field->default = '';
+            if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
+                if (!isloggedin()) {
+                    // Give a context to the page if missing. f.e when invoking pluginfile.
+                    $PAGE->set_context(context_system::instance());
+                }
+                if (!is_file($CFG->dirroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultsequenceheading.png')) {
+                    $field->default = $OUTPUT->image_url('defaultsequenceheading', 'customlabeltype_sequenceheading');
+                } else {
+                    $field->default = $CFG->wwwroot.'/theme/'.$PAGE->theme->name.'/pix/customlabel_icons/defaultsequenceheading.png';
+                }
+            } else {
+                if ($PAGE->state >= moodle_page::STATE_IN_BODY) {
+                    $field->default = $OUTPUT->image_url('defaultsequenceheading', 'customlabeltype_sequenceheading');
+                }
+            }
+            $this->fields['image'] = $field;
 
-        $field = new StdClass();
-        $field->name = 'verticalalign';
-        $field->type = 'list';
-        $field->options = array('top', 'middle', 'bottom');
-        $field->default = 'top';
-        $this->fields['verticalalign'] = $field;
+            $this->standard_icon_fields();
+
+            $field = new StdClass();
+            $field->name = 'verticalalign';
+            $field->type = 'list';
+            $field->options = array('top', 'middle', 'bottom');
+            $field->default = 'top';
+            $this->fields['verticalalign'] = $field;
+        }
     }
 
     /**
@@ -79,27 +94,23 @@ class customlabel_type_sequenceheading extends customlabel_type {
     public function postprocess_data($course = null) {
 
         // Get virtual fields from course title.
-        $storedimage = $this->get_file_url('image');
-        $this->data->imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
-        if ($this->data->verticalalignoption == 'bottom') {
-            $this->data->valign = "50% 100%";
-            $this->data->valigncontent = "bottom";
-            $this->data->padding = 'padding-bottom:20px;';
-        } else if ($this->data->verticalalignoption == 'middle') {
-            $this->data->valign = "50% 50%";
-            $this->data->valigncontent = "middle";
-            $this->data->padding = '';
-        } else {
-            $this->data->valign = "50% 0%";
-            $this->data->valigncontent = "top";
-            $this->data->padding = 'padding-top:20px;';
-        }
-        if ($this->data->imagepositionoption == 'left') {
-            $this->data->toleft = true;
-            $this->data->contentpadding = 'padding-left:15px;';
-        } else if ($this->data->imagepositionoption == 'right') {
-            $this->data->toright = true;
-            $this->data->contentpadding = 'padding-right:15px;';
+        if ($this->localthumb) {
+            $storedimage = $this->get_file_url('image');
+            $this->data->imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
+            $this->data->valignclass = "aligned-".$this->data->verticalalignoption;
+            if ($this->data->imagepositionoption == 'left') {
+                $this->data->toleft = true;
+                $this->data->contentpadding = 'padding-left:15px;';
+            } else if ($this->data->imagepositionoption == 'right') {
+                $this->data->toright = true;
+                $this->data->contentpadding = 'padding-right:15px;';
+            }
+
+            if (!empty($this->data->imagewidth)) {
+                if (is_numeric($this->data->imagewidth)) {
+                    $this->data->imagewidth.= 'px';
+                }
+            }
         }
     }
 }

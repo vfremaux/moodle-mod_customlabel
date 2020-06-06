@@ -22,21 +22,21 @@
 
 }}
 <!-- customlabeltype_information/template -->
-<table class="custombox-information" width="100%">
+{{> mod_customlabel/start }}
+<div class="custombox-{{labelclass}}-container" width="100%">
 
-    <tr valign="top">
-        <td class="custombox-header-thumb information" style="background-image : url({{{iconurl}}});" width="2%" rowspan="2">
-        </td>
-        <td class="custombox-header-caption information" width="98%">
-            {{#str}}information, customlabeltype_information{{/str}}
-        </td>
-    </tr>
+    <div class="custombox-{{labelclass}}-flexline">
+        <div class="custombox-header-caption {{labelclass}} {{skin}}" width="98%">
+            <h4>{{#str}}information, customlabeltype_information{{/str}}</h4>
+        </div>
+    </div>
 
-    <tr valign="top">
-        <td class="custombox-content informationtext">
+    <div class="custombox-flexline {{labelclass}}">
+        <div>
             {{{informationtext}}}
-        </td>
-    </tr>
+        </div>
+    </div>
 
-</table>
+</div>
+{{> mod_customlabel/end }}
 <!-- /customlabeltype_information/template -->
