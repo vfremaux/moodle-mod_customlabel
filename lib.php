@@ -377,6 +377,7 @@ function customlabel_cm_info_view(&$cminfo) {
 
     if (!in_array($customlabel->labelclass, $customlabelcssloaded)) {
         $cssurl = '/mod/customlabel/typestyle.php?type='.$customlabel->labelclass;
+        $cssurl .= '&theme='.$PAGE->theme->name;
         if (!$PAGE->requires->is_head_done()) {
             $PAGE->requires->css($cssurl);
         } else {

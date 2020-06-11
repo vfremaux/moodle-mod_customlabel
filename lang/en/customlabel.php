@@ -68,6 +68,7 @@ $string['name'] = 'Label';
 $string['nocontentforthislanguage'] = 'No content available for this language<br/>';
 $string['pluginadministration'] = 'Course element administration';
 $string['pluginname'] = 'Course element';
+$string['plugindefault'] = 'Plugin default skin';
 $string['regenerate'] = 'Regenerate';
 $string['regeneration'] = 'Content mass regeneration';
 $string['resetall'] = 'Reset all';

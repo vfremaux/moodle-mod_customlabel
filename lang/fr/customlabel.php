@@ -61,6 +61,7 @@ $string['lockedsample'] = 'Exemple de champ verouillé';
 $string['missingfields'] = 'Des champs obligatoires ne sont pas initialisés.';
 $string['modulename'] = 'Elément de cours';
 $string['pluginname'] = 'Eléments de cours';
+$string['plugindefault'] = 'Skin par défaut du plugin';
 $string['modulenameplural'] = 'Eléments de cours';
 $string['name'] = 'Label';
 $string['nocontentforthislanguage'] = 'Aucun contenu disponible pour ce langage<br/>';
