@@ -24,14 +24,22 @@ require('../../config.php');
 
 $type = required_param('type', PARAM_TEXT);
 $subtype = optional_param('subtype', '', PARAM_TEXT);
+$theme = optional_param('theme', '', PARAM_TEXT);
 
 $skin = get_config('customlabel', 'defaultskin');
+
+if (!empty($theme)) {
+    $themeskin = get_config('theme_'.$theme, 'customlabelskin');
+    if (!empty($themeskin)) {
+        $skin = $themeskin;
+    }
+}
 
 header('Content-type: text/css');
 
 $baseurl = 'type/'.$type.'/pix';
 
-if (!in_array($skin, ['default', 'flatstyle', 'coloured', 'flatstyle coloured'])) {
+if (!in_array($skin, ['default', 'flatstyle', 'colored', 'flatstyle colored'])) {
     // Customized type.
     $baseurl = 'pix/skins/'.$skin;
 }

@@ -10,26 +10,6 @@
     color: #1D0299;
 }
 
-.custombox-header-thumb.contactpoint {
-    background-repeat: no-repeat;
-    height: 73px;
-}
-
-#region-main .custombox-header-thumb.contactpoint,
-#page-region-main .custombox-header-thumb.contactpoint {
-    min-width: 80px;
-    width: 80px;
-}
-
-#page-region-pre .custombox-header-thumb.contactpoint,
-#region-pre .custombox-header-thumb.contactpoint,
-#region-post .custombox-header-thumb.contactpoint,
-#page-region-post .custombox-header-thumb.contactpoint {
-    background-size: 70%;
-    min-width: 35px;
-    width: 35px;
-}
-
 .custombox-header-thumb.any {
     background-image: url("/mod/customlabel/{{baseurl}}/icon_any.png");
 }
@@ -62,26 +42,13 @@
     background-image: url("/mod/customlabel/type/contactpoint/pix/icon_facetoface.png");
 }
 
-.custombox-content.contactpoint {
-    min-height: 100px;
-}
-
 /* contact points */
 .custombox-header-thumb.contactpoint.flatstyle {
     background-image: url("/mod/customlabel/pix/spots/darkbluespot.png");
-    text-align: center;
-}
-
-#page-region-main .custombox-header-thumb.contactpoint.flatstyle,
-#region-main .custombox-header-thumb.contactpoint.flatstyle {
-    background-position: 30% 0%;
 }
 
 .custombox-header-thumb.contactpoint.flatstyle:after {
     content: "\f0ec"; /* fa-exchange */
-    font-family: "fontAwesome";
-    color: white;
-    font-size: 32px;
 }
 
 .custombox-header-thumb.contactpoint.phone.flatstyle:after {
@@ -106,14 +73,4 @@
 
 .custombox-header-thumb.contactpoint.chat.flatstyle:after {
     content: "\f120"; /* fa-terminal */
-}
-
-#page-region-pre .custombox-header-thumb.contactpoint.flatstyle:after,
-#region-pre .custombox-header-thumb.contactpoint.flatstyle:after,
-#region-post .custombox-header-thumb.contactpoint.flatstyle:after,
-#page-region-post .custombox-header-thumb.contactpoint.flatstyle:after {
-    font-size: 12px;
-    position: relative;
-    top: -15px;
-    left: -5px;
 }

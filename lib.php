@@ -377,6 +377,7 @@ function customlabel_cm_info_view(&$cminfo) {
 
     if (!in_array($customlabel->labelclass, $customlabelcssloaded)) {
         $cssurl = '/mod/customlabel/typestyle.php?type='.$customlabel->labelclass;
+        $cssurl .= '&theme='.$PAGE->theme->name;
         if (!$PAGE->requires->is_head_done()) {
             $PAGE->requires->css($cssurl);
         } else {
@@ -431,7 +432,7 @@ function customlabel_cm_info_view(&$cminfo) {
             $instance->postprocess_icon();
             $instance->data->labelclass = $customlabel->labelclass;
             $template = 'customlabeltype_'.$customlabel->labelclass.'/template';
-            $instance->data->skin = $config->defaultskin;
+            $instance->data->skin = (empty($config->defaultskin)) ? '' : $config->defaultskin;
 
             $themename = $PAGE->theme->name;
             $override = get_config('theme_'.$themename, 'customlabelskin');

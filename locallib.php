@@ -26,6 +26,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot.'/mod/customlabel/compatlib.php');
+
 if (!isset($CFG->classification_type_table)) {
     set_config('classification_type_table', 'customlabel_mtd_type');
     set_config('classification_value_table', 'customlabel_mtd_value');

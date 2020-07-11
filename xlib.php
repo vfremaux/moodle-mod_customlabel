@@ -116,3 +116,20 @@ function customlabel_get_coursedata($courseid) {
     $instance = customlabel_load_class($cl);
     return $instance;
 }
+
+function customlabel_get_requestcontact($courseid) {
+    global $DB;
+
+    $params = ['course' => $courseid, 'labelclass' => 'requestcontact'];
+    $potrq = $DB->get_records('customlabel', $params, 'id');
+
+    if (!$potrq) {
+        return;
+    }
+
+    // At the moment take the first that comes.
+    $cl = array_shift($potrq);
+
+    $instance = customlabel_load_class($cl);
+    return $instance;
+}

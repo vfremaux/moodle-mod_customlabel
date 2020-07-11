@@ -1,17 +1,10 @@
-
-.custombox-sequenceheading {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-}
-
-div.custombox-sequenceheading h2.custombox-sequenceheader {
+.custombox-sequenceheading .custombox-sequenceheader {
     color: #E6C439;
     font-size: 20px;
     line-height: 26px;
 }
 
-div.custombox-sequenceheading p {
+.custombox-sequenceheading p {
     font-size: 12pt;
     width: 100%;
 }
