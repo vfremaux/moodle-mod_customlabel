@@ -15,19 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
- *
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ *
+ * TODO : check if there is not a legacy post install function in module API
  */
-defined('MOODLE_INTERNAL') || die();
-
-$plugin = new StdClass;
-$plugin->version  = 2015041800;  // The current module version (Date: YYYYMMDDXX).
-$plugin->component = 'customlabeltype_verticalspacer';   // Full name of the plugin (used for diagnostics).
-
-$plugin->codeincrement = "XX.0001";
 

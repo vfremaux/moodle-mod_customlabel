@@ -26,14 +26,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
-$string['contactpoint:view'] = 'Peut voir le contenu';
-$string['contactpoint:addinstance'] = 'Peut ajouter une instance';
+$string['requestcontact:view'] = 'Peut voir le contenu';
+$string['requestcontact:addinstance'] = 'Peut ajouter une instance';
 
-$string['pluginname'] = 'Elément de cours : Point de contact';
-$string['typename'] = 'Point de contact';
+$string['pluginname'] = 'Elément de cours : Demande de contact';
+$string['typename'] = 'Demande de contact';
 $string['configtypename'] = 'Active le type Point de contact';
+$string['requestcontact'] = 'Point de contact';
 $string['method'] = 'Méthode';
-$string['contactpoint'] = 'Point de contact';
+$string['url'] = 'URL';
 $string['instructions'] = 'Instructions';
 $string['contacttype'] = 'Type de contact';
 $string['any'] = 'Toute méthode';
@@ -44,3 +45,4 @@ $string['onlinevocal'] = 'Com. en ligne';
 $string['chat'] = 'Chat';
 $string['meeting'] = 'Réunion virtuelle';
 $string['facetoface'] = 'Face à face';
+$string['naming'] = 'Titre';

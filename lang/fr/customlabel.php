@@ -40,7 +40,7 @@ $string['changetypeadvice'] = 'Vous allez changer la structure de cet élement.\
 $string['cleararea'] = 'Vider cette zone de fichiers';
 $string['lpclassificationhdr'] = 'Cours classés';
 $string['customlabeltools'] = 'Outils de masse pour les éléments personnalisables';
-$string['defaultskin'] = 'Skin par défaut';
+$string['defaultskin'] = 'Apparence par défaut';
 $string['defaultskin_desc'] = 'Un preset de style pour les elements de cours';
 $string['disabledsubtypes'] = 'Types d\'éléments désactivés';
 $string['disabledsubtypesdesc'] = 'Tout type mentionné dans ce champ sera désactivé au niveau site. Les contenus existants pour ce type d\'éléments seront ignorés.';
@@ -61,6 +61,7 @@ $string['lockedsample'] = 'Exemple de champ verouillé';
 $string['missingfields'] = 'Des champs obligatoires ne sont pas initialisés.';
 $string['modulename'] = 'Elément de cours';
 $string['pluginname'] = 'Eléments de cours';
+$string['plugindefault'] = 'Apparence par défaut (paramètres des élements de cours)';
 $string['modulenameplural'] = 'Eléments de cours';
 $string['name'] = 'Label';
 $string['nocontentforthislanguage'] = 'Aucun contenu disponible pour ce langage<br/>';
@@ -88,7 +89,7 @@ $string['typetype'] = 'Type';
 $string['withcompletions'] = 'Réinitialier aussi les achèvements des labels';
 
 // Skins
-$string['defaultstyle'] = 'Apparence par défaut';
+$string['defaultstyle'] = 'Icones (jeu par défaut)';
 $string['flatstyle'] = 'Style "Flat design"';
 $string['coloredstyle'] = 'Titres colorés';
 $string['flatcoloredstyle'] = '"Flat design" et titres colorés';
