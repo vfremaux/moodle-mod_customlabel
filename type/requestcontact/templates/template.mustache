@@ -15,28 +15,29 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template mod_customlabel/contactpoint
+    @template mod_customlabel/requestcontact
 
     Classes required for JS:
     * no classes
 
 }}
-<!-- customlabeltype_contactpoint/template -->
+<!-- customlabeltype_requestcontact/template -->
 {{> mod_customlabel/start }}
     <div class="custombox-container {{labelclass}}">
 
         <div class="custombox-flexline {{labelclass}}">
              <div class="custombox-header-caption {{labelclass}} {{skin}}">
-                <h4>{{#str}}contactpoint, customlabeltype_contactpoint{{/str}}<br/>
-                <span class="custombox-header-caption contacttype">{{#str}}method, customlabeltype_contactpoint{{/str}} : {{contacttype}}</span></h4>
-            </div>
+                <h4>{{{naming}}}</h4>
+             </div>
         </div>
 
         <div class="custombox-flexline {{labelclass}}">
-            <div>
-                {{{instructions}}}
+            <div class="btn btn-primary">
+                <a class="hypertext" href="{{{url}}}" target="_blank">
+                    Cliquer ici
+                </a>
             </div>
         </div>
     </div>
 {{> mod_customlabel/end }}
-<!-- /customlabeltype_contactpoint/template -->
+<!-- /customlabeltype_requestcontact/template -->

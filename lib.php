@@ -377,12 +377,15 @@ function customlabel_cm_info_view(&$cminfo) {
 
     if (!in_array($customlabel->labelclass, $customlabelcssloaded)) {
         $cssurl = '/mod/customlabel/typestyle.php?type='.$customlabel->labelclass;
+        $cssurl .= '&theme='.$PAGE->theme->name;
         if (!$PAGE->requires->is_head_done()) {
             $PAGE->requires->css($cssurl);
         } else {
             // Late loading.
             // Less clean but no other way in some cases.
-            $content .= '<link rel="stylesheet" href="'.$CFG->wwwroot.$cssurl.'" />'."\n";
+            $csslink = '<link rel="stylesheet" type="text/css" href="'.$CFG->wwwroot.$cssurl.'" />'."\n";
+            // Print it directly as some filtering may drop those links sometimes.
+            echo $csslink;
         }
         $customlabelcssloaded[] = $customlabel->labelclass;
     }

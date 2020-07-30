@@ -12,52 +12,12 @@
 
 .custombox-header-thumb.fundamental {
     background-image: url("/mod/customlabel/{{baseurl}}/icon_fundamental.png");
-    background-repeat: no-repeat;
-    height: 73px;
-}
-
-#region-main .custombox-header-thumb.fundamental,
-#page-region-main .custombox-header-thumb.fundamental {
-    min-width: 80px;
-    width: 80px;
-}
-
-#page-region-pre .custombox-header-thumb.fundamental,
-#region-pre .custombox-header-thumb.fundamental,
-#region-post .custombox-header-thumb.fundamental,
-#page-region-post .custombox-header-thumb.fundamental {
-    background-size: 70%;
-    min-width: 35px;
-    width: 35px;
-}
-
-.custombox-content.fundamentaltext {
-    min-height: 100px;
 }
 
 .custombox-header-thumb.fundamental.flatstyle {
     background-image: url("/mod/customlabel/pix/spots/A94C9A_spot.png");
-    text-align: center;
-}
-
-#region-main .custombox-header-thumb.fundamental.flatstyle,
-#page-region-main .custombox-header-thumb.fundamental.flatstyle {
-    background-position: 30% 0%;
 }
 
 .custombox-header-thumb.fundamental.flatstyle:after {
     content: "\f19c";
-    font-family: "fontAwesome";
-    color: white;
-    font-size: 32px;
-}
-
-#page-region-pre .custombox-header-thumb.fundamental.flatstyle:after,
-#region-pre .custombox-header-thumb.fundamental.flatstyle:after,
-#region-post .custombox-header-thumb.fundamental.flatstyle:after,
-#page-region-post .custombox-header-thumb.fundamental.flatstyle:after {
-    font-size: 12px;
-    position: relative;
-    top: -15px;
-    left: -5px;
 }

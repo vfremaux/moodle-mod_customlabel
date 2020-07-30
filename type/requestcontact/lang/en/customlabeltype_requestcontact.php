@@ -26,21 +26,26 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
-$string['contactpoint:view'] = 'Peut voir le contenu';
-$string['contactpoint:addinstance'] = 'Peut ajouter une instance';
+$string['requestcontact:view'] = 'Can view the content';
+$string['requestcontact:addinstance'] = 'Can add an instance';
 
-$string['pluginname'] = 'Elément de cours : Point de contact';
-$string['typename'] = 'Point de contact';
-$string['configtypename'] = 'Active le type Point de contact';
-$string['method'] = 'Méthode';
-$string['contactpoint'] = 'Point de contact';
+$string['pluginname'] = 'Course element : Request contact';
+$string['typename'] = 'Contact point';
+$string['requestcontact'] = 'Request contact';
+$string['method'] = 'Method';
+$string['url'] = 'URL';
+$string['configtypename'] = 'Enable subtype Contact point';
 $string['instructions'] = 'Instructions';
-$string['contacttype'] = 'Type de contact';
-$string['any'] = 'Toute méthode';
-$string['anywritten'] = 'Toute méthode écrite';
-$string['mail'] = 'Mél';
-$string['phone'] = 'Téléphone';
-$string['onlinevocal'] = 'Com. en ligne';
+$string['contacttype'] = 'Contact type';
+$string['any'] = 'Any method';
+$string['anywritten'] = 'Any method but written';
+$string['mail'] = 'Mail';
+$string['phone'] = 'Phone';
+$string['onlinevocal'] = 'On line vocal';
 $string['chat'] = 'Chat';
-$string['meeting'] = 'Réunion virtuelle';
-$string['facetoface'] = 'Face à face';
+$string['meeting'] = 'Online meeting';
+$string['facetoface'] = 'Physical meeting';
+$string['naming'] = 'Title';
+$string['family'] = 'special';
+
+
