@@ -12,52 +12,12 @@
 
 .custombox-header-thumb.seealso {
     background-image: url("/mod/customlabel/{{baseurl}}/icon_seealso.png");
-    background-repeat: no-repeat;
-    height: 73px;
-}
-
-#region-main .custombox-header-thumb.seealso,
-#page-region-main .custombox-header-thumb.seealso {
-    min-width: 80px;
-    width: 80px;
-}
-
-#page-region-pre .custombox-header-thumb.seealso,
-#region-pre .custombox-header-thumb.seealso,
-#region-post .custombox-header-thumb.seealso,
-#page-region-post .custombox-header-thumb.seealso {
-    background-size: 70%;
-    min-width: 35px;
-    width: 35px;
-}
-
-.custombox-content.seealso {
-    min-height: 100px;
 }
 
 .custombox-header-thumb.seealso.flatstyle {
     background-image: url("/mod/customlabel/pix/spots/graydark_spot.png");
-    text-align: center;
-}
-
-#page-region-main .custombox-header-thumb.seealso.flatstyle,
-#region-main .custombox-header-thumb.seealso.flatstyle {
-    background-position: 30% 0%;
 }
 
 .custombox-header-thumb.seealso.flatstyle:after {
     content: "\f141"; /* fa-ellipsis-h */
-    font-family: "fontAwesome", sans-serif;
-    color: white;
-    font-size: 32px;
-}
-
-#page-region-pre .custombox-header-thumb.seealso.flatstyle:after,
-#region-pre .custombox-header-thumb.seealso.flatstyle:after,
-#region-post .custombox-header-thumb.seealso.flatstyle:after,
-#page-region-post .custombox-header-thumb.seealso.flatstyle:after {
-    font-size: 12px;
-    position: relative;
-    top: -15px;
-    left: -5px;
 }

@@ -77,6 +77,13 @@ class customlabel_type_text extends customlabel_type {
 
         $context = context_module::instance($this->cmid);
         // Weird fix.
+        if (empty($this->data->textcontent)) {
+            $this->data->textcontent = '';
+        }
+        if (empty($this->data->readmorecontent)) {
+            $this->data->readmorecontent = '';
+        }
+
         $this->data->textcontent = str_replace("%WWWROOT%", $CFG->wwwroot, $this->data->textcontent);
         $this->data->textcontent = str_replace("%COURSEID%", $COURSE->id, $this->data->textcontent);
         $this->data->textcontent = str_replace("%USERID%", $USER->id, $this->data->textcontent);

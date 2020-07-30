@@ -25,13 +25,12 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
     // Controls who can add this type.
-    'customlabeltype/remotecontent:addinstance' => array(
+    'customlabeltype/requestcontact:addinstance' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'legacy' => array(
@@ -42,7 +41,7 @@ $capabilities = array(
     ),
 
     // Controls visibility of labeltype on role base.
-    'customlabeltype/remotecontent:view' => array(
+    'customlabeltype/requestcontact:view' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'legacy' => array(
@@ -51,6 +50,8 @@ $capabilities = array(
             'manager' => CAP_ALLOW,
             'coursecreator' => CAP_ALLOW,
             'student' => CAP_ALLOW,
+            'user' => CAP_ALLOW,
+            'guest' => CAP_ALLOW,
         )
     ),
 );

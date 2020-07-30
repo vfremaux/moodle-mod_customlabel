@@ -15,20 +15,29 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template mod_customlabel/remotecontent
+    @template mod_customlabel/requestcontact
 
     Classes required for JS:
     * no classes
 
 }}
-<!-- customlabeltype_remotecontent/template -->
-<div class="custombox-remotecontent">
-    {{#hasextracss}}
-    <STYLE>
-    {{extracss}}
-    </STYLE>
-    {{/hasextracss}}
+<!-- customlabeltype_requestcontact/template -->
+{{> mod_customlabel/start }}
+    <div class="custombox-container {{labelclass}}">
 
-    {{{remotecontent}}}
-</div>
-<!-- /customlabeltype_remotecontent/template -->
+        <div class="custombox-flexline {{labelclass}}">
+             <div class="custombox-header-caption {{labelclass}} {{skin}}">
+                <h4>{{{naming}}}</h4>
+             </div>
+        </div>
+
+        <div class="custombox-flexline {{labelclass}}">
+            <div class="btn btn-primary">
+                <a class="hypertext" href="{{{url}}}" target="_blank">
+                    Cliquer ici
+                </a>
+            </div>
+        </div>
+    </div>
+{{> mod_customlabel/end }}
+<!-- /customlabeltype_requestcontact/template -->

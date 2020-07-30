@@ -12,27 +12,6 @@
 
 .custombox-header-thumb.theorema {
     background-image: url("/mod/customlabel/{{baseurl}}/icon_theorema.png");
-    background-repeat: no-repeat;
-    height: 73px;
-}
-
-#region-main .custombox-header-thumb.theorema,
-#page-region-main .custombox-header-thumb.theorema {
-    min-width: 80px;
-    width: 80px;
-}
-
-#page-region-pre .custombox-header-thumb.theorema,
-#region-pre .custombox-header-thumb.theorema,
-#region-post .custombox-header-thumb.theorema,
-#page-region-post .custombox-header-thumb.thorema {
-    background-size: 70%;
-    min-width: 35px;
-    width: 35px;
-}
-
-.custombox-content.theorema {
-    min-height: 100px;
 }
 
 div.custombox-demonstration-caption.theorema {
@@ -67,27 +46,8 @@ div.custombox-demonstration.theorema {
 
 .custombox-header-thumb.theorema.flatstyle {
     background-image: url("/mod/customlabel/pix/spots/orangespot.png");
-    text-align: center;
-}
-
-#page-region-main .custombox-header-thumb.theorema.flatstyle,
-#region-main .custombox-header-thumb.theorema.flatstyle {
-    background-position: 30% 0%;
 }
 
 td.custombox-header-thumb.theorema.flatstyle:after {
     content: "\f12e";
-    font-family: "fontAwesome";
-    color: white;
-    font-size: 32px;
-}
-
-#page-region-pre .custombox-header-thumb.theorema.flatstyle:after,
-#region-pre .custombox-header-thumb.theorema.flatstyle:after,
-#region-post .custombox-header-thumb.theorema.flatstyle:after,
-#page-region-post .custombox-header-thumb.thorema.flatstyle:after {
-    font-size: 12px;
-    position: relative;
-    top: -15px;
-    left: -5px;
 }

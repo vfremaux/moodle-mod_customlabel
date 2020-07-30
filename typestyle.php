@@ -29,7 +29,7 @@ $theme = optional_param('theme', '', PARAM_TEXT);
 $skin = get_config('customlabel', 'defaultskin');
 
 if (!empty($theme)) {
-    $themeskin = get_config('theme_'.$themename, 'customlabelskin');
+    $themeskin = get_config('theme_'.$theme, 'customlabelskin');
     if (!empty($themeskin)) {
         $skin = $themeskin;
     }
@@ -39,7 +39,7 @@ header('Content-type: text/css');
 
 $baseurl = 'type/'.$type.'/pix';
 
-if (!in_array($skin, ['default', 'flatstyle', 'coloured', 'flatstyle coloured'])) {
+if (!in_array($skin, ['default', 'flatstyle', 'colored', 'flatstyle colored'])) {
     // Customized type.
     $baseurl = 'pix/skins/'.$skin;
 }
@@ -47,5 +47,9 @@ if (!in_array($skin, ['default', 'flatstyle', 'coloured', 'flatstyle coloured'])
 $csscode = implode('', file($CFG->dirroot.'/mod/customlabel/type/'.$type.'/customlabel.css'));
 
 $csscode = str_replace('{{baseurl}}', $baseurl, $csscode);
+
+// If it is the case, add rel base path.
+$relpath = preg_replace('#^https?\\:\\/\\/[^\\/]+#', '', $CFG->wwwroot);
+$csscode = str_replace('url("/mod', "url(\"{$relpath}/mod", $csscode);
 
 echo $csscode;

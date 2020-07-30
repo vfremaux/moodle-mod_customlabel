@@ -68,7 +68,7 @@ $string['name'] = 'Label';
 $string['nocontentforthislanguage'] = 'No content available for this language<br/>';
 $string['pluginadministration'] = 'Course element administration';
 $string['pluginname'] = 'Course element';
-$string['plugindefault'] = 'Plugin default skin';
+$string['plugindefault'] = 'Customlabel default skin';
 $string['regenerate'] = 'Regenerate';
 $string['regeneration'] = 'Content mass regeneration';
 $string['resetall'] = 'Reset all';
@@ -95,7 +95,7 @@ and register.
 ";
 
 // Skins
-$string['defaultstyle'] = 'Default skin';
+$string['defaultstyle'] = 'Default icon set';
 $string['flatstyle'] = 'Flat style';
 $string['coloredstyle'] = 'Colored titles';
 $string['flatcoloredstyle'] = 'Flat and colored titles';

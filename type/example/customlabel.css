@@ -12,52 +12,12 @@
 
 .custombox-header-thumb.example {
     background-image: url("/mod/customlabel/{{baseurl}}/icon_example.png");
-    background-repeat: no-repeat;
-    height: 73px;
-}
-
-#region-main .custombox-header-thumb.example,
-#page-region-main .custombox-header-thumb.example {
-    min-width: 80px;
-    width: 80px;
-}
-
-#page-region-pre .custombox-header-thumb.example,
-#region-pre .custombox-header-thumb.example,
-#region-post .custombox-header-thumb.example,
-#page-region-post .custombox-header-thumb.example {
-    background-size: 70%;
-    min-width: 35px;
-    width: 35px;
-}
-
-.custombox-content.example {
-    min-height: 100px;
 }
 
 .custombox-header-thumb.example.flatstyle {
     background-image: url("/mod/customlabel/pix/spots/grayspot.png");
-    text-align: center;
-}
-
-#page-region-main .custombox-header-thumb.example.flatstyle,
-#region-main .custombox-header-thumb.example.flatstyle {
-    background-position: 30% 0%;
 }
 
 .custombox-header-thumb.example.flatstyle:after {
     content: "\f0c3";
-    font-family: "fontAwesome";
-    color:#ffffff;
-    font-size:32px;
-}
-
-#page-region-pre .custombox-header-thumb.example.flatstyle:after,
-#region-pre .custombox-header-thumb.example.flatstyle:after,
-#region-post .custombox-header-thumb.example.flatstyle:after,
-#page-region-post .custombox-header-thumb.example.flatstyle:after {
-    font-size:12px;
-    position: relative;
-    top: -15px;
-    left: -5px;
 }

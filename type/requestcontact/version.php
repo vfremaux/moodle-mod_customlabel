@@ -15,7 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * This is a local class contextual translation file for field names and list options.
+ * this file is automatically loaded by the /mod/customlabel/lang/xx_utf8/customlabel.php
+ * module language file.
  *
  * @package    mod_customlabel
  * @category   mod
@@ -26,6 +28,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin = new StdClass();
-$plugin->version  = 2020011900;  // The current module version (Date: YYYYMMDDXX).
-$plugin->component = 'customlabeltype_remotecontent';   // Full name of the plugin (used for diagnostics).
+$plugin->version  = 2020061600;  // The current module version (Date: YYYYMMDDXX).
+$plugin->component = 'customlabeltype_requestcontact';   // Full name of the plugin (used for diagnostics).
 
