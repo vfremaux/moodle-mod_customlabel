@@ -12,52 +12,12 @@
 
 .custombox-header-thumb.information {
     background-image: url("/mod/customlabel/{{baseurl}}/icon_information.png");
-    background-repeat: no-repeat;
-    height: 73px;
-}
-
-#region-main .custombox-header-thumb.information,
-#page-region-main .custombox-header-thumb.information {
-    min-width: 80px;
-    width: 80px;
-}
-
-#page-region-pre .custombox-header-thumb.information,
-#region-pre .custombox-header-thumb.information,
-#region-post .custombox-header-thumb.information,
-#page-region-post .custombox-header-thumb.information {
-    background-size: 70%;
-    min-width: 35px;
-    width: 35px;
-}
-
-.custombox-content.information {
-    min-height: 100px;
 }
 
 .custombox-header-thumb.information.flatstyle {
     background-image: url("/mod/customlabel/pix/spots/grayspot.png");
-    text-align: center;
-}
-
-#page-region-main .custombox-header-thumb.information.flatstyle,
-#region-main .custombox-header-thumb.information.flatstyle {
-    background-position: 30% 0%;
 }
 
 .custombox-header-thumb.information.flatstyle:after {
     content: "\f05a";
-    font-family: "fontAwesome";
-    color: white;
-    font-size: 32px;
-}
-
-#page-region-pre .custombox-header-thumb.information.flatstyle:after,
-#region-pre .custombox-header-thumb.information.flatstyle:after,
-#region-post .custombox-header-thumb.information.flatstyle:after,
-#page-region-post .custombox-header-thumb.information.flatstyle:after {
-    font-size: 12px;
-    position: relative;
-    top: -15px;
-    left: -5px;
 }

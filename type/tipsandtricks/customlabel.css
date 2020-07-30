@@ -12,52 +12,12 @@
 
 .custombox-header-thumb.tipsandtricks {
     background-image: url("/mod/customlabel/{{baseurl}}/icon_tipsandtricks.png");
-    background-repeat: no-repeat;
-    height: 73px;
-}
-
-#region-main .custombox-header-thumb.tipsandtricks,
-#page-region-main .custombox-header-thumb.tipsandtricks {
-    min-width: 80px;
-    width: 80px;
-}
-
-#page-region-pre .custombox-header-thumb.tipsandtricks,
-#region-pre .custombox-header-thumb.tipsandtricks,
-#region-post .custombox-header-thumb.tipsandtricks,
-#page-region-post .custombox-header-thumb.tipsandtricks {
-    background-size: 70%;
-    min-width: 35px;
-    width: 35px;
-}
-
-.custombox-content.tipsandtricks {
-    min-height: 100px;
 }
 
 .custombox-header-thumb.tipsandtricks.flatstyle {
     background-image: url("/mod/customlabel/pix/spots/greenspot.png");
-    text-align: center;
-}
-
-#page-region-main .custombox-header-thumb.tipsandtricks.flatstyle,
-#region-main .custombox-header-thumb.tipsandtricks.flatstyle {
-    background-position:30% 0%;
 }
 
 .custombox-header-thumb.tipsandtricks.flatstyle:after {
     content: "\f0eb"; /* fa-lighttube-o */
-    font-family: "fontAwesome";
-    color: white;
-    font-size: 32px;
-}
-
-#page-region-pre .custombox-header-thumb.tipsandtricks.flatstyle:after,
-#region-pre .custombox-header-thumb.tipsandtricks.flatstyle:after,
-#region-post .custombox-header-thumb.tipsandtricks.flatstyle:after,
-#page-region-post .custombox-header-thumb.tipsandtricks.flatstyle:after {
-    font-size: 12px;
-    position: relative;
-    top: -15px;
-    left: -5px;
 }

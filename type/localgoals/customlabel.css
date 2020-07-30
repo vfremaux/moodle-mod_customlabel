@@ -12,52 +12,12 @@
 
 .custombox-header-thumb.localgoals {
     background-image: url("/mod/customlabel/{{baseurl}}/icon_localgoals.png"); 
-    background-repeat: no-repeat;
-    height: 73px;
-}
-
-#region-main .custombox-header-thumb.localgoals,
-#page-region-main .custombox-header-thumb.localgoals {
-    min-width: 80px;
-    width: 80px;
-}
-
-#page-region-pre .custombox-header-thumb.localgoals,
-#region-pre .custombox-header-thumb.localgoals,
-#region-post .custombox-header-thumb.localgoals,
-#page-region-post .custombox-header-thumb.localgoals {
-    background-size: 70%;
-    min-width: 35px;
-    width: 35px;
-}
-
-.custombox-content.localgoals {
-    min-height:100px;
 }
 
 .custombox-header-thumb.localgoals.flatstyle {
     background-image: url("/mod/customlabel/pix/spots/bluespot.png");
-    text-align: center;
-}
-
-#page-region-main .custombox-header-thumb.localgoals.flatstyle,
-#region-main .custombox-header-thumb.localgoals.flatstyle {
-    background-position: 30% 0%;
 }
 
 .custombox-header-thumb.localgoals.flatstyle:after {
     content: "\f140"; /* fa-bullseye */
-    font-family: "fontAwesome";
-    color: white;
-    font-size: 32px;
-}
-
-#page-region-pre .custombox-header-thumb.localgoals.flatstyle:after,
-#region-pre .custombox-header-thumb.localgoals.flatstyle:after,
-#region-post .custombox-header-thumb.localgoals.flatstyle:after,
-#page-region-post .custombox-header-thumb.localgoals.flatstyle:after {
-    font-size: 12px;
-    position: relative;
-    top: -15px;
-    left: -5px;
 }

@@ -26,6 +26,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot.'/mod/customlabel/compatlib.php');
+
 if (!isset($CFG->classification_type_table)) {
     set_config('classification_type_table', 'customlabel_mtd_type');
     set_config('classification_value_table', 'customlabel_mtd_value');
@@ -198,7 +200,7 @@ function customlabel_process_fields(&$customlabelrec, &$instance) {
             $customlabelrec->{$fieldname} = @$_REQUEST[$fieldname];
         }
 
-        if ($customlabelrec->{$fieldname} == '_qf__force_multiselect_submission') {
+        if (!empty($customlabelrec->{$fieldname}) && ($customlabelrec->{$fieldname} == '_qf__force_multiselect_submission')) {
             $customlabelrec->{$fieldname} = '';
         }
 

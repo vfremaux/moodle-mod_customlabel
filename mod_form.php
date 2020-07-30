@@ -148,6 +148,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 $attrs = array('size' => @$field->size, 'maxlength' => @$field->maxlength);
                 $mform->addElement('text', $field->name, $fieldlabel, $attrs);
                 $mform->setType($field->name, PARAM_CLEANHTML);
+                if (!empty($field->default)) {
+                    $mform->setDefault($field->name, $field->default);
+                }
 
             } else if ($field->type == 'date') {
 
@@ -157,6 +160,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     'optional' => true
                 );
                 $mform->addElement('date_selector', $field->name, $fieldlabel, $attrs);
+                if (!empty($field->default)) {
+                    $mform->setDefault($field->name, $field->default);
+                }
 
             } else if ($field->type == 'datetime') {
 
@@ -167,6 +173,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     'step' => 10
                 );
                 $mform->addElement('date_time_selector', $field->name, $fieldlabel, $attrs);
+                if (!empty($field->default)) {
+                    $mform->setDefault($field->name, $field->default);
+                }
 
             } else if ($field->type == 'editor') {
 
@@ -177,6 +186,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
             } else if ($field->type == 'textarea') {
 
                 $mform->addElement('textarea', $field->name, $fieldlabel, array('rows' => 5, 'cols' => 60));
+                if (!empty($field->default)) {
+                    $mform->setDefault($field->name, $field->default);
+                }
 
             } else if (preg_match("/list$/", $field->type)) {
 
@@ -192,6 +204,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     $select->setMultiple(true);
                 }
                 $mform->setType($field->name, PARAM_TEXT);
+                if (!empty($field->default)) {
+                    $mform->setDefault($field->name, $field->default);
+                }
 
             } else if (preg_match("/datasource$/", $field->type)) {
 
