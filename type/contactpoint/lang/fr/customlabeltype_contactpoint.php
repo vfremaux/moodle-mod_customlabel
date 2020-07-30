@@ -32,6 +32,7 @@ $string['contactpoint:addinstance'] = 'Peut ajouter une instance';
 $string['pluginname'] = 'Elément de cours : Point de contact';
 $string['typename'] = 'Point de contact';
 $string['configtypename'] = 'Active le type Point de contact';
+$string['method'] = 'Méthode';
 $string['contactpoint'] = 'Point de contact';
 $string['instructions'] = 'Instructions';
 $string['contacttype'] = 'Type de contact';

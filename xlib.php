@@ -133,3 +133,7 @@ function customlabel_get_requestcontact($courseid) {
     $instance = customlabel_load_class($cl);
     return $instance;
 }
+
+function customlabel_search_courses($searchcriteria) {
+    return [];
+}

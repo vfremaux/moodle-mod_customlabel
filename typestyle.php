@@ -48,4 +48,8 @@ $csscode = implode('', file($CFG->dirroot.'/mod/customlabel/type/'.$type.'/custo
 
 $csscode = str_replace('{{baseurl}}', $baseurl, $csscode);
 
+// If it is the case, add rel base path.
+$relpath = preg_replace('#^https?\\:\\/\\/[^\\/]+#', '', $CFG->wwwroot);
+$csscode = str_replace('url("/mod', "url(\"{$relpath}/mod", $csscode);
+
 echo $csscode;

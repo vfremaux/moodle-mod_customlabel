@@ -383,7 +383,9 @@ function customlabel_cm_info_view(&$cminfo) {
         } else {
             // Late loading.
             // Less clean but no other way in some cases.
-            $content .= '<link rel="stylesheet" href="'.$CFG->wwwroot.$cssurl.'" />'."\n";
+            $csslink = '<link rel="stylesheet" type="text/css" href="'.$CFG->wwwroot.$cssurl.'" />'."\n";
+            // Print it directly as some filtering may drop those links sometimes.
+            echo $csslink;
         }
         $customlabelcssloaded[] = $customlabel->labelclass;
     }
@@ -432,7 +434,7 @@ function customlabel_cm_info_view(&$cminfo) {
             $instance->postprocess_icon();
             $instance->data->labelclass = $customlabel->labelclass;
             $template = 'customlabeltype_'.$customlabel->labelclass.'/template';
-            $instance->data->skin = (empty($config->defaultskin)) ? '' : $config->defaultskin;
+            $instance->data->skin = $config->defaultskin;
 
             $themename = $PAGE->theme->name;
             $override = get_config('theme_'.$themename, 'customlabelskin');
