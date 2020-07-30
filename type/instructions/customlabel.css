@@ -1,37 +1,23 @@
-table.custombox-instructions {
+.custombox-instructions {
     width: 100%;
 }
 
-td.custombox-header-thumb.instructions {
-    border-right: 1px solid #f00000 !important;
-    padding-right: 8px;
+.custombox-header-thumb.instructions.colored {
+    border-right: 1px solid #cc0033;
 }
 
-td.custombox-header-thumb.instructions {
-    background-image: url("/mod/customlabel/type/instructions/pix/icon_instructions_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 25px;
-    width: 25px;
+.custombox-header-caption.instructions.colored {
+    color: #cc0033;
 }
 
-#region-main td.custombox-header-thumb.instructions,
-#page-region-main td.custombox-header-thumb.instructions {
-    background-image: url("/mod/customlabel/type/instructions/pix/icon_instructions.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
+.custombox-header-thumb.instructions {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_instructions.png");
 }
 
-td.custombox-header-caption.instructions {
-    color: #d83030;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
+.custombox-header-thumb.instructions.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/BA002D_spot.png");
 }
 
-td.custombox-content.instructions {
-    min-height: 100px;
-    padding-left: 8px;
+.custombox-header-thumb.instructions.flatstyle:after {
+    content: "\f0a4";
 }

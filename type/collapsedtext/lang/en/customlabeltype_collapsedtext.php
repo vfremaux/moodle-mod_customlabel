@@ -22,6 +22,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
+// Privacy.
+$string['privacy:metadata'] = 'The local plugin customlabeltype CollapsedText does not directly store any personal data about any user.';
+
 $string['collapsedtext:view'] = 'Can view the content';
 $string['collapsedtext:addinstance'] = 'Can add an instance';
 

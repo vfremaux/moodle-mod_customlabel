@@ -30,6 +30,7 @@ $string['pluginname'] = 'Course element : Theorema';
 $string['typename'] = 'Theorema';
 $string['configtypename'] = 'Enable subtype Theorema';
 $string['theorema'] = 'Theorema text';
+$string['theoremaname'] = 'Theorema name';
 $string['corollarynum'] = 'Number of corollaries';
 $string['corollary'] = 'Corollary';
 $string['corollary0'] = 'Corollary 1';

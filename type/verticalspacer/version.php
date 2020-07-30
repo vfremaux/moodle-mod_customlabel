@@ -29,3 +29,5 @@ $plugin = new StdClass;
 $plugin->version  = 2015041800;  // The current module version (Date: YYYYMMDDXX).
 $plugin->component = 'customlabeltype_verticalspacer';   // Full name of the plugin (used for diagnostics).
 
+$plugin->codeincrement = "XX.0001";
+

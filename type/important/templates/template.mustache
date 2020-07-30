@@ -22,21 +22,19 @@
 
 }}
 <!-- customlabeltype_important/template -->
-<table class="custombox-important" width="100%">
+{{> mod_customlabel/start }}
+    <div class="custombox-{{labelclass}}-container">
+        <div class="custombox-{{labelclass}}-flexline">
+            <div class="custombox-header-caption {{labelclass}} {{skin}}">
+                <h4>{{#str}}important, customlabeltype_important{{/str}}</h4>
+            </div>
+        </div>
 
-    <tr valign="top">
-        <td class="custombox-header-thumb important" width="2%" rowspan="2">
-        </td>
-        <td class="custombox-header-caption important" width="98%">
-            {{#str}}important, customlabeltype_important{{/str}}
-        </td>
-    </tr>
-
-    <tr valign="top">
-        <td class="custombox-content important">
+        <div class="custombox-{{labelclass}}-flexline">
+            <div>
             {{{importantnote}}}
-        </td>
-    </tr>
-
-</table>
+            </div>
+        </div>
+    </div>
+{{> mod_customlabel/end }}
 <!-- /customlabeltype_important/template -->

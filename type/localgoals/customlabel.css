@@ -1,47 +1,23 @@
-table.custombox.localgoals {
+.custombox.localgoals {
     width: 100%;
 }
 
+.custombox-header-thumb.localgoals.colored {
+    border-right: 1px solid #9b5992;
+}
+
+.custombox-header-caption.localgoals.colored {
+    color: #9b5992;
+}
+
 .custombox-header-thumb.localgoals {
-    border-right: 1px solid #9b5992 !important;
-    padding-right: 8px;
-    width: 40px;
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_localgoals.png"); 
 }
 
-td.custombox-header-thumb.localgoals {
-    background-image: url("/mod/customlabel/type/localgoals/pix/icon_localgoals_small.png"); 
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 25px;
-    width: 25px;
+.custombox-header-thumb.localgoals.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/bluespot.png");
 }
 
-#region-main td.custombox-header-thumb.localgoals,
-#page-region-main td.custombox-header-thumb.localgoals {
-    background-image: url("/mod/customlabel/type/localgoals/pix/icon_localgoals.png"); 
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
-}
-
-td.custombox-header-caption.localgoals {
-    color:#9b5992;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
-}
-
-td.custombox-content.localgoals {
-    min-height:100px;
-    padding-left:8px;
-}
-
-td.custombox-content.localgoals h1,
-td.custombox-content.localgoals h2,
-td.custombox-content.localgoals h3 {
-    background-image:none !important;
-    color:#9B5992 !important;
-    font-weight:bolder !important;
-    padding-left:0px !important;
+.custombox-header-thumb.localgoals.flatstyle:after {
+    content: "\f140"; /* fa-bullseye */
 }

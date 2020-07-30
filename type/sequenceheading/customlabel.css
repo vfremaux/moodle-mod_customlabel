@@ -1,27 +1,14 @@
-
-div.custombox-sequenceheading h2.custombox-sequenceheader {
+.custombox-sequenceheading .custombox-sequenceheader {
     color: #E6C439;
     font-size: 20px;
     line-height: 26px;
 }
 
-div.custombox-sequenceheading p {
+.custombox-sequenceheading p {
     font-size: 12pt;
     width: 100%;
 }
 
-tr.custombox-icon.sequenceheading{
-    height: 85px;
-    min-height: 85px;
-}
-
-.custombox-icon-left.sequenceheading{
-    background-size: 100% auto !important;
-    min-width: 80px;
-    padding-right: 20px;
-}
-
-.custombox-icon-right.sequenceheading{
-    min-width: 80px;
-    padding-left: 20px;
+.sequenceheading-image {
+    width: 100%;
 }

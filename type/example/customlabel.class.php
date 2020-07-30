@@ -29,7 +29,6 @@ require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
  *
  *
  */
-
 class customlabel_type_example extends customlabel_type {
 
     public function __construct($data) {

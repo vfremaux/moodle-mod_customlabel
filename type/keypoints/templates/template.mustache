@@ -22,19 +22,17 @@
 
 }}
 <!-- customlabeltype_keypoints/template -->
-<table class="custombox-keypoints" width="100%">
+{{> mod_customlabel/start }}
+    <div class="custombox-container {{labelclass}}">
 
-    <tr valign="top">
-        <td class="custombox-header-thumb keypoints" width="2%" rowspan="2">
-        </td>
-        <td class="custombox-header-caption keypoints" width="98%">
-            {{#str}}remind, customlabeltype_keypoints{{/str}}
-        </td>
-    </tr>
+        <div class="custombox-flexline {{labelclass}}">
+             <div class="custombox-header-caption {{labelclass}} {{skin}}">
+                <h4>{{#str}}remind, customlabeltype_keypoints{{/str}}</h4>
+            </div>
+        </div>
 
-    <tr valign="top">
-        <td class="custombox-content keypoints">
-            <ul class="customlabel keypoints">
+        <div class="custombox-flexline {{labelclass}}">
+            <ul class="customlabel {{labelclass}}">
                 {{#keypoints}}
                 <li>
                     {{{keypoint}}}
@@ -44,15 +42,7 @@
                 </li>
                 {{/keypoints}}
             </ul>
-        </td>
-    </tr>
-
-    {{#teacherboard}}
-    <tr>
-        <td class="custombox-seealso-report">
-        </td>
-    </tr>
-    {{/teacherboard}}
-
-</table>
+        </div>
+    </div>
+{{> mod_customlabel/end }}
 <!-- /customlabeltype_keypoints/template -->

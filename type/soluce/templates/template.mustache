@@ -22,25 +22,23 @@
 
 }}
 <!-- customlabeltype_soluce/template -->
-<table class="custombox-soluce" width="100%">
-
-    <tr valign="top">
-        <td class="custombox-header-thumb soluce" width="2%" rowspan="2">
-        </td>
-
-        <td class="custombox-header-caption soluce" width="98%">
-            {{#str}}soluce, customlabeltype_soluce{{/str}}
-        </td>
-        <td class="custombox-header-collapser soluce" align="right" width="2%">
+{{> mod_customlabel/start }}
+<div class="custombox-container {{labelclass}}">
+    <div class="custombox-flexline {{labelclass}}">
+        <div class="custombox-header-caption {{labelclass}} {{skin}}">
+            <h4>{{#str}}soluce, customlabeltype_soluce{{/str}}</h4>
+        </div>
+        <div class="custombox-header-collapser soluce" align="right" width="2%">
             <img id="customctl-{{customid}}" class="customctl" src="{{{initialcontrolimageurl}}}" />
-        </td>
-    </tr>
+        </div>
+    </div>
 
-    <tr>
-        <td colspan="2" id="custom-{{customid}}" class="custombox-content soluce {{initialclass}}">
+    <div id="custom-{{customid}}" class="custombox-flexline {{labelclass}} {{initialclass}}">
+        <div>
             {{{soluce}}}
-        </td>
-    </tr>
+        </div>
+    </div>
 
-</table>
+</div>
+{{> mod_customlabel/end }}
 <!-- /customlabeltype_soluce/template -->
