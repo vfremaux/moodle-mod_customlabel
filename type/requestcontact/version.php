@@ -25,22 +25,9 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+defined('MOODLE_INTERNAL') || die();
 
-$string['contactpoint:view'] = 'Peut voir le contenu';
-$string['contactpoint:addinstance'] = 'Peut ajouter une instance';
+$plugin = new StdClass();
+$plugin->version  = 2020061600;  // The current module version (Date: YYYYMMDDXX).
+$plugin->component = 'customlabeltype_requestcontact';   // Full name of the plugin (used for diagnostics).
 
-$string['pluginname'] = 'Elément de cours : Point de contact';
-$string['typename'] = 'Point de contact';
-$string['configtypename'] = 'Active le type Point de contact';
-$string['method'] = 'Méthode';
-$string['contactpoint'] = 'Point de contact';
-$string['instructions'] = 'Instructions';
-$string['contacttype'] = 'Type de contact';
-$string['any'] = 'Toute méthode';
-$string['anywritten'] = 'Toute méthode écrite';
-$string['mail'] = 'Mél';
-$string['phone'] = 'Téléphone';
-$string['onlinevocal'] = 'Com. en ligne';
-$string['chat'] = 'Chat';
-$string['meeting'] = 'Réunion virtuelle';
-$string['facetoface'] = 'Face à face';

@@ -97,7 +97,13 @@ class customlabel_type_sequenceheading extends customlabel_type {
         if ($this->localthumb) {
             $storedimage = $this->get_file_url('image');
             $this->data->imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
-            $this->data->valignclass = "aligned-".$this->data->verticalalignoption;
+            $this->data->valignclass = '';
+            if (!empty($this->data->verticalalignoption)) {
+                $this->data->valignclass = "aligned-".$this->data->verticalalignoption;
+            }
+            if (empty($this->data->imagepositionoption)) {
+                $this->data->imagepositionoption = 'left';
+            }
             if ($this->data->imagepositionoption == 'left') {
                 $this->data->toleft = true;
                 $this->data->contentpadding = 'padding-left:15px;';

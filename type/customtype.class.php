@@ -94,7 +94,7 @@ class customlabel_type {
         $options = array();
         switch ($field->source) {
             case 'dbfieldkeyed':
-                $table = '{'.$field->table.'}';
+                $table = '{'.clean_param($field->table, PARAM_ALPHANUMEXT).'}';
                 $fieldname = $field->field;
                 $fieldkey = (empty($field->key)) ? 'id' : $field->key;
                 $select = (!empty($field->select)) ? " WHERE {$field->select} " : '';

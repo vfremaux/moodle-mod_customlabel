@@ -25,22 +25,33 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+defined('MOODLE_INTERNAL') || die();
 
-$string['contactpoint:view'] = 'Peut voir le contenu';
-$string['contactpoint:addinstance'] = 'Peut ajouter une instance';
+$capabilities = array(
 
-$string['pluginname'] = 'Elément de cours : Point de contact';
-$string['typename'] = 'Point de contact';
-$string['configtypename'] = 'Active le type Point de contact';
-$string['method'] = 'Méthode';
-$string['contactpoint'] = 'Point de contact';
-$string['instructions'] = 'Instructions';
-$string['contacttype'] = 'Type de contact';
-$string['any'] = 'Toute méthode';
-$string['anywritten'] = 'Toute méthode écrite';
-$string['mail'] = 'Mél';
-$string['phone'] = 'Téléphone';
-$string['onlinevocal'] = 'Com. en ligne';
-$string['chat'] = 'Chat';
-$string['meeting'] = 'Réunion virtuelle';
-$string['facetoface'] = 'Face à face';
+    // Controls who can add this type.
+    'customlabeltype/requestcontact:addinstance' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'legacy' => array(
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW
+        )
+    ),
+
+    // Controls visibility of labeltype on role base.
+    'customlabeltype/requestcontact:view' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'legacy' => array(
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW,
+            'student' => CAP_ALLOW,
+            'user' => CAP_ALLOW,
+            'guest' => CAP_ALLOW,
+        )
+    ),
+);
