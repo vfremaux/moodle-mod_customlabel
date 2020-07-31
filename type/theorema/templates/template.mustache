@@ -22,51 +22,50 @@
 
 }}
 <!-- customlabeltype_theorema/template -->
-<table class="custombox-theorema" width="100%">
+{{> mod_customlabel/start }}
 
-    <tr valign="top">
-        <td class="custombox-header-thumb theorema" width="2%" rowspan="3">
-        </td>
-        <td class="custombox-header-caption theorema" width="98%">
-            {{#str}}theorema, customlabeltype_theorema{{/str}}
-        </td>
-    </tr>
-
-    <tr valign="top">
-        <td class="custombox-content theorema">
-            {{{theorema}}}
-        </td>
-    </tr>
-
-    <tr valign="top">
-        <td class="custombox-corollaries theorema">
-            {{{corollarylist}}}
-        </td>
-    </tr>
-
-    {{#showdemonstration}}
-    <tr valign="top">
-        <td class="custombox-header-foo theorema" width="2%"></td>
-        <td class="custombox-demonstration theorema">
-            <div class="custombox-demonstration-caption theorema">
-                {{#canshow}}
-                <img id="customctl-{{{customid}}}" src="{{{initialcontrolimageurl}}}" class="customctl" /> {{#str}}demonstration, customlabeltype_theorema{{/str}}
-                {{/canshow}}
-                {{^canshow}}
-                {{#str}}demonstration, customlabeltype_theorema{{/str}}<br/>
-                <span class="comment">{{#str}}notavailableyet, customlabeltype_theorema{{/str}}</span>
-                {{#hascap}}
-                <span class="teacher-comment">{{#str}}willopenon, customlabeltype_theorema{{/str}}: {{opentime}}</span>
-                {{/hascap}}
-                {{/canshow}}
+    <div class="custombox-container {{labelclass}}">
+        <div class="custombox-flexline {{labelclass}}">
+            <div class="custombox-header-caption {{labelclass}} {{skin}}">
+                <h4>{{#str}}theorema, customlabeltype_theorema{{/str}}{{#hasname}}: {{theoremaname}}{{/hasname}}</h4>
             </div>
-            <div class="custombox-demonstration theorema {{initialclass}}">
-                {{#canshow}}
-                {{{demonstration}}}
-                {{/canshow}}
+        </div>
+
+        <div class="custombox-flexline {{labelclass}}">
+            <div>
+                {{{theorema}}}
             </div>
-        </td>
-    </tr>
-    {{/showdemonstration}}
-</table>
+        </div>
+
+        <div class="custombox-flexline {{labelclass}}">
+            <div class="custombox-corollaries {{labelclass}}">
+                {{{corollarylist}}}
+            <div>
+        </div>
+
+        {{#showdemonstration}}
+        <div class="custombox-flexline {{labelclass}}">
+            <div class="custombox-demonstration {{labelclass}}">
+                <div class="custombox-demonstration-caption {{labelclass}}">
+                    {{#canshow}}
+                    <img id="customctl-{{{customid}}}" src="{{{initialcontrolimageurl}}}" class="customctl" /> {{#str}}demonstration, customlabeltype_theorema{{/str}}
+                    {{/canshow}}
+                    {{^canshow}}
+                    {{#str}}demonstration, customlabeltype_theorema{{/str}}<br/>
+                    <span class="comment">{{#str}}notavailableyet, customlabeltype_theorema{{/str}}</span>
+                    {{#hascap}}
+                    <span class="teacher-comment">{{#str}}willopenon, customlabeltype_theorema{{/str}}: {{opentime}}</span>
+                    {{/hascap}}
+                    {{/canshow}}
+                </div>
+                <div id="custom-{{{customid}}}" class="custombox-demonstration {{labelclass}} {{initialclass}}">
+                    {{#canshow}}
+                    {{{demonstration}}}
+                    {{/canshow}}
+                </div>
+            </div>
+        </div>
+        {{/showdemonstration}}
+    </div>
+{{> mod_customlabel/end }}
 <!-- /customlabeltype_theorema/template -->

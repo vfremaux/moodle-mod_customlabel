@@ -131,6 +131,9 @@ class customlabel_type_courseheading extends customlabel_type {
         $this->data->shortname = $course->shortname;
         $storedimage = $this->get_file_url('image');
         $imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
+        if (empty($this->data->imagepositionoption)) {
+            $this->data->imagepositionoption = 'none';
+        }
         if ($this->data->imagepositionoption == 'left') {
             $this->data->imageL = '<td width="100"
                                        class="custombox-icon-left courseheading"

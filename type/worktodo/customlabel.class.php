@@ -96,27 +96,47 @@ class customlabel_type_worktodo extends customlabel_type {
          * An activity module of the course that will be linked to this work requirement for
          * completion signalling, grade, etc.
          */
+         /*
         $field = new StdClass;
         $field->name = 'linktomodule';
         $field->type = 'vdatasource';
         $field->source = 'function';
         $field->function = 'customlabel_get_candidate_modules';
         $this->fields['linktomodule'] = $field;
+        */
     }
 
     public function postprocess_data($course = null) {
-        global $OUTPUT;
+        global $OUTPUT, $DB;
+
+        $this->data->hasmode = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKMODE'));
+        $this->data->haseffort = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKEFFORT'));
+        $this->data->hastype = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKTYPE'));
 
         $this->data->clock = $OUTPUT->image_url('clock', 'customlabeltype_worktodo')->out();
 
         if (is_array(@$this->data->worktypefield)) {
             $this->data->worktypefield = implode(', ', @$this->data->worktypefield);
         }
+
+        if (empty($this->data->worktypefield)) {
+            $this->data->hastype = false;
+        }
+
         if (is_array(@$this->data->workeffortfield)) {
             $this->data->workeffortfield = implode(', ', @$this->data->workeffortfield);
         }
+
+        if (empty($this->data->workeffortfield)) {
+            $this->data->haseffort = false;
+        }
+
         if (is_array(@$this->data->workmodefield)) {
             $this->data->workmodefield = implode(', ', @$this->data->workmodefield);
+        }
+
+        if (empty($this->data->workmodefield)) {
+            $this->data->hasmode = false;
         }
     }
 }

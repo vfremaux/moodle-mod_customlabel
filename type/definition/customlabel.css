@@ -1,50 +1,27 @@
-table.custombox-definition {
+.custombox-definition {
     width: 100%;
 }
 
-td.custombox-header-thumb.definition {
-    border-right: 1px solid #f00000;
-    padding-right: 8px;
+.custombox-header-thumb.definition.colored {
+    border-right: 1px solid #c76205;
 }
 
-td.custombox-header-thumb.definition {
-    background-image: url("/mod/customlabel/type/definition/pix/icon_definition_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 25px;
-    width: 25px;
+.custombox-header-caption.definition.colored {
+    color: #c76205;
 }
 
-#region-main td.custombox-header-thumb.definition,
-#page-region-main td.custombox-header-thumb.definition {
-    background-image: url("/mod/customlabel/type/definition/pix/icon_definition.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
+.custombox-header-thumb.definition {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_definition.png");
 }
 
-td.custombox-header-caption.definition {
-    color: #d83030;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
+.custombox-header-thumb.definition.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/redspot.png");
 }
 
-td.custombox-content.definition {
-    min-height: 100px;
-    padding-left: 8px;
+.custombox-header-thumb.definition.flatstyle:after {
+    content: "\F13D"; /* fa-anchor */
 }
 
-td.custombox-content.definition h1,
-td.custombox-content.definition h2,
-td.custombox-content.definition h3 {
-    background-image: none !important;
-    color: #808080 !important;
-    font-weight: bolder !important;
-    padding-left: 0 !important;
-}
-
-td.custombox-subdefinitions.definition {
+.custombox-subdefinitions.definition {
     padding-left: 50px;
 }

@@ -22,21 +22,19 @@
 
 }}
 <!-- customlabeltype_remind/template -->
-<table class="custombox-remind" width="100%">
+{{> mod_customlabel/start }}
+    <div class="custombox-container {{labelclass}}">
+        <div class="custombox-flexline {{labelclass}}">
+            <div class="custombox-header-caption {{labelclass}} {{skin}}">
+                <h4>{{#str}}remind, customlabeltype_remind{{/str}}</h4>
+            </div>
+        </div>
 
-    <tr valign="top">
-        <td class="custombox-header-thumb remind" width="2%" rowspan="2">
-        </td>
-        <td class="custombox-header-caption remind" width="98%">
-            {{#str}}remind, customlabeltype_remind{{/str}}
-        </td>
-    </tr>
-
-    <tr valign="top">
-        <td class="custombox-content remindtext">
-            {{{remindtext}}}
-        </td>
-    </tr>
-
-</table>
+        <div class="custombox-flexline {{labelclass}}">
+            <div>
+                {{{remindtext}}}
+            </div>
+        </div>
+    </div>
+{{> mod_customlabel/end }}
 <!-- /customlabeltype_remind/template -->

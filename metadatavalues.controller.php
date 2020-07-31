@@ -26,6 +26,11 @@
  */
 defined('MOODLE_INTERNAL') || die;
 
+$config = get_config('customlabel');
+$configclassvaluetable = clean_param($config->classification_value_table, PARAM_ALPHANUMEXT);
+$configclassconstrainttable = clean_param($config->classification_constraint_table, PARAM_ALPHANUMEXT);
+$configclassvaluetypekey = clean_param($config->classification_value_type_key, PARAM_ALPHANUMEXT);
+
 /************************************* Add ******************/
 if ($action == 'add') {
     $data = $mform->get_data();
@@ -34,10 +39,10 @@ if ($action == 'add') {
     $metadatavalue->code = clean_param($data->code, PARAM_ALPHANUM);
     $metadatavalue->value = clean_param($data->value, PARAM_CLEANHTML);
     // Get max ordering.
-    $params = array($CFG->classification_value_type_key => $data->typeid);
-    $maxordering = $DB->get_field($CFG->classification_value_table, ' MAX(sortorder)', $params);
+    $params = array($configclassvaluetypekey => $data->typeid);
+    $maxordering = $DB->get_field($configclassvaluetable, ' MAX(sortorder)', $params);
     $metadatavalue->sortorder = 1 + @$maxordering;
-    if (!$DB->insert_record($CFG->classification_value_table, $metadatavalue)) {
+    if (!$DB->insert_record($configclassvaluetable, $metadatavalue)) {
         print_error('errorinservalue', 'customlabel');
     }
     redirect($url."?view=qualifiers&typeid={$data->typeid}");
@@ -48,9 +53,9 @@ if ($action == 'update') {
     $data = $mform->get_data();
     $metadatavalue = new StdClass;
     $metadatavalue->id = clean_param($data->id, PARAM_INT);
-    $metadatavalue->code = clean_param($data->code, PARAM_ALPHANUM);
+    $metadatavalue->code = clean_param($data->code, PARAM_ALPHANUMEXT);
     $metadatavalue->value = clean_param($data->value, PARAM_CLEANHTML);
-    if (!$DB->update_record($CFG->classification_value_table, $metadatavalue)) {
+    if (!$DB->update_record($configclassvaluetable, $metadatavalue)) {
         print_error('errorupdatevalue', 'customlabel');
     }
     redirect($url."?view=qualifiers&typeid={$data->typeid}");
@@ -59,7 +64,7 @@ if ($action == 'update') {
 /*********************************** get a value for editing ************************/
 if ($action == 'edit') {
     $valueid = required_param('valueid', PARAM_INT);
-    $data = $DB->get_record($CFG->classification_value_table, array('id' => $valueid));
+    $data = $DB->get_record($configclassvaluetable, array('id' => $valueid));
 }
 /*********************************** moves up ************************/
 if ($action == 'up') {
@@ -86,14 +91,14 @@ if ($action == 'delete') {
 /************************************* Delete unsafe ******************/
 if ($action == 'forcedelete') {
     $id = required_param('valueid', PARAM_INT);
-    $value = $DB->get_record($CFG->classification_value_table, array('id' => $id));
+    $value = $DB->get_record($configclassvaluetable, array('id' => $id));
 
     if ($value) {
         // Delete related constraints.
-        $DB->delete_records($CFG->classification_constraint_table, array('value1' => $id));
-        $DB->delete_records($CFG->classification_constraint_table, array('value2' => $id));
+        $DB->delete_records($configclassconstrainttable, array('value1' => $id));
+        $DB->delete_records($configclassconstrainttable, array('value2' => $id));
 
-        $DB->delete_records($CFG->classification_value_table, array('id' => $id));
+        $DB->delete_records($configclassvaluetable, array('id' => $id));
     }
 }
 
@@ -106,9 +111,14 @@ if ($action == 'forcedelete') {
 function classification_tree_updateordering($id, $type) {
     global $CFG, $DB;
 
+    $config = get_config('customlabel');
+
+    $configclassvaluetable = clean_param($config->classification_value_table, PARAM_ALPHANUMEXT);
+    $configclassvaluetypekey = clean_param($config->classification_value_type_key, PARAM_ALPHANUMEXT);
+
     // Getting ordering value of the current node.
 
-    $res = $DB->get_record($CFG->classification_value_table, array('id' => $id));
+    $res = $DB->get_record($configclassvaluetable, array('id' => $id));
     if (!$res) {
         // Fallback : we give the ordering.
         $res = new StdClass;
@@ -122,22 +132,22 @@ function classification_tree_updateordering($id, $type) {
         SELECT
             id
         FROM
-            {{$CFG->classification_value_table}}
+            {{$configclassvaluetable}}
         WHERE
-            sortorder > {$prev} AND
-            {$CFG->classification_value_type_key} = $type
+            sortorder > ? AND
+            {$configclassvaluetypekey} = ?
         ORDER BY
             sortorder
     ";
 
     // Reordering subsequent nodes using an object.
-    if ( $nextsubs = $DB->get_records_sql($query)) {
+    if ( $nextsubs = $DB->get_records_sql($query, [$prev, $type])) {
         $ordering = $res->sortorder;
         foreach ($nextsubs as $asub) {
             $obj = new StdClass;
             $obj->id = $asub->id;
             $obj->sortorder = $ordering;
-            $DB->update_record($CFG->classification_value_table, $obj);
+            $DB->update_record($configclassvaluetable, $obj);
             $ordering++;
         }
     }
@@ -150,9 +160,14 @@ function classification_tree_updateordering($id, $type) {
  * @return void
  */
 function classification_tree_up($id, $type) {
-    global $CFG, $DB;
+    global $DB;
 
-    $res = $DB->get_record($CFG->classification_value_table, array('id' => $id));
+    $config = get_config('customlabel');
+
+    $configclassvaluetable = clean_param($config->classification_value_table, PARAM_ALPHANUMEXT);
+    $configclassvaluetypekey = clean_param($config->classification_value_type_key, PARAM_ALPHANUMEXT);
+
+    $res = $DB->get_record($configclassvaluetable, array('id' => $id));
     if (!$res) {
         return;
     }
@@ -164,24 +179,24 @@ function classification_tree_up($id, $type) {
             SELECT
                 id
             FROM
-                {{$CFG->classification_value_table}}
+                {{$configclassvaluetable}}
             WHERE
-                sortorder = $newordering AND
-                {$CFG->classification_value_type_key} = $type
+                sortorder = ? AND
+                {$configclassvaluetypekey} = ?
         ";
-        $result = $DB->get_record_sql($query);
+        $result = $DB->get_record_sql($query, [$newordering, $type]);
         $resid = $result->id;
 
         // Swapping.
         $obj = new StdClass;
         $obj->id = $resid;
         $obj->sortorder = $res->sortorder;
-        $DB->update_record($CFG->classification_value_table, $obj);
+        $DB->update_record($configclassvaluetable, $obj);
 
         $obj = new StdClass;
         $obj->id = $id;
         $obj->sortorder = $newordering;
-        $DB->update_record($CFG->classification_value_table, $obj);
+        $DB->update_record($configclassvaluetable, $obj);
     }
 }
 
@@ -193,18 +208,23 @@ function classification_tree_up($id, $type) {
 function classification_tree_down($id, $type) {
     global $CFG, $DB;
 
-    $res = $DB->get_record($CFG->classification_value_table, array('id' => $id));
+    $config = get_config('customlabel');
+
+    $configclassvaluetable = clean_param($config->classification_value_table, PARAM_ALPHANUMEXT);
+    $configclassvaluetypekey = clean_param($config->classification_value_type_key, PARAM_ALPHANUMEXT);
+
+    $res = $DB->get_record($configclassvaluetable, array('id' => $id));
 
     $query = "
         SELECT
             MAX(sortorder) AS sortorder
         FROM
-            {{$CFG->classification_value_table}}
+            {{$configclassvaluetable}}
         WHERE
-            {$CFG->classification_value_type_key} = $type
+            {$configclassvaluetypekey} = ?
     ";
 
-    $resmaxordering = $DB->get_record_sql($query);
+    $resmaxordering = $DB->get_record_sql($query, [$type]);
     $maxordering = $resmaxordering->sortorder;
 
     if ($res->sortorder < $maxordering) {
@@ -214,24 +234,24 @@ function classification_tree_down($id, $type) {
             SELECT
                 id
             FROM
-                {{$CFG->classification_value_table}}
+                {{$configclassvaluetable}}
             WHERE
-                sortorder = $newordering AND
-                {$CFG->classification_value_type_key} = $type
+                sortorder = ? AND
+                {$configclassvaluetypekey} = ?
         ";
-        $result = $DB->get_record_sql($query);
+        $result = $DB->get_record_sql($query, [$newordering, $type]);
         $resid = $result->id;
 
         // Swapping.
         $obj = new StdClass;
         $obj->id = $resid;
         $obj->sortorder = $res->sortorder;
-        $DB->update_record($CFG->classification_value_table, $obj);
+        $DB->update_record($configclassvaluetable, $obj);
 
         $obj = new StdClass;
         $obj->id = $id;
         $obj->sortorder = $newordering;
-        $DB->update_record($CFG->classification_value_table, $obj);
+        $DB->update_record($configclassvaluetable, $obj);
     }
 }
 

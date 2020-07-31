@@ -1,37 +1,23 @@
-table.custombox-fundamental {
+.custombox-fundamental {
     width: 100%;
 }
 
-td.custombox-header-thumb.fundamental {
-    border-right: 1px solid #f00000 !important;
-    padding-right: 8px;
+.custombox-header-thumb.fundamental.colored {
+    border-right: 1px solid #d2567f;
 }
 
-td.custombox-header-thumb.fundamental {
-    background-image: url("/mod/customlabel/type/fundamental/pix/icon_fundamental_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 25px;
-    width: 25px;
+.custombox-header-caption.fundamental.colored {
+    color: #d2567f;
 }
 
-#region-main td.custombox-header-thumb.fundamental,
-#page-region-main td.custombox-header-thumb.fundamental {
-    background-image: url("/mod/customlabel/type/fundamental/pix/icon_fundamental.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
+.custombox-header-thumb.fundamental {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_fundamental.png");
 }
 
-td.custombox-header-caption.fundamental {
-    color: #d83030;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
+.custombox-header-thumb.fundamental.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/A94C9A_spot.png");
 }
 
-td.custombox-content.fundamentaltext {
-    min-height: 100px;
-    padding-left: 8px;
+.custombox-header-thumb.fundamental.flatstyle:after {
+    content: "\f19c";
 }

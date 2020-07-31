@@ -3,10 +3,6 @@
     padding-top: 30px !important;
 }
 
-.editing li.activity.customlabel.label * {
-    font-weight: normal;
-}
-
 .customlabel.label {
     font-weight: initial;
 }
@@ -46,9 +42,91 @@ form[name="chooseset"] {
     background-color:#bbfaa3;
 }
 
+/* element type form chooser separator */
+#id_labelclass option[disabled="disabled"] {
+    background-color: #eee;
+}
+
 td.custombox-header-thumb,
 td.custombox-thumb {
     padding-top: 1.2em;
+}
+
+.custombox-content {
+    padding-left: 20px;
+}
+
+.custombox-meta-element {
+    -moz-opacity: 0.8;
+    opacity: 0.8;
+    background-color: #eee;
+    border: 1px dashed #ddd;
+}
+
+.custombox-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.custombox-header-thumb {
+    border-right : #ddd 1px solid;
+}
+
+.custombox-flexline {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.custombox-content {
+    min-height: 100px;
+}
+
+.custombox-header-thumb.flatstyle {
+    text-align: center;
+}
+
+.custombox-header-thumb.flatstyle:after {
+    font-family: "fontAwesome";
+    color: white;
+    font-size: 32px;
+}
+
+.custombox-header-thumb {
+    background-repeat: no-repeat;
+    height: 73px;
+}
+
+#region-main .custombox-header-thumb,
+#page-region-main .custombox-header-thumb {
+    min-width: 80px;
+    width: 80px;
+}
+
+#page-region-pre .custombox-header-thumb,
+#region-pre .custombox-header-thumb,
+#region-post .custombox-header-thumb,
+#page-region-post .custombox-header-thumb {
+    background-size: 70%;
+    min-width: 35px;
+    width: 35px;
+}
+
+#page-region-main .custombox-header-thumb.flatstyle,
+#region-main .custombox-header-thumb.flatstyle {
+    background-position: 4px 4px;
+}
+
+#page-region-pre .custombox-header-thumb.flatstyle:after,
+#region-pre .custombox-header-thumb.flatstyle:after,
+#region-post .custombox-header-thumb.flatstyle:after,
+#page-region-post .custombox-header-thumb.flatstyle:after {
+    font-size: 12px;
+    position: relative;
+    top: -15px;
+    left: -5px;
 }
 
 @media all and (max-width: 480px) {

@@ -17,10 +17,15 @@
 }
 
 .custombox-text.readmorelink {
-    text-align: right;
-    width: 250px;
+    width: 100px;
+    padding-left: 10px;
 }
 
 .custombox-text readmore.hidden {
     display: none;
+}
+
+.custombox-text readmore {
+    padding-left: 10px;
+    padding-top: 6px;
 }

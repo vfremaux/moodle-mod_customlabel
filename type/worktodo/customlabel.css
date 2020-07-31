@@ -1,47 +1,25 @@
-table.custombox-worktodo {
+.custombox-worktodo {
     width: 100%;
 }
 
-.custombox-header-thumb.worktodo {
-    border-right: 1px solid #efd3b8 !important;
-    padding-right: 8px;
+.custombox-header-thumb.worktodo.colored {
+    border-right: 1px solid #3399cc;
+}
+
+.custombox-header-caption.worktodo.colored {
+    color: #3399cc;
 }
 
 .custombox-header-thumb.worktodo {
-    background-image: url("/mod/customlabel/type/worktodo/pix/icon_worktodo_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 25px;
-    width: 25px;
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_worktodo.png");
 }
 
-#region-main td.custombox-header-thumb.worktodo,
-#page-region-main td.custombox-header-thumb.worktodo {
-    background-image: url("/mod/customlabel/type/worktodo/pix/icon_worktodo.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
-}
-
-td.custombox-header-caption.worktodo {
-    color: #b3621a;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
-}
-
-td.custombox-content.worktodo {
-    min-height: 100px;
-    padding-left: 8px;
-}
-
-td.custombox-content.worktodo p {
+.custombox-content.worktodo p {
     line-height: 1.5em;
 }
 
 .custombox-param.worktodo {
-    font-weight: bold !important;
+    font-weight: bold;
 }
 
 .custombox-worktype .custombox-param.worktodo {
@@ -53,13 +31,8 @@ td.custombox-content.worktodo p {
     padding-left: 8px;
 }
 
-td.custombox-content.worktodo h1,
-td.custombox-content.worktodo h2,
-td.custombox-content.worktodo h3 {
-    background-image: none;
-    color: #999999;
-    font-weight: bolder;
-    padding-left: 0;
+.custombox-inner-content {
+    padding-top: 20px;
 }
 
 span.custombox-value.worktype {
@@ -72,3 +45,11 @@ div.custom-clockimage {
     background: url('/mod/customlabel/pix/clock.jpg') no-repeat;
 }
 
+/* Fontawesome */
+.custombox-header-thumb.worktodo.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/bluespot.png");
+}
+
+td.custombox-header-thumb.worktodo.flatstyle:after {
+    content: "\f085";
+}
