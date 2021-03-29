@@ -1,0 +1,26 @@
+.custombox-authornote {
+    width: 100%;
+}
+
+.custombox-header-header-thumb.authornote {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_info_small.png");
+}
+
+#page-region-main .custombox-header-thumb.authornote,
+#region-main .custombox-header-thumb.authornote {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_info.png");
+}
+
+.custombox-helper.authornote {
+    font-size: 80%;
+}
+
+/* Author notes */
+
+.custombox-header-thumb.authornote.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/grayspot.png");
+}
+
+td.custombox-header-thumb.authornote.flatstyle:after {
+    content: "\f097"; /* fa-bookmark-o */
+}

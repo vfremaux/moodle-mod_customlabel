@@ -41,6 +41,7 @@ $plugin->prolocations = array(
     'type/authordata',
     'type/authornote',
     'type/courseclassifier',
+    'type/learningindicators',
     'type/localdokuwikicontent',
     'type/remotecontent',
     'type/cssadditions',
@@ -48,4 +49,7 @@ $plugin->prolocations = array(
     'type/genericgoals',
     'type/processgoals',
     'type/processpractices',
+    'type/verticalspacer',
+    'type/requestcontact',
+    'type/contactpoint',
 );

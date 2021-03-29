@@ -57,6 +57,7 @@ class customlabel_type_contactpoint extends customlabel_type {
         // this pass special contact subtype to generic subtype for classing
         // @see /mod/customlabel/templates/start.mustache
         $this->data->subtype = $this->data->contacttypeoption;
+        $this->data->isspecific = $this->data->subtype != 'any';
 
         $iconurl = $OUTPUT->image_url('icon_'.$this->data->contacttypeoption, 'customlabeltype_'.$this->type)->out();
         $this->data->icon = $iconurl;

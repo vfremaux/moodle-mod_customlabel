@@ -256,6 +256,10 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
             }
 
+            if (!empty($field->advanced)) {
+                $mform->setAdvanced($field->name);
+            }
+
             if (!empty($field->mandatory)) {
                 $mform->addRule($field->name, null, 'required', null, 'client');
             }

@@ -1,0 +1,46 @@
+{{!
+    This file is part of The Customlabel Module
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_customlabel/instructions
+
+    Classes required for JS:
+    * no classes
+
+}}
+<!-- customlabeltype_learningindicators/template -->
+{{> mod_customlabel/start }}
+    <div class="custombox-{{labelclass}}-container">
+        {{#showprogress}}
+        <div class="custombox-{{labelclass}}-flexcell">
+            {{{progressgraph}}}
+        </div>
+        {{/showprogress}}
+
+        {{#showusetime}}
+        <div class="custombox-{{labelclass}}-flexcell">
+            {{{usetimegraph}}}
+        </div>
+        {{/showusetime}}
+
+        {{#showscore}}
+        <div class="custombox-{{labelclass}}-flexcell">
+            {{{scoregraph}}}
+        </div>
+        {{/showscore}}
+    </div>
+{{> mod_customlabel/end }}
+<!-- /customlabeltype_learningindicators/template -->
