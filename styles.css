@@ -99,6 +99,7 @@ td.custombox-thumb {
     height: 73px;
 }
 
+#page-course-view-grid .custombox-header-thumb,
 #region-main .custombox-header-thumb,
 #page-region-main .custombox-header-thumb {
     min-width: 80px;
@@ -138,4 +139,8 @@ td.custombox-thumb {
     .custombox-header-thumb:after {
         font-size: 18px;
     }
+}
+
+.dimmed_text {
+    opacity: 0.5;
 }
