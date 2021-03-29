@@ -81,11 +81,11 @@ if ($types) {
     $upstr = get_string('up', 'customlabel');
     $downstr = get_string('down', 'customlabel');
 
-    $configclassvaluetable = clean-param($config->classification_value_table, PARAM_ALPHANUMEXT);
-    $configcoursemetadatatable = clean-param($config->course_metadata_table, PARAM_ALPHANUMEXT);
-    $configmetadatavaluekey = clean-param($config->course_metadata_value_key, PARAM_ALPHANUMEXT);
-    $configmetadatacoursekey = clean-param($config->course_metadata_course_key, PARAM_ALPHANUMEXT);
-    $configvaluetypekey = clean-param($config->classification_value_type_key, PARAM_ALPHANUMEXT);
+    $configclassvaluetable = clean_param($config->classification_value_table, PARAM_ALPHANUMEXT);
+    $configcoursemetadatatable = clean_param($config->course_metadata_table, PARAM_ALPHANUMEXT);
+    $configmetadatavaluekey = clean_param($config->course_metadata_value_key, PARAM_ALPHANUMEXT);
+    $configmetadatacoursekey = clean_param($config->course_metadata_course_key, PARAM_ALPHANUMEXT);
+    $configvaluetypekey = clean_param($config->classification_value_type_key, PARAM_ALPHANUMEXT);
 
     foreach ($types as $atype) {
 

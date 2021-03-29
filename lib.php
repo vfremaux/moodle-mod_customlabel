@@ -317,8 +317,6 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     if ($iscminfo) {
         $cminfo->set_no_view_link();
         $cminfo->set_extra_classes('label'); // Important, or customlabel WILL NOT be deletable in topic/week course.
-    } else {
-        return $content;
     }
 }
 
@@ -331,7 +329,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
  * @todo : reevaluate strategy. this may still be used for improving standard formats.
  */
 function customlabel_cm_info_view(&$cminfo) {
-    global $DB, $PAGE, $CFG, $COURSE, $OUTPUT;
+    global $DB, $PAGE, $CFG, $COURSE, $OUTPUT, $USER;
 
     global $customlabelscriptsloaded;
     static $customlabelcssloaded = array();
@@ -341,6 +339,11 @@ function customlabel_cm_info_view(&$cminfo) {
 
     // Specific > 3.5
     $iscminfo = (get_class($cminfo) == 'cminfo') || (get_class($cminfo) == 'cm_info');
+    if (!$iscminfo) {
+        $cms = get_fast_modinfo($COURSE, $USER->id);
+        $cminfo = $cms->get_cm($cminfo->id);
+        $iscminfo = true;
+    }
 
     // Improve page format by testing if in current visble page.
     if ($COURSE->format == 'page') {
@@ -401,6 +404,7 @@ function customlabel_cm_info_view(&$cminfo) {
         return;
     }
 
+    /*
     $context = context_module::instance($cminfo->id);
     $fileprocessedcontent = $customlabel->processedcontent;
     foreach ($instance->fields as $field) {
@@ -415,6 +419,7 @@ function customlabel_cm_info_view(&$cminfo) {
                                                                              $field->itemid);
         }
     }
+    */
 
     // Specific >= 3.5
     $info = optional_param('info', '', PARAM_TEXT);
@@ -443,6 +448,7 @@ function customlabel_cm_info_view(&$cminfo) {
             }
 
             $content .= $OUTPUT->render_from_template($template, $instance->data);
+
         } catch (Exception $e) {
             assert(1);
             // Quiet any exception here. Resolve case of Editing Teachers.
@@ -464,12 +470,14 @@ function customlabel_cm_info_view(&$cminfo) {
     }
 
     // Disable url form of the course module representation.
-    if ($iscminfo) {
+    // if ($iscminfo) {
         $cminfo->set_content($content);
         $cminfo->set_extra_classes('label'); // Important, or customlabel WILL NOT be deletable in topic/week course.
+    /* 
     } else {
         return $content;
     }
+    */
 }
 
 /**
@@ -607,8 +615,8 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
 }
 
 /**
- * Obtains the automatic completion state for this forum based on any conditions
- * in forum settings.
+ * Obtains the automatic completion state for this customlabel based on any conditions
+ * in customlabel settings.
  *
  * @global object
  * @global object
