@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg">
-    <g>
-        <rect class="square customlabel-{{customlabeltype}}"
-                width="60"
-                height="60"
-                stroke="{{stroke}}"
-                fill="{{stroke}}"/>
-    </g>
-</svg>
