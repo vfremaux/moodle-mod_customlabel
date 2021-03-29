@@ -1,0 +1,39 @@
+.custombox-formule {
+    width: 100%;
+}
+
+.custombox-header-thumb.formule.colored {
+    border-right: 1px solid #f00000;
+}
+
+.custombox-header-caption.formule.colored {
+    color: #d83030;
+}
+
+.custombox-header-thumb.formule {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_formule.png");
+}
+
+.custombox-formula-container {
+    width: 100%;
+    text-align: center;
+}
+
+.custombox-formula {
+    margin: auto;
+    font-size: 1.3em;
+    letter-spacing: 0.5px;
+    font-style: italic;
+    font-weight: normal;
+    padding:10px;
+    display: inline-block;
+}
+
+/* Formule */
+.custombox-header-thumb.formule.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/orangespot.png");
+}
+
+.custombox-header-thumb.formule.flatstyle:after {
+    content: "\F13D"; /* fa-anchor */
+}

@@ -1,0 +1,31 @@
+.custombox-text {
+    font-size: 1.1em;
+    margin-left: 65px;
+}
+
+#page-region-pre .custombox-text {
+    margin-right: 5px;
+}
+
+#page-region-post .custombox-text {
+    margin-left: 5px;
+}
+
+
+.custombox-text ul {
+    margin-left: 10px;
+}
+
+.custombox-text.readmorelink {
+    width: 100px;
+    padding-left: 10px;
+}
+
+.custombox-text readmore.hidden {
+    display: none;
+}
+
+.custombox-text readmore {
+    padding-left: 10px;
+    padding-top: 6px;
+}

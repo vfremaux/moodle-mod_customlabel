@@ -1,0 +1,21 @@
+.custombox-commentbox {
+    background-color: #f8f8f8;
+    border-radius: 6px;
+    border: 1px dashed #d0d0d0;
+    color: #b0b0b0;
+    margin-left: 100px;
+    padding: 10px;
+}
+
+.custombox-commentbox ul {
+    margin-left: 10px;
+}
+
+#region-post .custombox-commentbox,
+#page-region-post .custombox-commentbox {
+    margin-left: 10px;
+}
+
+.custombox-commentbox.readmorelink {
+    text-align: right;
+}

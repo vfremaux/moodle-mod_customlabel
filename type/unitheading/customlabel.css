@@ -1,0 +1,28 @@
+
+.custombox-unitheading h1 {
+    color: #f2a439;
+    font-size: 22px;
+    line-height: 26px;
+}
+
+.custombox-unitheading p {
+    font-size: 12pt;
+    line-height: 1.5em;
+    width: 95%;
+}
+
+.custombox-icon.unitheading {
+    height: 85px;
+    min-height: 85px;
+}
+
+.custombox-icon-left.unitheading {
+    background-size: 100% auto;
+    min-width: 80px;
+    padding-right: 20px;
+}
+
+.custombox-icon-right.unitheading {
+    min-width: 80px;
+    padding-left: 20px;
+}

@@ -1,0 +1,23 @@
+.custombox-seealso {
+    width: 100%;
+}
+
+.custombox-header-thumb.seealso.colored {
+    border-right: 1px solid #c76205;
+}
+
+.custombox-header-caption.seealso.colored {
+    color: #c76205;
+}
+
+.custombox-header-thumb.seealso {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_seealso.png");
+}
+
+.custombox-header-thumb.seealso.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/graydark_spot.png");
+}
+
+.custombox-header-thumb.seealso.flatstyle:after {
+    content: "\f141"; /* fa-ellipsis-h */
+}

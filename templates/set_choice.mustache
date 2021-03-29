@@ -1,0 +1,31 @@
+
+
+
+<!-- mod_customlabel/set_choice -->
+<form name="choosesets" method="POST" action="{{{choiceurl}}}">
+
+<input type="hidden" name="view" value="{{view}}" />
+
+<table>
+    <tr>
+        <td>
+            {{{valuetypesselect1}}}
+        </td>
+        <td>
+            {{{valuetypesselect2}}}
+        </td>
+        <td>
+            <input type="submit" name="choose_btn" value="{{#str}}choose, mod_customlabel{{/str}}" />
+        </td>
+    </tr>
+
+    {{#sametypesignal}}
+    <tr>
+        <td colspan="3">
+            {{{sametypesignal}}}
+        </td>
+    </tr>
+    {{/sametypesignal}}
+</table>
+</form>
+<!-- /mod_customlabel/set_choice -->

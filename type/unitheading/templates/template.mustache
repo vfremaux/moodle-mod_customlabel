@@ -1,0 +1,48 @@
+{{!
+    This file is part of The Customlabel Module
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_customlabel/unitheading
+
+    Classes required for JS:
+
+}}
+<!-- customlabeltype_unitheading/template -->
+<table class="custombox-unitheading" width="100%">
+    <tr valign="middle" class="custombox-icon unitheading">
+
+        {{#toleft}}
+        <td width="{{imagewidth}}" class="custombox-icon-left unitheading" align="center">
+            <img src="{{{imageurl}}}" style="z-index: 1"/>
+            <div class="overimage" style="z-index: 2">{{overimagetext}}</div>
+        </td>
+        {{/toleft}}
+
+        <td style="{{contentpadding}}">
+            <h5 class="custombox-caption unitheading">{{heading}}</h5>
+            <p class="custombox-description unitheading">{{{shortdesc}}}</p>
+        </td>
+
+        {{#toright}}
+        <td  width="{{imagewidth}}" class="custombox-icon-right unitheading" align="center">
+            <img src="{{{imageurl}}}"  style="z-index: 1"/>
+            <div class="overimage" style="z-index: 2">{{overimagetext}}</div>
+        </td>
+        {{/toright}}
+
+    </tr>
+</table>
+<!-- /customlabeltype_unitheading/template -->

@@ -1,0 +1,28 @@
+
+.custombox-sectionheading h1 {
+    color: #f2a440;
+    font-size: 22px;
+    line-height: 26px;
+}
+
+.custombox-sectionheading p {
+    font-size: 12pt;
+    line-height: 1.5em;
+    width: 95%;
+}
+
+.custombox-icon.sectionheading {
+    height: 85px;
+    min-height: 85px;
+}
+
+.custombox-icon-left.sectionheading {
+    background-size: 100% auto;
+    min-width: 80px;
+    padding-right: 20px;
+}
+
+.custombox-icon-right.sectionheading {
+    min-width: 80px;
+    padding-left: 20px;
+}

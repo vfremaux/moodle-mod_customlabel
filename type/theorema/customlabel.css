@@ -1,0 +1,53 @@
+.custombox-theorema {
+    width: 100%;
+}
+
+.custombox-header-thumb.theorema.colored {
+    border-right: 1px solid #d2c233;
+}
+
+.custombox-header-caption.theorema.colored {
+    color: #d2c233;
+}
+
+.custombox-header-thumb.theorema {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_theorema.png");
+}
+
+div.custombox-demonstration-caption.theorema {
+    padding-bottom: 5px;
+    padding-left: 8px;
+    padding-top: 10px;
+}
+
+div.custombox-demonstration.theorema {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    border: 1px solid #d0d0d0;
+    margin-left: 4px;
+    min-height: 100px;
+    padding: 4px;
+}
+
+.custombox-subdefinitions.theorema {
+    padding-left: 50px;
+}
+
+.custombox-demonstration.theorema .comment {
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+}
+
+.custombox-demonstration.theorema .teacher-comment {
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+    color: #e00;
+}
+
+.custombox-header-thumb.theorema.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/orangespot.png");
+}
+
+td.custombox-header-thumb.theorema.flatstyle:after {
+    content: "\f12e";
+}

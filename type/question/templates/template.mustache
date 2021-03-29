@@ -1,0 +1,104 @@
+{{!
+    This file is part of The Customlabel Module
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_customlabel/question
+
+    Classes required for JS:
+    * mod/customlabel/customlabel
+
+}}
+<!-- customlabeltype_question/template -->
+{{> mod_customlabel/start }}
+<div class="custombox-container {{labelclass}}">
+    <div class="custombox-flexline {{labelclass}}">
+        <div class="custombox-header-caption {{labelclass}} {{skin}}">
+            <h4>{{#str}}question, customlabeltype_question{{/str}}</h4>
+        </div>
+    </div>
+
+    <div class="custombox-flexline {{labelclass}}">
+        <div>
+            {{{questiontext}}}
+        </div>
+    </div>
+
+    {{#hint}}
+    <div class="custombox-flexline {{labelclass}}">
+        <div class="custombox-header-collapser {{labelclass}}" align="left" >
+            <img id="customctl-{{customid}}-hint" src="{{{hintinitialcontrolimageurl}}}" class="customctl" /> {{#str}}hint, customlabeltype_question{{/str}}
+        </div>
+    </div>
+
+    <div class="custombox-flexline {{labelclass}}">
+        <div  id="custom-{{customid}}-hint" class="custombox-content hint {{hintinitialclass}}">
+            {{{hint}}}
+        </div>
+    </div>
+    {{/hint}}
+
+    {{^isqcmchallenge}}
+    <div class="custombox-flexline {{labelclass}}">
+        <div class="custombox-header-collapser question" align="left">
+            {{#canshow}}
+            <img id="customctl-{{{customid}}}" src="{{{initialcontrolimageurl}}}" class="customctl" /> {{#str}}solution, customlabeltype_question{{/str}}
+            {{/canshow}}
+            {{^canshow}}
+            {{#str}}solution, customlabeltype_question{{/str}}<br/>
+            <span class="comment">{{#str}}notavailableyet, customlabeltype_question{{/str}}</span>
+            {{#hascap}}
+            <span class="teacher-comment">{{#str}}willopenon, customlabeltype_question{{/str}}: {{opentime}}</span>
+            {{/hascap}}
+            {{/canshow}}
+        </div>
+    </div>
+
+    <div class="custombox-flexline {{labelclass}}">
+        <div  id="custom-{{customid}}" class="custombox-content questiontext {{initialclass}}">
+            {{#canshow}}
+            {{{answertext}}}
+            {{/canshow}}
+        </div>
+    </div>
+    {{/isqcmchallenge}}
+
+    {{#isqcmchallenge}}
+    <div class="custombox-flexline {{labelclass}}">
+        <div  id="custom-{{cmid}}" class="custombox-content questiontext">
+            {{#qcmanswer}}
+            <div class="custombox-qcm-answer custombox-qcm-answer-{{cmid}} {{answerclass}}" id="custombox-qcm-answer-{{cmid}}-{{aid}}">
+                <div class="custombox-qcm-input custombox-qcm-input-{{cmid}}">
+                    <input type="radio" name="answer_{{cmid}}" value="{{aid}}" {{checked}} {{#locked}}disabled="disabled"{{/locked}} />
+                </div>
+                <div class="custombox-qcm-text {{answeredclass}}">{{{answertext}}}</div>
+            </div>
+            {{/qcmanswer}}
+        </div>
+    </div>
+    {{^locked}}
+    <div class="custombox-flexline {{labelclass}}">
+        <div  id="custom-{{cmid}}-submit" class="custombox-content questiontext">
+            <input type="button" name="custombox-qcm-btn-{{cmid}}"
+                   class="custombox-qcm-btn"
+                   value="{{#str}}submitqcm, customlabeltype_question{{/str}}" />
+        </div>
+    </div>
+    {{/locked}}
+    {{/isqcmchallenge}}
+
+</div>
+{{> mod_customlabel/end }}
+<!-- /customlabeltype_question/template -->

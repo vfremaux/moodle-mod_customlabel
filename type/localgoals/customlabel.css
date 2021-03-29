@@ -1,0 +1,23 @@
+.custombox.localgoals {
+    width: 100%;
+}
+
+.custombox-header-thumb.localgoals.colored {
+    border-right: 1px solid #9b5992;
+}
+
+.custombox-header-caption.localgoals.colored {
+    color: #9b5992;
+}
+
+.custombox-header-thumb.localgoals {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_localgoals.png"); 
+}
+
+.custombox-header-thumb.localgoals.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/bluespot.png");
+}
+
+.custombox-header-thumb.localgoals.flatstyle:after {
+    content: "\f140"; /* fa-bullseye */
+}

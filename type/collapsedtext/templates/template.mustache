@@ -1,0 +1,43 @@
+{{!
+    This file is part of The Customlabel Module
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_customlabel/collapsedtext
+
+    Classes required for JS:
+    * customlabeltype_collapsedtext/customlabel
+
+}}
+<!-- customlabeltype:collapsedtext -->
+<div class="custombox-collapsedtext">
+    {{#istoggle}}
+    {{#hasmorethanone}}
+    <div class="custombox-collapsedtext-globals all">
+        <a id="custombox-collapsedtext-open-all-{{id}}" class="custombox-collapsedtext-open-all" title="{{openallstr}}">{{{openallicon}}}</a>
+        <a id="custombox-collapsedtext-close-all-{{id}}" class="custombox-collapsedtext-close-all" title="{{openallstr}}">{{{closeallicon}}}</a>
+    </div>
+    {{/hasmorethanone}}
+    {{/istoggle}}
+    {{#chapter}}
+    <div class="custombox-collapsedtext-handle">
+        <h4><a id="custombox-collapsedtext-toggle-{{id}}-{{ix}}" class="custombox-collapsedtext-toggle custombox-collapsedtext-toggle-{{id}} {{algorithmclass}}">{{{toggleicon}}}</a> <span id="custombox-collapsedtext-caption-{{id}}-{{ix}}" class="custombox-collapsedtext-caption">{{{caption}}}</span></h4>
+    </div>
+    <div id="custombox-collapsedtext-panel-{{id}}-{{ix}}" class="custombox-collapsedtext-panel-{{id}} custombox-collapsedtext-panel {{initialstate}}">
+        {{{content}}}
+    </div>
+    {{/chapter}}
+</div>
+<!-- /customlabeltype:collapsedtext -->
