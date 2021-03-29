@@ -1,0 +1,15 @@
+
+div.content table.genericgoals td.leftmargin {
+    background-color : #fe0f64;
+    min-width: 30px;
+}
+
+div.content table.genericgoals td.goalcontent {
+    padding-left: 25px;
+}
+
+div.content table.genericgoals td.goalcontent ul li {
+    font-family : "verdana";
+    font-size : 18px;
+    line-height : 1.4em;
+}

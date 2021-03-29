@@ -133,8 +133,10 @@ class customlabel_type {
                 break;
 
             case 'function':
-                if (!empty($field->file) && file_exists($CFG->dirroot.$field->file)) {
-                    include_once($CFG->dirroot.$field->file);
+                if (!empty($field->file) && file_exists($CFG->dirroot.'/'.$field->file)) {
+                    include_once($CFG->dirroot.'/'.$field->file);
+                } else {
+                    print_error("Missing library for datasource");
                 }
                 $functionname = $field->function;
                 $options = $functionname();

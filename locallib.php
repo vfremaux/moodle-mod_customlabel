@@ -200,7 +200,7 @@ function customlabel_process_fields(&$customlabelrec, &$instance) {
             $customlabelrec->{$fieldname} = @$_REQUEST[$fieldname];
         }
 
-        if (!empty($customlabelrec->{$fieldname}) && ($customlabelrec->{$fieldname} == '_qf__force_multiselect_submission')) {
+        if (isset($customlabelrec->{$fieldname}) && $customlabelrec->{$fieldname} == '_qf__force_multiselect_submission') {
             $customlabelrec->{$fieldname} = '';
         }
 
