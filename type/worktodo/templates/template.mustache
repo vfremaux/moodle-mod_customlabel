@@ -32,29 +32,37 @@
 
         <div class="custombox-flexline {{labelclass}}">
             <div class="custombox-worktype {{labelclass}}">
+                {{#showworktypefield}}
                 {{#hastype}}
                 <span class="custombox-param {{labelclass}}">{{#str}}nature, customlabeltype_worktodo{{/str}}:
                 </span> <span class="custombox-value {{labelclass}}">{{{worktypefield}}}</span>
                 {{/hastype}}
+                {{/showworktypefield}}
             </div>
+            {{#estimatedworktime}}
             <div class="custombox-timeexpected {{labelclass}}" align="right" width="40">
                 <img src="{{{clock}}}" /> {{{estimatedworktime}}}
             </div>
+            {{/estimatedworktime}}
         </div>
 
         <div class="custombox-flexline {{labelclass}}">
-            <div class="custombox-worktype {{labelclass}}" width="50%">
+            {{#showworkeffortfield}}
+            <div class="custombox-workeffort {{labelclass}}" width="50%">
                 {{#haseffort}}
                 <span class="custombox-param {{labelclass}}">{{#str}}effort, customlabeltype_worktodo{{/str}}:
                 </span> <span class="custombox-value {{labelclass}}">{{{workeffortfield}}}</span>
                 {{/haseffort}}
             </div>
+            {{/showworkeffortfield}}
+            {{#showworkmodefield}}
             <div class="custombox-workmode {{labelclass}}" width="50%" align="right">
                 {{#hasmode}}
                 <span class="custombox-param {{labelclass}}">{{#str}}mode, customlabeltype_worktodo{{/str}}:
                 </span> <span class="custombox-value {{labelclass}}">{{{workmodefield}}}</span>
                 {{/hasmode}}
             </div>
+            {{/showworkmodefield}}
         </div>
 
         <div class="custombox-flexline {{labelclass}}">

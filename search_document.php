@@ -36,6 +36,7 @@ use \StdClass;
 use \context_module;
 use \context_course;
 use \moodle_url;
+use \context;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -66,7 +67,7 @@ class CustomLabelSearchDocument extends SearchDocument {
         $doc->date      = $customlabel['timemodified'];
         $doc->author    = '';
         $doc->contents  = strip_tags($customlabel['processedcontent']);
-        $doc->url       = customlabel_document_wrapper::make_link($customlabel['course']);
+        $doc->url       = customlabel_document_wrapper::make_link($customlabel['course'], $contextid);
 
         /*
          * module specific information : extract fields from serialized content. Add those who are
@@ -99,8 +100,26 @@ class customlabel_document_wrapper extends document_wrapper {
      * @param resourceId the of the resource
      * @return a full featured link element as a string
      */
-    public static function make_link($courseid) {
-        return new moodle_url('/course/view.php', array('id' => $courseid));
+    public static function make_link($courseid, $contextid = null) {
+        global $DB;
+
+        $format = $DB->get_field('course', 'format', ['id' => $courseid]);
+        if ($format == 'page') {
+            // We need search on which page an occurrence of the search was found.
+            $context = context::instance_by_id($contextid);
+            $params = ['cmid' => $context->instanceid];
+            $pages = $DB->get_records('format_page_items', $params);
+            if ($pages) {
+                $firstitemoccurence = array_shift($pages);
+                $courseurl = new moodle_url('/course/view.php', array('id' => $courseid, 'page' => $firstitemoccurence->pageid));
+            }
+        }
+
+        if (empty($courseurl)) {
+            $courseurl = new moodle_url('/course/view.php', array('id' => $courseid));
+        }
+
+        return $courseurl;
     }
 
     /**
