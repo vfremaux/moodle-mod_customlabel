@@ -52,5 +52,4 @@ $plugin->prolocations = array(
     'type/verticalspacer',
     'type/requestcontact',
     'type/contactpoint',
-    'type/wikicontent'
 );
