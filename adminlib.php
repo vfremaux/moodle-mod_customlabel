@@ -200,7 +200,7 @@ class customlabel_plugin_manager {
                 $row[] = $this->format_icon_link('hide', $plugin, 't/hide', get_string('disable'));
             } else {
                 $row[] = $this->format_icon_link('show', $plugin, 't/show', get_string('enable'));
-                $class = 'dimmed dimmed_text';
+                $class = 'dimmed_text';
             }
 
             $movelinks = '';

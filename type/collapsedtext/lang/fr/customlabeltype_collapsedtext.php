@@ -22,9 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
-// Privacy.
-$string['privacy:metadata'] = 'Le composant d\'élément de cours CollapsedText ne détient directement aucune donnée relative aux utilisateurs.';
-
 $string['collapsedtext:view'] = 'Peut voir le contenu';
 $string['collapsedtext:addinstance'] = 'Peut ajouter une instance';
 
@@ -35,7 +32,7 @@ $string['content'] = 'Contenu';
 $string['caption'] = 'Titre';
 $string['openall'] = 'Tout ouvrir';
 $string['closeall'] = 'Tout fermer';
-$string['algorithm'] = 'Comportement';
+$string['algorithm'] = 'Algrorithme';
 $string['chapternum'] = 'Nombre de paragraphes';
 $string['open'] = 'Ouvert';
 $string['closed'] = 'Fermé';

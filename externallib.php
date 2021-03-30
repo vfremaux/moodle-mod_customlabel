@@ -80,7 +80,7 @@ class mod_customlabel_external extends external_api {
     }
 
     /**
-     * Get a customlabel internal content
+     * Get all certificates from a course
      *
      * @param string $cidsource the source field for the course identifier.
      * @param string $cid the courseid id. If 0, will get all the certificates of the site

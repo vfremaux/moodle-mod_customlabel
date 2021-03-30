@@ -47,36 +47,14 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_heading('apparence', get_string('apparence', 'customlabel'), ''));
 
-    $key = 'customlabel/defaultskin';
-    $label = get_string('defaultskin', 'customlabel');
-    $desc = get_string('defaultskin_desc', 'customlabel');
-    $skinoptions = [
-        'default' => get_string('defaultstyle', 'customlabel'),
-        'flatstyle' => get_string('flatstyle', 'customlabel'),
-        'colored' => get_string('coloredstyle', 'customlabel'),
-        'flatstyle colored' => get_string('flatcoloredstyle', 'customlabel')
-    ];
-
-    $namedskins = glob($CFG->dirroot.'/mod/customlabel/pix/skins/*');
-    if (!empty($namedskins)) {
-        foreach ($namedskins as $skinpath) {
-            $skinname = basename($skinpath);
-            if ($skinname == '.' || $skinname == '..') {
-                continue;
-            }
-            if (!is_dir($skinpath)) {
-                continue;
-            }
-            $skinoptions[$skinname] = $skinname;
-        }
-    }
-
-    $default = 'default';
-    $settings->add(new admin_setting_configselect($key, $label, $desc, $default, $skinoptions));
+    $key = 'customlabel/cssoverrides';
+    $label = get_string('cssoverrides', 'customlabel');
+    $desc = get_string('cssoverridesdesc', 'customlabel');
+    $settings->add(new admin_setting_configtextarea($key, $label, $desc, '', PARAM_RAW, 80, 10));
 
     $key = 'customlabel/disabled';
     $label = get_string('disabledsubtypes', 'customlabel');
-    $desc = get_string('disabledsubtypes_desc', 'customlabel');
+    $desc = get_string('disabledsubtypesdesc', 'customlabel');
     $settings->add(new admin_setting_configtextarea($key, $label, $desc, '', PARAM_RAW, 80, 10));
 
     /*
