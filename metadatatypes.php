@@ -81,29 +81,23 @@ if ($types) {
     $upstr = get_string('up', 'customlabel');
     $downstr = get_string('down', 'customlabel');
 
-    $configclassvaluetable = clean_param($config->classification_value_table, PARAM_ALPHANUMEXT);
-    $configcoursemetadatatable = clean_param($config->course_metadata_table, PARAM_ALPHANUMEXT);
-    $configmetadatavaluekey = clean_param($config->course_metadata_value_key, PARAM_ALPHANUMEXT);
-    $configmetadatacoursekey = clean_param($config->course_metadata_course_key, PARAM_ALPHANUMEXT);
-    $configvaluetypekey = clean_param($config->classification_value_type_key, PARAM_ALPHANUMEXT);
-
     foreach ($types as $atype) {
 
         $sql = "
             SELECT
                 COUNT(c.id)
             FROM
-                {{$configclassvaluetable}} v
+                {{$config->classification_value_table}} v
             LEFT JOIN
-                {{$configcoursemetadatatable}} ccm
+                {{$config->course_metadata_table}} ccm
             ON
-                ccm.{$configmetadatavaluekey} = v.id
+                ccm.{$config->course_metadata_value_key} = v.id
             LEFT JOIN
                 {course} c
             ON
-                c.id = ccm.{$configmetadatacoursekey}
+                c.id = ccm.{$config->course_metadata_course_key}
             WHERE
-                v.{$configvaluetypekey} = ?
+                v.{$config->classification_value_type_key} = ?
         ";
         $atype->courses = $DB->count_records_sql($sql, array($atype->id));
 
