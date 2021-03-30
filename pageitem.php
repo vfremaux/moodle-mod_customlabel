@@ -34,7 +34,7 @@ require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
  * specifically used for page formatted courses.
  * @param object $block a page_module block surrounding the customlabel resource.
  */
-function customlabel_set_instance(&$block) {
+function customlabel_set_instance($block) {
     global $DB, $PAGE;
 
     // Transfer content from title to content.
@@ -48,7 +48,7 @@ function customlabel_set_instance(&$block) {
     $cminfo->id = $block->cm->id;
     $cminfo->instance = $block->moduleinstance->id;
 
-    $block->content->text = customlabel_cm_info_dynamic($cminfo);
+    $block->content->text = customlabel_cm_info_view($cminfo);
 
     return true;
 }
