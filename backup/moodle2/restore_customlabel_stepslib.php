@@ -114,7 +114,7 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
 
         // The data is actually inserted into the database later in inform_new_usage_id.
         $params = array('code' => $data->code);
-        if (!$oldrec = $DB->record_exists('customlabel_mtd_type', $params)) {
+        if (!$oldrec = $DB->get_record('customlabel_mtd_type', $params)) {
             $newitemid = $DB->insert_record('customlabel_mtd_type', $data);
         } else {
             $newitemid = $oldrec->id;
