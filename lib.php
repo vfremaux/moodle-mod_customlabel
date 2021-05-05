@@ -470,14 +470,8 @@ function customlabel_cm_info_view(&$cminfo) {
     }
 
     // Disable url form of the course module representation.
-    // if ($iscminfo) {
-        $cminfo->set_content($content);
-        $cminfo->set_extra_classes('label'); // Important, or customlabel WILL NOT be deletable in topic/week course.
-    /* 
-    } else {
-        return $content;
-    }
-    */
+    $cminfo->set_content($content);
+    $cminfo->set_extra_classes('label'); // Important, or customlabel WILL NOT be deletable in topic/week course.
 }
 
 /**
