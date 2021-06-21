@@ -404,23 +404,6 @@ function customlabel_cm_info_view(&$cminfo) {
         return;
     }
 
-    /*
-    $context = context_module::instance($cminfo->id);
-    $fileprocessedcontent = $customlabel->processedcontent;
-    foreach ($instance->fields as $field) {
-        if ($field->type == 'editor' || $field->type == 'textarea') {
-            if (!isset($field->itemid) || is_null($field->itemid)) {
-                $message = 'Course element textarea subfield needs explicit itemid in definition ';
-                $message .= $customlabel->labelclass.'::'.$field->name;
-                throw new coding_exception($message);
-            }
-            $fileprocessedcontent = customlabel_file_rewrite_pluginfile_urls($fileprocessedcontent, 'pluginfile.php',
-                                                                             $context->id, 'mod_customlabel', 'contentfiles',
-                                                                             $field->itemid);
-        }
-    }
-    */
-
     // Specific >= 3.5
     $info = optional_param('info', '', PARAM_TEXT);
     $gettingmoduleupdate = in_array($info, array('core_course_get_module', 'core_course_edit_module'));
