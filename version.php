@@ -26,14 +26,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2020063000; // The current module version (Date: YYYYMMDDXX).
+$plugin->version  = 2012120600; // The current module version (Date: YYYYMMDDXX).
 $plugin->requires = 2020060900;
 $plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics).
-$plugin->release = '3.9.0 (Build 2020063000)';
+$plugin->release = '3.9.0 (Build 2012120600)';
 $plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
-$plugin->codeincrement = '3.9.0015';
+$plugin->codeincrement = '3.9.0017';
 $plugin->privacy = 'dualrelease';
 $plugin->prolocations = array(
     'type/coursedata',

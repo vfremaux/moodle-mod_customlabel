@@ -36,8 +36,59 @@ if (!isset($CFG->classification_type_table)) {
  * This function is not implemented in this plugin, but is needed to mark
  * the vf documentation custom volume availability.
  */
-function mod_customlabel_supports_feature($feature) {
-    assert(1);
+function customlabel_supports_feature($feature) {
+    global $CFG;
+    static $supports;
+
+    if (!during_initial_install()) {
+        $config = get_config('learningtimecheck');
+    }
+
+    if (!isset($supports)) {
+        $supports = array(
+            'pro' => array(
+                'api' => array('ws'),
+                'types' => array('remotecontent','cssadditions','localdokuwikicontent','learningindicators','verticalspacer'),
+            ),
+            'community' => array(
+            ),
+        );
+    }
+
+    if ($getsupported) {
+        return $supports;
+    }
+
+    // Check existance of the 'pro' dir in plugin.
+    if (is_dir(__DIR__.'/pro')) {
+        if ($feature == 'emulate/community') {
+            return 'pro';
+        }
+        if (empty($config->emulatecommunity)) {
+            $versionkey = 'pro';
+        } else {
+            $versionkey = 'community';
+        }
+    } else {
+        $versionkey = 'community';
+    }
+
+    if (empty($feature)) {
+        // Just return version.
+        return $versionkey;
+    }
+
+    list($feat, $subfeat) = explode('/', $feature);
+
+    if (!array_key_exists($feat, $supports[$versionkey])) {
+        return false;
+    }
+
+    if (!in_array($subfeat, $supports[$versionkey][$feat])) {
+        return false;
+    }
+
+    return $versionkey;
 }
 
 /*
