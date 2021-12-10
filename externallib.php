@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot.'/lib/externallib.php');
+require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
 class mod_customlabel_external extends external_api {
@@ -88,31 +89,14 @@ class mod_customlabel_external extends external_api {
      * @return external_description
      */
     public static function get_content($cidsource, $cid, $lang) {
-        global $DB;
+        global $CFG;
 
-        $parameters = array(
-            'cidsource' => $cidsource,
-            'cid' => $cid,
-            'lang' => $lang
-        );
-        $validparams = self::validate_element_parameters(self::get_content_parameters(), $parameters);
-
-        // Do what needs to be done.
-        switch ($parameters['cidsource']) {
-            case 'idnumber':
-                $cm = $DB->get_record('course_modules', array('idnumber' => $cid));
-                $instanceid = $cm->instance;
-                break;
-
-            case 'id':
-                $instanceid = $cid;
-                break;
+        if (customlabel_supports_feature('api/ws')) {
+            include_once($CFG->dirroot.'/mod/customlabel/pro/externallib.php');
+            return mod_customlabel_external_extended::get_content($cidsource, $cid, $lang);
+        } else {
+            throw new moodle_exception("Call to \"pro\" version WS additional implementation cannot be satisfied");
         }
-
-        $instance = $DB->get_record('customlabel', array('id' => $instanceid));
-
-        // Need filter string.
-        return $instance->processedcontent;
     }
 
     /**
@@ -154,38 +138,14 @@ class mod_customlabel_external extends external_api {
      * @return external_description
      */
     public static function get_attribute($cidsource, $cid, $attributekey) {
-        global $DB;
+        global $CFG;
 
-        $parameters = array(
-            'cidsource' => $cidsource,
-            'cid' => $cid,
-            'attributekey' => $attributekey
-        );
-        $validparams = self::validate_element_parameters(self::get_attribute_parameters(), $parameters);
-
-        // Do what needs to be done.
-        switch ($parameters['cidsource']) {
-            case 'idnumber':
-                $cm = $DB->get_record('course_modules', array('idnumber' => $cid));
-                $instanceid = $cm->instance;
-                break;
-
-            case 'id':
-                $instanceid = $cid;
-                break;
+        if (customlabel_supports_feature('api/ws')) {
+            include_once($CFG->dirroot.'/mod/customlabel/pro/externallib.php');
+            return mod_customlabel_external_extended::get_attribute($cidsource, $cid, $attributekey);
+        } else {
+            throw new moodle_exception("Call to \"pro\" version WS additional implementation cannot be satisfied");
         }
-
-        $instance = $DB->get_record('customlabel', array('id' => $instanceid));
-        $cm = get_coursemodule_from_instance('customlabel', $instanceid);
-        $instance->coursemodule = $cm->id;
-
-        if ($attributekey == 'labelclass') {
-            return $instance->labelclass;
-        }
-
-        $instanceobj = customlabel_load_class($instance, true);
-
-        return $instanceobj->get_data($attributekey);
     }
 
     /**
@@ -228,36 +188,14 @@ class mod_customlabel_external extends external_api {
      * @return external_description
      */
     public static function set_attribute($cidsource, $cid, $attributekey, $value) {
-        global $DB;
+        global $CFG;
 
-        $parameters = array(
-            'cidsource' => $cidsource,
-            'cid' => $cid,
-            'attributekey' => $attributekey,
-            'value' => $value
-        );
-        $validparams = self::validate_element_parameters(self::set_attribute_parameters(), $parameters);
-
-        // Do what needs to be done.
-        switch ($parameters['cidsource']) {
-            case 'idnumber':
-                $cm = $DB->get_record('course_modules', array('idnumber' => $cid));
-                $instanceid = $cm->instance;
-                break;
-
-            case 'id':
-                $instanceid = $cid;
-                break;
+        if (customlabel_supports_feature('api/ws')) {
+            include_once($CFG->dirroot.'/mod/customlabel/pro/externallib.php');
+            return mod_customlabel_external_extended::set_attribute($cidsource, $cid, $attributekey, $value);
+        } else {
+            throw new moodle_exception("Call to \"pro\" version WS additional implementation cannot be satisfied");
         }
-
-        $instance = $DB->get_record('customlabel', array('id' => $instanceid));
-        $cm = get_coursemodule_from_instance('customlabel', $instanceid);
-        $instance->coursemodule = $cm->id;
-        $instanceobj = customlabel_load_class($instance, true);
-        debug_trace("Updating customlabel $attributekey with $value ");
-        $instanceobj->update_data($attributekey, $value);
-
-        return true;
     }
 
     /**
@@ -295,59 +233,14 @@ class mod_customlabel_external extends external_api {
      * @return external_description
      */
     public static function refresh($cidsource, $cid) {
-        global $DB;
+        global $CFG;
 
-        $parameters = array(
-            'cidsource'  => $cidsource,
-            'cid'  => $cid
-        );
-        // Do not call elements as there are more id sources.
-        $validparams = self::validate_parameters(self::refresh_parameters(), $parameters);
-
-        // Do what needs to be done.
-        $instanceids = array();
-        switch ($parameters['cidsource']) {
-            case 'idnumber':
-                if (!$cm = $DB->get_record('course_modules', array('idnumber' => $cid))) {
-                    throw new moodle_exception('Bad course module');
-                }
-                $instanceid = $cm->instance;
-                break;
-
-            case 'courseidnumber':
-                if (!$course = $DB->get_record('course', array('idnumber' => $cid))) {
-                    throw new moodle_exception('Bad course');
-                }
-                customlabel_course_regenerate($course, 'all');
-                return true;
-
-            case 'courseid':
-                if (!$course = $DB->get_record('course', array('id' => $cid))) {
-                    throw new moodle_exception('Bad course');
-                }
-                if ($result = $DB->get_records('customlabel', array('course' => $course->id))) {
-                    $instanceids = array_keys($result);
-                }
-                customlabel_course_regenerate($course, 'all');
-                return true;
-
-            case 'courseshortname':
-                if (!$course = $DB->get_record('course', array('shortname' => $cid))) {
-                    throw new moodle_exception('Bad course');
-                }
-                customlabel_course_regenerate($course, 'all');
-                return true;
-
-            case 'id':
-                $instanceid = $cid;
-                break;
+        if (customlabel_supports_feature('api/ws')) {
+            include_once($CFG->dirroot.'/mod/customlabel/pro/externallib.php');
+            return mod_customlabel_external_extended::refresh($cidsource, $cid);
+        } else {
+            throw new moodle_exception("Call to \"pro\" version WS additional implementation cannot be satisfied");
         }
-
-        $instance = $DB->get_record('customlabel', array('id' => $instanceid));
-        $course = $DB->get_record('course', array('id' => $instance->course));
-        customlabel_regenerate($instance, $instance->labelclass, $course);
-
-        return true;
     }
 
     /**
@@ -428,21 +321,14 @@ class mod_customlabel_external extends external_api {
      * @return external_description
      */
     public static function get_mtd_domain($domain) {
-        global $DB;
+        global $CFG;
 
-        $parameters = array(
-            'domain' => $domain
-        );
-        $params = self::validate_mtd_parameters(self::get_mtd_domain_parameters(), $parameters);
-
-        $config = get_config('customlabel');
-
-        $type = $DB->get_record($config->classification_type_table, array('id' => $params['domainid']));
-
-        $params = array($config->classification_value_type_key => $type->id);
-        $domainvalues = $DB->get_records($config->classification_value_table, $params);
-
-        return $domainvalues;
+        if (customlabel_supports_feature('api/ws')) {
+            include_once($CFG->dirroot.'/mod/customlabel/pro/externallib.php');
+            return mod_customlabel_external_extended::get_mtd_domain($domain);
+        } else {
+            throw new moodle_exception("Call to \"pro\" version WS additional implementation cannot be satisfied");
+        }
     }
 
     /**
@@ -457,6 +343,48 @@ class mod_customlabel_external extends external_api {
                     'code' => new external_value(PARAM_TEXT, 'Domain value code'),
                     'value' => new external_value(PARAM_TEXT, 'Domain value label'),
                     'id' => new external_value(PARAM_INT, 'Internal ID for classification reference'),
+                )
+            )
+        );
+    }
+
+    public static function add_instance_parameters() {
+        $desc = 'Source for the course id, can be either \'id\', or \'idnumber\', or \'shortname\'';
+        return new external_function_parameters(
+            array(
+                'cidsource' => new external_value(PARAM_ALPHA, $desc),
+                'cid' => new external_value(PARAM_TEXT, 'Course identifier'),
+                'sectionnum' => new external_value(PARAM_NUMERIC, 'Section/page num'),
+                'position' => new external_value(PARAM_NUMERIC, 'Position in section/page sequence, 0 (end) or -1 (start)'),
+                'labeltype' => new external_value(PARAM_NUMERIC, 'Label type name'),
+                'idnumber' => new external_value(PARAM_NUMERIC, 'Idnumber value for associated course module'),
+            )
+        );
+    }
+
+    public static function add_instance($cidsource, $cid, $sectionnum, $position, $labeltype, $idnumber) {
+        global $CFG;
+
+        if (customlabel_supports_feature('api/ws')) {
+            include_once($CFG->dirroot.'/mod/customlabel/pro/externallib.php');
+            return mod_customlabel_external_extended::add_instance($cidsource, $cid, $sectionnum, $position, $labeltype, $idnumber);
+        } else {
+            throw new moodle_exception("Call to \"pro\" version WS additional implementation cannot be satisfied");
+        }
+    }
+
+    public static function add_instance_returns() {
+        return new external_single_structure(
+            array(
+                'id' => new external_value(PARAM_INT, 'Course module id'),
+                'idnumber' => new external_value(PARAM_TEXT, 'Course module idnumber'),
+                'attributes' => new external_multiple_structure(
+                    new external_single_structure
+                        array(
+                            'name' => new external_value(PARAM_TEXT, 'Label attribute name'),
+                            'type' => new external_value(PARAM_TEXT, 'Label attribute type'),
+                        )
+                    )
                 )
             )
         );
