@@ -36,8 +36,59 @@ if (!isset($CFG->classification_type_table)) {
  * This function is not implemented in this plugin, but is needed to mark
  * the vf documentation custom volume availability.
  */
-function mod_customlabel_supports_feature($feature) {
-    assert(1);
+function customlabel_supports_feature($feature = null, $getsupported = false) {
+    global $CFG;
+    static $supports;
+
+    if (!during_initial_install()) {
+        $config = get_config('customlabel');
+    }
+
+    if (!isset($supports)) {
+        $supports = array(
+            'pro' => array(
+                'api' => array('ws'),
+                'types' => array('remotecontent','cssadditions','localdokuwikicontent','learningindicators','verticalspacer'),
+            ),
+            'community' => array(
+            ),
+        );
+    }
+
+    if ($getsupported) {
+        return $supports;
+    }
+
+    // Check existance of the 'pro' dir in plugin.
+    if (is_dir(__DIR__.'/pro')) {
+        if ($feature == 'emulate/community') {
+            return 'pro';
+        }
+        if (empty($config->emulatecommunity)) {
+            $versionkey = 'pro';
+        } else {
+            $versionkey = 'community';
+        }
+    } else {
+        $versionkey = 'community';
+    }
+
+    if (empty($feature)) {
+        // Just return version.
+        return $versionkey;
+    }
+
+    list($feat, $subfeat) = explode('/', $feature);
+
+    if (!array_key_exists($feat, $supports[$versionkey])) {
+        return false;
+    }
+
+    if (!in_array($subfeat, $supports[$versionkey][$feat])) {
+        return false;
+    }
+
+    return $versionkey;
 }
 
 /*
@@ -317,8 +368,6 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     if ($iscminfo) {
         $cminfo->set_no_view_link();
         $cminfo->set_extra_classes('label'); // Important, or customlabel WILL NOT be deletable in topic/week course.
-    } else {
-        return $content;
     }
 }
 
@@ -331,7 +380,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
  * @todo : reevaluate strategy. this may still be used for improving standard formats.
  */
 function customlabel_cm_info_view(&$cminfo) {
-    global $DB, $PAGE, $CFG, $COURSE, $OUTPUT;
+    global $DB, $PAGE, $CFG, $COURSE, $OUTPUT, $USER;
 
     global $customlabelscriptsloaded;
     static $customlabelcssloaded = array();
@@ -341,6 +390,11 @@ function customlabel_cm_info_view(&$cminfo) {
 
     // Specific > 3.5
     $iscminfo = (get_class($cminfo) == 'cminfo') || (get_class($cminfo) == 'cm_info');
+    if (!$iscminfo) {
+        $cms = get_fast_modinfo($COURSE, $USER->id);
+        $cminfo = $cms->get_cm($cminfo->id);
+        $iscminfo = true;
+    }
 
     // Improve page format by testing if in current visble page.
     if ($COURSE->format == 'page') {
@@ -401,21 +455,6 @@ function customlabel_cm_info_view(&$cminfo) {
         return;
     }
 
-    $context = context_module::instance($cminfo->id);
-    $fileprocessedcontent = $customlabel->processedcontent;
-    foreach ($instance->fields as $field) {
-        if ($field->type == 'editor' || $field->type == 'textarea') {
-            if (!isset($field->itemid) || is_null($field->itemid)) {
-                $message = 'Course element textarea subfield needs explicit itemid in definition ';
-                $message .= $customlabel->labelclass.'::'.$field->name;
-                throw new coding_exception($message);
-            }
-            $fileprocessedcontent = customlabel_file_rewrite_pluginfile_urls($fileprocessedcontent, 'pluginfile.php',
-                                                                             $context->id, 'mod_customlabel', 'contentfiles',
-                                                                             $field->itemid);
-        }
-    }
-
     // Specific >= 3.5
     $info = optional_param('info', '', PARAM_TEXT);
     $gettingmoduleupdate = in_array($info, array('core_course_get_module', 'core_course_edit_module'));
@@ -443,6 +482,7 @@ function customlabel_cm_info_view(&$cminfo) {
             }
 
             $content .= $OUTPUT->render_from_template($template, $instance->data);
+
         } catch (Exception $e) {
             assert(1);
             // Quiet any exception here. Resolve case of Editing Teachers.
@@ -464,12 +504,8 @@ function customlabel_cm_info_view(&$cminfo) {
     }
 
     // Disable url form of the course module representation.
-    if ($iscminfo) {
-        $cminfo->set_content($content);
-        $cminfo->set_extra_classes('label'); // Important, or customlabel WILL NOT be deletable in topic/week course.
-    } else {
-        return $content;
-    }
+    $cminfo->set_content($content);
+    $cminfo->set_extra_classes('label'); // Important, or customlabel WILL NOT be deletable in topic/week course.
 }
 
 /**
@@ -607,8 +643,8 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
 }
 
 /**
- * Obtains the automatic completion state for this forum based on any conditions
- * in forum settings.
+ * Obtains the automatic completion state for this customlabel based on any conditions
+ * in customlabel settings.
  *
  * @global object
  * @global object

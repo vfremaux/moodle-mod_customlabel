@@ -17,7 +17,7 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
@@ -56,6 +56,13 @@ class customlabel_type_worktodo extends customlabel_type {
         if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKTYPE'))) {
 
             $field = new StdClass;
+            $field->name = 'showworktypefield';
+            $field->type = 'choiceyesno';
+            $field->advanced = true;
+            $field->default = true;
+            $this->fields['showworktypefield'] = $field;
+
+            $field = new StdClass;
             $field->name = 'worktypefield';
             $field->type = 'vdatasource';
             $field->source = 'dbfieldkeyed';
@@ -63,10 +70,18 @@ class customlabel_type_worktodo extends customlabel_type {
             $field->field = 'value';
             $field->key = 'code';
             $field->select = " typeid = $fieldid ";
+            $field->advanced = true;
             $this->fields['worktypefield'] = $field;
         }
 
         if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKEFFORT'))) {
+
+            $field = new StdClass;
+            $field->name = 'showworkeffortfield';
+            $field->type = 'choiceyesno';
+            $field->advanced = true;
+            $field->default = true;
+            $this->fields['showworkeffortfield'] = $field;
 
             $field = new StdClass;
             $field->name = 'workeffortfield';
@@ -76,10 +91,18 @@ class customlabel_type_worktodo extends customlabel_type {
             $field->field = 'value';
             $field->key = 'code';
             $field->select = " typeid = $fieldid ";
+            $field->advanced = true;
             $this->fields['workeffortfield'] = $field;
         }
 
         if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKMODE'))) {
+
+            $field = new StdClass;
+            $field->name = 'showworkmodefield';
+            $field->type = 'choiceyesno';
+            $field->advanced = true;
+            $field->default = true;
+            $this->fields['showworkmodefield'] = $field;
 
             $field = new StdClass;
             $field->name = 'workmodefield';
@@ -89,6 +112,7 @@ class customlabel_type_worktodo extends customlabel_type {
             $field->field = 'value';
             $field->key = 'code';
             $field->select = " typeid = $fieldid ";
+            $field->advanced = true;
             $this->fields['workmodefield'] = $field;
         }
 

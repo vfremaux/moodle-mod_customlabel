@@ -112,6 +112,11 @@ class mod_customlabel_mod_form extends moodleform_mod {
         $mform->setType('title', PARAM_TEXT);
         $mform->setAdvanced('title');
 
+        if (customlabel_supports_feature('api/ws')) {
+            $mform->addElement('static', 'wsurl', get_string('wsurl', 'customlabel', $customlabel->labelclass));
+            $mform->setAdvanced('wsurl');
+        }
+
         if (!$customclass) {
             print_error("Custom label class lacks of definition");
         }
@@ -127,6 +132,12 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 $fieldlabel = format_string($field->label);
             } else {
                 $fieldlabel = get_string($field->name, 'customlabeltype_'.$customclass->type);
+
+                if (customlabel_supports_feature('api/ws')) {
+                    if (has_capability('moodle/site:config')) {
+                        $fieldlabel .= ' '.get_string('wsfieldkey', 'customlabel', $field->name);
+                    }
+                }
             }
 
             if ($field->type == 'hidden') {
@@ -254,6 +265,10 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
                 echo "Unknown or unsupported type : {$customclass->type}@{$field->name}, type is $field->type";
 
+            }
+
+            if (!empty($field->advanced)) {
+                $mform->setAdvanced($field->name);
             }
 
             if (!empty($field->mandatory)) {

@@ -17,7 +17,7 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  *
@@ -200,7 +200,7 @@ function customlabel_process_fields(&$customlabelrec, &$instance) {
             $customlabelrec->{$fieldname} = @$_REQUEST[$fieldname];
         }
 
-        if (!empty($customlabelrec->{$fieldname}) && ($customlabelrec->{$fieldname} == '_qf__force_multiselect_submission')) {
+        if (isset($customlabelrec->{$fieldname}) && $customlabelrec->{$fieldname} == '_qf__force_multiselect_submission') {
             $customlabelrec->{$fieldname} = '';
         }
 

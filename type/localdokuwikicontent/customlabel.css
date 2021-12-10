@@ -1,0 +1,11 @@
+
+div.custombox-localdokuwikicontent h1.custombox-caption {
+   color: #e6c439
+   font-size: 20px;
+   line-height: 26px;
+}
+
+div.custombox-localdokuwikicontent p {
+    font-size: 12pt;
+    width: 100%;
+}
