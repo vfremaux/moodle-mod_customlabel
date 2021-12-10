@@ -134,7 +134,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 $fieldlabel = get_string($field->name, 'customlabeltype_'.$customclass->type);
 
                 if (customlabel_supports_feature('api/ws')) {
-                    if (has_capability('moodle/site:config')) {
+                    if (has_capability('moodle/site:config', context_system::instance())) {
                         $fieldlabel .= ' '.get_string('wsfieldkey', 'customlabel', $field->name);
                     }
                 }
