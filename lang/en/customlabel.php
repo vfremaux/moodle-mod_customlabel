@@ -45,6 +45,8 @@ $string['hideshow'] = 'Hide/Show';
 $string['settings'] = 'Settings';
 $string['choose'] = 'Choose';
 $string['save'] = 'Save settings';
+$string['wsurl'] = 'Web services: use type {$a} in webservice call customlabel_add_instance().<br/>See WS moodle API documentation in plugin administration.';
+$string['wsattributekey'] = '<span class="lighttext">Attribute key to use in WS : {$a}</span>';
 $string['managecustomlabeltypeplugins'] = 'Manage customlabel plugins';
 $string['disabledsubtypes'] = 'Disabled subtypes';
 $string['disabledsubtypes_desc'] = 'Any subtype mentionned in this field will be globally disabled for the whole site.';
@@ -221,3 +223,5 @@ $string['familygeneric'] = 'Generic elements';
 $string['familypedagogic'] = 'Pedagogy elements';
 $string['familymeta'] = 'Meta-Pedagogy elements';
 $string['familyspecial'] = 'Special elements';
+
+include(__DIR__.'/pro_additional_strings.php');
