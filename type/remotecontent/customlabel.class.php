@@ -442,6 +442,5 @@ class customlabel_type_remotecontent extends customlabel_type {
             }
         }
     }
-
 }
 

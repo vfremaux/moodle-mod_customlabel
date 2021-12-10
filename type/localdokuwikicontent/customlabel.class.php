@@ -241,12 +241,14 @@ class customlabel_type_localdokuwikicontent extends customlabel_type {
 
         $error = '';
         if (!$result = curl_exec($ch)) {
-            if ($CFG->debug == DEBUG_DEVELOPER)
-            $error = "CURL Error : ".curl_errno($ch).' '.curl_error($ch)."\n";
+            if ($CFG->debug == DEBUG_DEVELOPER) {
+           		$error = "CURL Error : ".curl_errno($ch).' '.curl_error($ch)."\n";
+           	}
         }
 
         if (preg_match('/EXCEPTION/', $result)) {
-            $error = "Remote Exception : $result";
+            echo "Remote Exception : $result";
+            return;
         }
 
         $result = json_decode($result);
