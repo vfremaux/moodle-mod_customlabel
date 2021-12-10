@@ -36,12 +36,12 @@ if (!isset($CFG->classification_type_table)) {
  * This function is not implemented in this plugin, but is needed to mark
  * the vf documentation custom volume availability.
  */
-function customlabel_supports_feature($feature) {
+function customlabel_supports_feature($feature = null, $getsupported = false) {
     global $CFG;
     static $supports;
 
     if (!during_initial_install()) {
-        $config = get_config('learningtimecheck');
+        $config = get_config('customlabel');
     }
 
     if (!isset($supports)) {

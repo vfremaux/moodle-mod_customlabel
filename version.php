@@ -26,10 +26,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2012120600; // The current module version (Date: YYYYMMDDXX).
+$plugin->version  = 2021120600; // The current module version (Date: YYYYMMDDXX).
 $plugin->requires = 2020060900;
 $plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics).
-$plugin->release = '3.9.0 (Build 2012120600)';
+$plugin->release = '3.9.0 (Build 2021120600)';
 $plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
