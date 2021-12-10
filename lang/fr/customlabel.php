@@ -87,6 +87,8 @@ $string['typecode'] = 'Code';
 $string['show'] = 'Montrer&ensp;';
 $string['typetype'] = 'Type';
 $string['withcompletions'] = 'Réinitialier aussi les achèvements des labels';
+$string['wsurl'] = 'Web services: utiliser le type \'{$a}\' pour le paramètre \'labeltype\' dans l\'appel de customlabel_add_instance().<br/>Voir la documentation générée des l\'APIs de service dans l\'administration des plugins.';
+$string['wsattributekey'] = '<span class="lighttext">Clef d\'attribut pour les Web Services : {$a}</span>';
 
 // Skins
 $string['defaultstyle'] = 'Icones (jeu par défaut)';
@@ -191,3 +193,5 @@ $string['familygeneric'] = 'Eléments génériques';
 $string['familypedagogic'] = 'Eléments pédagogiques';
 $string['familymeta'] = 'Eléments méta';
 $string['familyspecial'] = 'Eléments spéciaux';
+
+include(__DIR__.'/pro_additional_strings.php');
