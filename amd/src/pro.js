@@ -17,23 +17,23 @@
 
 define(['jquery', 'core/log', 'core/config'], function($, log, cfg) {
 
-    var ltcpro = {
+    var customlabelpro = {
 
-        component: 'mod_learningtimecheck',
-        shortcomponent: 'learningtimecheck',
-        componentpath: 'mod/learningtimecheck',
+        component: 'mod_customlabel',
+        shortcomponent: 'customlabel',
+        componentpath: 'mod/customlabel',
 
         init: function() {
 
-            var licensekeyid = '#id_s_' + ltcpro.shortcomponent + '_licensekey';
+            var licensekeyid = '#id_s_' + customlabelpro.shortcomponent + '_licensekey';
             $(licensekeyid).bind('change', this.check_product_key);
             $(licensekeyid).trigger('change');
-            log.debug('AMD Pro js initialized for ' + ltcpro.component + ' system');
+            log.debug('AMD Pro js initialized for ' + customlabelpro.component + ' system');
         },
 
         check_product_key: function() {
 
-            var licensekeyid = '#id_s_' + ltcpro.shortcomponent + '_licensekey';
+            var licensekeyid = '#id_s_' + customlabelpro.shortcomponent + '_licensekey';
 
             var that = $(this);
 
@@ -41,7 +41,7 @@ define(['jquery', 'core/log', 'core/config'], function($, log, cfg) {
             var payload = productkey.substr(0, 14);
             var crc = productkey.substr(14, 2);
 
-            var calculated = ltcpro.checksum(payload);
+            var calculated = customlabelpro.checksum(payload);
 
             var validicon = ' <img src="' + cfg.wwwroot + '/pix/i/valid.png' + '">';
             var cautionicon = ' <img src="' + cfg.wwwroot + '/pix/i/warning.png' + '">';
@@ -50,11 +50,11 @@ define(['jquery', 'core/log', 'core/config'], function($, log, cfg) {
             var found;
 
             if (crc === calculated) {
-                var url = cfg.wwwroot + '/' + ltcpro.componentpath + '/pro/ajax/services.php?';
+                var url = cfg.wwwroot + '/' + customlabelpro.componentpath + '/pro/ajax/services.php?';
                 url += 'what=license';
                 url += '&service=check';
                 url += '&customerkey=' + that.val();
-                url += '&provider=' + $('#id_s_' + ltcpro.shortcomponent + '_licenseprovider').val();
+                url += '&provider=' + $('#id_s_' + customlabelpro.shortcomponent + '_licenseprovider').val();
 
                 $(licensekeyid + ' + img').remove();
                 $(licensekeyid).after(waiticon);
@@ -101,5 +101,5 @@ define(['jquery', 'core/log', 'core/config'], function($, log, cfg) {
         }
     };
 
-    return ltcpro;
+    return customlabelpro;
 });

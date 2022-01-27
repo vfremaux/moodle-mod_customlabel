@@ -87,6 +87,7 @@ $string['updatescope'] = 'Updating scope';
 $string['usesafestorage'] = 'Use safe storage for content (base64)';
 $string['userstatesreset'] = 'User states have been reset';
 $string['withcompletions'] = 'Reset label completions';
+$string['wsfieldkey'] = 'Attribute key for web services: {$a}';
 $string['modulename_help'] = "Course Elements provide you with pedagogic modules that are already layout and
 designed for serving some high level pedagogic needs. Course elements have subtypes that address common
 learning actions : work to do, soluce, see also (optional reference), local goals, reminder, and some
