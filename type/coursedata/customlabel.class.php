@@ -188,6 +188,15 @@ class customlabel_type_coursedata extends customlabel_type {
      *
      *
      */
+    public function preprocess_data($course = null) {
+        global $COURSE;
+
+        if (preg_match('/%COURSEDESC%/', @$this->data->objectives)) {
+            $coursesummary = format_text($COURSE->summary, $COURSE->summaryformat);
+            $this->data->objectives = str_replace('%COURSEDESC%', $coursesummary, $this->data->objectives);
+        }
+    }
+
     public function postprocess_data($course = null) {
         $leftratio = 0 + (int) str_replace('%', '', @$this->data->leftcolumnratio);
         $this->data->rightcolumnratio = 100 - $leftratio;
