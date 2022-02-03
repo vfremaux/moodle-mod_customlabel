@@ -35,5 +35,7 @@ $string['configtypename'] = 'Active le type Boites de commentaires';
 $string['comment'] = 'Commentaire ';
 $string['readmorecontent'] = 'Lire plus';
 $string['initiallyvisible'] = 'Visible au chargement';
+$string['readless'] = 'Lire moins...';
+$string['readmore'] = 'Lire plus...';
 
 $string['family'] = 'generic';

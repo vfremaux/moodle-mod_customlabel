@@ -147,7 +147,7 @@ function customlabel_get_customlabel_in_course($course, $type, $wantfirst = fals
     } else {
 
         $visibleclause = '';
-        if () {
+        if ($onlyvisible) {
             $visibleclause = " AND
                 fpi.visible = 1 
             ";

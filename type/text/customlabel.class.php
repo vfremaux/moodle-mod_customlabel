@@ -69,13 +69,13 @@ class customlabel_type_text extends customlabel_type {
         if (!empty($this->data->initiallyvisible)) {
             $this->data->initialstring = get_string('readless', 'customlabeltype_text');
             $this->data->initialclass = '';
-            $this->data->initialclass = '';
         } else {
             $this->data->initialstring = get_string('readmore', 'customlabeltype_text');
             $this->data->initialclass = 'hidden';
         }
 
         $context = context_module::instance($this->cmid);
+
         // Weird fix.
         if (empty($this->data->textcontent)) {
             $this->data->textcontent = '';
