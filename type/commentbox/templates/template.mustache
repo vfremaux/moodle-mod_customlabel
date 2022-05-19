@@ -27,10 +27,10 @@
 </div>
 
 {{#readmorecontent}}
-<div class="custombox-commentbox readmorelink">
-    <span id="customctl-{{customid}}">{{initialstring}}</span>
+<div class="custombox-comment readmorelink">
+    <span id="customctl-{{customid}}" class="customctl-string" data-labels="{{label1}},{{label2}}">{{initialstring}}</span>
 </div>
-<div class="custombox-commentbox readmore {{initialclass}}" id="custom-{{customid}}">
+<div class="custombox-comment readmore {{initialclass}}" id="custom-{{customid}}">
     {{{readmorecontent}}}
 </div>
 {{/readmorecontent}}

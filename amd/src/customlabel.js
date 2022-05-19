@@ -67,7 +67,7 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
 
             var that = $(this);
             var customid = that.attr('id').replace('customctl-', 'custom-');
-            var parts = that.attr('data').split(',');
+            var parts = that.attr('data-labels').split(',');
 
             if ($('#' + customid).hasClass('hidden')) {
                 $('#' + customid).removeClass('hidden');

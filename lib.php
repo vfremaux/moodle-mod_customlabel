@@ -22,6 +22,8 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
+define("CUSTOMLABEL_MAX_NAME_LENGTH", 50);
+
 if (!isset($CFG->classification_type_table)) {
     set_config('classification_type_table', 'customlabel_mtd_type');
     set_config('classification_value_table', 'customlabel_mtd_value');
@@ -89,6 +91,25 @@ function customlabel_supports_feature($feature = null, $getsupported = false) {
     }
 
     return $versionkey;
+}
+
+/**
+ * @uses LABEL_MAX_NAME_LENGTH
+ * @param object $label
+ * @return string
+ */
+function get_customlabel_name($customlabel) {
+    $name = strip_tags(format_string($customlabel->processedcontent, true));
+    if (core_text::strlen($name) > CUSTOMLABEL_MAX_NAME_LENGTH) {
+        $name = core_text::substr($name, 0, CUSTOMLABEL_MAX_NAME_LENGTH)."...";
+    }
+
+    if (empty($name)) {
+        // arbitrary name
+        $name = $customlabel->title;
+    }
+
+    return $name;
 }
 
 /*

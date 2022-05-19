@@ -35,6 +35,8 @@ $string['configtypename'] = 'Enable subtype Comment boxes';
 $string['comment'] = 'Comment ';
 $string['readmorecontent'] = 'Read more content';
 $string['initiallyvisible'] = 'Initially visible';
+$string['readless'] = 'Read less...';
+$string['readmore'] = 'Read more...';
 
 $string['family'] = 'generic';
 
