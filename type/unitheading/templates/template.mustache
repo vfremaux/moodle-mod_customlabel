@@ -25,23 +25,24 @@
     <tr valign="middle" class="custombox-icon unitheading">
 
         {{#toleft}}
-        <td width="{{imagewidth}}" class="custombox-icon-left unitheading" align="center"
-                   style="background:url({{{imageurl}}}) 50% 50% no-repeat transparent">
-            {{overimagetext}}
+        <td width="{{imagewidth}}" class="custombox-icon-left unitheading" align="center">
+            <img src="{{{imageurl}}}" style="z-index: 1"/>
+            <div class="overimage" style="z-index: 2">{{overimagetext}}</div>
         </td>
         {{/toleft}}
 
         <td style="{{contentpadding}}">
-            <h3 class="custombox-caption unitheading">{{heading}}</h3>
+            <h5 class="custombox-caption unitheading">{{heading}}</h5>
             <p class="custombox-description unitheading">{{{shortdesc}}}</p>
         </td>
 
         {{#toright}}
-        <td  width="{{imagewidth}}" class="custombox-icon-right unitheading" align="center"
-                   style="background:url({{{imageurl}}}) 50% 50% no-repeat transparent">
-            {{overimagetext}}
+        <td  width="{{imagewidth}}" class="custombox-icon-right unitheading" align="center">
+            <img src="{{{imageurl}}}"  style="z-index: 1"/>
+            <div class="overimage" style="z-index: 2">{{overimagetext}}</div>
         </td>
         {{/toright}}
 
     </tr>
 </table>
+<!-- /customlabeltype_unitheading/template -->

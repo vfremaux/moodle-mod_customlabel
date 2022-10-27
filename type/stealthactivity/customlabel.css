@@ -1,3 +1,5 @@
+/* Element specific rules that affect only this element class */
+
 table.custombox-stealtactivity {
     width: 100%;
 }
@@ -39,4 +41,9 @@ td.custombox-content.stealtactivity h3 {
     background-image: none;
     font-weight: bolder;
     padding-left: 0;
+}
+
+.custombox-header-caption.stealthactivity,
+.custombox-header-image.stealthactivity {
+    display: inline-block;
 }

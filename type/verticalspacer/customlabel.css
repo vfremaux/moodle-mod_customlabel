@@ -1,3 +1,5 @@
+/* Element specific rules that affect only this element class */
+
 .custombox-verticalspacer {
     background: none;
     border: none;

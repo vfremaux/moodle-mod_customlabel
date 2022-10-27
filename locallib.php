@@ -17,7 +17,7 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  *
@@ -26,14 +26,18 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-if (!isset($CFG->classification_type_table)) {
-    set_config('classification_type_table', 'customlabel_mtd_type');
-    set_config('classification_value_table', 'customlabel_mtd_value');
-    set_config('classification_value_type_key', 'typeid');
-    set_config('classification_constraint_table', 'customlabel_mtd_constraint');
-    set_config('course_metadata_table', 'customlabel_course_metadata');
-    set_config('course_metadata_value_key', 'valueid');
-    set_config('course_metadata_course_key', 'courseid');
+require_once($CFG->dirroot.'/mod/customlabel/compatlib.php');
+
+if (!during_initial_install()) {
+    if (!isset($CFG->classification_type_table)) {
+        set_config('classification_type_table', 'customlabel_mtd_type');
+        set_config('classification_value_table', 'customlabel_mtd_value');
+        set_config('classification_value_type_key', 'typeid');
+        set_config('classification_constraint_table', 'customlabel_mtd_constraint');
+        set_config('course_metadata_table', 'customlabel_course_metadata');
+        set_config('course_metadata_value_key', 'valueid');
+        set_config('course_metadata_course_key', 'courseid');
+    }
 }
 
 /**
@@ -75,9 +79,6 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
                 continue; // Discard plugin prototype.
             }
             if ($ignoredisabled && preg_match('/\\b'.$entry.'\\b/', $disabledtypes)) {
-                continue;
-            }
-            if (($entry == 'stealthactivity') && empty($CFG->allowstealth)) {
                 continue;
             }
             if (!is_null($context) &&
@@ -174,7 +175,7 @@ function customlabel_load_class($customlabel, $quiet = false) {
     if (file_exists($classfile)) {
         include_once($classfile);
         $constructorfunction = "customlabel_type_{$customlabel->labelclass}";
-        $instance = new $constructorfunction($customlabel);
+        $instance = new $constructorfunction($customlabel, $customlabel->labelclass);
         return $instance;
     } else {
         if (debugging()) {
@@ -201,7 +202,7 @@ function customlabel_process_fields(&$customlabelrec, &$instance) {
             $customlabelrec->{$fieldname} = @$_REQUEST[$fieldname];
         }
 
-        if ($customlabelrec->{$fieldname} == '_qf__force_multiselect_submission') {
+        if (isset($customlabelrec->{$fieldname}) && $customlabelrec->{$fieldname} == '_qf__force_multiselect_submission') {
             $customlabelrec->{$fieldname} = '';
         }
 
@@ -449,58 +450,4 @@ function customlabel_course_regenerate(&$course, $labelclasses = '', $options = 
             }
         }
     }
-}
-
-/**
- * Get all stealth modules. On page format, there is no need
- * of stealth modules as this is naturally handled with the
- * page publishing (or not) concept.
- */
-function customlabel_get_stealth_cms($activeoptions = '', $course = null) {
-    global $COURSE, $DB;
-
-    if (is_null($course)) {
-        $course = $COURSE;
-    }
-
-    $coursemodinfo = get_fast_modinfo($course);
-    $stealthcms = [];
-
-    if ($course->format !== 'page') {
-        $allcms = $coursemodinfo->get_cms();
-        if (!empty($allcms)) {
-            foreach ($allcms as $cm) {
-                if ($cm->is_stealth()) {
-                    $stealthcms[$cm->id] = format_string($cm->name);
-                }
-            }
-        }
-    } else {
-
-        // Get all course modules that remained unpublished on pages.
-        $sql = "
-            SELECT
-                id as modid,
-                fpi.id as pageid
-            FROM
-                {course_modules} cm
-            LEFT JOIN
-                {format_page_item} fpi
-            ON
-                fpi.moduleid = cm.id
-            WHERE
-                fpi.id IS NULL
-        ";
-        $cms = $DB->get_records_sql($sql);
-
-        if ($cms) {
-            foreach (array_keys($cms) as $cm) {
-                // Convert into cm_info.
-                $cminfo = $coursemodinfo->get_cm($cm->modid);
-                $stealthcms[$cm->modid] = format_string($cminfo->name);
-            }
-        }
-    }
-
-    return $stealthcms;
 }

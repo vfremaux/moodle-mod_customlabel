@@ -1,37 +1,6 @@
-table.custombox-method {
+/* Element specific rules that affect only this element class */
+
+.custombox-method {
     width: 100%;
 }
 
-td.custombox-header-thumb.method {
-    border-right: 1px solid #f00000 !important;
-    padding-right: 8px;
-}
-
-td.custombox-header-thumb.method {
-    background-image: url("/mod/customlabel/type/method/pix/icon_method_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 25px;
-    width: 25px;
-}
-
-#region-main td.custombox-header-thumb.method,
-#page-region-main td.custombox-header-thumb.method {
-    background-image: url("/mod/customlabel/type/method/pix/icon_method.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
-}
-
-td.custombox-header-caption.method {
-    color: #d83030;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
-}
-
-td.custombox-content.methodtext {
-    min-height: 100px;
-    padding-left: 8px;
-}

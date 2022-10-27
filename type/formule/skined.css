@@ -1,0 +1,21 @@
+/* Skined variants */
+
+.custombox-header-thumb.formule.colored {
+    border-right: 1px solid #f00000;
+}
+
+.custombox-header-caption.formule.colored {
+    color: #d83030;
+}
+
+.custombox-header-thumb.formule {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_formule.png");
+}
+
+.custombox-header-thumb.formule.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/orangespot.png");
+}
+
+.custombox-header-thumb.formule.flatstyle:after {
+    content: "\F13D"; /* fa-anchor */
+}

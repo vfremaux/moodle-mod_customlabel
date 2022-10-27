@@ -17,7 +17,7 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
@@ -117,11 +117,23 @@ class customlabel_type_courseheading extends customlabel_type {
 
         // Get virtual fields from course title.
         $this->data->courseheading = format_string($course->fullname);
-        $this->data->coursedesc = format_text($course->summary, $course->summaryformat);
+
+        $text = $course->summary;
+        $file = 'pluginfile.php';
+        $context = context_course::instance($course->id);
+        $component = 'course';
+        $filearea = 'summary';
+        $text = file_rewrite_pluginfile_urls($text, $file, $context->id, $component, $filearea, null);
+        $formatted = format_text($text, $course->summaryformat);
+        $this->data->coursedesc = $formatted;
+
         $this->data->idnumber = $course->idnumber;
         $this->data->shortname = $course->shortname;
         $storedimage = $this->get_file_url('image');
         $imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
+        if (empty($this->data->imagepositionoption)) {
+            $this->data->imagepositionoption = 'none';
+        }
         if ($this->data->imagepositionoption == 'left') {
             $this->data->imageL = '<td width="100"
                                        class="custombox-icon-left courseheading"

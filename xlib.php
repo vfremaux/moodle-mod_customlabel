@@ -116,3 +116,91 @@ function customlabel_get_coursedata($courseid) {
     $instance = customlabel_load_class($cl);
     return $instance;
 }
+
+function customlabel_get_requestcontact($courseid) {
+    global $DB;
+
+    $params = ['course' => $courseid, 'labelclass' => 'requestcontact'];
+    $potrq = $DB->get_records('customlabel', $params, 'id');
+
+    if (!$potrq) {
+        return;
+    }
+
+    // At the moment take the first that comes.
+    $cl = array_shift($potrq);
+
+    $instance = customlabel_load_class($cl);
+    return $instance;
+}
+
+/**
+ * Finds a customlabel, or all customlabels of some type in a course.
+ * Special behaviour : in page format, needs to be published
+ */
+function customlabel_get_customlabel_in_course($course, $type, $wantfirst = false, $onlyvisible = true, $onlypublished = true) {
+    global $DB;
+
+    if ($course->format != 'page') {
+        $params = ['course' => $course->id, 'customlabeltype' => $type];
+        $instances = $DB->get_records('customlabel', $params);
+    } else {
+
+        $visibleclause = '';
+        if (!empty($onlyvisible)) {
+            $visibleclause = " AND
+                fpi.visible = 1 
+            ";
+        }
+        
+        $select = "
+            SELECT
+                c.*
+            FROM
+                {customlabel} c,
+                {course_module} cm,
+                {module} m,
+                {format_page} fp,
+                {format_page_items} fpi
+            WHERE
+                c.id = cm.instance AND
+                cm.moduleid = m.id AND
+                m.name = 'customlabel' AND
+                fpi.cmid = cm.id AND
+                fpi.pageid = fp.id AND
+                fp.courseid = c.id 
+                {$visibleclause}
+        ";
+
+        $instances = $DB->get_records_sql($sql);
+    }
+
+    if (!empty($instances) && $wantfirst) {
+        return array_pop($instances);
+    }
+    return $instances;
+}
+
+/**
+ *
+ */
+function customlabel_get_customlabel_field($courseid) {
+    global $DB;
+
+    $params = ['course' => $courseid, 'labelclass' => 'requestcontact'];
+    $potrq = $DB->get_records('customlabel', $params, 'id');
+
+    if (!$potrq) {
+        return;
+    }
+
+    // At the moment take the first that comes.
+    $cl = array_shift($potrq);
+
+    $instance = customlabel_load_class($cl);
+    return $instance;
+}
+
+function customlabel_search_courses($searchcriteria) {
+    return [];
+}

@@ -121,7 +121,7 @@ function xmldb_customlabel_install() {
 function xmldb_customlabel_build_multilang($code, $plugin) {
 
     $tag = 'span';
-    if (preg_match('/_desc', $code)) {
+    if (preg_match('/_desc/', $code)) {
         $tag = 'div';
     }
 

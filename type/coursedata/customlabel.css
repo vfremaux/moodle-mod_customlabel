@@ -1,0 +1,29 @@
+/* Element specific rules that affect only this element class */
+
+.custombox-coursedata {
+    border: none;
+    border-collapse:separate;
+    margin:10px 0px 10px 0px;
+    width: 100%;
+}
+
+.custombox-title.coursedata {
+    font-size: 15px;
+    padding: 5px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.custombox-header-thumb.coursedata {
+    /* No thumb */
+    display: none;
+}
+
+.custombox-param.coursedata {
+    padding: 10px;
+}
+
+.custombox-coursedata .custombox-value.coursedata {
+    border: none;
+    padding: 10px;
+}

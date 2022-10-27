@@ -17,7 +17,7 @@
 /**
  * @package     mod_customlabel
  * @category    mod
- * @author      Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author      Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright   (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
@@ -188,6 +188,23 @@ function xmldb_customlabel_upgrade($oldversion = 0) {
 
         // Customlabel savepoint reached.
         upgrade_mod_savepoint(true, 2019050900, 'customlabel');
+    }
+
+    if ($oldversion < 2019061000) {
+
+        $table = new xmldb_table('customlabel_course_metadata');
+        $index = new xmldb_index('mdl_custcourmeta_couval_uix', XMLDB_INDEX_UNIQUE, array('courseid', 'valueid'));
+
+        if ($dbman->index_exists($table, $index)) {
+            // Adding indexes to table customlabel_user_data.
+            $dbman->drop_index($table, $index);
+
+            $index = new xmldb_index('ix_course_value_cm_id', XMLDB_INDEX_UNIQUE, array('courseid', 'valueid', 'cmid'));
+            $dbman->add_index($table, $index);
+        }
+
+        // Customlabel savepoint reached.
+        upgrade_mod_savepoint(true, 2019061000, 'customlabel');
     }
 
     return $result;

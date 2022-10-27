@@ -1,3 +1,5 @@
+/* Element specific rules that affect only this element class */
+
 .custombox-text {
     font-size: 1.1em;
     margin-left: 65px;
@@ -17,9 +19,15 @@
 }
 
 .custombox-text.readmorelink {
-    text-align: right;
+    width: 100px;
+    padding-left: 10px;
 }
 
 .custombox-text readmore.hidden {
     display: none;
+}
+
+.custombox-text readmore {
+    padding-left: 10px;
+    padding-top: 6px;
 }

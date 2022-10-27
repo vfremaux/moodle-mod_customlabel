@@ -17,7 +17,7 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
@@ -57,7 +57,7 @@ class customlabel_type_soluce extends customlabel_type {
     }
 
     public function preprocess_data($course = null) {
-        global $CFG, $OUTPUT;
+        global $OUTPUT;
 
         $minusurl = $OUTPUT->image_url('minus', 'customlabel');
         $plusurl = $OUTPUT->image_url('plus', 'customlabel');

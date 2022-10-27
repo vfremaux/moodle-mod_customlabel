@@ -36,24 +36,27 @@ $string['privacy:metadata:customlabel_user_data:completion3'] = 'Completion valu
 $string['apparence'] = 'Apparence';
 $string['changetypeadvice'] = "You are about to thange the internal data structure of this element. Old content cannot be maintained. Continue?";
 $string['cleararea'] = 'Clear this file area';
-$string['cssoverrides'] = 'CSS Overrides';
-$string['cssoverridesdesc'] = 'If this field is used, Styling rules herein written will be appended to the global stylesheet to alter customlabel apparence. this needs your theme has been tuned to define the insertion point. See README.txt.';
+$string['defaultskin'] = 'Default skin for labels';
+$string['defaultskin_desc'] = 'Chooses a base css template for all labels.';
 $string['customlabeltools'] = 'Mass tools for custom labels';
 $string['customlabelplugins'] = 'Plugins';
 $string['customlabeltypepluginname'] = 'Customlabel type name';
 $string['hideshow'] = 'Hide/Show';
-$string['settings'] = 'Settings';
+$string['settings'] = 'Customlabel Settings';
 $string['choose'] = 'Choose';
 $string['save'] = 'Save settings';
+$string['wsurl'] = 'Web services: use type {$a} in webservice call customlabel_add_instance().<br/>See WS moodle API documentation in plugin administration.';
+$string['wsattributekey'] = '<span class="lighttext">Attribute key to use in WS : {$a}</span>';
 $string['managecustomlabeltypeplugins'] = 'Manage customlabel plugins';
 $string['disabledsubtypes'] = 'Disabled subtypes';
-$string['disabledsubtypesdesc'] = 'Any subtype mentionned in this field will be globally disabled for the whole site.';
+$string['disabledsubtypes_desc'] = 'Any subtype mentionned in this field will be globally disabled for the whole site.';
 $string['doupdate'] = 'Update !!';
 $string['editvalues'] = 'Edit values';
 $string['errorclassloading'] = 'Error loading : Null class';
 $string['errorfailedloading'] = 'Failed loading class for custom label {$a}. Reverting to "text" customlabel.';
 $string['errorinsertvalue'] = 'Could not insert a new value';
 $string['errorupdatevalue'] = 'Could not update a new value';
+$string['errorreservedname'] = '"TYPE" is a reserved name and cannot be used as code.';
 $string['exportdata'] = 'Export data to XML';
 $string['labelclass'] = 'Label type';
 $string['labelclasses'] = 'Element classes';
@@ -67,6 +70,7 @@ $string['name'] = 'Label';
 $string['nocontentforthislanguage'] = 'No content available for this language<br/>';
 $string['pluginadministration'] = 'Course element administration';
 $string['pluginname'] = 'Course element';
+$string['plugindefault'] = 'Customlabel default skin';
 $string['regenerate'] = 'Regenerate';
 $string['regeneration'] = 'Content mass regeneration';
 $string['resetall'] = 'Reset all';
@@ -83,6 +87,7 @@ $string['updatescope'] = 'Updating scope';
 $string['usesafestorage'] = 'Use safe storage for content (base64)';
 $string['userstatesreset'] = 'User states have been reset';
 $string['withcompletions'] = 'Reset label completions';
+$string['wsfieldkey'] = 'Attribute key for web services: {$a}';
 $string['modulename_help'] = "Course Elements provide you with pedagogic modules that are already layout and
 designed for serving some high level pedagogic needs. Course elements have subtypes that address common
 learning actions : work to do, soluce, see also (optional reference), local goals, reminder, and some
@@ -91,6 +96,12 @@ editorial value such as using prefitted image bank, or tagging courses,
 You just need to enter the appropriate data in each module
 and register.
 ";
+
+// Skins
+$string['defaultstyle'] = 'Default icon set';
+$string['flatstyle'] = 'Flat style';
+$string['coloredstyle'] = 'Colored titles';
+$string['flatcoloredstyle'] = 'Flat and colored titles';
 
 // Metadata.
 $string['adminmetadata'] = 'Classifiers configuration';
@@ -213,3 +224,5 @@ $string['familygeneric'] = 'Generic elements';
 $string['familypedagogic'] = 'Pedagogy elements';
 $string['familymeta'] = 'Meta-Pedagogy elements';
 $string['familyspecial'] = 'Special elements';
+
+include(__DIR__.'/pro_additional_strings.php');

@@ -1,0 +1,21 @@
+/* Skined variants */
+
+.custombox-header-thumb.theorema.colored {
+    border-right: 1px solid #d2c233;
+}
+
+.custombox-header-caption.theorema.colored {
+    color: #d2c233;
+}
+
+.custombox-header-thumb.theorema {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_theorema.png");
+}
+
+.custombox-header-thumb.theorema.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/orangespot.png");
+}
+
+td.custombox-header-thumb.theorema.flatstyle:after {
+    content: "\f12e";
+}

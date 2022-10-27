@@ -1,0 +1,21 @@
+/* Skined variants */
+
+.custombox-header-thumb.keypoints.colored {
+    border-right: 1px solid #c76205;
+}
+
+.custombox-header-caption.keypoints.colored {
+    color: #c76205;
+}
+
+.custombox-header-thumb.keypoints {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_keypoints.png");
+}
+
+.custombox-header-thumb.keypoints.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/orangespot.png");
+}
+
+.custombox-header-thumb.keypoints.flatstyle:after {
+    content: "\f0f3"; /* fa-bell */
+}

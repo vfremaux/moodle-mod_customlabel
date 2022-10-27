@@ -1,45 +1,6 @@
-table.custombox-tipsandtricks {
+/* Element specific rules that affect only this element class */
+
+.custombox-tipsandtricks {
     width: 100%;
 }
 
-.custombox-header-thumb.tipsandtricks {
-    border-right: 1px solid #eeb9e9 !important;
-    padding-right: 8px;
-}
-
-td.custombox-header-thumb.tipsandtricks {
-    background-image: url("/mod/customlabel/type/tipsandtricks/pix/icon_idea_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    width: 25px;
-}
-
-#region-main td.custombox-header-thumb.tipsandtricks,
-#page-region-main td.custombox-header-thumb.tipsandtricks {
-    background-image: url("/mod/customlabel/type/tipsandtricks/pix/icon_idea.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
-}
-
-td.custombox-header-caption.tipsandtricks {
-    color: #b11ba3;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
-}
-
-td.custombox-content.tipsandtricks {
-    min-height: 100px;
-    padding-left: 8px;
-}
-
-td.custombox-content.tipsandtricks h1,
-td.custombox-content.tipsandtricks h2,
-td.custombox-content.tipsandtricks h3 {
-    background-image: none !important;
-    color: #931c8a !important;
-    font-weight: bolder !important;
-    padding-left: 0 !important;
-}

@@ -17,7 +17,7 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
@@ -63,7 +63,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
         $field = new StdClass;
         $field->name = 'tablecaption';
         $field->type = 'textfield';
-        $field->default = get_string('courseclassification', 'customlabeltype_courseclassifier');
+        $field->default = get_string('defaulttablecaption', 'customlabeltype_courseclassifier');
         $this->fields['tablecaption'] = $field;
 
         $field = new StdClass;
@@ -88,7 +88,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $field->field = 'value';
             $field->select = $config->classification_value_type_key.' = '.$fieldid;
             $field->multiple = 'multiple';
-            $field->constraintson = '1,2,3';
+            $field->constraintson = $this->get_constraintlist(0, $maxcount);
             $field->mandatory = false;
             $field->size = 8;
             $this->fields['level0'] = $field;
@@ -107,7 +107,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
                 $field->select = $config->classification_value_type_key.' = '.$fieldid;
                 $field->multiple = 'multiple';
                 $field->size = 8;
-                $field->constraintson = '0,2,3';
+                $field->constraintson = $this->get_constraintlist(1, $maxcount);
                 $field->mandatory = false;
                 $this->fields['level1'] = $field;
             }
@@ -126,7 +126,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
                 $field->select = $config->classification_value_type_key.' = '.$fieldid;
                 $field->multiple = 'multiple';
                 $field->size = 8;
-                $field->constraintson = '0,1,3';
+                $field->constraintson = $this->get_constraintlist(2, $maxcount);
                 $field->mandatory = false;
                 $this->fields['level2'] = $field;
             }
@@ -143,7 +143,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
                 $field->field = 'value';
                 $field->select = $config->classification_value_type_key.' = '.$fieldid;
                 $field->multiple = 'multiple';
-                $field->constraintson = '0,1,2';
+                $field->constraintson = $this->get_constraintlist(3, $maxcount);
                 $field->mandatory = false;
                 $field->size = 8;
                 $this->fields['level2'] = $field;
@@ -181,6 +181,19 @@ class customlabel_type_courseclassifier extends customlabel_type {
         }
         unset($field);
 
+    }
+
+    protected function get_constraintlist($me, $max) {
+
+        $nodes = [];
+
+        for ($i = 0 ; $i < $max ; $i++) {
+            if ($i != $me) {
+                $nodes[] = $i;
+            }
+        }
+
+        return implode(',', $nodes);
     }
 
     /**
@@ -349,7 +362,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
                     if (isset($this->data->$key)) {
                         if (!is_string($this->data->$key)) {
                             $values = $this->get_datasource_values($this->fields['level0'], $this->data->$key);
-                            $classifiertpl->values = implode(', ', $values);
+                            $classifiertpl->values = implode('<br/>', $values);
                         } else {
                             $classifiertpl->values = $this->data->$key;
                         }
@@ -365,7 +378,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
                     if (isset($this->data->$key)) {
                         if (!is_string($this->data->$key)) {
                             $values = $this->get_datasource_values($this->fields['level1'], $this->data->$key);
-                            $classifiertpl->values = implode(', ', $values);
+                            $classifiertpl->values = implode('<br/>', $values);
                         } else {
                             $classifiertpl->values = $this->data->$key;
                         }
@@ -381,7 +394,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
                     if (isset($this->data->$key)) {
                         if (!is_string($this->data->$key)) {
                             $values = $this->get_datasource_values($this->fields['level2'], $this->data->$key);
-                            $classifiertpl->values = implode(', ', $values);
+                            $classifiertpl->values = implode('<br/>', $values);
                         } else {
                             $classifiertpl->values = $this->data->$key;
                         }
@@ -397,7 +410,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
                     if (isset($this->data->$key)) {
                         if (!is_string($this->data->$key)) {
                             $values = $this->get_datasource_values($this->fields['level3'], $this->data->$key);
-                            $classifiertpl->values = implode(', ', $values);
+                            $classifiertpl->values = implode('<br/>', $values);
                         } else {
                             $classifiertpl->values = $this->data->$key;
                         }
@@ -421,7 +434,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
                     if (isset($this->data->$key)) {
                         if (!is_string($this->data->$key)) {
                             $values = $this->get_datasource_values($this->fields[$key], $this->data->$key);
-                            $filtertpl->values = implode(', ', $values);
+                            $filtertpl->values = implode('<br/>', $values);
                         } else {
                             $filtertpl->values = $this->data->$key;
                         }

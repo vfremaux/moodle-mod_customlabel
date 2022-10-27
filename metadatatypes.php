@@ -18,7 +18,7 @@
  *
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  *
@@ -81,23 +81,29 @@ if ($types) {
     $upstr = get_string('up', 'customlabel');
     $downstr = get_string('down', 'customlabel');
 
+    $configclassvaluetable = clean_param($config->classification_value_table, PARAM_ALPHANUMEXT);
+    $configcoursemetadatatable = clean_param($config->course_metadata_table, PARAM_ALPHANUMEXT);
+    $configmetadatavaluekey = clean_param($config->course_metadata_value_key, PARAM_ALPHANUMEXT);
+    $configmetadatacoursekey = clean_param($config->course_metadata_course_key, PARAM_ALPHANUMEXT);
+    $configvaluetypekey = clean_param($config->classification_value_type_key, PARAM_ALPHANUMEXT);
+
     foreach ($types as $atype) {
 
         $sql = "
             SELECT
                 COUNT(c.id)
             FROM
-                {{$config->classification_value_table}} v
+                {{$configclassvaluetable}} v
             LEFT JOIN
-                {{$config->course_metadata_table}} ccm
+                {{$configcoursemetadatatable}} ccm
             ON
-                ccm.{$config->course_metadata_value_key} = v.id
+                ccm.{$configmetadatavaluekey} = v.id
             LEFT JOIN
                 {course} c
             ON
-                c.id = ccm.{$config->course_metadata_course_key}
+                c.id = ccm.{$configmetadatacoursekey}
             WHERE
-                v.{$config->classification_value_type_key} = ?
+                v.{$configvaluetypekey} = ?
         ";
         $atype->courses = $DB->count_records_sql($sql, array($atype->id));
 

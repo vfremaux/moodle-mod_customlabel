@@ -80,6 +80,10 @@ if (!empty($constraints)) {
 
         $used[] = $constraint;
 
+        // Reinforce injection security
+        $configconstrainttable = clean_param($config->classification_constraint_table, PARAM_ALPHANUMEXT);
+        $configclassvaluetable = clean_param($config->classification_value_table, PARAM_ALPHANUMEXT);
+
         // Get all the neighbours from this value.
         $sql = "
             SELECT
@@ -87,9 +91,9 @@ if (!empty($constraints)) {
               v1.typeid as v1type,
               v2.typeid as v2type
             FROM
-                {{$config->classification_constraint_table}} c,
-                {{$config->classification_value_table}} v1,
-                {{$config->classification_value_table}} v2
+                {{$configconstrainttable}} c,
+                {{$configclassvaluetable}} v1,
+                {{$configclassvaluetable}} v2
             WHERE
                 c.value1 = v1.id AND
                 c.value2 = v2.id AND
@@ -150,7 +154,7 @@ foreach ($targets as $target) {
 
         $params = array();
         if (!empty($field->constraintson)) {
-            $params['class'] = 'constrained '.$instance->type;
+            $params['data-constrained'] = 1;
             // $params['disabled'] = ''; // Let javascript liberate them when ready to process constraints.
             $params['data-constraints'] = $field->constraintson;
             $params['data-label-type'] = $instance->type;

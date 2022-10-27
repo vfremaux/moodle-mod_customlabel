@@ -1,0 +1,11 @@
+/* Element specific rules that affect only this element class */
+
+div.custombox-localdokuwikicontent h1.custombox-caption {
+   font-size: 20px;
+   line-height: 26px;
+}
+
+div.custombox-localdokuwikicontent p {
+    font-size: 12pt;
+    width: 100%;
+}

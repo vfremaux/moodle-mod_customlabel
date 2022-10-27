@@ -110,6 +110,12 @@ class mod_customlabel_mod_form extends moodleform_mod {
         $customlabelnextid = $DB->get_field('customlabel', 'MAX(id)', array()) + 1;
         $mform->setDefault('title', $customlabel->labelclass.'_'.$customlabelnextid);
         $mform->setType('title', PARAM_TEXT);
+        $mform->setAdvanced('title');
+
+        if (customlabel_supports_feature('api/ws')) {
+            $mform->addElement('static', 'wsurl', get_string('wsurl', 'customlabel', $customlabel->labelclass));
+            $mform->setAdvanced('wsurl');
+        }
 
         if (!$customclass) {
             print_error("Custom label class lacks of definition");
@@ -126,12 +132,22 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 $fieldlabel = format_string($field->label);
             } else {
                 $fieldlabel = get_string($field->name, 'customlabeltype_'.$customclass->type);
+
+                if (customlabel_supports_feature('api/ws')) {
+                    if (has_capability('moodle/site:config', context_system::instance())) {
+                        $fieldlabel .= ' '.get_string('wsfieldkey', 'customlabel', $field->name);
+                    }
+                }
             }
 
             if ($field->type == 'hidden') {
 
                 $mform->addElement('hidden', $field->name, @$field->default);
                 $mform->setType($field->name, PARAM_TEXT);
+
+            } else if ($field->type == 'header') {
+
+                $mform->addElement('header', $field->name, $field->header);
 
             } else if ($field->type == 'choiceyesno') {
 
@@ -143,6 +159,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 $attrs = array('size' => @$field->size, 'maxlength' => @$field->maxlength);
                 $mform->addElement('text', $field->name, $fieldlabel, $attrs);
                 $mform->setType($field->name, PARAM_CLEANHTML);
+                if (!empty($field->default)) {
+                    $mform->setDefault($field->name, $field->default);
+                }
 
             } else if ($field->type == 'date') {
 
@@ -152,6 +171,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     'optional' => true
                 );
                 $mform->addElement('date_selector', $field->name, $fieldlabel, $attrs);
+                if (!empty($field->default)) {
+                    $mform->setDefault($field->name, $field->default);
+                }
 
             } else if ($field->type == 'datetime') {
 
@@ -162,6 +184,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     'step' => 10
                 );
                 $mform->addElement('date_time_selector', $field->name, $fieldlabel, $attrs);
+                if (!empty($field->default)) {
+                    $mform->setDefault($field->name, $field->default);
+                }
 
             } else if ($field->type == 'editor') {
 
@@ -172,6 +197,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
             } else if ($field->type == 'textarea') {
 
                 $mform->addElement('textarea', $field->name, $fieldlabel, array('rows' => 5, 'cols' => 60));
+                if (!empty($field->default)) {
+                    $mform->setDefault($field->name, $field->default);
+                }
 
             } else if (preg_match("/list$/", $field->type)) {
 
@@ -187,6 +215,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     $select->setMultiple(true);
                 }
                 $mform->setType($field->name, PARAM_TEXT);
+                if (!empty($field->default)) {
+                    $mform->setDefault($field->name, $field->default);
+                }
 
             } else if (preg_match("/datasource$/", $field->type)) {
 
@@ -198,9 +229,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     $translatedoptions[$key] = format_string($value);
                 }
 
-                $attrs = array();
-                if (!empty($field->constraintson)) {
-                    $attrs['class'] = 'constrained '.$customclass->type;
+                $attrs = [];
+                if (isset($field->constraintson)) {
+                    $attrs['data-constrained'] = 1;
                     $attrs['disabled'] = 'disabled'; // Let javascript liberate them when ready to process constraints.
                     $attrs['data-constraints'] = $field->constraintson;
                     $attrs['data-label-type'] = $customclass->type;
@@ -234,6 +265,10 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
                 echo "Unknown or unsupported type : {$customclass->type}@{$field->name}, type is $field->type";
 
+            }
+
+            if (!empty($field->advanced)) {
+                $mform->setAdvanced($field->name);
             }
 
             if (!empty($field->mandatory)) {

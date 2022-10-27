@@ -1,0 +1,21 @@
+/* Skined variants */
+
+.custombox-header-thumb.prerequisite.colored {
+    border-right: 1px solid #c76205;
+}
+
+.custombox-header-caption.prerequisite.colored {
+    color: #c76205;
+}
+
+.custombox-header-thumb.prerequisite {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_prerequisite.png");
+}
+
+.custombox-header-thumb.prerequisite.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/yellow_spot.png");
+}
+
+.custombox-header-thumb.prerequisite.flatstyle:after {
+    content: "\f00c...";
+}

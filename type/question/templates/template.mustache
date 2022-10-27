@@ -22,39 +22,37 @@
 
 }}
 <!-- customlabeltype_question/template -->
-<table class="custombox-question" width="100%">
+{{> mod_customlabel/start }}
+<div class="custombox-container {{labelclass}}">
+    <div class="custombox-flexline {{labelclass}}">
+        <div class="custombox-header-caption {{labelclass}} {{skin}}">
+            <h4>{{#str}}question, customlabeltype_question{{/str}}</h4>
+        </div>
+    </div>
 
-    <tr valign="top">
-        <td class="custombox-header-thumb question" style="background-image : url({{{iconurl}}});" width="2%" rowspan="6">
-        </td>
-        <td class="custombox-header-caption question" width="96%">
-            {{#str}}question, customlabeltype_question{{/str}}
-        </td>
-    </tr>
-
-    <tr valign="top">
-        <td class="custombox-content questiontext">
+    <div class="custombox-flexline {{labelclass}}">
+        <div>
             {{{questiontext}}}
-        </td>
-    </tr>
+        </div>
+    </div>
 
     {{#hint}}
-    <tr>
-        <td class="custombox-header-collapser question" align="left" >
+    <div class="custombox-flexline {{labelclass}}">
+        <div class="custombox-header-collapser {{labelclass}}" align="left" >
             <img id="customctl-{{customid}}-hint" src="{{{hintinitialcontrolimageurl}}}" class="customctl" /> {{#str}}hint, customlabeltype_question{{/str}}
-        </td>
-    </tr>
+        </div>
+    </div>
 
-    <tr valign="top">
-        <td  id="custom-{{customid}}-hint" class="custombox-content hint {{hintinitialclass}}">
+    <div class="custombox-flexline {{labelclass}}">
+        <div  id="custom-{{customid}}-hint" class="custombox-content hint {{hintinitialclass}}">
             {{{hint}}}
-        </td>
-    </tr>
+        </div>
+    </div>
     {{/hint}}
 
     {{^isqcmchallenge}}
-    <tr>
-        <td class="custombox-header-collapser question" align="left">
+    <div class="custombox-flexline {{labelclass}}">
+        <div class="custombox-header-collapser question" align="left">
             {{#canshow}}
             <img id="customctl-{{{customid}}}" src="{{{initialcontrolimageurl}}}" class="customctl" /> {{#str}}solution, customlabeltype_question{{/str}}
             {{/canshow}}
@@ -65,21 +63,21 @@
             <span class="teacher-comment">{{#str}}willopenon, customlabeltype_question{{/str}}: {{opentime}}</span>
             {{/hascap}}
             {{/canshow}}
-        </td>
-    </tr>
+        </div>
+    </div>
 
-    <tr valign="top">
-        <td  id="custom-{{customid}}" class="custombox-content questiontext {{initialclass}}">
+    <div class="custombox-flexline {{labelclass}}">
+        <div  id="custom-{{customid}}" class="custombox-content questiontext {{initialclass}}">
             {{#canshow}}
             {{{answertext}}}
             {{/canshow}}
-        </td>
-    </tr>
+        </div>
+    </div>
     {{/isqcmchallenge}}
 
     {{#isqcmchallenge}}
-    <tr valign="top">
-        <td  id="custom-{{cmid}}" class="custombox-content questiontext">
+    <div class="custombox-flexline {{labelclass}}">
+        <div  id="custom-{{cmid}}" class="custombox-content questiontext">
             {{#qcmanswer}}
             <div class="custombox-qcm-answer custombox-qcm-answer-{{cmid}} {{answerclass}}" id="custombox-qcm-answer-{{cmid}}-{{aid}}">
                 <div class="custombox-qcm-input custombox-qcm-input-{{cmid}}">
@@ -88,18 +86,19 @@
                 <div class="custombox-qcm-text {{answeredclass}}">{{{answertext}}}</div>
             </div>
             {{/qcmanswer}}
-        </td>
-    </tr>
+        </div>
+    </div>
     {{^locked}}
-    <tr valign="top">
-        <td  id="custom-{{cmid}}-submit" class="custombox-content questiontext">
+    <div class="custombox-flexline {{labelclass}}">
+        <div  id="custom-{{cmid}}-submit" class="custombox-content questiontext">
             <input type="button" name="custombox-qcm-btn-{{cmid}}"
                    class="custombox-qcm-btn"
                    value="{{#str}}submitqcm, customlabeltype_question{{/str}}" />
-        </td>
-    </tr>
+        </div>
+    </div>
     {{/locked}}
     {{/isqcmchallenge}}
 
-</table>
+</div>
+{{> mod_customlabel/end }}
 <!-- /customlabeltype_question/template -->

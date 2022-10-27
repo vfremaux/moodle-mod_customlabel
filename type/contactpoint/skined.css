@@ -1,0 +1,74 @@
+/* Skined variants */
+
+.custombox-header-thumb.contactpoint.colored {
+    border-right: 1px solid #1d0299;
+}
+
+.custombox-header-caption.contactpoint.colored {
+    color: #1D0299;
+}
+
+.custombox-header-thumb.any {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_any.png");
+}
+
+.custombox-header-thumb.anywritten {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_anywritten.png");
+}
+
+.custombox-header-thumb.phone {
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_phone.png");
+}
+
+.custombox-header-thumb.mail {
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_mail.png");
+}
+
+.custombox-header-thumb.meeting {
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_meeting.png");
+}
+
+.custombox-header-thumb.onlinevocal {
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_onlinevocal.png");
+}
+
+.custombox-header-thumb.chat {
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_chat.png");
+}
+
+.custombox-header-thumb.facetoface {
+    background-image: url("/mod/customlabel/type/contactpoint/pix/icon_facetoface.png");
+}
+
+/* contact points */
+.custombox-header-thumb.contactpoint.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/darkbluespot.png");
+}
+
+.custombox-header-thumb.contactpoint.flatstyle:after {
+    content: "\f0ec"; /* fa-exchange */
+}
+
+.custombox-header-thumb.contactpoint.phone.flatstyle:after {
+    content: "\f095"; /* fa-phone */
+}
+
+.custombox-header-thumb.contactpoint.mail.flatstyle:after {
+    content: "\f0e0"; /* fa-envelope */
+}
+
+.custombox-header-thumb.contactpoint.onlinevocal.flatstyle:after {
+    content: "\f025"; /* fa-headphones */
+}
+
+.custombox-header-thumb.contactpoint.facetoface.flatstyle:after {
+    content: "\f183\f183"; /* fa-male * 2 */
+}
+
+.custombox-header-thumb.contactpoint.meeting.flatstyle:after {
+    content: "\f0c0"; /* fa-users */
+}
+
+.custombox-header-thumb.contactpoint.chat.flatstyle:after {
+    content: "\f120"; /* fa-terminal */
+}

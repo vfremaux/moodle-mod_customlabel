@@ -1,28 +1,28 @@
+/* Element specific rules that affect only this element class */
 
-table.custombox-unitheading h1 {
-    color: #f2a439;
+.custombox-unitheading h1 {
     font-size: 22px;
     line-height: 26px;
 }
 
-table.custombox-unitheading p {
+.custombox-unitheading p {
     font-size: 12pt;
     line-height: 1.5em;
     width: 95%;
 }
 
-tr.custombox-icon.unitheading {
+.custombox-icon.unitheading {
     height: 85px;
     min-height: 85px;
 }
 
-td.custombox-icon-left.unitheading {
-    background-size: 100% auto !important;
+.custombox-icon-left.unitheading {
+    background-size: 100% auto;
     min-width: 80px;
     padding-right: 20px;
 }
 
-td.custombox-icon-right.unitheading {
+.custombox-icon-right.unitheading {
     min-width: 80px;
     padding-left: 20px;
 }

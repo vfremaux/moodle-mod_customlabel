@@ -19,11 +19,14 @@ require_once($CFG->dirroot.'/lib/completionlib.php');
 require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
 $action = required_param('what', PARAM_TEXT);
+$cmid = required_param('cmid', PARAM_INT);
+$context = context_module::instance($cmid);
 
 require_login();
 
+$PAGE->set_context($context);
+
 if ($action == 'open') {
-    $cmid = required_param('cmid', PARAM_INT);
     $item = required_param('item', PARAM_INT);
 
     $cm = $DB->get_record('course_modules', array('id' => $cmid));
@@ -45,10 +48,10 @@ if ($action == 'open') {
         $ud->completion1 = $pow;
         $ud->timecompleted1 = time();
         $ud->id = $DB->insert_record('customlabel_user_data', $ud);
-        echo "writing $ud->id with $pow ";
+        // echo "writing $ud->id with $pow for $cmid/$item";
     } else {
         $ud->completion1 |= $pow;
-        echo "updating $ud->id with $pow in $ud->completion1 . Item is $item ";
+        // echo "updating $ud->id with $pow in $ud->completion1 . Item is $cmid/$item ";
         $DB->update_record('customlabel_user_data', $ud);
     }
 
@@ -65,7 +68,6 @@ if ($action == 'open') {
 }
 
 if ($action == 'complete') {
-    $cmid = required_param('cmid', PARAM_INT);
 
     $cm = $DB->get_record('course_modules', array('id' => $cmid));
     $instance = $DB->get_record('customlabel', array('id' => $cm->instanceid));

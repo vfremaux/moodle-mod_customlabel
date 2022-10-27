@@ -1,46 +1,6 @@
-table.custombox-seealso {
+/* Element specific rules that affect only this element class */
+
+.custombox-seealso {
     width: 100%;
 }
 
-td.custombox-header-thumb.seealso {
-    border-right: 1px solid #ecedba !important;
-    padding-right: 8px;
-    width: 40px;
-}
-
-td.custombox-header-thumb.seealso {
-    background-image: url("/mod/customlabel/type/seealso/pix/icon_seealso_small.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    width: 25px;
-}
-
-#region-main td.custombox-header-thumb.seealso,
-#page-region-main td.custombox-header-thumb.seealso {
-    background-image: url("/mod/customlabel/type/seealso/pix/icon_seealso.png");
-    background-repeat: no-repeat;
-    height: 73px;
-    min-width: 65px;
-    width: 65px;
-}
-
-td.custombox-header-caption.seealso {
-    color: #b0a820;
-    font-size: 1.3em;
-    font-weight: bolder;
-    padding-left: 8px;
-}
-
-td.custombox-content.seealso {
-    min-height: 100px;
-    padding-left: 8px;
-}
-
-td.custombox-content.seealso h1,
-td.custombox-content.seealso h2,
-td.custombox-content.seealso h3 {
-    background-image: none !important;
-    color: #8a8d21 !important;
-    font-weight: bolder !important;
-    padding-left: 0 !important;
-}

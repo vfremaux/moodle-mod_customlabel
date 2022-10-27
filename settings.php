@@ -17,13 +17,14 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/customlabel/adminlib.php');
+require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 
 $label = new lang_string('pluginname', 'customlabel');
 $ADMIN->add('modsettings', new admin_category('modcustomlabelfolder', $label, $module->is_enabled() === false));
@@ -47,15 +48,38 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_heading('apparence', get_string('apparence', 'customlabel'), ''));
 
-    $key = 'customlabel/cssoverrides';
-    $label = get_string('cssoverrides', 'customlabel');
-    $desc = get_string('cssoverridesdesc', 'customlabel');
-    $settings->add(new admin_setting_configtextarea($key, $label, $desc, '', PARAM_RAW, 80, 10));
+    $key = 'customlabel/defaultskin';
+    $label = get_string('defaultskin', 'customlabel');
+    $desc = get_string('defaultskin_desc', 'customlabel');
+    $skinoptions = [
+        'default' => get_string('defaultstyle', 'customlabel'),
+        'flatstyle' => get_string('flatstyle', 'customlabel'),
+        'colored' => get_string('coloredstyle', 'customlabel'),
+        'flatstyle colored' => get_string('flatcoloredstyle', 'customlabel')
+    ];
+
+    $namedskins = glob($CFG->dirroot.'/mod/customlabel/pix/skins/*');
+    if (!empty($namedskins)) {
+        foreach ($namedskins as $skinpath) {
+            $skinname = basename($skinpath);
+            if ($skinname == '.' || $skinname == '..') {
+                continue;
+            }
+            if (!is_dir($skinpath)) {
+                continue;
+            }
+            $skinoptions[$skinname] = $skinname;
+        }
+    }
+
+    $default = 'default';
+    $settings->add(new admin_setting_configselect($key, $label, $desc, $default, $skinoptions));
 
     $key = 'customlabel/disabled';
     $label = get_string('disabledsubtypes', 'customlabel');
-    $desc = get_string('disabledsubtypesdesc', 'customlabel');
-    $settings->add(new admin_setting_configtextarea($key, $label, $desc, '', PARAM_RAW, 80, 10));
+    $desc = get_string('disabledsubtypes_desc', 'customlabel');
+    $default = 'genericgoals,genericpractices,processgoals,processpractices';
+    $settings->add(new admin_setting_configtextarea($key, $label, $desc, $default, PARAM_RAW, 80, 10));
 
     /*
      * This is a similar metadata binding schema that used in the local_courseindex component in order to provide
@@ -105,6 +129,16 @@ if ($ADMIN->fulltree) {
     $label = get_string('configclassificationconstrainttable', 'customlabel');
     $desc = get_string('configclassificationconstrainttable_desc', 'customlabel');
     $settings->add(new admin_setting_configtext($key, $label, $desc, 'customlabel_mtd_constraint'));
+
+    if (customlabel_supports_feature('emulate/community') == 'pro') {
+        include_once($CFG->dirroot.'/mod/customlabel/pro/prolib.php');
+        $promanager = mod_customlabel\pro_manager::instance();
+        $promanager->add_settings($ADMIN, $settings);
+    } else {
+        $label = get_string('plugindist', 'customlabel');
+        $desc = get_string('plugindist_desc', 'customlabel');
+        $settings->add(new admin_setting_heading('plugindisthdr', $label, $desc));
+    }
 }
 
 $ADMIN->add('modcustomlabelfolder', $settings);

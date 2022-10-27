@@ -1,41 +1,9 @@
-table.custombox-keypoints {
+/* Element specific rules that affect only this element class */
+
+.custombox-keypoints {
     width: 100%;
 }
 
-td.custombox-header-thumb.keypoints {
-    border-right:1px solid #F88A1D !important;
-    padding-right:8px;
-}
-
-td.custombox-header-thumb.keypoints {
-    background-image: url("/mod/customlabel/type/keypoints/pix/icon_keypoints_small.png"); 
-    background-repeat: no-repeat;
-    height:73px;
-    min-width:25px;
-    width:25px;
-}
-
-#region-main td.custombox-header-thumb.keypoints,
-#page-region-main td.custombox-header-thumb.keypoints {
-    background-image: url("/mod/customlabel/type/keypoints/pix/icon_keypoints.png");
-    background-repeat: no-repeat;
-    height:73px;
-    min-width:65px;
-    width:65px;
-}
-
-td.custombox-header-caption.keypoints {
-    color:#F88A1D;
-    font-size:1.3em;
-    font-weight:bolder;
-    padding-left:8px;
-}
-
-td.custombox-content.keypoints {
-    min-height:100px;
-    padding-left:8px;
-}
-
-td.custombox-content.keypoints ul {
+.custombox-content.keypoints ul {
     list-style-position: outside;
 }

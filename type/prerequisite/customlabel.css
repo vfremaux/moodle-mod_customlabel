@@ -1,0 +1,5 @@
+/* Element specific rules that affect only this element class */
+
+.custombox-prerequisite {
+    width: 100%;
+}

@@ -17,7 +17,7 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
@@ -56,6 +56,13 @@ class customlabel_type_worktodo extends customlabel_type {
         if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKTYPE'))) {
 
             $field = new StdClass;
+            $field->name = 'showworktypefield';
+            $field->type = 'choiceyesno';
+            $field->advanced = true;
+            $field->default = true;
+            $this->fields['showworktypefield'] = $field;
+
+            $field = new StdClass;
             $field->name = 'worktypefield';
             $field->type = 'vdatasource';
             $field->source = 'dbfieldkeyed';
@@ -63,10 +70,18 @@ class customlabel_type_worktodo extends customlabel_type {
             $field->field = 'value';
             $field->key = 'code';
             $field->select = " typeid = $fieldid ";
+            $field->advanced = true;
             $this->fields['worktypefield'] = $field;
         }
 
         if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKEFFORT'))) {
+
+            $field = new StdClass;
+            $field->name = 'showworkeffortfield';
+            $field->type = 'choiceyesno';
+            $field->advanced = true;
+            $field->default = true;
+            $this->fields['showworkeffortfield'] = $field;
 
             $field = new StdClass;
             $field->name = 'workeffortfield';
@@ -76,10 +91,18 @@ class customlabel_type_worktodo extends customlabel_type {
             $field->field = 'value';
             $field->key = 'code';
             $field->select = " typeid = $fieldid ";
+            $field->advanced = true;
             $this->fields['workeffortfield'] = $field;
         }
 
         if ($fieldid = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKMODE'))) {
+
+            $field = new StdClass;
+            $field->name = 'showworkmodefield';
+            $field->type = 'choiceyesno';
+            $field->advanced = true;
+            $field->default = true;
+            $this->fields['showworkmodefield'] = $field;
 
             $field = new StdClass;
             $field->name = 'workmodefield';
@@ -89,6 +112,7 @@ class customlabel_type_worktodo extends customlabel_type {
             $field->field = 'value';
             $field->key = 'code';
             $field->select = " typeid = $fieldid ";
+            $field->advanced = true;
             $this->fields['workmodefield'] = $field;
         }
 
@@ -96,27 +120,47 @@ class customlabel_type_worktodo extends customlabel_type {
          * An activity module of the course that will be linked to this work requirement for
          * completion signalling, grade, etc.
          */
+         /*
         $field = new StdClass;
         $field->name = 'linktomodule';
         $field->type = 'vdatasource';
         $field->source = 'function';
         $field->function = 'customlabel_get_candidate_modules';
         $this->fields['linktomodule'] = $field;
+        */
     }
 
     public function postprocess_data($course = null) {
-        global $OUTPUT;
+        global $OUTPUT, $DB;
+
+        $this->data->hasmode = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKMODE'));
+        $this->data->haseffort = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKEFFORT'));
+        $this->data->hastype = $DB->get_field('customlabel_mtd_type', 'id', array('code' => 'WORKTYPE'));
 
         $this->data->clock = $OUTPUT->image_url('clock', 'customlabeltype_worktodo')->out();
 
         if (is_array(@$this->data->worktypefield)) {
             $this->data->worktypefield = implode(', ', @$this->data->worktypefield);
         }
+
+        if (empty($this->data->worktypefield)) {
+            $this->data->hastype = false;
+        }
+
         if (is_array(@$this->data->workeffortfield)) {
             $this->data->workeffortfield = implode(', ', @$this->data->workeffortfield);
         }
+
+        if (empty($this->data->workeffortfield)) {
+            $this->data->haseffort = false;
+        }
+
         if (is_array(@$this->data->workmodefield)) {
             $this->data->workmodefield = implode(', ', @$this->data->workmodefield);
+        }
+
+        if (empty($this->data->workmodefield)) {
+            $this->data->hasmode = false;
         }
     }
 }

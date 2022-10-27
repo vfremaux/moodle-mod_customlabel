@@ -1,0 +1,15 @@
+/* Element specific rules that affect only this element class */
+
+div.content table.processgoals td.leftmargin {
+    min-width: 30px;
+}
+
+div.content table.processgoals td.goalcontent {
+    padding-left: 25px;
+}
+
+div.content table.processgoals td.goalcontent ul li {
+    font-family: "verdana";
+    font-size: 18px;
+    line-height: 1.4em;
+}
