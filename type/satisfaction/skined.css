@@ -1,1 +1,22 @@
+/* Skined variants */
+
+.custombox-header-thumb.satisfaction.colored {
+    border-right: 1px solid #6B8CBA;
+}
+
+.custombox-header-caption.satisfaction.colored {
+    color: #6B8CBA;
+}
+
+.custombox-header-thumb.satisfaction {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_satisfaction.png");
+}
+
+.custombox-header-thumb.satisfaction.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/graydark_spot.png");
+}
+
+.custombox-header-thumb.satisfaction.flatstyle:after {
+    content: "\f0e4"; /* fa-tachometer */
+}
 

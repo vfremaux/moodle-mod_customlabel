@@ -27,9 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 function customlabeltype_satisfaction_get_cms() {
     global $COURSE, $DB;
 
-    // @TODO : change when implemented.
-    // list($insql, $inparams) = $DB->get_in_or_equal(['questionnaire', 'feedback']);
-    list($insql, $inparams) = $DB->get_in_or_equal(['questionnaire']);
+    list($insql, $inparams) = $DB->get_in_or_equal(['questionnaire', 'feedback']);
 
     $sql = "
         SELECT

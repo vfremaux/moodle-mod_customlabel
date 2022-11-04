@@ -70,16 +70,32 @@ class customlabel_type_satisfaction extends customlabel_type {
         $this->fields['qposition'] = $field;
 
         $field = new StdClass;
+        $field->name = 'gwidth';
+        $field->type = 'textfield';
+        $field->default = '800';
+        $this->fields['gwidth'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'gheight';
+        $field->type = 'textfield';
+        $field->default = '450';
+        $this->fields['gheight'] = $field;
+
+        $field = new StdClass;
         $field->name = 'coloroverrides';
         $field->type = 'textfield';
         $field->help = 'coloroverrides';
         $field->size = 40;
         $this->fields['coloroverrides'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'hideicon';
+        $field->type = 'choiceyesno';
+        $this->fields['hideicon'] = $field;
     }
 
     public function preprocess_data() {
         global $DB, $OUTPUT;
-        static $satisfaction;
 
         if (empty($this->data->activityscoresource)) {
             $this->data->notconfigured = 1;
@@ -92,13 +108,18 @@ class customlabel_type_satisfaction extends customlabel_type {
 
         $this->data->graphtitle = format_string($this->data->graphtitle);
 
-        if (is_null($satisfaction)) {
-            if ($module->name == 'questionnaire') {
-                $satisfaction = $this->get_questionnaire_score($this->data->activityscoresource, $this->data->qposition);
-            } else {
-                $satisfaction = $this->get_feedback_score($this->data->activityscoresource, $this->data->qposition);
-            }
+        if ($module->name == 'questionnaire') {
+            $satisfaction = $this->get_questionnaire_score($this->data->activityscoresource, $this->data->qposition);
+        } else {
+            $satisfaction = $this->get_feedback_score($this->data->activityscoresource, $this->data->qposition);
         }
+
+        if (!empty($satisfaction['error'])) {
+            $this->data->question = strip_tags($satisfaction['question']);
+            $this->data->satisfactiongraph = $OUTPUT->notification(get_string($satisfaction['error'], 'customlabeltype_satisfaction'));
+            return;
+        }
+
         $this->data->question = strip_tags($satisfaction['question']);
         $this->data->satisfactiongraph = $this->print_graph('satisfaction', 'donut', $satisfaction['results']);
     }
@@ -122,6 +143,10 @@ class customlabel_type_satisfaction extends customlabel_type {
             $realinstance = $instance;
         }
         $question = $DB->get_record('questionnaire_question', ['surveyid' => $realinstance->id, 'position' => $qposition]);
+        if (!$question) {
+            return ['question' => '', 'results' => null, 'error' => 'unknownitemposition'];
+        }
+
         $questiontype = $DB->get_record('questionnaire_question_type', ['id' => $question->type_id]);
         $allanswerssql = "
             SELECT
@@ -164,11 +189,78 @@ class customlabel_type_satisfaction extends customlabel_type {
     }
 
     /**
-     * Get the local score of the required question in a feedback result.
+     * Get the local score of the required question (item) in a feedback result.
      */
-    protected function get_feedback_score($cmid) {
-        throw new moodle_exception("Not implemented yet.");
-        return ['question' => '', 'results' => null];
+    protected function get_feedback_score($cmid, $qposition) {
+        global $DB;
+
+        try {
+            $cm = $DB->get_record('course_modules', ['id' => $cmid]);
+        } catch (moodle_exception $ex) {
+            throw new moodle_exception("Feedback with cmid $cmid does not exist. Review settings.");
+        }
+
+        $instance = $DB->get_record('feedback', ['id' => $cm->instance]);
+        $item = $DB->get_record('feedback_item', ['feedback' => $cm->instance, 'position' => $qposition]);
+        if (!$item) {
+            return ['question' => '', 'results' => null, 'error' => 'unknownitemposition'];
+        }
+
+        if (!in_array($item->typ, ['multichoicerated', 'multichoice'])) {
+            return ['question' => $item->name, 'results' => null, 'error' => 'unsuportedtype'];
+        }
+
+        $itemchoices = explode('|', str_replace('<<<<<1', '', str_replace('r>>>>>', '', $item->presentation)));
+        $choices = [];
+        $rates = [];
+        $maxrate = 0;
+        $i = 1;
+        foreach ($itemchoices as $ch) {
+            if ($item->typ == 'multichoice') {
+                $rate = 1;
+                $label = trim($ch);
+            } else if ($item->typ == 'multichoicerated') {
+                list($rate, $label) = explode('####', trim($ch));
+            }
+            $choices[$i] = $label;
+            $rates[$i] = $rate;
+            if ($rate > $maxrate) {
+                $maxrate = $rate;
+            }
+            $i++;
+        }
+
+        $allanswerssql = "
+            SELECT
+                userid,
+                value
+            FROM
+                {feedback_value} fv,
+                {feedback_completed} fc
+            WHERE
+                fc.id = fv.completed AND
+                fc.feedback = ? AND
+                fv.item = ?
+        ";
+        $params = [$cm->instance, $item->id];
+        $results = $DB->get_records_sql($allanswerssql, $params);
+
+        $optionsres = [];
+        $allres = 0;
+        $output = [];
+        if ($results) {
+            foreach ($results as $res) {
+                $allres += $maxrate;
+                $optionsres[$res->value] = @$optionsres[$res->value] + $rates[$res->value];
+            }
+
+            foreach ($optionsres as $valueid => $valuecount) {
+                // $allres not null if we are here !
+                $output[$this->clean($choices[$valueid])] = sprintf('%.2f', $valuecount / $allres);
+            }
+        }
+
+        return ['question' => $item->name, 'results' => $output, 'error' => false];
     }
 
     /**
@@ -193,6 +285,14 @@ class customlabel_type_satisfaction extends customlabel_type {
 
         if (!empty($this->data->legendorientation)) {
             $attributes['legendlocation'] = $this->data->legendorientation;
+        }
+
+        if (!empty($this->data->gwidth)) {
+            $attributes['width'] = $this->data->gwidth;
+        }
+
+        if (!empty($this->data->gheight)) {
+            $attributes['height'] = $this->data->gheight;
         }
 
         switch ($graphmode) {

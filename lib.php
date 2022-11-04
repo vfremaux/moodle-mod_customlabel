@@ -354,6 +354,7 @@ function customlabel_get_coursemodule_info($coursemodule) {
                 $instance->require_js();
             }
             if (!empty($instance->usesjqplot)) {
+                include_once($CFG->dirroot.'/local/vflibs/jqplotlib.php');
                 local_vflibs_require_jqplot_libs();
             }
             $instances[$coursemodule->instance] = $instance;
@@ -441,11 +442,13 @@ function customlabel_cm_info_view(&$cminfo) {
     // Load some js scripts once.
     if (!$customlabelscriptsloaded) {
         $PAGE->requires->js_call_amd('mod_customlabel/customlabel', 'init');
-        if (!empty($instance->usesjqplot)) {
-            local_vflibs_require_jqplot_libs();
-        }
         $customlabelscriptsloaded = true;
 
+    }
+
+    if (!empty($instance->usesjqplot)) {
+        include_once($CFG->dirroot.'/local/vflibs/jqplotlib.php');
+        local_vflibs_require_jqplot_libs();
     }
 
     if (!in_array($customlabel->labelclass, $customlabelamdloaded)) {
