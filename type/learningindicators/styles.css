@@ -1,0 +1,9 @@
+
+
+.learning-indicators-time {
+    background-image: url('/mod/customlabel/type/learningindicators/pix/clock.png');
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    height: 150px;
+    width: 150px;
+}

@@ -1,32 +1,7 @@
-<<<<<<< HEAD
 /* Element specific rules that affect only this element class */
 
 .custombox-definition {
     width: 100%;
-=======
-.custombox-definition {
-    width: 100%;
-}
-
-.custombox-header-thumb.definition.colored {
-    border-right: 1px solid #c76205;
-}
-
-.custombox-header-caption.definition.colored {
-    color: #c76205;
-}
-
-.custombox-header-thumb.definition {
-    background-image: url("/mod/customlabel/{{baseurl}}/icon_definition.png");
-}
-
-.custombox-header-thumb.definition.flatstyle {
-    background-image: url("/mod/customlabel/pix/spots/redspot.png");
-}
-
-.custombox-header-thumb.definition.flatstyle:after {
-    content: "\F13D"; /* fa-anchor */
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
 }
 
 .custombox-subdefinitions.definition {

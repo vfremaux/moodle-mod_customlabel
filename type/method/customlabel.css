@@ -1,32 +1,6 @@
-<<<<<<< HEAD
 /* Element specific rules that affect only this element class */
 
 .custombox-method {
     width: 100%;
 }
 
-=======
-.custombox-method {
-    width: 100%;
-}
-
-.custombox-header-thumb.method.colored {
-    border-right: 1px solid #c76205;
-}
-
-.custombox-header-caption.method.colored {
-    color: #c76205;
-}
-
-.custombox-header-thumb.method {
-    background-image: url("/mod/customlabel/{{baseurl}}/icon_method.png");
-}
-
-.custombox-header-thumb.method.flatstyle {
-    background-image: url("/mod/customlabel/pix/spots/F3003A_spot.png");
-}
-
-.custombox-header-thumb.method.flatstyle:after {
-    content: "\f085";
-}
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e

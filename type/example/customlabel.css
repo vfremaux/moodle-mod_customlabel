@@ -1,30 +1,5 @@
-<<<<<<< HEAD
 /* Element specific rules that affect only this element class */
 
 .custombox-example {
     width: 100%;
-=======
-.custombox-example {
-    width: 100%;
-}
-
-.custombox-header-thumb.example.colored {
-    border-right: 1px solid #c76205;
-}
-
-.custombox-header-caption.example.colored {
-    color: #c76205;
-}
-
-.custombox-header-thumb.example {
-    background-image: url("/mod/customlabel/{{baseurl}}/icon_example.png");
-}
-
-.custombox-header-thumb.example.flatstyle {
-    background-image: url("/mod/customlabel/pix/spots/grayspot.png");
-}
-
-.custombox-header-thumb.example.flatstyle:after {
-    content: "\f0c3";
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
 }

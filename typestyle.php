@@ -15,11 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-<<<<<<< HEAD
  * A dynamic styling helper.
-=======
- * Library of functions and constants for module label.
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
  *
  * disabled length limitation for labels
  * define("LABEL_MAX_NAME_LENGTH", 50);
@@ -32,7 +28,6 @@ $theme = optional_param('theme', '', PARAM_TEXT);
 
 $skin = get_config('customlabel', 'defaultskin');
 
-<<<<<<< HEAD
 $themesupportscustomlabeldefaults = false;
 if (!empty($theme)) {
     // Is our theme equiped to manage customlabel theme level styling.
@@ -40,11 +35,6 @@ if (!empty($theme)) {
     $themeskin = get_config('theme_'.$theme, 'customlabelskin');
     if (!empty($themeskin)) {
         $themesupportscustomlabeldefaults = true;
-=======
-if (!empty($theme)) {
-    $themeskin = get_config('theme_'.$theme, 'customlabelskin');
-    if (!empty($themeskin)) {
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
         $skin = $themeskin;
     }
 }
@@ -58,7 +48,6 @@ if (!in_array($skin, ['default', 'flatstyle', 'colored', 'flatstyle colored'])) 
     $baseurl = 'pix/skins/'.$skin;
 }
 
-<<<<<<< HEAD
 $scsscode = '';
 
 // This one NEEDS TO BE.
@@ -75,10 +64,6 @@ if (file_exists($CFG->dirroot.'/mod/customlabel/type/'.$type.'/skined.css')) {
     $csscode .= implode('', file($CFG->dirroot.'/mod/customlabel/type/'.$type.'/skined.css'));
 }
 
-=======
-$csscode = implode('', file($CFG->dirroot.'/mod/customlabel/type/'.$type.'/customlabel.css'));
-
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
 $csscode = str_replace('{{baseurl}}', $baseurl, $csscode);
 
 // If it is the case, add rel base path.

@@ -136,11 +136,7 @@ class customlabel_type {
                 if (!empty($field->file) && file_exists($CFG->dirroot.'/'.$field->file)) {
                     include_once($CFG->dirroot.'/'.$field->file);
                 } else {
-<<<<<<< HEAD
                     print_error("Missing explicit library file location for datasource");
-=======
-                    print_error("Missing library for datasource");
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
                 }
                 $functionname = $field->function;
                 $options = $functionname();
@@ -518,7 +514,6 @@ class customlabel_type {
                             if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)) {
                                 include_once($CFG->dirroot.$field->source);
                             }
-<<<<<<< HEAD
                             if (!empty($field->postprocessfunction)) {
                                 $functionname = $field->postprocessfunction;
                                 if (!empty($this->data->{$nameoption})) {
@@ -526,13 +521,6 @@ class customlabel_type {
                                 } else {
                                     $this->data->{$name} = '';
                                 }
-=======
-                            $functionname = $field->function;
-                            if (!empty($this->data->{$nameoption})) {
-                                $this->data->{$name} = format_string($functionname(@$this->data->{$nameoption}));
-                            } else {
-                                $this->data->{$name} = '';
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
                             }
                             break;
                         }

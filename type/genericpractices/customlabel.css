@@ -1,0 +1,19 @@
+/* Element specific rules that affect only this element class */
+
+table.genericpractices td.leftmargin {
+    min-width: 30px;
+}
+
+table.genericpractices td.practicecontent {
+    padding-left: 25px;
+}
+
+table.genericpractices td.practicecontent h3 {
+    font-size: 11px;
+}
+
+table.genericpractices td.practicecontent ul li {
+   font-family: "verdana";
+   font-size: 14px;
+   line-height: 1.4em;
+}

@@ -1,32 +1,6 @@
-<<<<<<< HEAD
 /* Element specific rules that affect only this element class */
 
 .custombox-tipsandtricks {
     width: 100%;
 }
 
-=======
-.custombox-tipsandtricks {
-    width: 100%;
-}
-
-.custombox-header-thumb.tipsandtricks.colored {
-    border-right: 1px solid #c76205;
-}
-
-.custombox-header-caption.tipsandtricks.colored {
-    color: #c76205;
-}
-
-.custombox-header-thumb.tipsandtricks {
-    background-image: url("/mod/customlabel/{{baseurl}}/icon_tipsandtricks.png");
-}
-
-.custombox-header-thumb.tipsandtricks.flatstyle {
-    background-image: url("/mod/customlabel/pix/spots/greenspot.png");
-}
-
-.custombox-header-thumb.tipsandtricks.flatstyle:after {
-    content: "\f0eb"; /* fa-lighttube-o */
-}
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e

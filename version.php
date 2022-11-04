@@ -51,5 +51,6 @@ $plugin->prolocations = array(
     'type/processpractices',
     'type/verticalspacer',
     'type/requestcontact',
+    'type/satisfaction',
     'type/contactpoint',
 );
