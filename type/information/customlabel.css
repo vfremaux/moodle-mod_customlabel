@@ -1,6 +1,32 @@
+<<<<<<< HEAD
 /* Element specific rules that affect only this element class */
 
 .custombox-information {
     width: 100%;
 }
 
+=======
+.custombox-information {
+    width: 100%;
+}
+
+.custombox-header-thumb.information.colored {
+    border-right: 1px solid #c76205;
+}
+
+.custombox-header-caption.information.colored {
+    color: #c76205;
+}
+
+.custombox-header-thumb.information {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_information.png");
+}
+
+.custombox-header-thumb.information.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/grayspot.png");
+}
+
+.custombox-header-thumb.information.flatstyle:after {
+    content: "\f05a";
+}
+>>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Element specific rules that affect only this element class */
 
 .custombox-theorema {
@@ -12,6 +13,20 @@
     color: #d2c233;
 }
 
+=======
+.custombox-theorema {
+    width: 100%;
+}
+
+.custombox-header-thumb.theorema.colored {
+    border-right: 1px solid #d2c233;
+}
+
+.custombox-header-caption.theorema.colored {
+    color: #d2c233;
+}
+
+>>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
 .custombox-header-thumb.theorema {
     background-image: url("/mod/customlabel/{{baseurl}}/icon_theorema.png");
 }

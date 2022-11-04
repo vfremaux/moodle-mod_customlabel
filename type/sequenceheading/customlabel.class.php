@@ -104,6 +104,7 @@ class customlabel_type_sequenceheading extends customlabel_type {
             if (empty($this->data->imagepositionoption)) {
                 $this->data->imagepositionoption = 'left';
             }
+<<<<<<< HEAD
             $this->data->contentpadding = '';
             if ($this->data->imageurl) {
                 $this->data->contentpadding = 'padding-left:15px;';
@@ -112,6 +113,14 @@ class customlabel_type_sequenceheading extends customlabel_type {
                 $this->data->toleft = true;
             } else if ($this->data->imagepositionoption == 'right') {
                 $this->data->toright = true;
+=======
+            if ($this->data->imagepositionoption == 'left') {
+                $this->data->toleft = true;
+                $this->data->contentpadding = 'padding-left:15px;';
+            } else if ($this->data->imagepositionoption == 'right') {
+                $this->data->toright = true;
+                $this->data->contentpadding = 'padding-right:15px;';
+>>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
             }
 
             if (!empty($this->data->imagewidth)) {

@@ -93,6 +93,7 @@ function customlabel_supports_feature($feature = null, $getsupported = false) {
     }
 
     return $versionkey;
+<<<<<<< HEAD
 }
 
 /**
@@ -112,6 +113,8 @@ function get_customlabel_name($customlabel) {
     }
 
     return $name;
+=======
+>>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
 }
 
 /*

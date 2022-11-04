@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Element specific rules that affect only this element class */
 
 .custombox-formule {
@@ -9,6 +10,29 @@
     text-align: center;
 }
 
+=======
+.custombox-formule {
+    width: 100%;
+}
+
+.custombox-header-thumb.formule.colored {
+    border-right: 1px solid #f00000;
+}
+
+.custombox-header-caption.formule.colored {
+    color: #d83030;
+}
+
+.custombox-header-thumb.formule {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_formule.png");
+}
+
+.custombox-formula-container {
+    width: 100%;
+    text-align: center;
+}
+
+>>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
 .custombox-formula {
     margin: auto;
     font-size: 1.3em;
@@ -17,4 +41,16 @@
     font-weight: normal;
     padding:10px;
     display: inline-block;
+<<<<<<< HEAD
+=======
+}
+
+/* Formule */
+.custombox-header-thumb.formule.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/orangespot.png");
+}
+
+.custombox-header-thumb.formule.flatstyle:after {
+    content: "\F13D"; /* fa-anchor */
+>>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
 }

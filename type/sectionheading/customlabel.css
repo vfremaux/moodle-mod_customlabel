@@ -1,6 +1,10 @@
 /* Element specific rules that affect only this element class */
 
 .custombox-sectionheading h1 {
+<<<<<<< HEAD
+=======
+    color: #f2a440;
+>>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
     font-size: 22px;
     line-height: 26px;
 }
