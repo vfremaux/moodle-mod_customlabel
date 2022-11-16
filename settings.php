@@ -78,12 +78,8 @@ if ($ADMIN->fulltree) {
     $key = 'customlabel/disabled';
     $label = get_string('disabledsubtypes', 'customlabel');
     $desc = get_string('disabledsubtypes_desc', 'customlabel');
-<<<<<<< HEAD
     $default = 'genericgoals,genericpractices,processgoals,processpractices';
     $settings->add(new admin_setting_configtextarea($key, $label, $desc, $default, PARAM_RAW, 80, 10));
-=======
-    $settings->add(new admin_setting_configtextarea($key, $label, $desc, '', PARAM_RAW, 80, 10));
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
 
     /*
      * This is a similar metadata binding schema that used in the local_courseindex component in order to provide

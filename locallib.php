@@ -28,7 +28,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/customlabel/compatlib.php');
 
-<<<<<<< HEAD
 if (!during_initial_install()) {
     if (!isset($CFG->classification_type_table)) {
         set_config('classification_type_table', 'customlabel_mtd_type');
@@ -39,16 +38,6 @@ if (!during_initial_install()) {
         set_config('course_metadata_value_key', 'valueid');
         set_config('course_metadata_course_key', 'courseid');
     }
-=======
-if (!isset($CFG->classification_type_table)) {
-    set_config('classification_type_table', 'customlabel_mtd_type');
-    set_config('classification_value_table', 'customlabel_mtd_value');
-    set_config('classification_value_type_key', 'typeid');
-    set_config('classification_constraint_table', 'customlabel_mtd_constraint');
-    set_config('course_metadata_table', 'customlabel_course_metadata');
-    set_config('course_metadata_value_key', 'valueid');
-    set_config('course_metadata_course_key', 'courseid');
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
 }
 
 /**
@@ -389,7 +378,7 @@ function customlabel_file_rewrite_urls_to_pluginfile($text, $draftitemid, $field
  * @param ref $customlabel a customlabel record
  * @param string $labelclassname the real class of the element.
  * @param string $course the current complete course record
- * DEPRECATED
+ * DEPRECATED because no more cached precalculated content in customlabels.
  *
  */
 function customlabel_regenerate(&$customlabel, $labelclassname, &$course) {
@@ -434,7 +423,7 @@ function customlabel_regenerate(&$customlabel, $labelclassname, &$course) {
  * This function operates in one single course
  * @param int $course the course id where to operate
  * @param mixed $labelclasses 'all' or an array of class names to operate in the course.
- * DEPRECATED
+ * DEPRECATED because no more cached precalculated content in customlabels.
  */
 function customlabel_course_regenerate(&$course, $labelclasses = '', $options = array()) {
     global $DB;

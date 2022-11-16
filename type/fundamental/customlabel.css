@@ -1,32 +1,6 @@
-<<<<<<< HEAD
 /* Element specific rules that affect only this element class */
 
 .custombox-fundamental {
     width: 100%;
 }
 
-=======
-.custombox-fundamental {
-    width: 100%;
-}
-
-.custombox-header-thumb.fundamental.colored {
-    border-right: 1px solid #d2567f;
-}
-
-.custombox-header-caption.fundamental.colored {
-    color: #d2567f;
-}
-
-.custombox-header-thumb.fundamental {
-    background-image: url("/mod/customlabel/{{baseurl}}/icon_fundamental.png");
-}
-
-.custombox-header-thumb.fundamental.flatstyle {
-    background-image: url("/mod/customlabel/pix/spots/A94C9A_spot.png");
-}
-
-.custombox-header-thumb.fundamental.flatstyle:after {
-    content: "\f19c";
-}
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e

@@ -3,6 +3,8 @@ moodle-mod_customlabel
 
 High semantic elements for course content. Are used as course labels but wth preformatted information model and rendering.
 
+Actual status : Only MOODLE_19_STABLE available
+
 Constraints and restriction : 
 
 this module needs some changes in the way courses (core) displays modules in a course, to make the "label" behaviour

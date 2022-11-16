@@ -134,7 +134,6 @@ function customlabel_get_requestcontact($courseid) {
     return $instance;
 }
 
-<<<<<<< HEAD
 /**
  * Finds a customlabel, or all customlabels of some type in a course.
  * Special behaviour : in page format, needs to be published
@@ -202,8 +201,6 @@ function customlabel_get_customlabel_field($courseid) {
     return $instance;
 }
 
-=======
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
 function customlabel_search_courses($searchcriteria) {
     return [];
 }

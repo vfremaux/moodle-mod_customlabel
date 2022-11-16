@@ -379,11 +379,7 @@ class mod_customlabel_external extends external_api {
                 'id' => new external_value(PARAM_INT, 'Course module id'),
                 'idnumber' => new external_value(PARAM_TEXT, 'Course module idnumber'),
                 'attributes' => new external_multiple_structure(
-<<<<<<< HEAD
                     new external_single_structure(
-=======
-                    new external_single_structure
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
                         array(
                             'name' => new external_value(PARAM_TEXT, 'Label attribute name'),
                             'type' => new external_value(PARAM_TEXT, 'Label attribute type'),

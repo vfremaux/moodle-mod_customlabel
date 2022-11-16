@@ -1,32 +1,5 @@
-<<<<<<< HEAD
 /* Element specific rules that affect only this element class */
 
 .custombox-soluce {
     width: 100%;
 }
-=======
-.custombox-soluce {
-    width: 100%;
-}
-
-.custombox-header-thumb.soluce.colored {
-    border-right: 1px solid #c76205;
-}
-
-.custombox-header-caption.soluce.colored {
-    color: #c76205;
-}
-
-.custombox-header-thumb.soluce {
-    background-image: url("/mod/customlabel/{{baseurl}}/icon_soluce.png");
-}
-
-.custombox-header-thumb.soluce.flatstyle {
-    background-image: url("/mod/customlabel/pix/spots/greenspot.png");
-}
-
-.custombox-header-thumb.soluce.flatstyle:after {
-    content: "\f1cd"; /* fa-support */
-}
-
->>>>>>> 3ffadab7e7686124b23744b85fce919514a24c9e
