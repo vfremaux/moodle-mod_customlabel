@@ -138,7 +138,10 @@ class customlabel_type_satisfaction extends customlabel_type {
 
         $instance = $DB->get_record('questionnaire', ['id' => $cm->instance]);
         if (!empty($instance->sid)) {
-            $realinstance = $DB->get_record('questionnaire', ['id' => $instance->sid]);
+            if (!$realinstance = $DB->get_record('questionnaire_survey', ['id' => $instance->sid])) {
+                // Origin model has disapeared.
+                $realinstance = $instance;
+            }
         } else {
             $realinstance = $instance;
         }

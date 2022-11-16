@@ -447,6 +447,7 @@ function customlabel_cm_info_view(&$cminfo) {
     }
 
     if (!empty($instance->usesjqplot)) {
+        // Seems to be too late in thematic format.
         include_once($CFG->dirroot.'/local/vflibs/jqplotlib.php');
         local_vflibs_require_jqplot_libs();
     }
@@ -744,6 +745,32 @@ function customlabel_get_completion_state($course, $cm, $userid, $type) {
     }
 
     return $result;
+}
+
+/**
+ * Check if there are some plugins that need jqplot preload. Hard resolved bu now.
+ */
+function mod_customlabel_before_http_headers() {
+    global $DB, $COURSE, $CFG;
+
+    // Get all distinct labeltypes
+    $sql = "
+        SELECT DISTINCT
+            labelclass
+        FROM
+            {customlabel}
+        WHERE
+            course = :course
+    ";
+    $labels = $DB->get_records_sql($sql, ['course' => $COURSE->id]);
+    if ($labels) {
+        $labelclasses = array_keys($labels);
+        // TODO : Do this better and discover by classlabel.
+        if (in_array('satisfaction', $labelclasses)) {
+            include_once($CFG->dirroot.'/local/vflibs/jqplotlib.php');
+            local_vflibs_require_jqplot_libs();
+        }
+    }
 }
 
 /**
