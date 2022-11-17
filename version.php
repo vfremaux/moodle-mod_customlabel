@@ -30,6 +30,7 @@ $plugin->version  = 2021120600; // The current module version (Date: YYYYMMDDXX)
 $plugin->requires = 2020060900;
 $plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics).
 $plugin->release = '3.9.0 (Build 2021120600)';
+$plugin->supported = [37, 311];
 $plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
