@@ -136,7 +136,7 @@ class customlabel_type {
                 if (!empty($field->file) && file_exists($CFG->dirroot.'/'.$field->file)) {
                     include_once($CFG->dirroot.'/'.$field->file);
                 } else {
-                    print_error("Missing library for datasource");
+                    print_error("Missing explicit library file location for datasource");
                 }
                 $functionname = $field->function;
                 $options = $functionname();
@@ -408,14 +408,14 @@ class customlabel_type {
                 /*
                  * for lists and datasources, the rendered value will take
                  * place into the real field name entry.
-                 * the orginal optioncode stored in internal data model is translated
+                 * the original optioncode stored in internal data model is translated
                  * to <fieldname>option data entry.
                  */
                 if (@$field->multiple) {
 
                     /*
                      * If multiple select or list, the value set
-                     * is always an array, event if having a single value.
+                     * is always an array, even if having a single value.
                      */
 
                     $name = str_replace('[]', '', $field->name);
@@ -456,7 +456,7 @@ class customlabel_type {
 
                                 case 'function': {
                                     /*
-                                     * function needs returning a text formted scalar list.
+                                     * function needs returning a text formated scalar list.
                                      */
                                     if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)) {
                                         include_once($CFG->dirroot.$field->source);
@@ -514,11 +514,13 @@ class customlabel_type {
                             if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)) {
                                 include_once($CFG->dirroot.$field->source);
                             }
-                            $functionname = $field->function;
-                            if (!empty($this->data->{$nameoption})) {
-                                $this->data->{$name} = format_string($functionname(@$this->data->{$nameoption}));
-                            } else {
-                                $this->data->{$name} = '';
+                            if (!empty($field->postprocessfunction)) {
+                                $functionname = $field->postprocessfunction;
+                                if (!empty($this->data->{$nameoption})) {
+                                    $this->data->{$name} = format_string($functionname(@$this->data->{$nameoption}));
+                                } else {
+                                    $this->data->{$name} = '';
+                                }
                             }
                             break;
                         }

@@ -135,7 +135,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
                 if (customlabel_supports_feature('api/ws')) {
                     if (has_capability('moodle/site:config', context_system::instance())) {
-                        $fieldlabel .= ' '.get_string('wsfieldkey', 'customlabel', $field->name);
+                        $fieldlabel .= ' <span class="api-hint">'.get_string('wsfieldkey', 'customlabel', $field->name).'</span>';
                     }
                 }
             }
@@ -229,9 +229,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     $translatedoptions[$key] = format_string($value);
                 }
 
-                $attrs = array();
-                if (!empty($field->constraintson)) {
-                    $attrs['class'] = 'constrained '.$customclass->type;
+                $attrs = [];
+                if (isset($field->constraintson)) {
+                    $attrs['data-constrained'] = 1;
                     $attrs['disabled'] = 'disabled'; // Let javascript liberate them when ready to process constraints.
                     $attrs['data-constraints'] = $field->constraintson;
                     $attrs['data-label-type'] = $customclass->type;

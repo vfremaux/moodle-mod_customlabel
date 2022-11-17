@@ -154,7 +154,7 @@ foreach ($targets as $target) {
 
         $params = array();
         if (!empty($field->constraintson)) {
-            $params['class'] = 'constrained '.$instance->type;
+            $params['data-constrained'] = 1;
             // $params['disabled'] = ''; // Let javascript liberate them when ready to process constraints.
             $params['data-constraints'] = $field->constraintson;
             $params['data-label-type'] = $instance->type;

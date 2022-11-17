@@ -1,0 +1,8 @@
+/* Defaults for those themes that do not handle a default or scss handling of those defaults */
+
+.custombox-commentbox {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    border: 1px dashed #d0d0d0;
+    color: #b0b0b0;
+}

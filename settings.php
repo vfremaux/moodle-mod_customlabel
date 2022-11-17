@@ -24,6 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/customlabel/adminlib.php');
+require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 
 $label = new lang_string('pluginname', 'customlabel');
 $ADMIN->add('modsettings', new admin_category('modcustomlabelfolder', $label, $module->is_enabled() === false));
@@ -77,7 +78,8 @@ if ($ADMIN->fulltree) {
     $key = 'customlabel/disabled';
     $label = get_string('disabledsubtypes', 'customlabel');
     $desc = get_string('disabledsubtypes_desc', 'customlabel');
-    $settings->add(new admin_setting_configtextarea($key, $label, $desc, '', PARAM_RAW, 80, 10));
+    $default = 'genericgoals,genericpractices,processgoals,processpractices';
+    $settings->add(new admin_setting_configtextarea($key, $label, $desc, $default, PARAM_RAW, 80, 10));
 
     /*
      * This is a similar metadata binding schema that used in the local_courseindex component in order to provide
@@ -127,6 +129,16 @@ if ($ADMIN->fulltree) {
     $label = get_string('configclassificationconstrainttable', 'customlabel');
     $desc = get_string('configclassificationconstrainttable_desc', 'customlabel');
     $settings->add(new admin_setting_configtext($key, $label, $desc, 'customlabel_mtd_constraint'));
+
+    if (customlabel_supports_feature('emulate/community') == 'pro') {
+        include_once($CFG->dirroot.'/mod/customlabel/pro/prolib.php');
+        $promanager = mod_customlabel\pro_manager::instance();
+        $promanager->add_settings($ADMIN, $settings);
+    } else {
+        $label = get_string('plugindist', 'customlabel');
+        $desc = get_string('plugindist_desc', 'customlabel');
+        $settings->add(new admin_setting_heading('plugindisthdr', $label, $desc));
+    }
 }
 
 $ADMIN->add('modcustomlabelfolder', $settings);

@@ -46,7 +46,7 @@ $string['accordion'] = 'Accordéon';
 $string['initialstate'] = 'Etat initial';
 $string['completion1'] = 'Les étudiants doivent avoir ouvert tous les chapitres pour achever.';
 
-for ($i = 1; $i <= 10; $i++) {
+for ($i = 1; $i <= 30; $i++) {
     $string['chaptercaption'.$i] = 'Titre '.$i;
     $string['chaptertext'.$i] = 'Paragraphe '.$i;
 }

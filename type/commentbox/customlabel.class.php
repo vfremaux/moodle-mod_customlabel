@@ -58,15 +58,45 @@ class customlabel_type_commentbox extends customlabel_type {
     }
 
     public function preprocess_data() {
-        global $CFG;
+        global $CFG, $COURSE, $USER;
 
-        $customid = @$CFG->custom_unique_id + 1;
+        $this->data->label1 = get_string('readless', 'customlabeltype_commentbox');
+        $this->data->label2 = get_string('readmore', 'customlabeltype_commentbox');
+
         if (@$this->data->initiallyvisible) {
-            $this->data->initialstring = get_string('readless', 'customlabeltype_text');
+            $this->data->initialclass = '';
+            $this->data->initialstring = get_string('readless', 'customlabeltype_commentbox');
         } else {
-            $this->data->initialstring = get_string('readmore', 'customlabeltype_text');
+            $this->data->initialclass = 'hidden';
+            $this->data->initialstring = get_string('readmore', 'customlabeltype_commentbox');
         }
-        $this->data->customid = $customid;
-        set_config('custom_unique_id', $customid);
+
+        $context = context_module::instance($this->cmid);
+
+        // Weird fix.
+        if (empty($this->data->textcontent)) {
+            $this->data->textcontent = '';
+        }
+        if (empty($this->data->readmorecontent)) {
+            $this->data->readmorecontent = '';
+        }
+
+        $this->data->comment = str_replace("%WWWROOT%", $CFG->wwwroot, $this->data->comment);
+        $this->data->comment = str_replace("%COURSEID%", $COURSE->id, $this->data->comment);
+        $this->data->comment = str_replace("%USERID%", $USER->id, $this->data->comment);
+
+        $this->data->comment = preg_replace('/@@PLUGINFILE\:\:\d+@@/', '@@PLUGINFILE@@', @$this->data->comment);
+        $this->data->comment = file_rewrite_pluginfile_urls($this->data->comment,
+                'pluginfile.php', $context->id, 'mod_customlabel', 'contentfiles', $this->fields['comment']->itemid);
+
+        // Weird fix.
+        $this->data->readmorecontent = str_replace("%WWWROOT%", $CFG->wwwroot, $this->data->readmorecontent);
+        $this->data->readmorecontent = str_replace("%COURSEID%", $COURSE->id, $this->data->readmorecontent);
+        $this->data->readmorecontent = str_replace("%USERID%", $USER->id, $this->data->readmorecontent);
+        $this->data->readmorecontent = preg_replace('/@@PLUGINFILE\:\:\d+@@/', '@@PLUGINFILE@@', @$this->data->readmorecontent);
+        $this->data->readmorecontent = file_rewrite_pluginfile_urls($this->data->readmorecontent,
+                'pluginfile.php', $context->id, 'mod_customlabel', 'contentfiles', $this->fields['readmorecontent']->itemid);
+
+        $this->data->customid = $this->cmid;
     }
 }

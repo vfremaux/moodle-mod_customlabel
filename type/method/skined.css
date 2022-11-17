@@ -1,0 +1,21 @@
+/* Skined variants */
+
+.custombox-header-thumb.method.colored {
+    border-right: 1px solid #c76205;
+}
+
+.custombox-header-caption.method.colored {
+    color: #c76205;
+}
+
+.custombox-header-thumb.method {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_method.png");
+}
+
+.custombox-header-thumb.method.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/F3003A_spot.png");
+}
+
+.custombox-header-thumb.method.flatstyle:after {
+    content: "\f085";
+}

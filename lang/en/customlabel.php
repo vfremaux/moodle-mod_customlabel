@@ -42,7 +42,7 @@ $string['customlabeltools'] = 'Mass tools for custom labels';
 $string['customlabelplugins'] = 'Plugins';
 $string['customlabeltypepluginname'] = 'Customlabel type name';
 $string['hideshow'] = 'Hide/Show';
-$string['settings'] = 'Settings';
+$string['settings'] = 'Customlabel Settings';
 $string['choose'] = 'Choose';
 $string['save'] = 'Save settings';
 $string['wsurl'] = 'Web services: use type {$a} in webservice call customlabel_add_instance().<br/>See WS moodle API documentation in plugin administration.';
@@ -87,6 +87,7 @@ $string['updatescope'] = 'Updating scope';
 $string['usesafestorage'] = 'Use safe storage for content (base64)';
 $string['userstatesreset'] = 'User states have been reset';
 $string['withcompletions'] = 'Reset label completions';
+$string['wsfieldkey'] = 'Attribute key for web services: {$a}';
 $string['modulename_help'] = "Course Elements provide you with pedagogic modules that are already layout and
 designed for serving some high level pedagogic needs. Course elements have subtypes that address common
 learning actions : work to do, soluce, see also (optional reference), local goals, reminder, and some

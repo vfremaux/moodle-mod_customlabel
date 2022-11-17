@@ -1,3 +1,5 @@
+/* Element specific rules that affect only this element class */
+
 table.custombox-courseheading {
     background: none;
     margin-top: 0;
@@ -5,21 +7,13 @@ table.custombox-courseheading {
     width: 100%;
 }
 
-.custombox-preheading.courseheading {
-    color: #a8a8a8;
-    font-size: 13px;
-}
-
 .custombox-heading.courseheading {
-    color: #383838;
-    font-size: 24px;
     font-style: italic;
     line-height: 26px;
     margin-top: 10px;
 }
 
 .custombox-description.courseheading {
-    color: #808080;
     padding-right: 20px;
     padding-top: 20px;
     text-align: justify;

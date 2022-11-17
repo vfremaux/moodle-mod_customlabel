@@ -1,17 +1,7 @@
+/* Element specific rules that affect only this element class */
+
 .custombox-question {
     width: 100%;
-}
-
-.custombox-header-thumb.question.colored {
-    border-right: 1px solid #f00000;
-}
-
-.custombox-header-caption.question.colored {
-    color: #f00000;
-}
-
-.custombox-header-thumb.question {
-    background-image: url("/mod/customlabel/{{baseurl}}/icon_question.png");
 }
 
 .custombox-header-collapser.question {
@@ -20,14 +10,10 @@
 }
 
 .custombox-content.hint {
-    background-color: #d0d0ff;
-    color: #0000a0;
     padding: 10px 20px;
 }
 
 .custombox-content.answertext {
-    background-color: #d0ffd0;
-    color: #00a000;
     min-height: 100px;
     padding: 10px 20px;
 }
@@ -40,19 +26,6 @@
 .custombox-header-collapser.question .teacher-comment {
     -moz-opacity: 0.5;
     opacity: 0.5;
-    color: #e00;
-}
-
-.custombox-qcm-answer.incorrect {
-    border: 1px solid #f88;
-    background-color: #fcc;
-    border-radius: 8px;
-}
-
-.custombox-qcm-answer.correct {
-    border: 1px solid #8f8;
-    background-color: #cfc;
-    border-radius: 8px;
 }
 
 .custombox-qcm-input {
@@ -63,12 +36,4 @@
 .custombox-qcm-text {
     display: table-cell;
     padding-right: 10px;
-}
-
-.custombox-header-thumb.question.flatstyle {
-    background-image: url("/mod/customlabel/pix/spots/FFFF1E_spot.png");
-}
-
-.custombox-header-thumb.question.flatstyle:after {
-    content: "\f128";
 }

@@ -22,14 +22,18 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-if (!isset($CFG->classification_type_table)) {
-    set_config('classification_type_table', 'customlabel_mtd_type');
-    set_config('classification_value_table', 'customlabel_mtd_value');
-    set_config('classification_value_type_key', 'typeid');
-    set_config('classification_constraint_table', 'customlabel_mtd_constraint');
-    set_config('course_metadata_table', 'customlabel_course_metadata');
-    set_config('course_metadata_value_key', 'valueid');
-    set_config('course_metadata_course_key', 'courseid');
+define("CUSTOMLABEL_MAX_NAME_LENGTH", 50);
+
+if (!during_initial_install()) {
+    if (!isset($CFG->classification_type_table)) {
+        set_config('classification_type_table', 'customlabel_mtd_type');
+        set_config('classification_value_table', 'customlabel_mtd_value');
+        set_config('classification_value_type_key', 'typeid');
+        set_config('classification_constraint_table', 'customlabel_mtd_constraint');
+        set_config('course_metadata_table', 'customlabel_course_metadata');
+        set_config('course_metadata_value_key', 'valueid');
+        set_config('course_metadata_course_key', 'courseid');
+    }
 }
 
 /**
@@ -89,6 +93,25 @@ function customlabel_supports_feature($feature = null, $getsupported = false) {
     }
 
     return $versionkey;
+}
+
+/**
+ * @uses LABEL_MAX_NAME_LENGTH
+ * @param object $label
+ * @return string
+ */
+function get_customlabel_name($customlabel) {
+    $name = strip_tags(format_string($customlabel->processedcontent, true));
+    if (core_text::strlen($name) > CUSTOMLABEL_MAX_NAME_LENGTH) {
+        $name = core_text::substr($name, 0, CUSTOMLABEL_MAX_NAME_LENGTH)."...";
+    }
+
+    if (empty($name)) {
+        // arbitrary name
+        $name = $customlabel->title;
+    }
+
+    return $name;
 }
 
 /*
@@ -330,6 +353,10 @@ function customlabel_get_coursemodule_info($coursemodule) {
             if (!empty($instance->hasamd)) {
                 $instance->require_js();
             }
+            if (!empty($instance->usesjqplot)) {
+                include_once($CFG->dirroot.'/local/vflibs/jqplotlib.php');
+                local_vflibs_require_jqplot_libs();
+            }
             $instances[$coursemodule->instance] = $instance;
         } else {
             return null;
@@ -419,6 +446,12 @@ function customlabel_cm_info_view(&$cminfo) {
 
     }
 
+    if (!empty($instance->usesjqplot)) {
+        // Seems to be too late in thematic format.
+        include_once($CFG->dirroot.'/local/vflibs/jqplotlib.php');
+        local_vflibs_require_jqplot_libs();
+    }
+
     if (!in_array($customlabel->labelclass, $customlabelamdloaded)) {
         if (!empty($instance->hasamd)) {
             $instance->require_js();
@@ -485,6 +518,9 @@ function customlabel_cm_info_view(&$cminfo) {
 
         } catch (Exception $e) {
             assert(1);
+            if ($CFG->debug == E_ALL) {
+                print_error($e->getMessage());
+            }
             // Quiet any exception here. Resolve case of Editing Teachers.
         }
     }
@@ -502,6 +538,14 @@ function customlabel_cm_info_view(&$cminfo) {
                                                                              $field->itemid);
         }
     }
+
+    // Filter standard context placeholders.
+    $content = str_replace('%COURSEID%', $COURSE->id, $content);
+    $content = str_replace('%COURSEIDNUMBER%', $COURSE->idnumber, $content);
+    $content = str_replace('%COURSESHORTNAME%', $COURSE->shortname, $content);
+    $content = str_replace('%USERID%', $USER->id, $content);
+    $content = str_replace('%USERNAME%', $USER->username, $content);
+    $content = str_replace('%WWWROOT%', $CFG->wwwroot, $content);
 
     // Disable url form of the course module representation.
     $cminfo->set_content($content);
@@ -701,6 +745,32 @@ function customlabel_get_completion_state($course, $cm, $userid, $type) {
     }
 
     return $result;
+}
+
+/**
+ * Check if there are some plugins that need jqplot preload. Hard resolved bu now.
+ */
+function mod_customlabel_before_http_headers() {
+    global $DB, $COURSE, $CFG;
+
+    // Get all distinct labeltypes
+    $sql = "
+        SELECT DISTINCT
+            labelclass
+        FROM
+            {customlabel}
+        WHERE
+            course = :course
+    ";
+    $labels = $DB->get_records_sql($sql, ['course' => $COURSE->id]);
+    if ($labels) {
+        $labelclasses = array_keys($labels);
+        // TODO : Do this better and discover by classlabel.
+        if (in_array('satisfaction', $labelclasses)) {
+            include_once($CFG->dirroot.'/local/vflibs/jqplotlib.php');
+            local_vflibs_require_jqplot_libs();
+        }
+    }
 }
 
 /**

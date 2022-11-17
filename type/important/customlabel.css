@@ -1,29 +1,11 @@
+/* Element specific rules that affect only this element class */
+
 .custombox-important {
     width: 100%;
-}
-
-.custombox-header-thumb.important.colored {
-    border-right: 1px solid #d83030;
-}
-
-.custombox-header-caption.important.colored {
-    color: #d83030;
-}
-
-.custombox-header-thumb.important {
-    background-image: url("/mod/customlabel/{{baseurl}}/icon_important.png");
 }
 
 #region-main .custombox-header-thumb.important,
 #page-region-main .custombox-header-thumb.important {
     min-width: 80px;
     width: 80px;
-}
-
-.custombox-header-thumb.important.flatstyle {
-    background-image: url("/mod/customlabel/pix/spots/reddark_spot.png");
-}
-
-.custombox-header-thumb.important.flatstyle:after {
-    content: "!"; /* fa-bookmark-o */
 }

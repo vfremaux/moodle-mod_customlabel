@@ -1,0 +1,15 @@
+/* Defaults for those themes that do not handle a default or scss handling of those defaults */
+
+.custombox-preheading.courseheading {
+    color: #a8a8a8;
+    font-size: 13px;
+}
+
+.custombox-heading.courseheading {
+    color: #383838;
+    font-size: 24px;
+}
+
+.custombox-description.courseheading {
+    color: #808080;
+}

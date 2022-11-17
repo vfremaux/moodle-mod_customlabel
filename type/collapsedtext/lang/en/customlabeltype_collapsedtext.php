@@ -45,7 +45,7 @@ $string['accordion'] = 'Accordion';
 $string['initialstate'] = 'Initial state';
 $string['completion1'] = 'User must have open all chapters to complete';
 
-for ($i = 1; $i <= 10; $i++) {
+for ($i = 1; $i <= 30; $i++) {
     $string['chaptercaption'.$i] = 'Caption '.$i;
     $string['chaptertext'.$i] = 'Content '.$i;
 }

@@ -1,0 +1,11 @@
+/* Defaults for those themes that do not handle a default or scss handling of those defaults */
+
+div.custombox-demonstration.theorema {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    border: 1px solid #d0d0d0;
+}
+
+.custombox-demonstration.theorema .teacher-comment {
+    color: #e00;
+}

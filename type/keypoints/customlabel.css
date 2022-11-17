@@ -1,26 +1,9 @@
+/* Element specific rules that affect only this element class */
+
 .custombox-keypoints {
     width: 100%;
 }
 
-.custombox-header-thumb.keypoints.colored {
-    border-right: 1px solid #c76205;
-}
-
-.custombox-header-caption.keypoints.colored {
-    color: #c76205;
-}
-
-.custombox-header-thumb.keypoints {
-    background-image: url("/mod/customlabel/{{baseurl}}/icon_keypoints.png");
-}
-
 .custombox-content.keypoints ul {
     list-style-position: outside;
-}
-.custombox-header-thumb.keypoints.flatstyle {
-    background-image: url("/mod/customlabel/pix/spots/orangespot.png");
-}
-
-.custombox-header-thumb.keypoints.flatstyle:after {
-    content: "\f0f3"; /* fa-bell */
 }

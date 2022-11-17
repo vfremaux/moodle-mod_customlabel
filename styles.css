@@ -56,6 +56,10 @@ td.custombox-thumb {
     padding-left: 20px;
 }
 
+.custombox-content.no-padding {
+    padding-left: 0;
+}
+
 .custombox-meta-element {
     -moz-opacity: 0.8;
     opacity: 0.8;
@@ -126,7 +130,7 @@ td.custombox-thumb {
 #page-region-post .custombox-header-thumb.flatstyle:after {
     font-size: 12px;
     position: relative;
-    top: -15px;
+    top: -20px;
     left: -5px;
 }
 
@@ -143,4 +147,9 @@ td.custombox-thumb {
 
 .dimmed_text {
     opacity: 0.5;
+}
+
+.api-hint {
+    font-size: 80%;
+    filter: brightness(2.5);
 }

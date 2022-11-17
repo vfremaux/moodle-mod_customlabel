@@ -104,12 +104,14 @@ class customlabel_type_sequenceheading extends customlabel_type {
             if (empty($this->data->imagepositionoption)) {
                 $this->data->imagepositionoption = 'left';
             }
+            $this->data->contentpadding = '';
+            if ($this->data->imageurl) {
+                $this->data->contentpadding = 'padding-left:15px;';
+            }
             if ($this->data->imagepositionoption == 'left') {
                 $this->data->toleft = true;
-                $this->data->contentpadding = 'padding-left:15px;';
             } else if ($this->data->imagepositionoption == 'right') {
                 $this->data->toright = true;
-                $this->data->contentpadding = 'padding-right:15px;';
             }
 
             if (!empty($this->data->imagewidth)) {

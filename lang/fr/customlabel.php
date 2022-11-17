@@ -45,7 +45,7 @@ $string['defaultskin_desc'] = 'Un preset de style pour les elements de cours';
 $string['disabledsubtypes'] = 'Types d\'éléments désactivés';
 $string['disabledsubtypesdesc'] = 'Tout type mentionné dans ce champ sera désactivé au niveau site. Les contenus existants pour ce type d\'éléments seront ignorés.';
 $string['customlabelplugins'] = 'Plugins';
-$string['settings'] = 'Réglages';
+$string['settings'] = 'Réglages des éléments de cours';
 $string['choose'] = 'Choisir';
 $string['errorreservedname'] = '"TYPE" est un nom réservé et ne peut être admis comme code de catégorie ou de filtre.';
 $string['save'] = 'Enregistrer';
@@ -89,6 +89,7 @@ $string['typetype'] = 'Type';
 $string['withcompletions'] = 'Réinitialier aussi les achèvements des labels';
 $string['wsurl'] = 'Web services: utiliser le type \'{$a}\' pour le paramètre \'labeltype\' dans l\'appel de customlabel_add_instance().<br/>Voir la documentation générée des l\'APIs de service dans l\'administration des plugins.';
 $string['wsattributekey'] = '<span class="lighttext">Clef d\'attribut pour les Web Services : {$a}</span>';
+$string['wsfieldkey'] = 'Clef d\'attribut pour les services web : {$a}';
 
 // Skins
 $string['defaultstyle'] = 'Icones (jeu par défaut)';

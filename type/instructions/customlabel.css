@@ -1,23 +1,5 @@
+/* Element specific rules that affect only this element class */
+
 .custombox-instructions {
     width: 100%;
-}
-
-.custombox-header-thumb.instructions.colored {
-    border-right: 1px solid #cc0033;
-}
-
-.custombox-header-caption.instructions.colored {
-    color: #cc0033;
-}
-
-.custombox-header-thumb.instructions {
-    background-image: url("/mod/customlabel/{{baseurl}}/icon_instructions.png");
-}
-
-.custombox-header-thumb.instructions.flatstyle {
-    background-image: url("/mod/customlabel/pix/spots/BA002D_spot.png");
-}
-
-.custombox-header-thumb.instructions.flatstyle:after {
-    content: "\f0a4";
 }

@@ -1,6 +1,6 @@
+/* Element specific rules that affect only this element class */
 
 .custombox-unitheading h1 {
-    color: #f2a439;
     font-size: 22px;
     line-height: 26px;
 }
