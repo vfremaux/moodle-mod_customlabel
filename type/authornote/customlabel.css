@@ -1,0 +1,9 @@
+/* Element specific rules that affect only this element class */
+
+.custombox-authornote {
+    width: 100%;
+}
+
+.custombox-helper.authornote {
+    font-size: 80%;
+}

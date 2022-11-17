@@ -1,0 +1,13 @@
+/* Element specific rules that affect only this element class */
+
+.custombox-requestcontact {
+    width: 100%;
+}
+
+.hypertext {
+    color: #fff;
+}
+
+.hypertext:hover{
+    color: #fff;
+}

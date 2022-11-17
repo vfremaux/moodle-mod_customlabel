@@ -1,0 +1,16 @@
+/* Defaults for those themes that do not handle a default or scss handling of those defaults */
+
+.custombox-title.courseclassifier {
+    background-color: #333;
+    color: white;
+}
+
+.custombox-param.courseclassifier {
+    background-color: #888;
+    border: solid 1px white;
+    color: white;
+}
+
+.custombox-value.courseclassifier {
+    background-color: white;
+}

@@ -1,0 +1,42 @@
+{{!
+    This file is part of The Customlabel Module
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_customlabel/contactpoint
+
+    Classes required for JS:
+    * no classes
+
+}}
+<!-- customlabeltype_contactpoint/template -->
+{{> mod_customlabel/start }}
+    <div class="custombox-container {{labelclass}}">
+
+        <div class="custombox-flexline {{labelclass}}">
+             <div class="custombox-header-caption {{labelclass}} {{skin}}">
+                <h4>{{#str}}contactpoint, customlabeltype_contactpoint{{/str}}{{#isspecific}}<br/>
+                <span class="custombox-header-caption contacttype">{{#str}}method, customlabeltype_contactpoint{{/str}} : {{contacttype}}</span>{{/isspecific}}</h4>
+            </div>
+        </div>
+
+        <div class="custombox-flexline {{labelclass}}">
+            <div>
+                {{{instructions}}}
+            </div>
+        </div>
+    </div>
+{{> mod_customlabel/end }}
+<!-- /customlabeltype_contactpoint/template -->
