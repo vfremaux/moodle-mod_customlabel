@@ -27,17 +27,23 @@
 
         {{#toleft}}
         <td width="{{imagewidth}}" class="custombox-icon-left sequenceheading" align="center" valign="{{valigncontent}}"
-                               style="background:url({{{imageurl}}}) {{valign}} no-repeat transparent">
+                               style="{{valign}}">
+            <img src="{{{imageurl}}}"  style="z-index: 1"/>
+            <div class="overimage" style="z-index: 2">{{overimagetext}}</div>
+        </td>
         {{/toleft}}
 
         <td style="{{contentpadding}}">
-            <h2 class="custombox-caption sequenceheading">{{{heading}}}</h2>
+            <h4 class="custombox-caption sequenceheading">{{{heading}}}</h4>
             <p class="sequenceheading">{{{shortdesc}}}</p>
         </td>
 
         {{#toright}}
         <td width="{{imagewidth}}" class="custombox-icon-right sequenceheading" align="center" valign="{{valigncontent}}"
-                               style="background:url({{{imageurl}}}) {{valign}} no-repeat transparent">
+                               style="{{valign}}">
+            <img src="{{{imageurl}}}"  style="z-index: 1"/>
+            <div class="overimage" style="z-index: 2">{{overimagetext}}</div>
+        </td>
         {{/toright}}
 
     </tr>

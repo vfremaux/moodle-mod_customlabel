@@ -27,15 +27,18 @@ $string['worktodo:addinstance'] = 'Peut ajouter une instance';
 $string['pluginname'] = 'Eléments de cours&nbsp;: Consignes';
 $string['typename'] = 'Consignes';
 $string['configtypename'] = 'Active le type Consignes';
-$string['worktypefield'] = 'Type de travail&nbsp;';
-$string['workeffortfield'] = 'Difficulté&nbsp;';
-$string['workmodefield'] = 'Modalité&nbsp;';
-$string['nature'] = 'Nature';
-$string['effort'] = 'Effort';
-$string['mode'] = 'Modalité';
-$string['estimatedworktime'] = 'Durée estimée&nbsp;';
-$string['worktodo'] = 'Travail à effectuer&nbsp;';
-$string['linktomodule'] = 'Activité liée&nbsp;';
+$string['worktypefield'] = 'Nature du travail ';
+$string['workeffortfield'] = 'Difficulté ';
+$string['workmodefield'] = 'Modalité sociale';
+$string['showworktypefield'] = 'Montrer la nature du travail';
+$string['showworkeffortfield'] = 'Montrer la difficulté';
+$string['showworkmodefield'] = 'Montrer la modalité sociale';
+$string['nature'] = 'Nature du travail ';
+$string['effort'] = 'Effort ';
+$string['mode'] = 'Modalité ';
+$string['estimatedworktime'] = 'Durée estimée ';
+$string['worktodo'] = 'Travail à effectuer ';
+$string['linktomodule'] = 'Activité liée ';
 $string['unassigned'] = '--- non assigné ---';
 
 // Qualifier values.

@@ -17,7 +17,7 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
@@ -30,6 +30,7 @@ $string['pluginname'] = 'Course element : Theorema';
 $string['typename'] = 'Theorema';
 $string['configtypename'] = 'Enable subtype Theorema';
 $string['theorema'] = 'Theorema text';
+$string['theoremaname'] = 'Theorema name';
 $string['corollarynum'] = 'Number of corollaries';
 $string['corollary'] = 'Corollary';
 $string['corollary0'] = 'Corollary 1';

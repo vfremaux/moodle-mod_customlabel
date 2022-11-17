@@ -17,7 +17,7 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
@@ -38,11 +38,45 @@ class customlabel_type_formule extends customlabel_type {
         $this->fields = array();
 
         $field = new StdClass;
+        $field->name = 'formulename';
+        $field->type = 'textfield';
+        $field->size = 255;
+        $this->fields['formulename'] = $field;
+
+        $field = new StdClass;
         $field->name = 'formuletext';
         $field->type = 'editor';
         $field->itemid = 0;
         $field->rows = 20;
         $this->fields['formuletext'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'showdevelopment';
+        $field->type = 'choiceyesno';
+        $this->fields['showdevelopment'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'development';
+        $field->type = 'editor';
+        $field->itemid = 0;
+        $field->rows = 20;
+        $this->fields['development'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'developmentinitiallyvisible';
+        $field->type = 'choiceyesno';
+        $field->default = 0;
+        $this->fields['developmentinitiallyvisible'] = $field;
+    }
+
+    public function preprocess_data() {
+        global $OUTPUT, $COURSE;
+
+        $minusurl = $OUTPUT->image_url('minus', 'customlabel');
+        $plusurl = $OUTPUT->image_url('plus', 'customlabel');
+        $this->data->initialcontrolimageurl = (@$this->data->developmentinitiallyvisible) ? $minusurl : $plusurl;
+        $this->data->initialclass = (@$this->data->developmentinitiallyvisible) ? '' : 'hidden';
+        $this->data->hasname = !empty($this->data->formulename);
     }
 
 }

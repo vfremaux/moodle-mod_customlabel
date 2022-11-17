@@ -17,7 +17,7 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
@@ -41,9 +41,12 @@ class customlabel_type_collapsedtext extends customlabel_type {
         $this->hasamd = true;
 
         $chapternum = @$this->data->chapternum;
-        if (!empty($data->chapternum)) {
-            // What directly coming from form overrides.
-            $chapternum = $data->chapternum;
+        if (empty($chapternum)) {
+            $chapternum = 3;
+            if (!isset($this->data)) {
+                $this->data = new StdClass;
+            }
+            $this->data->chapternum = 3;
         }
 
         $field = new StdClass;

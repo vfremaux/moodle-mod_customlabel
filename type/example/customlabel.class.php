@@ -17,7 +17,7 @@
 /**
  * @package    mod_customlabel
  * @category   mod
- * @author     Valery Fremaux <valery.fremaux@club-internet.fr>
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
@@ -29,7 +29,6 @@ require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
  *
  *
  */
-
 class customlabel_type_example extends customlabel_type {
 
     public function __construct($data) {

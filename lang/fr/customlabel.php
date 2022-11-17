@@ -40,13 +40,14 @@ $string['changetypeadvice'] = 'Vous allez changer la structure de cet élement.\
 $string['cleararea'] = 'Vider cette zone de fichiers';
 $string['lpclassificationhdr'] = 'Cours classés';
 $string['customlabeltools'] = 'Outils de masse pour les éléments personnalisables';
-$string['cssoverrides'] = 'Surcharges CSS';
-$string['cssoverridesdesc'] = 'Si ce champ est rempli avec des règles de style, alors ces règles seront rajoutées à la feuille de style générale pour modifier l\'apparence des elements de cours. Ceci nécessite une intervention dans le theme pour définir le point d\'insertion. Voir le fichier README.txt';
+$string['defaultskin'] = 'Apparence par défaut';
+$string['defaultskin_desc'] = 'Un preset de style pour les elements de cours';
 $string['disabledsubtypes'] = 'Types d\'éléments désactivés';
 $string['disabledsubtypesdesc'] = 'Tout type mentionné dans ce champ sera désactivé au niveau site. Les contenus existants pour ce type d\'éléments seront ignorés.';
 $string['customlabelplugins'] = 'Plugins';
 $string['settings'] = 'Réglages';
 $string['choose'] = 'Choisir';
+$string['errorreservedname'] = '"TYPE" est un nom réservé et ne peut être admis comme code de catégorie ou de filtre.';
 $string['save'] = 'Enregistrer';
 $string['managecustomlabeltypeplugins'] = 'Gérer les sous-plugins de l\'élément de cours';
 $string['doupdate'] = 'Régénérer !!';
@@ -60,6 +61,7 @@ $string['lockedsample'] = 'Exemple de champ verouillé';
 $string['missingfields'] = 'Des champs obligatoires ne sont pas initialisés.';
 $string['modulename'] = 'Elément de cours';
 $string['pluginname'] = 'Eléments de cours';
+$string['plugindefault'] = 'Apparence par défaut (paramètres des élements de cours)';
 $string['modulenameplural'] = 'Eléments de cours';
 $string['name'] = 'Label';
 $string['nocontentforthislanguage'] = 'Aucun contenu disponible pour ce langage<br/>';
@@ -85,6 +87,15 @@ $string['typecode'] = 'Code';
 $string['show'] = 'Montrer&ensp;';
 $string['typetype'] = 'Type';
 $string['withcompletions'] = 'Réinitialier aussi les achèvements des labels';
+$string['wsurl'] = 'Web services: utiliser le type \'{$a}\' pour le paramètre \'labeltype\' dans l\'appel de customlabel_add_instance().<br/>Voir la documentation générée des l\'APIs de service dans l\'administration des plugins.';
+$string['wsattributekey'] = '<span class="lighttext">Clef d\'attribut pour les Web Services : {$a}</span>';
+
+// Skins
+$string['defaultstyle'] = 'Icones (jeu par défaut)';
+$string['flatstyle'] = 'Style "Flat design"';
+$string['coloredstyle'] = 'Titres colorés';
+$string['flatcoloredstyle'] = '"Flat design" et titres colorés';
+
 
 $string['typecode_help'] = '
 <p>Ce code peut aider les extractions et exploitations de données dans des systèmes tiers à partir d\'extractions produites dans les blocs
@@ -182,3 +193,5 @@ $string['familygeneric'] = 'Eléments génériques';
 $string['familypedagogic'] = 'Eléments pédagogiques';
 $string['familymeta'] = 'Eléments méta';
 $string['familyspecial'] = 'Eléments spéciaux';
+
+include(__DIR__.'/pro_additional_strings.php');
