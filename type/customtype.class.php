@@ -445,335 +445,53 @@ class customlabel_type {
                                     break;
                                 }
 
-                                case 'dbfieldkey': {
-                                    // Content is the translated value of source fields.
-                                    foreach ($valuearray as $value) {
-                                        $valuearraystr[] = get_string($value, $domain);
-                                    }
-                                    $this->data->{$name} = implode($sep, $valuearraystr);
-                                    break;
-                                }
-
-                                case 'function': {
-                                    /*
-                                     * function needs returning a text formated scalar list.
-                                     */
-                                    if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)) {
-                                        include_once($CFG->dirroot.$field->source);
-                                    }
-                                    $functionname = $field->function;
-                                    $this->data->{$name} = format_string($functionname($valuearray));
-                                    break;
-                                }
-                            }
-                        }
-                    } else {
-                        if ($field->source == 'dbfieldkeyed') {
-                            // Fake a one value array.
-                            $this->data->{$name} = format_string(implode($sep, $this->get_datasource_values($field, array($valuearray))));
-                        } else {
-                            if (!empty($this->data->{$name})) {
-                                $key = ''.$this->data->{$name};
-                                if (preg_match('/^_/', $key)) {
-                                    continue;
-                                }
-                                $this->data->{$name} = get_string($key, 'customlabel');
-                            }
-                        }
-                    }
-                } else {
-                    /*
-                     * We are a singlechoice
-                     */
-                    $name = $field->name;
-                    $nameoption = "{$name}option";
-                    if (empty($this->data->{$name})) {
-                        // Nothing choosen.
-                        continue;
-                    }
-
-                    // If option codes have not been saved, save them.
-                    if (empty($this->data->{$nameoption})) {
-                        $this->data->{$nameoption} = $this->data->{$name};
-                    }
-
-                    switch ($field->source) {
-                        case 'dbfieldkeyed': {
-                            $sourcevalue = $this->get_datasource_values($field, array($this->data->{$nameoption}));
-                            $this->data->{$name} = format_string(implode($sep, $sourcevalue));
-                            break;
-                        }
-
-                        case 'dbfieldkey': {
-                            $this->data->{$name} = get_string($this->data->{$nameoption}, $domain);
-                            break;
-                        }
-
-                        case 'function': {
-                            // Function must have an optional first argument that can be scalar or array.
-                            if (!empty($field->source) && file_exists($CFG->dirroot.$field->source)) {
-                                include_once($CFG->dirroot.$field->source);
-                            }
-                            if (!empty($field->postprocessfunction)) {
-                                $functionname = $field->postprocessfunction;
-                                if (!empty($this->data->{$nameoption})) {
-                                    $this->data->{$name} = format_string($functionname(@$this->data->{$nameoption}));
-                                } else {
-                                    $this->data->{$name} = '';
-                                }
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public function get_xml() {
-        $internaldata = json_decode(base64_decode($this->data->content));
-        $xml = "<datablock>\n";
-        $xml .= "\t<instance>\n";
-        $xml .= "\t\t<labeltype>{$this->type}</labeltype>\n";
-        $xml .= "\t\t<title>{$this->title}</title>\n";
-        $xml .= "\t</instance>\n";
-        $xml .= "\t<content>\n";
-
-        foreach ($this->fields as $field) {
-            $fieldvalue = '';
-            $fieldname = $field->name;
-            $xml .= "\t\t<{$fieldname}>";
-            if (preg_match("/list$/", $field->type) && !empty($field->multiple)) {
-                if (is_array(@$internaldata->{$fieldname})) {
-                    $fieldvalue = implode (',', $internaldata->{$fieldname});
-                }
-            } else {
-                $fieldvalue = @$internaldata->{$fieldname};
-                $fieldvalue = str_replace("\\'", "'", $fieldvalue);
-            }
-            $xml .= $fieldvalue;
-            $xml .= "</$fieldname>\n";
-        }
-        $xml .= "\t</content>\n";
-        $xml .= '</datablock>';
-        return $xml;
-    }
-
-    public function on_delete() {
-        assert(1);
-    }
-
-    /**
-     * New : get template from lang strings
-     * loads a template and caches it in static database for reuse
-     */
-    public function get_template($lang) {
-        static $templates; // Kind of caching.
-
-        $strm = get_string_manager();
-
-        if (!isset($templates[$this->type][$lang])) {
-            // Allow override of templates using theme localisation.
-            $templates[$this->type][$lang] = $strm->get_string('template', 'customlabeltype_'.$this->type, '', $lang);
-        }
-        return $templates[$this->type][$lang];
-    }
-
-    public function pre_update() {
-        assert(1);
-    }
-
-    public function post_update() {
-        assert(1);
-    }
-
-    /**
-     * Process some local conditional statement in templates for making
-     * simple decisions.
-     * this will admit simple tests such as <%if %%fieldname%% %> or
-     * simple comparison expressions surch as <%if %%fieldname >= 2%% %>
-     * First expression member MUST be a fieldname defined in the customlabel type, followed
-     * by a calculable expression.
-     */
-    public function process_conditional($template) {
-
-        if (!preg_match('/<%if /', $template)) {
-            // Quick return for unconditional templates.
-            return $template;
-        }
-
-        $search = '/(.*?)<%if %%(.*?)%%\s+%>(.*?)<%endif\s+%>(.*)$/is';
-        $buffer = '';
-        $matches = array();
-        $matches[4] = '';
-        while (preg_match($search, $template, $matches)) {
-            $buffer .= $matches[1]; // Prefix.
-            // Test variable or expression. this works with an expression that is <fieldname> <op> <value>, or a single <fieldname>.
-            $test = $matches[2];
-
-            // We extract fieldname from expression.
-            preg_match('/^[a-zA-Z0-9_]+/', $test, $matches2);
-            $fieldname = $matches2[0];
-            if ($test) {
-                // We defer evaluation along with an extractable array.
-                // The eval() call is defered to an extralib library.
-                $vars = array($fieldname => @$this->data->$fieldname);
-                customlabel_eval($test, $vars, $result);
-                if ($result) {
-                    $buffer .= $matches[3];
-                }
-            }
-            $test = $matches[3]; // Conditional content.
-            $template = $matches[4];
-        }
-        $buffer .= $template;
-
-        return $buffer;
-    }
-
-    /**
-     * for file related fields, will provide the access URL to the stored file
-     * for that field. Url can be inserted into customlabel template from this function.
-     * @param string the field name in the customlabel micromodel.
-     * @return a moodle_url to the stored file
-     */
-    public function get_file_url($fieldname) {
-
-        if ($this->fields[$fieldname]->type != 'filepicker') {
-            return false;
-        }
-
-        if (!array_key_exists($fieldname, $this->fields)) {
-            return false;
-        }
-
-        $field = $this->fields[$fieldname];
-
-        $fs = get_file_storage();
-
-        if (empty($this->data->instance)) {
-            return '';
-        }
-
-        $cm = get_coursemodule_from_instance('customlabel', $this->data->instance);
-
-        // Fault tolerance.
-        if (!$cm) {
-            return false;
-        }
-
-        $context = context_module::instance($cm->id);
-        if ($fs->is_area_empty($context->id, 'mod_customlabel', $field->name, 0)) {
-            return false;
-        }
-
-        $files = $fs->get_area_files($context->id, 'mod_customlabel', $field->name, 0, "itemid, filepath, filename", false);
-        $file = array_pop($files);
-
-        $fileurl = moodle_url::make_pluginfile_url($file->get_contextid(), 'mod_customlabel', $file->get_filearea(),
-            0 + @$field->itemid, $file->get_filepath(), $file->get_filename());
-
-        if (empty($field->destination) || $field->destination == 'url') {
-            return $fileurl;
-        }
-
-        if ($field->destination = 'image') {
-            $width = @$field->width;
-            $height = @$field->height;
-            $classes = @$field->classes;
-            $fieldlabel = get_string($field->name, 'customlabeltype_'.$this->type);
-            return '<img src="'.$fileurl.'" title="'.$fieldlabel.'" alt="'.$fieldlabel.'" '.$width.' '.$height.' '.$classes.' />';
-        }
-
-        if ($field->destination = 'link') {
-            $classes = @$field->classes;
-            $fieldlabel = get_string($field->name, 'customlabeltype_'.$this->type);
-            $lin = '<a href="'.$fileurl.'"
-                       title="'.$fieldlabel.'"
-                       alt="'.$fieldlabel.'" '.$classes.' />'.$file->get_filename().'</a>';
-            return $link;
-        }
-    }
-
-    /**
-     * Accesss to an internal data value.
-     * @param string $field
-     */
-    public function get_data($field) {
-        return $this->data->$field;
-    }
-
-    /**
-     * Updates an internal data value.
-     * @param string $field
-     */
-    public function update_data($field, $value) {
-        global $DB;
-
-        // Get storage.
-        if (!$internaldata = json_decode(base64_decode($this->data->content))) {
-            $internaldata = new StdClass;
-        }
-
-        // Update storage and in memory.
-        $internaldata->$field = $value;
-        $this->data->$field = $value;
-
-        // Save back.
-        $this->data->content = base64_encode(json_encode($internaldata));
-        // $this->make_content();
-        $DB->update_record('customlabel', $this->data);
-    }
-
-    public function set_instance($instance) {
-        $this->data->instance = $instance;
-    }
-
-    /**
-     * Invoke amd modules if required.
-     */
-    public function require_js() {
-        global $PAGE;
-
-        if (!empty($this->hasamd)) {
-            $class = 'customlabeltype_'.$this->type.'/customlabel';
-            $PAGE->requires->js_call_amd($class, 'init');
-        }
-    }
-
-    /*
-     * Fetchs the current theme name in a hard way, without invoking PAGE
-     * To be use in early steps of page construction to avoid theme initialisation issues.
-     */
-    protected function hard_fetch_theme_name() {
-        global $COURSE, $DB, $CFG;
-        static $coursethemes = [];
-
-        if (array_key_exists($COURSE->id, $coursethemes)) {
-            return $coursethemes[$COURSE->id];
-        }
-
-        if (!empty($COURSE->theme)) {
-            $coursethemes[$COURSE->id] = $COURSE->theme;
-            return $coursethemes[$COURSE->id];
-        }
-
-        $coursecat = $DB->get_record('course_categories', ['id' => $COURSE->category]);
-
-        if (!empty($coursecat->theme)) {
-            $coursethemes[$COURSE->id] = $coursecat->theme;
-            return $coursethemes[$COURSE->id];
-        }
-
-        while (!is_null($coursecat) && !empty($coursecat->parent)) {
-            $coursecat = $DB->get_record('course_categories', ['id' => $coursecat->parent]);
-            if (!empty($coursecat->theme)) {
-                $coursethemes[$COURSE->id] = $coursecat->theme;
-                return $coursethemes[$COURSE->id];
-            }
-        }
-
-        $coursethemes[$COURSE->id] = $CFG->theme;
-        return $coursethemes[$COURSE->id];
-    }
-}
+                                ca$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI$&ÂgfÖú¶7Ó´Şu|'K.ÌoP
+PİÀùFË.Ğıoûò9B<~. ’ïÅË[’´˜Ë<Ù­„$¯•¢·ä{1¹A•.òbKxºL ¯İ·'¯u8n5 ’ºe ,]ñH©–’ÆV¨ŒWwÃ$ùCƒel¹“|zys«™KŠi-ğqÊİ¬bk,wnGÿâ;¥  ~ÖeÉrÍ’‰ÜÔ~'1`Vâ¦«¹-*[ÉñLÔKÄ'2@ŸÜşĞä»ª ²n‘Íß2¸Nß ˆÆ¶µG•¢ói/U¢µ'Eï@¦`Hæ¹˜;J•¼¼ÜÅ+Jén#»¼‚6Ú´—Ä¹G•ü¡NÒGğ'—Z!öáí¸‰Wi»NJ @óàšAûÜZ|ª[¨ï$q}iÒ·µQbtTEC$œ’m…Îmo“LÒDüÜ;˜%gÏ?wêÁÅ·øîùovH0õÉa‡5£Ú*î Ø’ÃÌlÍ››S iyä”rÕO7ª“%L]İ×%±ºÇhk ¶«·÷>v1­HB£®±ßŞÚd\(eoIx¢>3´6BS%ÌØá“(
+œÛf$Ãhıé¿¶åeÔôÚèHœ‚`İ¶f{Fo©Yò¿Ôó@00uMb’z-ëìXI

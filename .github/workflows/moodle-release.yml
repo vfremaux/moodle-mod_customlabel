@@ -1,77 +1,609 @@
-#
-<<<<<<< HEAD
-# Whenever a new tag finishing with "_STABLE" is pushed, add the tagged version
-=======
-# Whenever a new tag starting with "v" is pushed, add the tagged version
->>>>>>> MOODLE_40_STABLE
-# to the Moodle Plugins directory at https://moodle.org/plugins
-#
-# revision: 2021070201
-#
-name: Releasing in the Plugins directory
+<?php
 
-on:
-  push:
-    tags:
-<<<<<<< HEAD
-      - '*_STABLE'
-=======
-      - '*'
->>>>>>> MOODLE_40_STABLE
+// A local tool must assume acting in current directory.
 
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Tag to be released'
-        required: true
+namespace tool;
 
-defaults:
-  run:
-    shell: bash
+use CURLFile;
 
-jobs:
-  release-at-moodle-org:
-    runs-on: ubuntu-latest
-    env:
-      PLUGIN: mod_customlabel
-      CURL: curl -s
-      ENDPOINT: https://moodle.org/webservice/rest/server.php
-      TOKEN: ${{ secrets.MOODLE_ORG_TOKEN }}
-      FUNCTION: local_plugins_add_version
+global $TOOLPATH;
+require_once($TOOLPATH.'/toollib.php');
 
-    steps:
-      - name: Call the service function
-        id: add-version
-        run: |
-          if [[ ! -z "${{ github.event.inputs.tag }}" ]]; then
-            TAGNAME="${{ github.event.inputs.tag }}"
-          elif [[ $GITHUB_REF = refs/tags/* ]]; then
-            TAGNAME="${GITHUB_REF##*/}"
-          fi
-          if [[ -z "${TAGNAME}" ]]; then
-            echo "No tag name has been provided!"
-            exit 1
-          fi
-          ZIPURL="https://api.github.com/repos/${{ github.repository }}/zipball/${TAGNAME}"
-          RESPONSE=$(${CURL} ${ENDPOINT} --data-urlencode "wstoken=${TOKEN}" \
-                                         --data-urlencode "wsfunction=${FUNCTION}" \
-                                         --data-urlencode "moodlewsrestformat=json" \
-                                         --data-urlencode "frankenstyle=${PLUGIN}" \
-                                         --data-urlencode "zipurl=${ZIPURL}" \
-                                         --data-urlencode "vcssystem=git" \
-                                         --data-urlencode "vcsrepositoryurl=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}" \
-                                         --data-urlencode "vcstag=${TAGNAME}" \
-                                         --data-urlencode "changelogurl=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commits/${TAGNAME}" \
-                                         --data-urlencode "altdownloadurl=${ZIPURL}")
-          echo "::set-output name=response::${RESPONSE}"
-      - name: Evaluate the response
-        id: evaluate-response
-        env:
-          RESPONSE: ${{ steps.add-version.outputs.response }}
-        run: |
-          jq <<< ${RESPONSE}
-<<<<<<< HEAD
-          jq --exit-status ".id" <<< ${RESPONSE} > /dev/null
-=======
-          jq --exit-status ".id" <<< ${RESPONSE} > /dev/null
->>>>>>> MOODLE_40_STABLE
+use StdClass;
+
+if (!defined('MOODLE_INTERNAL')) {
+    define('MOODLE_INTERNAL', 1);
+}
+
+class syncgit extends tool {
+
+    protected $versionfound = false;
+
+    // Runs only once at start of the tool.
+    function init() {
+        global $_CFG;
+
+        date_default_timezone_set('UTC');
+        $date = date("l dS of F Y h:i:s A", time());
+        echo "production tool : syncgit\n$date\n
+By Valery Fremaux 2007 for Moodle (valery.fremaux@gmail.com)
+Running on {$_CFG->os}
+---------------------------\n";
+
+        $current = getcwd();
+        if (is_dir($current.'/pro_build')) {
+            die("Plugin is in dev mode and needs build. Cannot sync. Use appltodir.php -c build -d <plugin>.");
+        }
+
+        $_CFG->publishing = true;
+
+        if ($_CFG->os == "Windows") {
+            $_CFG->gitroot = 'E:/gitrepos';
+            $_CFG->rsyncgitroot = '/cygdrive/e/gitrepos';
+            $_CFG->tempdir = 'F:\\Temp\\MoodleBuilds';
+            $_CFG->rsynctemproot = '/cygdrive/f/Temp/MoodleBuilds';
+        } else if ($_CFG->os == "Linux") {
+            $_CFG->gitroot = '/mnt/e/gitrepos';
+            $_CFG->rsyncgitroot = '/mnt/e/gitrepos';
+            $_CFG->tempdir = '/mnt/f/Temp/MoodleBuilds';
+            $_CFG->rsynctemproot = '/mnt/f/Temp/MoodleBuilds';
+
+            // Ensure we have the ssh_agent started
+            $agentcheck = `ps ax | grep [s]sh-agent | wc -l`;
+            if (!$agentcheck) {
+                $cmd = 'eval $(ssh-agent -s)';
+                exec($cmd);
+            } else {
+                // Ensure we have the SSH_AGENT_PID var set.
+                $agentpid = `ps ax | grep [s]sh-agent | cut -f 3 -d " "`;
+                $pidforce = 'SSH_AGENT_PID=$agentpid | export SSH_AGENT_PID';
+            }
+            $cmd = 'ssh-add '.$_CFG->gitsshkey;
+            exec($cmd);
+        }
+
+        $_CFG->handledversions = array('35', '36', '37', '38', '39', '40');
+        $_CFG->maxbranch = $_CFG->handledversions[count($_CFG->handledversions) - 1];
+
+        $_CFG->publishtargets = array(
+            'apl' => array(
+                /*
+                'test' => array(
+                    'baseurl' => 'https://demo.formation-enligne.com',
+                    'wstoken' => '7a9c9bc94ced27ac745abb657a20d441',
+                    'uploadservice' => '/webservice/upload.php',
+                    'commitservice' => '/webservice/rest/server.php'
+                ),
+                */
+                'pro' => array(
+                    'baseurl' => 'https://ma.formation-enligne.com',
+                    'wstoken' => '5e614335536483af2e3877f676e302d2',
+                    'uploadservice' => '/webservice/upload.php',
+                    'commitservice' => '/webservice/rest/server.php'
+                ),
+                'public' => array(
+                    'baseurl' => 'https://ma.formation-enligne.com',
+                    'wstoken' => '5e614335536483af2e3877f676e302d2',
+                    'uploadservice' => '/webservice/upload.php',
+                    'commitservice' => '/webservice/rest/server.php'
+                )
+            )
+        );
+    }
+
+    function preprocess($isroot = false) {
+        return true;
+    }
+
+    // Runs as soon as digging down into the directory.
+    // No care it is root as we look for explicit codeincrement extra attribute.
+    function apply($isroot = false) {
+        global $PATH;
+        global $_CFG;
+
+        // path filters
+        if (preg_match('/alfresco/', $PATH)) return true;
+        if (preg_match('/zend/i', $PATH)) return true;
+        if (preg_match('/lessphp/i', $PATH)) return true;
+
+        echo "Working in ".getcwd()."\n";
+
+        $isplugin = false;
+
+        if (file_exists('version.php')) {
+
+            $this->versionfound = true;
+            unset($module);
+            $plugin = new Stdclass;
+            @include('version.php');
+
+            if (isset($module)) {
+                echo ('Warning : Obsolete $module in version file in '.$PATH."\n\n");
+                $plugin = $module;
+            }
+
+            if (!empty($plugin->codeincrement)) {
+
+                // catch current version
+                $parts = preg_split('/\\./', $plugin->codeincrement);
+                $version = $parts[0].$parts[1];
+                // We expect here a XX or XXX version tag
+                if (!preg_match('/\\d{2,3}/', $version)) {
+                    die ('Missing codeincrement understandable version');
+                }
+
+                $islastbranch = ($version == $_CFG->maxbranch);
+                $MOODLE_BRANCH = 'MOODLE_'.$version.'_STABLE';
+
+                // Divert to private repository if unreleased.
+                $releases = array();
+                if (!empty($plugin->privacy) && ($plugin->privacy == 'unreleased' || $plugin->privacy == 'private')) {
+                    $releases['private'] = $plugin->component.'_P';
+                    echo ">>> Using private... <<<\n";
+                } else if (!empty($plugin->privacy) && $plugin->privacy == 'dualrelease') {
+                    echo ">>> Using dual version model / Setting private and public... <<<\n";
+                    $releases['private'] = $plugin->component.'_P';
+                    $releases['public'] = $plugin->component;
+                } else {
+                    echo ">>> Using public... <<<\n";
+                    $releases['public'] = $plugin->component;
+                }
+
+                $parts = explode('_', $plugin->component);
+                $plugintype = array_shift($parts);
+                $pluginname = implode('_', $parts);
+
+                $current = getcwd();
+
+                foreach ($releases as $mode => $component) {
+
+                    // Move shell to git repo and switch branch to our version.
+                    echo "\nStarting mode $mode...\n";
+                    $gitpath = $_CFG->gitroot.'/moodle-'.$component;
+                    chdir($gitpath);
+
+                    $cmd = 'git config --global safe.directory "'.$gitpath.'"';
+                    $res = exec($cmd, $output, $returnvar);
+                    $cmd = 'git config --global user.email "'.$_CFG->myemail.'"';
+                    $res = exec($cmd, $output, $returnvar);
+                    $cmd = 'git config --global user.name "'.$_CFG->myname.'"';
+                    $res = exec($cmd, $output, $returnvar);
+
+                    // Precommit in case there are some unstashed files that may be lost.
+                    echo "\tgit: precommiting in $gitpath...\n";
+                    $cmd = 'git add * ';
+                    $res = exec($cmd, $output, $returnvar);
+                    $cmd = 'git commit -a -m "automated sync from SVN" ';
+                    $res = exec($cmd, $output, $returnvar);
+                    if (!$returnvar) {
+                        die ('Git precommit failed. Something wrong in '.$_CFG->gitroot.'/moodle-'.$component."\n".implode("\n", $output)."\n");
+                    }
+
+                    // checkout our branch.
+                    echo "\tgit: checkouting to branch $MOODLE_BRANCH ...\n";
+                    $cmd = 'git checkout '.$MOODLE_BRANCH;
+                    $res = exec($cmd, $output, $returnvar);
+                    if ($returnvar) {
+                        echo "\tgit: checkout output : ".implode("\n", $output)."\n";
+                        // On failure, returnvar is 1.
+                        if (!in_array($version, $_CFG->handledversions)) {
+                            die ("Target git branch switch not supported in handled versions.\n");
+                        } else if(preg_match('/Your branch is up to date with \\\'origin\\/'.$MOODLE_BRANCH.'\\\'/', implode("\n", $output)))  {
+                            // Branch exists but something is wrong in sync state.
+                            die ("Target git branch switch failed. Something is desynchronized. Stalled files not tracked or other state. Check git repo mnaually.\n");
+                        } else {
+                            // Try to create missing branch if the branch is expected.
+                            echo "\tgit: creating missing branch {$MOODLE_BRANCH}...\n";
+                            $cmd = 'git branch '.$MOODLE_BRANCH;
+                            $res = exec($cmd, $output, $returnvar);
+                            if ($returnvar) {
+                                // On failure, returnvar is 1.
+                                die ('Git branch creation failed for version '.$version."\n");
+                            }
+                            echo "\tgit: checkouting to new branch...\n";
+                            $cmd = 'git checkout '.$MOODLE_BRANCH;
+                            $res = exec($cmd, $output);
+                        }
+                    } else {
+
+                        // Pull/merge other devs inputs.
+                        echo "\tgit: Pull/merge...\n";
+                        $cmd = "git pull origin $MOODLE_BRANCH ";
+                        $res = exec($cmd, $output, $returnvar);
+                        if ($returnvar) {
+                            echo ('\t\tgit status: pull/merge failed - possible conflicts in '.$_CFG->gitroot.'/moodle-'.$component. " or remote branch not yet here\n");
+                        }
+                    }
+                    chdir($current);
+
+                    if ($_CFG->os == 'Windows') {
+                        $rmcommand = 'del /S /Q ';
+                    } else {
+                        $rmcommand = 'rm -rf ';
+                    }
+
+                    // rsync using cwrsync wrapper.
+                    // We take care of rsyncing also hidden files such as travis.
+                    echo "\n\tsyncing code...\n";
+                    if ($_CFG->os == 'Windows') {
+                        $wdest = $_CFG->rsyncgitroot.'/moodle-'.$component.'/';
+                        $wdest = str_replace('\/', '\\', $wdest);
+                        exec("$rmcommand $wdest*");
+                        $rsynccmd = 'XCOPY /E /A /EXCLUDE:E:\\github\\xcopy_excludes.txt  . '.$wdest;
+                    } else {
+                        $rsynccmd = 'rsync -r --delete --exclude=".git" ./ '.$_CFG->rsyncgitroot.'/moodle-'.$component.'/';
+                    }
+                    exec($rsynccmd);
+
+                    // If public release, remove all non pro parts before sending. At the moment hard define as /pro directory.
+                    // Extends pro parts description in version.php file, in case we might remove other files non
+                    // "Pro" relocatable (f.e. unit tests, events, or other standard file).
+                    // Usually we might just reserve core internal algorithm in '/pro' and check for pro version in 
+                    // other standard moodle files.
+                    if (($mode == 'public')) {
+                        echo "\tcleaning out non public code...\n";
+
+                        if (is_dir($_CFG->gitroot.'/moodle-'.$component.'/pro')) {
+                            $this->delete_dir($_CFG->gitroot.'/moodle-'.$component.'/pro');
+                        }
+
+                        if (!empty($plugin->prolocations)) {
+                            foreach ($plugin->prolocations as $proloc) {
+                                $this->delete_dir($_CFG->gitroot.'/moodle-'.$component.'/'.$proloc);
+                            }
+                        }
+
+                        // Individual "pro" files.
+                        if (!empty($plugin->profiles)) {
+                            foreach ($plugin->profiles as $profile) {
+                                echo "\t   Removing $profile ...\n";
+                                unlink($_CFG->gitroot.'/moodle-'.$component.'/'.$profile);
+                            }
+                        }
+                    }
+
+                    // Whatever the mode delete pro_src dir in repos. These are dev files.
+                    if (is_dir($_CFG->gitroot.'/moodle-'.$component.'/pro_src')) {
+                        $this->delete_dir($_CFG->gitroot.'/moodle-'.$component.'/pro_src');
+                    }
+
+                    // Whatever the mode, dev files NOT to publish in repos.
+                    if (!empty($plugin->devprotectedfiles)) {
+                        echo "\t   Removing protected files ...\n";
+                        foreach ($plugin->devprotectedfiles as $protected) {
+                            if ($_CFG->os == 'Windows') {
+                                $targetdir = str_replace('/', '\\', $_CFG->gitroot.'/moodle-'.$component.'/'.$protected);
+                                $delcommand = $rmcommand.$targetdir;
+                            } else {
+                                $delcommand = $rmcommand.$_CFG->gitroot.'/moodle-'.$component.'/'.$proloc;
+                            }
+
+                            if (is_dir($targetdir)) {
+                                echo "\t      Protected should only be files, no dirs\n";
+                            }
+                            if (file_exists($targetdir)) {
+                                echo "\t   Removing $protected ...\n";
+                                exec($delcommand);
+                            }
+                        }
+                    }
+
+                    // Commit all files.
+                    chdir($_CFG->gitroot.'/moodle-'.$component);
+                    echo "\tgit: commiting...\n";
+                    $cmd = 'git add * ';
+                    $res = exec($cmd, $output, $returnvar);
+
+                    if (empty($_CFG->message)) {
+                        $message = 'Automated sync from SVN';
+                    } else {
+                        $message = $_CFG->message;
+                    }
+
+                    $cmd = 'git commit -a -m "'.$message.'" ';
+                    $res = exec($cmd, $output, $returnvar);
+                    if (!$returnvar) {
+                        // Seems returns 1 when commits changes 0 if up to date.
+                        // die ('Git branch commit failed');
+                    }
+
+                    // Check and set Tag with code increment in forced mode.
+                    // TODO : resolve SSH settings
+                    if ($plugin->codeincrement) {
+                        $cmd = 'git tag -f -m "" '.$plugin->codeincrement;
+                        $res = exec($cmd, $output, $returnvar);
+                    }
+
+                    // Push all files.
+                    // TODO : resolve SSH settings
+
+                    echo "\tgit: pushing to remote origin/$MOODLE_BRANCH ...\n";
+                    $cmd = 'git push --follow-tags --set-upstream origin '.$MOODLE_BRANCH;
+                    $res = exec($cmd, $output, $returnvar);
+
+                    if ($islastbranch) {
+                        echo "\nUpdating branch 'master'...\n";
+                        // Now merge master
+                        $cmd = 'git checkout master ';
+                        $res = exec($cmd, $output, $returnvar);
+                        if (!$returnvar) {
+                            // Seems returns 1 when commits changes 0 if up to date.
+                            // die ('Git branch commit failed');
+                        }
+
+                        $cmd = 'git pull origin master ';
+                        $res = exec($cmd, $output, $returnvar);
+                        if (!$returnvar) {
+                            // Seems returns 1 when commits changes 0 if up to date.
+                            // die ('Git branch commit failed');
+                        }
+    
+                        $cmd = 'git merge '.$MOODLE_BRANCH;
+                        $res = exec($cmd, $output, $returnvar);
+                        if (!$returnvar) {
+                            // Seems returns 1 when commits changes 0 if up to date.
+                            // die ('Git branch commit failed');
+                        }
+
+                        $cmd = 'git push origin master ';
+                        $res = exec($cmd, $output, $returnvar);
+                        if (!$returnvar) {
+                            // Seems returns 1 when commits changes 0 if up to date.
+                            // die ('Git branch commit failed');
+                        }
+                    }
+
+                    // Update zip using 7zip (going back to current).
+                    // Use git location as base, and copy to a temp named folder.
+                    // Create Zip into generic code base.
+
+                    chdir($_CFG->gitroot.'/moodle-'.$component);
+
+                    echo "\nBuilding archive.\n";
+                    // Copy code into temp named dir for zipping.
+                    $ziptemp = $_CFG->tempdir.'/'.$mode.'/'.$pluginname;
+                    $rsynctemp = $_CFG->rsynctemproot.'/'.$mode.'/'.$pluginname;
+                    echo "\tSynching Temp dir {$rsynctemp}...\n";
+                    if (!is_dir($ziptemp)) {
+                        mkdir($ziptemp, 0777, true);
+                    }
+
+                    $cmd = 'rsync -r --delete --exclude=".git" ./* '.$rsynctemp.'/';
+                    $res = exec($cmd, $output, $returnvar);
+
+                    if ($_CFG->os == "Windows") {
+                        $zipfile = dirname($current).'\\'.$pluginname.'.zip';
+                    } else {
+                        $zipfile = dirname($current).'/'.$pluginname.'.zip';
+                    }
+                    if ($mode == 'public') {
+                        // Zip public version for Moodle.org.
+                        echo "\tUpdating local public zip as $zipfile...\n";
+                        if ($_CFG->os == "Windows") {
+                            if (file_exists($zipfile)) {
+                                $cmd = '7z u -tzip "'.$zipfile.'" -up1q0r2x1y2z1w2 -x \\*.git '.$ziptemp.'\\';
+                            } else {
+                                $cmd = '7z a -tzip "'.$zipfile.'" '.$ziptemp.'\\';
+                            }
+                        } else if ($_CFG->os == "Linux") {
+                            if (file_exists($zipfile)) {
+                                $cmd = 'zip -r -u "'.$zipfile.'" '.$ziptemp.'/ -x \\*.git';
+                            } else {
+                                $cmd = 'zip -r "'.$zipfile.'" '.$ziptemp.'/ -x \\*.git ';
+                            }
+                        }
+                        $res = exec($cmd, $output, $returnvar);
+                    } else {
+                        // Zip private version for distributors.
+                        echo "\tUpdating local private zip...\n";
+                        if ($_CFG->os == "Windows") {
+                            if (file_exists($zipfile)) {
+                                $cmd = '7z u -tzip "'.dirname($current).'\\'.$pluginname.'_P.zip" -up1q0r2x1y2z1w2 -x!.git '.$ziptemp.'\\';
+                            } else {
+                                $cmd = '7z a -tzip "'.$zipfile.'" '.$ziptemp.'\\';
+                            }
+                        } else if ($_CFG->os == "Linux") {
+                            if (file_exists($zipfile)) {
+                                $cmd = 'zip -r -u "'.dirname($current).'/'.$pluginname.'_P.zip" '.$ziptemp.'/ -x \\*.git';
+                            } else {
+                                $cmd = 'zip -r "'.$zipfile.'" '.$ziptemp.'/ -x \\*.git';
+                            }
+                        }
+                        $res = exec($cmd, $output, $returnvar);
+                    }
+
+                    $ispublicpublishing = ($mode == 'public') && (empty($plugin->privacy) || ($plugin->privacy == 'public'));
+                    $isnonpublicpublishing = ($mode != 'public') && !empty($plugin->privacy) && ($plugin->privacy != 'public');
+                    $checkpublish = $_CFG->publishing && ($ispublicpublishing || $isnonpublicpublishing);
+
+                    if ($checkpublish) {
+                        // Publish if only public or is private release of private enabled.
+                        // This might change in near future, as we may have to publish both public and private
+                        // versions to separated targets.
+                        if (!empty($_CFG->publishtargets)) {
+                            foreach ($_CFG->publishtargets as $tlabel => $t) {
+                                echo "\nPublishing to $tlabel...\n";
+                                // Upload zip.
+
+                                $versionobj = new StdClass();
+                                /* preg_match('/\d\d/', $MOODLE_BRANCH, $matches); // Extract 2digit branch. */
+                                /* $versionobj->branch = $matches[0]; */
+                                $versionobj->branch = $MOODLE_BRANCH;
+                                $versionobj->version = $plugin->version;
+                                if (!empty($plugin->codeincrement)) {
+                                    $versionobj->version .= ' ('.$plugin->codeincrement.')';
+                                }
+                                $versionobj->maturity = str_replace('MATURITY_', '', $plugin->maturity);
+                                $versionobj->changes = utf8_encode($message);
+
+                                if (!empty($t['test'])) {
+                                    echo "\tPublishing to test target\n";
+                                    // Perfom the test publication.
+                                    $tt = (object)$t['test'];
+                                    if ($_CFG->os == "Windows") {
+                                        $zipfilename = dirname($current).'\\'.$pluginname.'.zip';
+                                    } else if ($_CFG->os == "Linux") {
+                                        $zipfilename = dirname($current).'/'.$pluginname.'.zip';
+                                    }
+                                    if ($filerec = $this->upload_file($tt, $zipfilename)) {
+
+                                        // Commit version.
+                                        $this->commit_file($tt, $filerec->itemid, $plugin->component, $versionobj);
+                                    } else {
+                                        echo "\t   Could not upload file to target\n\n";
+                                    }
+                                }
+
+                                if ($mode == 'public') {
+                                    // This publishes to public target. Only if the plugin has only public version.
+                                    $t = (object)$t['public'];
+                                    if ($_CFG->os == "Windows") {
+                                        $zipfilename = dirname($current).'\\'.$pluginname.'.zip';
+                                    } else if ($_CFG->os == "Linux") {
+                                        $zipfilename = dirname($current).'/'.$pluginname.'.zip';
+                                    }
+                                    if ($filerec = $this->upload_file($t, $zipfilename)) {
+
+                                        // Commit version.
+                                        $this->commit_file($t, $filerec->itemid, $plugin->component, $versionobj);
+                                    } else {
+                                        echo "\t   Failed uploading file {$zipfilename} (public).\n";
+                                    }
+                                } else {
+                                    // This publishes to pro target. Only if the plugin has a private.
+                                    $t = (object)$t['pro'];
+                                    if ($_CFG->os == "Windows") {
+                                        $zipfilename = dirname($current).'\\'.$pluginname.'_P.zip';
+                                    } else if ($_CFG->os == "Linux") {
+                                        $zipfilename = dirname($current).'/'.$pluginname.'_P.zip';
+                                    }
+                                    if ($filerec = $this->upload_file($t, $zipfilename)) {
+
+                                        // Commit version.
+                                        $this->commit_file($t, $filerec->itemid, $plugin->component, $versionobj);
+                                    } else {
+                                        echo "\t   Failed uploading file ".$zipfilename." (pro).\n";
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    echo "\nComing back...\n";
+                    chdir($current);
+                }
+            } else {
+                echo("Skipping : No codeincrement found.\n");
+            }
+        } else {
+            echo ("Skipping : No version found.\n");
+        }
+
+        return true;
+    }
+
+    // Runs after returning up to the calling directory.
+    function postprocess($isroot) {
+        return false;
+    }
+
+    // Runs only once at end of the tool execution.
+    function finish() {
+        echo "Done.\n";
+    }
+
+    function upload_file($target, $file) {
+
+        if (empty($target->wstoken)) {
+            echo "No token to proceed\n";
+            return;
+        }
+
+        $uploadurl = $target->baseurl.$target->uploadservice;
+
+        $params = array('token' => $target->wstoken,
+                        'itemid' => 0,
+                        'filearea' => 'draft');
+
+        $ch = curl_init($uploadurl);
+
+        $curlfile = new CURLFile($file, 'x-application/zip', basename($file));
+        $params['resourcefile'] = $curlfile;
+
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+        echo "Firing Upload CUrl $uploadurl resourcefile=$file ... \n";
+        if (!$result = curl_exec($ch)) {
+            echo "CURL Error : ".curl_error($ch)."\n";
+            return;
+        }
+
+        $resultobj = json_decode($result);
+
+        if (empty($resultobj)) {
+            echo "WS Error: Unparsable $result\n\n";
+            return null;
+        }
+        $result = $resultobj;
+
+        $filerec = null;
+
+        if (!empty($result->error)) {
+            echo "WS Error: $result->error\n$result->debuginfo\n\n";
+            return null;
+        }
+
+        if (is_array($result)) {
+            $filerec = array_pop($result);
+        }
+
+        return $filerec;
+    }
+
+    function commit_file($target, $draftitemid, $component, $version) {
+
+        if (empty($target->wstoken)) {
+            echo "No token to proceed\n";
+            return;
+        }
+
+        $params = array('wstoken' => $target->wstoken,
+                        'wsfunction' => 'mod_versionnedresource_commit_version',
+                        'moodlewsrestformat' => 'json',
+                        'vridsource' => 'idnumber',
+                        'vrid' => $component,
+                        'draftitemid' => $draftitemid,
+                        'jsoninfo' => json_encode($version),
+                        'hideprevious' => 'yes');
+
+        $commiturl = $target->baseurl.$target->commitservice;
+
+        $ch = curl_init($commiturl);
+
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+        echo "Firing Commit CUrl $commiturl ... \n";
+        if (!$result = curl_exec($ch)) {
+            echo "CURL Error : ".curl_errno($ch).' '.curl_error($ch)."\n";
+            return;
+        }
+
+        if (preg_match('/EXCEPTION/', $result)) {
+            echo $result;
+            return;
+        }
+
+        $result = json_decode($result);
+        return $result;
+    }
+}
