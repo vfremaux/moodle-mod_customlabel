@@ -65,10 +65,12 @@ if (!$mform->is_cancelled()) {
 
 echo $deferredheader;
 
-echo get_string('editclass', 'customlabel') . ':';
+echo get_string('editclass', 'customlabel') . ':&nbsp;&nbsp;';
 
 echo $OUTPUT->single_select(new moodle_url('', array('view' => $view)), 'typeid', $types, $type);
 
+echo '<br/>';
+echo '<br/>';
 echo $OUTPUT->heading(get_string('metadataset', 'customlabel'));
 $params = array($config->classification_value_type_key => $type);
 if (!$values = $DB->get_records($config->classification_value_table, $params, 'sortorder')) {
@@ -140,11 +142,12 @@ if (!empty($values)) {
     }
     echo html_writer::table($table);
 } else {
-    print_string('novalues', 'customlabel');
+    echo $OUTPUT->notification(get_string('novalues', 'customlabel'), 'warning');
 }
 echo $OUTPUT->box_end();
 
 if ($type) {
+    echo $OUTPUT->heading(get_string('addvalue', 'customlabel'), 3);
     echo $OUTPUT->box_start('addform');
     if (isset($data)) {
         $mform->set_data($data);

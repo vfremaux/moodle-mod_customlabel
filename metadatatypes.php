@@ -151,6 +151,8 @@ if ($types) {
 }
 echo $OUTPUT->box_end();
 
+echo $OUTPUT->heading(get_string('addatype', 'customlabel'), 3);
+
 echo $OUTPUT->box_start('addform');
 if (isset($data)) {
     $mform->set_data($data);
