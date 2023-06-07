@@ -1,0 +1,53 @@
+{{!
+    This file is part of The Customlabel Module
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_customlabel/courseclassifier
+
+    Classes required for JS:
+    * no classes
+}}
+<!-- customlabeltype_courseclassifier/template -->
+{{> mod_customlabel/start }}
+    <table width="100%">
+        <tr class="custombox-{{labelclass}}">
+            <td class="custombox-title {{labelclass}}" colspan="2">
+                {{{tablecaption}}}
+            </td>
+        </tr>
+
+        {{#classifiers}}
+        {{> customlabeltype_courseclassifier/classifierrow}}
+        {{/classifiers}}
+    </table>
+
+    {{#hasfilters}}
+    <table width="100%">
+
+        <tr class="custombox-{{labelclass}}">
+            <td class="custombox-title {{labelclass}}" colspan="2">
+                {{#str}}filters, customlabeltype_courseclassifier{{/str}}
+            </td>
+        </tr>
+
+        {{#filters}}
+        {{> customlabeltype_courseclassifier/classifierrow}}
+        {{/filters}}
+
+    </table>
+    {{/hasfilters}}
+{{> mod_customlabel/end }}
+<!-- /customlabeltype_courseclassifier/template -->

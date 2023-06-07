@@ -1,0 +1,34 @@
+/* Element specific rules that affect only this element class */
+
+table.custombox-authordata {
+    border: none;
+    border-collapse:separate;
+    margin:10px 0px 10px 0px;
+    width: 100%;
+}
+
+.custombox-title.authordata {
+    font-size: 15px;
+    padding: 5px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.custombox-header-thumb.authordata {
+    /* No thumb */
+    display: none;
+}
+
+.custombox-param.authordata {
+    padding: 10px;
+}
+
+.custombox-authordata td.custombox-value.authordata {
+    border: none;
+    padding: 10px;
+}
+
+.custombox-authordata img {
+    height: 40px;
+    width: auto;
+}
