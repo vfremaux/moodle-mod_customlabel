@@ -25,7 +25,9 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 require_once($CFG->dirroot.'/mod/customlabel/type/satisfaction/locallib.php');
-require_once($CFG->dirroot.'/local/vflibs/jqplotlib.php');
+if (is_dir($CFG->dirroot.'/local/vflibs/chartjsplus')) {
+    include_once($CFG->dirroot.'/local/vflibs/chartjsplus/chart_pie.php');
+}
 
 /**
  *
@@ -38,7 +40,8 @@ class customlabel_type_satisfaction extends customlabel_type {
         $this->type = 'satisfaction';
         $this->fields = array();
 
-        $this->usesjqplot = true;
+        // Not true any more. Using chartjs
+        // $this->usesjqplot = true;
 
         $field = new StdClass;
         $field->name = 'graphtitle';
@@ -50,7 +53,7 @@ class customlabel_type_satisfaction extends customlabel_type {
         $field = new StdClass;
         $field->name = 'legendorientation';
         $field->type = 'list';
-        $field->options = ['e', 'n', 's', 'w'];
+        $field->options = ['left', 'top', 'right', 'bottom'];
         $field->help = 'legendorientation';
         $this->fields['legendorientation'] = $field;
 
@@ -94,8 +97,20 @@ class customlabel_type_satisfaction extends customlabel_type {
         $this->fields['hideicon'] = $field;
     }
 
+    /**
+     * Called y mod/customlabel after_restore to process remapping of specific pointers. Need
+     * dig into specific data to remap what needs to be.
+     * $param object $restorestep
+     */
+    public function after_restore(restore_customlabel_activity_structure_step $restorestep) {
+        $newid = $restorestep->get_mappingid('course_modules', $this->data->activityscoresource);
+        debug_trace("Remapping CMID ".$this->data->activityscoresource.' to '.$newid);
+        $this->update_data('activityscoresource', $newid);
+        debug_trace($this->data);
+    }
+
     public function preprocess_data() {
-        global $DB, $OUTPUT;
+        global $DB, $OUTPUT, $COURSE;
 
         if (empty($this->data->activityscoresource)) {
             $this->data->notconfigured = 1;
@@ -104,12 +119,18 @@ class customlabel_type_satisfaction extends customlabel_type {
         }
 
         $cm = $DB->get_record('course_modules', ['id' => $this->data->activityscoresource]);
+        if (!$cm || $cm->course != $COURSE->id) {
+            $this->data->notconfigured = 1;
+            $this->data->notconfigurednotification = $OUTPUT->notification(get_string('sourcereferror', 'customlabeltype_satisfaction'));
+            return;
+        }
         $module = $DB->get_record('modules', ['id' => $cm->module]);
 
         $this->data->graphtitle = format_string($this->data->graphtitle);
 
         if ($module->name == 'questionnaire') {
             $satisfaction = $this->get_questionnaire_score($this->data->activityscoresource, $this->data->qposition);
+            debug_trace("Getting results for {$this->data->activityscoresource}, {$this->data->qposition} ");
         } else {
             $satisfaction = $this->get_feedback_score($this->data->activityscoresource, $this->data->qposition);
         }
@@ -121,7 +142,19 @@ class customlabel_type_satisfaction extends customlabel_type {
         }
 
         $this->data->question = strip_tags($satisfaction['question']);
-        $this->data->satisfactiongraph = $this->print_graph('satisfaction', 'donut', $satisfaction['results']);
+        if (!empty($satisfaction['results'])) {
+            $this->data->satisfactiongraph = "<div style=\"height: {$this->data->gheight}px;width: {$this->data->gwidth}px\">";
+            $this->data->satisfactiongraph .= $this->print_moodle_graph('satisfaction', 'donut', $satisfaction['results']);
+            $this->data->satisfactiongraph .= '</div>';
+        } else {
+            if ($this->data->legendorientation == 'left' || $this->data->legendorientation == 'right') {
+                $emptygraphurl = $OUTPUT->image_url('empty_horiz', 'customlabeltype_satisfaction');
+            } else {
+                $emptygraphurl = $OUTPUT->image_url('empty_vert', 'customlabeltype_satisfaction');
+            }
+            $nodatastr = get_string('nodata', 'customlabeltype_satisfaction');
+            $this->data->satisfactiongraph = '<img title="'.$nodatastr.'" alt="'.$nodatastr.'" src="'.$emptygraphurl.'" style="width: '.$this->data->gwidth.'px"/>';
+        }
     }
 
     /**
@@ -180,6 +213,9 @@ class customlabel_type_satisfaction extends customlabel_type {
         $scores = $DB->get_records_sql($allanswerssql, $params);
 
         $numresponses = $DB->count_records('questionnaire_response', ['questionnaireid' => $instance->id]);
+        if ($numresponses == 0) {
+            return ['question' => $question->content, 'results' => null];
+        }
 
         $return = [];
         if (!empty($scores)) {
@@ -257,6 +293,10 @@ class customlabel_type_satisfaction extends customlabel_type {
                 $optionsres[$res->value] = @$optionsres[$res->value] + $rates[$res->value];
             }
 
+            if ($allres == 0) {
+                return ['question' => $item->name, 'results' => null, 'error' => false];
+            }
+
             foreach ($optionsres as $valueid => $valuecount) {
                 // $allres not null if we are here !
                 $output[$this->clean($choices[$valueid])] = sprintf('%.2f', $valuecount / $allres);
@@ -267,45 +307,49 @@ class customlabel_type_satisfaction extends customlabel_type {
     }
 
     /**
-     * Prints graph using a plotter.
-     * @param string $purpose
-     * @param string $graphmode
-     * @param array $values
+     * Print donuts using moodle internal chartjs
      */
-    protected function print_graph($purpose, $graphmode, $values) {
-        static $htmlix = 0;
+    protected function print_moodle_graph($purpose, $graphmode, $values) {
+        global $OUTPUT, $PAGE;
 
-        $htmlid = 'satisfaction_grf_'.$htmlix;
-        $str = '';
+        $colornum = count($values);
 
-        $attributes = [];
+        $colors = [];
+        $i = 0;
         if (!empty($this->data->coloroverrides)) {
-            $attributes['colors'] = explode(',', $this->data->coloroverrides);
-            foreach ($attributes['colors'] as &$value) {
+            $colors = explode(',', $this->data->coloroverrides);
+            foreach ($colors as &$value) {
                 $value = trim($value); // remove all spaces.
+                $i++;
             }
         }
-
-        if (!empty($this->data->legendorientation)) {
-            $attributes['legendlocation'] = $this->data->legendorientation;
+        for (; $i < $colornum; $i++) {
+            $colors[] = $this->generate_color('full');
         }
 
-        if (!empty($this->data->gwidth)) {
-            $attributes['width'] = $this->data->gwidth;
+        if (class_exists('\local_vflibs\chart_pie')) {
+            $chart = new \local_vflibs\chart_pie();
+            $chart->add_option('cutoutPercentage', 90);
+        } else {
+            $chart = new \core\chart_pie();
         }
-
-        if (!empty($this->data->gheight)) {
-            $attributes['height'] = $this->data->gheight;
+        $chart->set_doughnut(true); // Calling set_doughnut(true) we display the chart as a doughnut.
+        $serie1 = new core\chart_series('', array_values($values));
+        $serie1->set_colors($colors);
+        $chart->add_series($serie1);
+        $chart->set_legend_options(['position' => $this->data->legendorientation]);
+        $keys = array_keys($values);
+        $chart->set_labels($keys);
+        if (class_exists('\local_vflibs\chart_pie')) {
+            $PAGE->requires->js_call_amd('local_vflibs/chart_builder');
+            $PAGE->requires->js_call_amd('local_vflibs/chart_pie');
+            $PAGE->requires->js_call_amd('local_vflibs/chart_base');
+            $renderer = $PAGE->get_renderer('local_vflibs');
+            return $renderer->render_chart_pie($chart);
+        } else {
+            // Use standard renderer
+            return $OUTPUT->render($chart);
         }
-
-        switch ($graphmode) {
-            case 'donut': {
-                $str .= local_vflibs_jqplot_simple_donut($values, $htmlid, '', $attributes);
-            }
-            break;
-        }
-        $htmlix++;
-        return $str;
     }
 
     protected function clean($txt) {
@@ -320,6 +364,27 @@ class customlabel_type_satisfaction extends customlabel_type {
         $txt = str_replace('î', 'i', $txt);
         $txt = str_replace('ç', 'c', $txt);
         return $txt;
+    }
+
+    /**
+     * Generates a color in full, dark or light tones.
+     */
+    function generate_color($tone = 'full') {
+        if ($tone == 'full') {
+            $red = rand(0, 255);
+            $green = rand(0, 255);
+            $blue = rand(0, 255);
+        } else if ($tone = 'dark') {
+            $red = rand(0, 127);
+            $green = rand(0, 127);
+            $blue = rand(0, 127);
+        } else {
+            $red = rand(128, 255);
+            $green = rand(128, 255);
+            $blue = rand(127, 255);
+        }
+
+        return '#'.dechex($red).dechex($green).dechex($blue);
     }
 }
 

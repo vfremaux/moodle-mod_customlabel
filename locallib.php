@@ -178,7 +178,7 @@ function customlabel_load_class($customlabel, $quiet = false) {
         $instance = new $constructorfunction($customlabel, $customlabel->labelclass);
         return $instance;
     } else {
-        if (debugging()) {
+        if ($CFG->debug == DEBUG_DEVELOPER) {
             echo $OUTPUT->notification('errorfailedloading', 'customlabel', $customlabel->labelclass);
         }
         return null;

@@ -27,8 +27,8 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
             $('.customctl').bind('click', this.togglecustom);
             $('.customctl-string').bind('click', this.togglecustomstring);
             $('.customlabel-constraint').bind('click', this.constraint_colorize);
-            $('.mform').on('change', 'select[data-constrained = "1"]', this.applyconstraints);
-            $('select[data-constrained = "1"]').prop('disabled', null);
+            $('select.constrained').bind('change', this.applyconstraints);
+            $('select.constrained').prop('disabled', null);
             $('#id_labelclass').bind('change', this.typechangesubmit);
 
             // Trigg the first classifier after loading
@@ -39,13 +39,11 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
             log.debug("AMD Customlabels initialized");
         },
 
-        /*
         rebindconstraints: function() {
-            $('select[data-constrained = "1"]').off('change');
-            $('select[data-constrained = "1"]').bind('change', this.applyconstraints);
+            $('select.constrained').off('change');
+            $('select.constrained').bind('change', this.applyconstraints);
             log.debug("AMD Customlabels constraints rebound");
         },
-        */
 
         togglecustom: function() {
 
@@ -170,11 +168,10 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
                         var str = '<input type="hidden" name="level' + targetsarr[target];
                         str += '" value="_qf__force_multiselect_submission">';
                         str += selectors[targetsarr[target]];
-                        log.debug('Rewriting select ' + '#fitem_id_level' + targetsarr[target] + ' .felement');
-                        $('#fitem_id_level' + targetsarr[target] + ' .felement').html(str);
+                        $('#fitem_id_level' + targetsarr[target] + ' .felement.fselect').html(str);
                     }
                 }
-                // customlabel.rebindconstraints();
+                customlabel.rebindconstraints();
 
                 // Finish by reselecting what was initially selected.
                 for (var levelid in targetvalues) {
@@ -183,7 +180,7 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
                         $('#id_level' + levelid + " option[value=" + selectvalue + "]").attr("selected", true);
                     }
                 }
-                $('select[data-constrained = "1"]').prop('disabled', false);
+                $('select.constrained').prop('disabled', false);
 
             }, 'json');
         },

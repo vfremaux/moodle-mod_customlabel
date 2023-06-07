@@ -33,6 +33,8 @@ $string['privacy:metadata:customlabel_user_data:completion1'] = 'Valeur de la r�
 $string['privacy:metadata:customlabel_user_data:completion2'] = 'Valeur de la règle 2 d\'achèvement (suivant le type d\'élément de cours)';
 $string['privacy:metadata:customlabel_user_data:completion3'] = 'Valeur de la règle 3 d\'achèvement (suivant le type d\'élément de cours)';
 
+$string['addatype'] = 'Ajouter un type';
+$string['addvalue'] = 'Ajouter une valeur';
 $string['apparence'] = 'Apparence';
 $string['coursefilter'] = 'Filtre sur les cours';
 $string['configusesafestorage'] = 'Si activé, le contenu des étiquettes sera converti en stockage sûr au moment de leur édition. Le nouveau stockage sera utilisé à partir de ce moment.';
@@ -64,6 +66,7 @@ $string['pluginname'] = 'Eléments de cours';
 $string['plugindefault'] = 'Apparence par défaut (paramètres des élements de cours)';
 $string['modulenameplural'] = 'Eléments de cours';
 $string['name'] = 'Label';
+$string['noclassifiersdefined'] = 'Aucun "classifieur" n\'est défini pour la classification. Un administrateur doit revoir les réglages centraux pour en définir.';
 $string['nocontentforthislanguage'] = 'Aucun contenu disponible pour ce langage<br/>';
 $string['pluginadministration'] = 'Paramètres de l\'élément de cours';
 $string['customlabeltypepluginname'] = 'Type d\'élément de cours';
@@ -77,6 +80,8 @@ $string['roleaccesstoelements'] = 'Gestion des accès par rôle';
 $string['sametypes'] = 'Vous ne pouvez mettre des contraines entre un type et lui-même';
 $string['specifics'] = 'Réglages spécifiques';
 $string['storage'] = 'Mode de stockage';
+$string['elementtitle'] = 'Identifiant de l\'élément';
+$string['elementtitle_help'] = 'Cet identifiant sert à repérer l\'élément de cours dans la gestion des activités';
 $string['title'] = 'Nom de l\'élément&ensp;';
 $string['updateall'] = 'Régénérer tous les éléments';
 $string['updatelabels'] = 'Régénération des instances de {$a}';
@@ -87,7 +92,7 @@ $string['typecode'] = 'Code';
 $string['show'] = 'Montrer&ensp;';
 $string['typetype'] = 'Type';
 $string['withcompletions'] = 'Réinitialier aussi les achèvements des labels';
-$string['wsurl'] = 'Web services: utiliser le type \'{$a}\' pour le paramètre \'labeltype\' dans l\'appel de customlabel_add_instance().<br/>Voir la documentation générée des l\'APIs de service dans l\'administration des plugins.';
+$string['wsurl'] = 'Web services: <br/><span class="customlabel-form-static-content">utiliser le type \'{$a}\' pour le paramètre \'labeltype\' dans l\'appel de customlabel_add_instance().<br/>Voir la documentation générée des l\'APIs de service dans l\'administration des plugins.</span>';
 $string['wsattributekey'] = '<span class="lighttext">Clef d\'attribut pour les Web Services : {$a}</span>';
 $string['wsfieldkey'] = 'Clef d\'attribut pour les services web : {$a}';
 

@@ -3,6 +3,14 @@
     padding-top: 30px !important;
 }
 
+.customlabel-form-static-content {
+    opacity: 0.6;
+}
+
+.customlabel-form-static-content.tiny {
+    font-size: 80%;
+}
+
 .customlabel.label {
     font-weight: initial;
 }
@@ -130,7 +138,7 @@ td.custombox-thumb {
 #page-region-post .custombox-header-thumb.flatstyle:after {
     font-size: 12px;
     position: relative;
-    top: -20px;
+    top: -15px;
     left: -5px;
 }
 
@@ -147,6 +155,11 @@ td.custombox-thumb {
 
 .dimmed_text {
     opacity: 0.5;
+}
+
+/* invalidate no overflow in customlabel pseudo blocks (page format). */
+.block.mod-customlabel .no-overflow {
+    overflow: visible;
 }
 
 .api-hint {
