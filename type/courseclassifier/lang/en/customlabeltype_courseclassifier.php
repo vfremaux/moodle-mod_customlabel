@@ -45,6 +45,7 @@ $string['showpeople'] = 'Show the public selector';
 $string['uselevels'] = 'Levels to use';
 $string['status'] = 'Course state';
 $string['filters'] = 'Course filters';
+$string['noclassificationset'] = 'No classification has been defined for course classification. An administrator needs to set the classification domains in global settings.';
 
 $string['family'] = 'meta';
 

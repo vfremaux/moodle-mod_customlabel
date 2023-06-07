@@ -34,6 +34,8 @@ $string['privacy:metadata:customlabel_user_data:completion2'] = 'Completion valu
 $string['privacy:metadata:customlabel_user_data:completion3'] = 'Completion value for rule 3 (depending on label use of completion)';
 
 $string['apparence'] = 'Apparence';
+$string['addatype'] = 'Add a type';
+$string['addvalue'] = 'Add a value';
 $string['changetypeadvice'] = "You are about to thange the internal data structure of this element. Old content cannot be maintained. Continue?";
 $string['cleararea'] = 'Clear this file area';
 $string['defaultskin'] = 'Default skin for labels';
@@ -45,7 +47,7 @@ $string['hideshow'] = 'Hide/Show';
 $string['settings'] = 'Customlabel Settings';
 $string['choose'] = 'Choose';
 $string['save'] = 'Save settings';
-$string['wsurl'] = 'Web services: use type {$a} in webservice call customlabel_add_instance().<br/>See WS moodle API documentation in plugin administration.';
+$string['wsurl'] = 'Web services: <br/><span class="customlabel-form-static-content">use type {$a} in webservice call customlabel_add_instance().<br/>See WS moodle API documentation in plugin administration.</span>';
 $string['wsattributekey'] = '<span class="lighttext">Attribute key to use in WS : {$a}</span>';
 $string['managecustomlabeltypeplugins'] = 'Manage customlabel plugins';
 $string['disabledsubtypes'] = 'Disabled subtypes';
@@ -81,6 +83,8 @@ $string['sametypes'] = 'You cannot constraint twice the same type';
 $string['specifics'] = 'Type specific';
 $string['storage'] = 'Storage model';
 $string['title'] = 'Element name';
+$string['elementtitle'] = 'Element identifier';
+$string['elementtitle_help'] = 'This identifier serves to identify uniquely this content item. It is not shown for usual users.';
 $string['updateall'] = 'Update all instances';
 $string['updatelabels'] = 'Regenerate instances of {$a}';
 $string['updatescope'] = 'Updating scope';
@@ -112,6 +116,7 @@ $string['coursefilter'] = 'Course filter';
 $string['qualifiers'] = 'Qualifiers';
 $string['classifierstypes'] = 'Classifiers type';
 $string['classification'] = 'Classification';
+$string['noclassifiersdefined'] = 'Classification has no classifier defined. Check global settings.';
 $string['lpclassificationhdr'] = 'Classified courses';
 $string['classificationvalues'] = 'Values';
 $string['constraints'] = 'Constraints';
@@ -170,13 +175,13 @@ $string['typetype_help'] = '
 $string['classificationmodel'] = 'Classification model';
 $string['classificationtypetable'] = 'Classification dimensions and filters table';
 $string['classificationtypetable_help'] = 'This table provides domains of classification. A domain holds a set of values.';
-$string['classificationvaluetable'] = 'classification values table';
+$string['classificationvaluetable'] = 'Classification values table';
 $string['classificationvaluetable_help'] = 'This table provides all values for all classifiers defined in the Type Table.';
 $string['classificationvaluetypekey'] = 'classifier Type field';
 $string['classificationvaluetypekey_help'] = 'This must define the table column name that is used to key the type ownership on values.';
 $string['classificationconstrainttable'] = 'Constraints table';
 $string['classificationconstrainttable_help'] = 'This table is capable to map the value pairs wich are not compatible.';
-$string['coursemetadatatable'] = 'course metadata tagging table';
+$string['coursemetadatatable'] = 'Course metadata tagging table';
 $string['coursemetadatatable_help'] = 'This table provides course to metadata bindings.';
 $string['coursemetadatacmidkey'] = 'Tagging field for course module id (metadata to value binding)';
 $string['coursemetadatacmidkey_help'] = 'This must define a column name in database that maps a record to a course module instance.';
@@ -187,7 +192,7 @@ $string['coursemetadatacoursekey_help'] = 'This must define a column name in dat
 $string['configmetadatabinding'] = 'Metadata schema binding';
 $string['configmetadatabinding_desc'] = '
 <p>The couse indexer relies on a capability to index courses with some metadata and classifiers. the course index model uses 4 tables to achieve this feature, and allows binding those tables from any implementation
-the integrator would need. The default binding uses the Customlabel module and its inbound classifier tableset. But the ocurse index might bind to any other model that respects following defs:</p>
+the integrator would need. The default binding uses the Customlabel module and its inbound classifier tableset. But the course index might bind to any other model that respects following defs:</p>
 <ul>
 <li>There is a table to store the metadata domain values</li>
 <li>Metadata values are typed. A table exists to store the metadata types to which values refer.</li>

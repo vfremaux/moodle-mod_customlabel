@@ -158,7 +158,6 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         }
     }
 
-
     private function postupdate(&$data, $fieldname, $oldid, $newid) {
         global $DB;
 
@@ -171,7 +170,7 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
     }
 
     /**
-     * After restoring a course, reclaculate all customlabels as they may
+     * After restoring a course, recalculate all customlabels as they may
      * integrate dynamic context dependant information.
      */
     public function after_restore() {
@@ -179,6 +178,19 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
 
         $courseid = $this->task->get_courseid();
         $course = $DB->get_record('course', array('id' => $courseid));
+
+        $customlabels = $DB->get_records('customlabel', ['course' => $courseid]);
+        if (!$customlabels) {
+            return;
+        }
+
+        foreach ($customlabels as $cl) {
+            $obj = customlabel_load_class($cl, $quiet = false);
+            if (method_exists($obj, 'after_restore')) {
+                $obj->after_restore($this);
+            }
+        }
+
         customlabel_course_regenerate($course, 'all');
     }
 }

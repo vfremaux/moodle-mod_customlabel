@@ -45,4 +45,5 @@ $string['showpeople'] = 'Afficher le critère de public';
 $string['uselevels'] = 'Niveaux actifs&nbsp;';
 $string['status'] = 'Etat de publication&nbsp;';
 $string['filters'] = 'Autres éléments d\'indexation';
+$string['noclassificationset'] = 'Aucune classification n\'a été définie. Un administrateur doit en définir une dans les réglages centraux.';
 

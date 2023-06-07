@@ -33,7 +33,7 @@ require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 class customlabel_type_courseclassifier extends customlabel_type {
 
     public function __construct($data) {
-        global $DB;
+        global $DB, $OUTPUT;
 
         parent::__construct($data);
         $this->type = 'courseclassifier';
@@ -66,10 +66,19 @@ class customlabel_type_courseclassifier extends customlabel_type {
         $field->default = get_string('defaulttablecaption', 'customlabeltype_courseclassifier');
         $this->fields['tablecaption'] = $field;
 
+        $maxcount = $this->get_max_categories_number();
+        if ($maxcount == 0) {
+            $field = new StdClass;
+            $field->name = 'uselevels';
+            $field->type = 'static';
+            $field->default = $OUTPUT->notification(get_string('noclassificationset', 'customlabeltype_courseclassifier'), 'warning');
+            $this->fields['uselevels'] = $field;
+            return;
+        }
+
         $field = new StdClass;
         $field->name = 'uselevels';
         $field->type = 'list';
-        $maxcount = $this->get_max_categories_number();
         for ($i = 0; $i < $maxcount ; $i++) {
             $field->options[] = $i + 1;
         }
