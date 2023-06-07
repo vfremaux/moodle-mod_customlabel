@@ -61,9 +61,14 @@ echo $deferredheader;
 
 $renderer = $PAGE->get_renderer('mod_customlabel');
 
-echo $renderer->set_choice($view, $q1, $q2);
+if (!$DB->count_records($config->classification_type_table, ['type' => 'category'])) {
+    echo $OUTPUT->notification(get_string('noclassifiersdefined', 'customlabel'), 'warning');
+} else {
 
-if ($q1->value != $q2->value) {
-    echo $renderer->constraints_form($view, $q1, $q2);
+    echo $renderer->set_choice($view, $q1, $q2);
+
+    if ($q1->value != $q2->value) {
+        echo $renderer->constraints_form($view, $q1, $q2);
+    }
 }
 
