@@ -109,6 +109,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
         $mform->addElement('text', 'title', get_string('title', 'customlabel'));
         $customlabelnextid = $DB->get_field('customlabel', 'MAX(id)', array()) + 1;
         $mform->setDefault('title', $customlabel->labelclass.'_'.$customlabelnextid);
+        $mform->addHelpButton('title', 'elementtitle', 'customlabel');
         $mform->setType('title', PARAM_TEXT);
         $mform->setAdvanced('title');
 
@@ -135,7 +136,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
                 if (customlabel_supports_feature('api/ws')) {
                     if (has_capability('moodle/site:config', context_system::instance())) {
-                        $fieldlabel .= ' <span class="api-hint">'.get_string('wsfieldkey', 'customlabel', $field->name).'</span>';
+                        $fieldlabel .= ' <span class="customlabel-form-static-content tiny">'.get_string('wsfieldkey', 'customlabel', $field->name).'</span>';
                     }
                 }
             }
@@ -202,13 +203,18 @@ class mod_customlabel_mod_form extends moodleform_mod {
                 }
 
             } else if (preg_match("/list$/", $field->type)) {
-
                 if (empty($field->straightoptions)) {
                     $options = $customclass->get_options($fieldname);
                 } else {
-                    $translatedoptions = $field->options;
-                    array_walk($translatedoptions, 'format_string');
-                    $options = array_combine($field->options, $translatedoptions);
+                    if (isset($field->options)) {
+                        $translatedoptions = $field->options;
+                        if (!empty($translatedoptions)) {
+                            array_walk($translatedoptions, 'format_string');
+                            $options = array_combine($field->options, $translatedoptions);
+                        }
+                    } else {
+                        $options = [];
+                    }
                 }
                 $select = &$mform->addElement('select', $field->name, $fieldlabel, $options);
                 if (!empty($field->multiple)) {
@@ -229,9 +235,9 @@ class mod_customlabel_mod_form extends moodleform_mod {
                     $translatedoptions[$key] = format_string($value);
                 }
 
-                $attrs = [];
-                if (isset($field->constraintson)) {
-                    $attrs['data-constrained'] = 1;
+                $attrs = array();
+                if (!empty($field->constraintson)) {
+                    $attrs['class'] = 'constrained '.$customclass->type;
                     $attrs['disabled'] = 'disabled'; // Let javascript liberate them when ready to process constraints.
                     $attrs['data-constraints'] = $field->constraintson;
                     $attrs['data-label-type'] = $customclass->type;
