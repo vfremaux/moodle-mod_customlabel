@@ -4,7 +4,9 @@
 <table class="custombox-{{labelclass}}" cellspacing="0" width="100%">
 
     <tr valign="top">
+        {{^hideicon}}
         <td class="custombox-header-thumb {{labelclass}} {{skin}} {{subtype}}" width="2%">
         </td>
-        <td class="custombox-content {{labelclass}}" width="98%">
+        {{/hideicon}}
+        <td class="custombox-content {{labelclass}} {{#hideicon}}no-padding{{/hideicon}}" width="{{^hideicon}}98%{{/hideicon}}{{#hideicon}}100%{{/hideicon}}">
 <!-- /mod_customlabel/start -->

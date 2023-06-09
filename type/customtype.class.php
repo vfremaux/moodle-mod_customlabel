@@ -711,7 +711,7 @@ class customlabel_type {
         global $DB;
 
         // Get storage.
-        if (!$internaldata = json_decode(base64_decode($this->data->content))) {
+        if (!$internaldata = json_decode(base64_decode($this->content))) {
             $internaldata = new StdClass;
         }
 
@@ -720,9 +720,9 @@ class customlabel_type {
         $this->data->$field = $value;
 
         // Save back.
-        $this->data->content = base64_encode(json_encode($internaldata));
+        $this->content = base64_encode(json_encode($internaldata));
         // $this->make_content();
-        $DB->update_record('customlabel', $this->data);
+        $DB->set_field('customlabel', 'content', $this->content);
     }
 
     public function set_instance($instance) {
