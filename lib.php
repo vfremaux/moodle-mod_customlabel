@@ -172,6 +172,12 @@ function customlabel_supports($feature) {
         case FEATURE_NO_VIEW_LINK: {
             return true;
         }
+
+        // 4.0
+        case FEATURE_MOD_PURPOSE: {
+            return MOD_PURPOSE_CONTENT;
+        }
+
         default: {
             return null;
         }

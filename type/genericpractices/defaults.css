@@ -1,0 +1,5 @@
+/* Defaults for those themes that do not handle a default or scss handling of those defaults */
+
+table.genericpractices td.leftmargin {
+    background-color: #d8d8d8;
+}

@@ -1,0 +1,5 @@
+/* Defaults for those themes that do not handle a default or scss handling of those defaults */
+
+div.content table.processgoals td.leftmargin {
+    background-color: #f9e300;
+}

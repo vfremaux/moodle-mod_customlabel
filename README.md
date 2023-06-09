@@ -72,3 +72,13 @@ X.X.0013
 
 Fix ajax errors when deleting or duplicating a course module on teacher role.
 Add new cssadditions type
+
+X.X.0017
+#######################################
+
+Add satisfaction type
+
+X.X.0018
+#######################################
+
+Adds before_http_headers() callback to load jqplot if needed.

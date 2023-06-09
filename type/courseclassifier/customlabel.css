@@ -1,0 +1,38 @@
+.custombox-courseclassifier {
+    border: none;
+    border-collapse:separate;
+    margin:10px 0px 10px 0px;
+    width: 100%;
+}
+
+.custombox-header-thumb.courseclassifier {
+    /* No thumb */
+    display: none;
+}
+
+.custombox-courseclassifier p {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.custombox-title.courseclassifier {
+    background-color: #333;
+    color: white;
+    font-size: 15px;
+    padding: 5px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.custombox-param.courseclassifier {
+    background-color: #888;
+    border: solid 1px white;
+    color: white;
+    padding: 10px;
+}
+
+.custombox-value.courseclassifier {
+    background-color: white;
+    border: none;
+    padding: 10px;
+}
