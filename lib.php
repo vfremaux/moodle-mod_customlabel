@@ -24,6 +24,8 @@ defined('MOODLE_INTERNAL') || die();
 
 define("CUSTOMLABEL_MAX_NAME_LENGTH", 50);
 
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
+
 if (!during_initial_install()) {
     if (!isset($CFG->classification_type_table)) {
         set_config('classification_type_table', 'customlabel_mtd_type');

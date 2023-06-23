@@ -17,6 +17,8 @@
 require('../../../config.php');
 require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 
+require_login();
+
 $config = get_config('customlabel');
 
 $type = required_param('type', PARAM_ALPHA); // The qualifier ID that has been choosen.
@@ -66,7 +68,7 @@ if (empty($cmid)) {
 }
 
 /*
- * make a structure with options and reduce possible options to
+ * Make a structure with options and reduce possible options to
  * acceptable ones
  * this is another writing for "get_all_classification_linked_values".
  */
@@ -104,7 +106,6 @@ if (!empty($constraints)) {
         $params[] = $constraint;
         $params[] = $constraint;
 
-        // debug_trace("SQL : $sql / $constraint ");
         if ($constraintpeerrecs = $DB->get_records_sql($sql, $params)) {
             foreach ($constraintpeerrecs as $apeer) {
                 if ($apeer->value1 == $constraint) {
@@ -121,7 +122,6 @@ if (!empty($constraints)) {
                     $includedtrace["$peervalue - $peer"] = 1;
                     if (!in_array($peervalue, $used)) {
                         assert(1);
-                        // $constraintsarr[] = $peervalue; // aggregate for recursion accepting all newly linked item
                     }
                 }
             }
@@ -155,7 +155,6 @@ foreach ($targets as $target) {
         $params = array();
         if (!empty($field->constraintson)) {
             $params['data-constrained'] = 1;
-            // $params['disabled'] = ''; // Let javascript liberate them when ready to process constraints.
             $params['data-constraints'] = $field->constraintson;
             $params['data-label-type'] = $instance->type;
             if ($cmid) {
