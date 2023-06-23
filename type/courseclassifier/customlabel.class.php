@@ -16,7 +16,6 @@
 
 /**
  * @package    mod_customlabel
- * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -42,7 +41,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
         $config = get_config('customlabel');
 
         if (isset($data->content)) {
-            // $data is a customlabel record not yet decoded. This comes from modedit.php
+            // Tip : $data is a customlabel record not yet decoded. This comes from modedit.php
             $preset = json_decode(base64_decode($data->content));
             if (!empty($preset)) {
                 // Decode content and append members to $data.

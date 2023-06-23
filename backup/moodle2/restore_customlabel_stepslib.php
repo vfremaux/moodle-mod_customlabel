@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
 /**
- * Structure step to restore one customlabel resource
+ * Structure step to restore one customlabel resource.
  */
 class restore_customlabel_activity_structure_step extends restore_activity_structure_step {
 
