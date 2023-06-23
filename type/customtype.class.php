@@ -189,7 +189,11 @@ class customlabel_type {
      * the visibility.
      */
     public static function module_is_visible($cm, $instance) {
-        global $DB;
+        global $DB, $CFG;
+
+        if (!is_dir($CFG->dirroot.'/mod/customlabel/type/'.$instance->labelclass)) {
+            return false;
+        }
 
         $context = context_module::instance($cm->id);
 
