@@ -479,8 +479,8 @@ function customlabel_cm_info_view(&$cminfo) {
             // Late loading.
             // Less clean but no other way in some cases.
             $csslink = '<link rel="stylesheet" type="text/css" href="'.$CFG->wwwroot.$cssurl.'" />'."\n";
-            // Print it directly as some filtering may drop those links sometimes.
-            echo $csslink;
+            // Print as part of the first customlabel content printed.
+            $content = $csslink;
         }
         $customlabelcssloaded[] = $customlabel->labelclass;
     }

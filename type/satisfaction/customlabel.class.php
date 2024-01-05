@@ -318,11 +318,15 @@ class customlabel_type_satisfaction extends customlabel_type {
         $i = 0;
         if (!empty($this->data->coloroverrides)) {
             $colors = explode(',', $this->data->coloroverrides);
-            foreach ($colors as &$value) {
-                $value = trim($value); // remove all spaces.
+            foreach ($colors as &$c) {
+                $c = trim($c); // remove all spaces.
                 $i++;
             }
         }
+        // Ensure we have never more colors then required by values.
+        $colors = array_slice($colors, 0, $colornum);
+
+        // fill missing colors by generating them randomly.
         for (; $i < $colornum; $i++) {
             $colors[] = $this->generate_color('full');
         }

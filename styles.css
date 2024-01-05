@@ -1,6 +1,6 @@
 .editing li.activity.customlabel .contentwithoutlink {
-    padding-right: 20px;
-    padding-top: 30px;
+    padding-right: 20px !important;
+    padding-top: 30px !important;
 }
 
 .customlabel-form-static-content {
@@ -165,4 +165,9 @@ td.custombox-thumb {
 .api-hint {
     font-size: 80%;
     filter: brightness(2.5);
+}
+
+/* M4 : */
+div[data-activityname="customlabel"] .inplaceeditable {
+    display: none;
 }

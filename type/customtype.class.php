@@ -734,13 +734,16 @@ class customlabel_type {
     }
 
     /**
-     * Invoke amd modules if required.
+     * Invoke amd modules if required by specific type.
+     * Ensure module is called once.
      */
     public function require_js() {
         global $PAGE;
+        static $loadedtypes = [];
 
-        if (!empty($this->hasamd)) {
-            $class = 'customlabeltype_'.$this->type.'/customlabel';
+        $class = 'customlabeltype_'.$this->type.'/customlabel';
+        if (!empty($this->hasamd) && !array_key_exists($class, $loadedtypes)) {
+            $loadedtypes[$class] = 1;
             $PAGE->requires->js_call_amd($class, 'init');
         }
     }
