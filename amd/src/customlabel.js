@@ -27,8 +27,8 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
             $('.customctl').bind('click', this.togglecustom);
             $('.customctl-string').bind('click', this.togglecustomstring);
             $('.customlabel-constraint').bind('click', this.constraint_colorize);
-            $('.mform').on('change', 'select.constrained', this.applyconstraints);
-            $('select.constrained').prop('disabled', null);
+            $('.courseclassifier.constrained').on('change', 'select', this.applyconstraints);
+            $('.courseclassifier.constrained select').prop('disabled', null);
             $('#id_labelclass').bind('change', this.typechangesubmit);
 
             // Trigg the first classifier after loading
