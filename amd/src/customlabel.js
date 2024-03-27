@@ -40,8 +40,8 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
         },
 
         rebindconstraints: function() {
-            $('select.constrained').off('change');
-            $('select.constrained').bind('change', this.applyconstraints);
+            $('.courseclassifier.constrained select').off('change');
+            $('.courseclassifier.constrained select').bind('change', this.applyconstraints);
             log.debug("AMD Customlabels constraints rebound");
         },
 
@@ -180,7 +180,7 @@ define(['jquery', 'core/config', 'core/str', 'core/log'], function($, cfg, str, 
                         $('#id_level' + levelid + " option[value=" + selectvalue + "]").attr("selected", true);
                     }
                 }
-                $('select.constrained').prop('disabled', false);
+                $('.courseclassifier.constrained select').prop('disabled', false);
 
             }, 'json');
         },
