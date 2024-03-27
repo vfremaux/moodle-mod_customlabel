@@ -25,9 +25,9 @@
 $string['remind:view'] = 'Peut voir le rappel';
 $string['remind:addinstance'] = 'Peut ajouter une instance';
 
-$string['pluginname'] = 'Elément de cours&nbsp;: Rappel';
-$string['typename'] = 'Rappel';
-$string['configtypename'] = 'Active le type rappel';
+$string['pluginname'] = 'Elément de cours&nbsp;: A retenir';
+$string['typename'] = 'A retenir';
+$string['configtypename'] = 'Active le type \"à retenir\"';
 $string['remindtext'] = 'Texte du rappel&nbsp;';
 $string['remind'] = 'A retenir !';
 

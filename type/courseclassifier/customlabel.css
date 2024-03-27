@@ -16,8 +16,6 @@
 }
 
 .custombox-title.courseclassifier {
-    background-color: #333;
-    color: white;
     font-size: 15px;
     padding: 5px;
     text-align: left;
@@ -25,9 +23,6 @@
 }
 
 .custombox-param.courseclassifier {
-    background-color: #888;
-    border: solid 1px white;
-    color: white;
     padding: 10px;
 }
 

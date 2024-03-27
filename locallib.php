@@ -62,7 +62,7 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
         $basetypedir = $CFG->dirroot.'/mod/customlabel/type';
 
         // These may be disabled from config.php setup.
-        $disabledtypes = @$config->disabled;
+        $disabledtypes = $config->disabled ?? '';
 
         $classdir = opendir($basetypedir);
         while ($entry = readdir($classdir)) {

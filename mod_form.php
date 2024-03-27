@@ -150,6 +150,14 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
                 $mform->addElement('header', $field->name, $field->header);
 
+           } else if ($field->type == 'separator') {
+
+                $html = '<hr/>';
+                if (!empty($field->label)) {
+                    $html .= '<h3>'.get_string($field->label, 'customlabeltype_'.$customclass->type).'</h3><hr/>';
+                }
+                $mform->addElement('html', $html);
+
             } else if ($field->type == 'choiceyesno') {
 
                 $mform->addElement('selectyesno', $field->name, $fieldlabel);
@@ -157,7 +165,7 @@ class mod_customlabel_mod_form extends moodleform_mod {
 
             } else if ($field->type == 'textfield') {
 
-                $attrs = array('size' => @$field->size, 'maxlength' => @$field->maxlength);
+                $attrs = array('size' => $field->size ?? 25, 'maxlength' => $field->maxlength ?? 255);
                 $mform->addElement('text', $field->name, $fieldlabel, $attrs);
                 $mform->setType($field->name, PARAM_CLEANHTML);
                 if (!empty($field->default)) {

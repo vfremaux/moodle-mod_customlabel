@@ -3,3 +3,8 @@
 .custombox-unitheading h1 {
     color: #f2a439;
 }
+
+h5.custombox-caption.unitheading {
+    font-weight: 600;
+}
+

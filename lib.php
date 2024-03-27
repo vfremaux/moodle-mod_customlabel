@@ -480,7 +480,12 @@ function customlabel_cm_info_view(&$cminfo) {
             // Less clean but no other way in some cases.
             $csslink = '<link rel="stylesheet" type="text/css" href="'.$CFG->wwwroot.$cssurl.'" />'."\n";
             // Print as part of the first customlabel content printed.
-            $content = $csslink;
+            if ($PAGE->user_is_editing()) {
+                $content = $csslink;
+            } else {
+                // Apply to students too, moodle over filters content !
+                echo $csslink;
+            }
         }
         $customlabelcssloaded[] = $customlabel->labelclass;
     }
@@ -506,6 +511,7 @@ function customlabel_cm_info_view(&$cminfo) {
     if (!$ispluginfile && (($PAGE->pagetype != 'course-modedit') && !AJAX_SCRIPT && !$istogglecompletion) || $gettingmoduleupdate) {
 
         // In edit form, some race conditions between theme and rendering goes wrong when not admin...
+
         try {
             $instance->preprocess_data();
             $instance->process_form_fields();
@@ -552,7 +558,7 @@ function customlabel_cm_info_view(&$cminfo) {
     $content = str_replace('%COURSEIDNUMBER%', $COURSE->idnumber, $content);
     $content = str_replace('%COURSESHORTNAME%', $COURSE->shortname, $content);
     $content = str_replace('%USERID%', $USER->id, $content);
-    $content = str_replace('%USERNAME%', $USER->username, $content);
+    $content = str_replace('%USERNAME%', $USER->username ?? '', $content);
     $content = str_replace('%WWWROOT%', $CFG->wwwroot, $content);
 
     // Disable url form of the course module representation.
