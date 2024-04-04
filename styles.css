@@ -37,9 +37,14 @@
     padding: 5px;
 }
 
+.custombox-header-thumb::after {
+    top: 10px;
+    position: relative;
+}
+
 /* general class for all subtypes */
 .custombox-content.hidden {
-    display:none;
+    display: none;
 }
 
 form[name="chooseset"] {
@@ -47,7 +52,7 @@ form[name="chooseset"] {
 }
 
 .customlabel-constraint-select.green {
-    background-color:#bbfaa3;
+    background-color: #bbfaa3;
 }
 
 /* element type form chooser separator */

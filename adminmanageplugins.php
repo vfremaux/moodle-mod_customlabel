@@ -25,6 +25,11 @@
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot.'/mod/customlabel/adminlib.php');
 
+$context = context_system::instance();
+
+require_login();
+require_capability('mod/customlabel:managemetadata', $context);
+
 // Create the class for this controller.
 $pluginmanager = new customlabel_plugin_manager(required_param('subtype', PARAM_PLUGIN));
 

@@ -15,19 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod
- * @subpackage customlabel
+ * @package    mod_customlabel
+ * @subpackage backup-moodle2
  * @copyright 2010 onwards Valery Fremaux {@link }
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->dirroot.'/mod/customlabel/backup/moodle2/backup_customlabel_settingslib.php'); // Because it exists (must).
 require_once($CFG->dirroot.'/mod/customlabel/backup/moodle2/backup_customlabel_stepslib.php'); // Because it exists (must).
 
 /**
- * vodeclic backup task that provides all the settings and steps to perform one
+ * Customlabel backup task that provides all the settings and steps to perform one
  * complete backup of the activity
  */
 class backup_customlabel_activity_task extends backup_activity_task {
