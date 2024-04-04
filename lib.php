@@ -24,6 +24,8 @@ defined('MOODLE_INTERNAL') || die();
 
 define("CUSTOMLABEL_MAX_NAME_LENGTH", 50);
 
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
+
 if (!during_initial_install()) {
     if (!isset($CFG->classification_type_table)) {
         set_config('classification_type_table', 'customlabel_mtd_type');
@@ -471,8 +473,13 @@ function customlabel_cm_info_view(&$cminfo) {
             // Late loading.
             // Less clean but no other way in some cases.
             $csslink = '<link rel="stylesheet" type="text/css" href="'.$CFG->wwwroot.$cssurl.'" />'."\n";
-            // Print it directly as some filtering may drop those links sometimes.
-            echo $csslink;
+            // Print as part of the first customlabel content printed.
+            if ($PAGE->user_is_editing()) {
+                $content = $csslink;
+            } else {
+                // Apply to students too, moodle over filters content !
+                echo $csslink;
+            }
         }
         $customlabelcssloaded[] = $customlabel->labelclass;
     }
@@ -498,6 +505,7 @@ function customlabel_cm_info_view(&$cminfo) {
     if (!$ispluginfile && (($PAGE->pagetype != 'course-modedit') && !AJAX_SCRIPT && !$istogglecompletion) || $gettingmoduleupdate) {
 
         // In edit form, some race conditions between theme and rendering goes wrong when not admin...
+
         try {
             $instance->preprocess_data();
             $instance->process_form_fields();
@@ -544,7 +552,7 @@ function customlabel_cm_info_view(&$cminfo) {
     $content = str_replace('%COURSEIDNUMBER%', $COURSE->idnumber, $content);
     $content = str_replace('%COURSESHORTNAME%', $COURSE->shortname, $content);
     $content = str_replace('%USERID%', $USER->id, $content);
-    $content = str_replace('%USERNAME%', $USER->username, $content);
+    $content = str_replace('%USERNAME%', $USER->username ?? '', $content);
     $content = str_replace('%WWWROOT%', $CFG->wwwroot, $content);
 
     // Disable url form of the course module representation.

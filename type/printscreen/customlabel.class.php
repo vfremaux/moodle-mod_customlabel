@@ -21,29 +21,26 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+defined('MOODLE_INTERNAL') || die();
 
-$string['remind:view'] = 'Peut voir le rappel';
-$string['remind:addinstance'] = 'Peut ajouter une instance';
+require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
-$string['pluginname'] = 'Elément de cours&nbsp;: A retenir';
-$string['typename'] = 'A retenir';
-$string['configtypename'] = 'Active le type \"à retenir\"';
-$string['remindtext'] = 'Texte du rappel&nbsp;';
-$string['remind'] = 'A retenir !';
+/**
+ *
+ *
+ */
+class customlabel_type_printscreen extends customlabel_type {
 
-$string['template'] = '
-<table class="custombox-remind" cellspacing="0" width="100%">
-<tr valign="top">
-    <td class="custombox-header-thumb remind" style="background-image : url(<%%icon%%>);" width="2%" rowspan="2">
-    </td>
-    <td class="custombox-header-caption remind" width="98%">
-        Rappel !
-    </td>
-</tr>
-<tr valign="top">
-    <td class="custombox-content remindtext">
-        <%%remindtext%%>
-    </td>
-</tr>
-</table>
-';
+    public function __construct($data) {
+        parent::__construct($data);
+        $this->type = 'printscreen';
+        $this->fields = array();
+    }
+
+    public function postprocess_data($course = null) {
+        global $OUTPUT;
+
+        $this->data->headerimage = $OUTPUT->image_url('thumb', 'customlabeltype_printscreen');
+    }
+}
+

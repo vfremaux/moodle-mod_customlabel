@@ -21,29 +21,33 @@
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+defined('MOODLE_INTERNAL') || die();
 
-$string['remind:view'] = 'Peut voir le rappel';
-$string['remind:addinstance'] = 'Peut ajouter une instance';
+$capabilities = array(
 
-$string['pluginname'] = 'Elément de cours&nbsp;: A retenir';
-$string['typename'] = 'A retenir';
-$string['configtypename'] = 'Active le type \"à retenir\"';
-$string['remindtext'] = 'Texte du rappel&nbsp;';
-$string['remind'] = 'A retenir !';
+    // Controls who can add this type.
+    'customlabeltype/printscreen:addinstance' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'legacy' => array(
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW
+        )
+    ),
 
-$string['template'] = '
-<table class="custombox-remind" cellspacing="0" width="100%">
-<tr valign="top">
-    <td class="custombox-header-thumb remind" style="background-image : url(<%%icon%%>);" width="2%" rowspan="2">
-    </td>
-    <td class="custombox-header-caption remind" width="98%">
-        Rappel !
-    </td>
-</tr>
-<tr valign="top">
-    <td class="custombox-content remindtext">
-        <%%remindtext%%>
-    </td>
-</tr>
-</table>
-';
+    // Controls visibility of labeltype on role base.
+    'customlabeltype/printscreen:view' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'legacy' => array(
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW,
+            'student' => CAP_ALLOW,
+            'user' => CAP_ALLOW,
+            'guest' => CAP_ALLOW,
+        )
+    ),
+);

@@ -15,9 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod
- * @subpackage customlabel
- * @copyright  2010 onwards Valery Fremaux {valery.fremaux@gmail.com}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Version details.
+ *
+ * @package    mod_customlabel
+ * @category   mod
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 defined('MOODLE_INTERNAL') || die();
+
+$plugin = new StdClass();
+$plugin->version  = 2023102500;  // The current module version (Date: YYYYMMDDXX).
+$plugin->component = 'customlabeltype_printscreen';   // Full name of the plugin (used for diagnostics).
+

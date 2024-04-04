@@ -62,7 +62,7 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
         $basetypedir = $CFG->dirroot.'/mod/customlabel/type';
 
         // These may be disabled from config.php setup.
-        $disabledtypes = @$config->disabled;
+        $disabledtypes = $config->disabled ?? '';
 
         $classdir = opendir($basetypedir);
         while ($entry = readdir($classdir)) {
@@ -178,7 +178,7 @@ function customlabel_load_class($customlabel, $quiet = false) {
         $instance = new $constructorfunction($customlabel, $customlabel->labelclass);
         return $instance;
     } else {
-        if ($CFG->debug == DEBUG_DEVELOPER) {
+        if (debugging()) {
             echo $OUTPUT->notification('errorfailedloading', 'customlabel', $customlabel->labelclass);
         }
         return null;

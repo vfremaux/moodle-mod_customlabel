@@ -144,7 +144,7 @@ class customlabel_type_satisfaction extends customlabel_type {
         $this->data->question = strip_tags($satisfaction['question']);
         if (!empty($satisfaction['results'])) {
             $this->data->satisfactiongraph = "<div style=\"height: {$this->data->gheight}px;width: {$this->data->gwidth}px\">";
-            $this->data->satisfactiongraph .= $this->print_moodle_graph('satisfaction', 'donut', $satisfaction['results']);
+            $this->data->satisfactiongraph .= $this->print_moodle_graph('satisfaction', 'donut', $satisfaction['results'], $this->data);
             $this->data->satisfactiongraph .= '</div>';
         } else {
             if ($this->data->legendorientation == 'left' || $this->data->legendorientation == 'right') {
@@ -309,8 +309,8 @@ class customlabel_type_satisfaction extends customlabel_type {
     /**
      * Print donuts using moodle internal chartjs
      */
-    protected function print_moodle_graph($purpose, $graphmode, $values) {
-        global $OUTPUT, $PAGE;
+    protected function print_moodle_graph($purpose, $graphmode, $values, $fulldata) {
+        global $OUTPUT, $PAGE, $CFG;
 
         $colornum = count($values);
 
@@ -318,11 +318,15 @@ class customlabel_type_satisfaction extends customlabel_type {
         $i = 0;
         if (!empty($this->data->coloroverrides)) {
             $colors = explode(',', $this->data->coloroverrides);
-            foreach ($colors as &$value) {
-                $value = trim($value); // remove all spaces.
+            foreach ($colors as &$c) {
+                $c = trim($c); // remove all spaces.
                 $i++;
             }
         }
+        // Ensure we have never more colors then required by values.
+        $colors = array_slice($colors, 0, $colornum);
+
+        // fill missing colors by generating them randomly.
         for (; $i < $colornum; $i++) {
             $colors[] = $this->generate_color('full');
         }
@@ -330,6 +334,12 @@ class customlabel_type_satisfaction extends customlabel_type {
         if (class_exists('\local_vflibs\chart_pie')) {
             $chart = new \local_vflibs\chart_pie();
             $chart->add_option('cutoutPercentage', 90);
+            if (!empty($CFG->forced_plugin_settings['customlabeltype_satisfaction']['forcedpiesize'])) {
+                $fulldata->gwidth = $CFG->forced_plugin_settings['customlabeltype_satisfaction']['forcedpiesize'];
+                $fulldata->gheight = $CFG->forced_plugin_settings['customlabeltype_satisfaction']['forcedpiesize'];
+            }
+            $chart->add_option('width', $fulldata->gwidth);
+            $chart->add_option('height', $fulldata->gheight);
         } else {
             $chart = new \core\chart_pie();
         }

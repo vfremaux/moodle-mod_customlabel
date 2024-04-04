@@ -32,14 +32,14 @@ $string['localdokuwikicontent:addinstance'] = 'Can add an instance';
 $string['advice'] = 'Warning';
 $string['accesstoken'] = 'Access token';
 $string['configaccesstoken'] = 'Access token (default)';
-$string['configaccesstoken_desc'] = 'Access token';
+$string['configaccesstoken_desc'] = 'Access token allows passing access control for dokuwikies implementing the "lib/authtoken" plugin.';
 $string['configbasedir'] = 'Base wiki dir';
-$string['configbasedir_desc'] = 'Physical location of the local wiki';
+$string['configbasedir_desc'] = 'Physical location of the local wiki. This path must point the root dir of the dokuwiki installation.';
 $string['configtypename'] = 'Enable subtype Local Doku Wiki';
 $string['configwebroot'] = 'Base wiki URL';
 $string['configwebroot_desc'] = 'Base wiki URL for local wiki pages';
 $string['configdefaultlocal'] = 'Default local wiki';
-$string['configdefaultlocal_desc'] = 'Default value for local switch';
+$string['configdefaultlocal_desc'] = 'Default value for local switch. If set to remote, the remote configuration will be applied, unless instance specific info is given.';
 $string['configdefaultremotehost'] = 'Default remote host';
 $string['configdefaultremotehost_desc'] = 'Default host for remote pages';
 $string['configdefaultremotetoken'] = 'Default remote token';
@@ -62,3 +62,7 @@ $string['typename'] = 'Content';
 
 $string['family'] = 'special';
 
+$string['local_help'] = 'when using a local wiki, the content is directly accessed from thre same server than moodle. elsewhere it is fetched by URL. Local access has usually better performance.';
+$string['remotehost_help'] = 'If the wiki is remote and this setting is given, it must be set as the base URL access to the wiki. Global settings can give default value.';
+$string['accesstoken_help'] = 'If the wiki is remote, and this parameter is defined, it must be set to a valid access token to the content. Global settings can give default value. ';
+$string['contentpage_help'] = 'Enter the page identifier, as it would be mentionned in the "id" url attribute value of the request to "doku.php". ';

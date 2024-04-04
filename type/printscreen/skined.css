@@ -1,0 +1,21 @@
+/* Skined variants */
+
+.custombox-header-thumb.printscreen.colored {
+    border-right: 1px solid #c76205;
+}
+
+.custombox-header-caption.printscreen.colored {
+    color: #c76205;
+}
+
+.custombox-header-thumb.printscreen {
+    background-image: url("/mod/customlabel/{{baseurl}}/icon_printscreen.png");
+}
+
+.custombox-header-thumb.printscreen.flatstyle {
+    background-image: url("/mod/customlabel/pix/spots/red_spot.png");
+}
+
+.custombox-header-thumb.printscreen.flatstyle:after {
+    content: "\f02f";
+}

@@ -15,6 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * This is a local class contextual translation file for field names and list options.
+ * this file is automatically loaded by the /mod/customlabel/lang/xx_utf8/customlabel.php
+ * module language file.
+ *
  * @package    mod_customlabel
  * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
@@ -22,28 +26,14 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
-$string['remind:view'] = 'Peut voir le rappel';
-$string['remind:addinstance'] = 'Peut ajouter une instance';
+$string['printscreen:view'] = 'Can view the content';
+$string['printscreen:addinstance'] = 'Can add an instance';
 
-$string['pluginname'] = 'Elément de cours&nbsp;: A retenir';
-$string['typename'] = 'A retenir';
-$string['configtypename'] = 'Active le type \"à retenir\"';
-$string['remindtext'] = 'Texte du rappel&nbsp;';
-$string['remind'] = 'A retenir !';
+$string['pluginname'] = 'Course element: Print screen';
+$string['typename'] = 'Print screen';
+$string['configtypename'] = 'Enable subtype Print screen';
+$string['print'] = 'Print this page';
 
-$string['template'] = '
-<table class="custombox-remind" cellspacing="0" width="100%">
-<tr valign="top">
-    <td class="custombox-header-thumb remind" style="background-image : url(<%%icon%%>);" width="2%" rowspan="2">
-    </td>
-    <td class="custombox-header-caption remind" width="98%">
-        Rappel !
-    </td>
-</tr>
-<tr valign="top">
-    <td class="custombox-content remindtext">
-        <%%remindtext%%>
-    </td>
-</tr>
-</table>
-';
+$string['family'] = 'pedagogic';
+
+

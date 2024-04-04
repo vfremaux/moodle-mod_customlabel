@@ -56,12 +56,27 @@ $string['thumb2'] = 'Thumb 2';
 $string['thumb3'] = 'Thumb 3';
 $string['thumb4'] = 'Thumb 4';
 $string['thumb5'] = 'Thumb 5';
+$string['role1'] = 'Role 1';
+$string['role2'] = 'Role 2';
+$string['role3'] = 'Role 3';
+$string['role4'] = 'Role 4';
+$string['role5'] = 'Role 5';
 $string['tablecaption'] = 'Table caption';
 $string['contributors'] = 'Contributors';
 $string['institution'] = 'Institution';
 $string['department'] = 'Department';
+$string['commonswitches'] = 'Common switches';
 $string['showcontributors'] = 'Show contributors';
 $string['showinstitution'] = 'Show institution';
 $string['showdepartment'] = 'Show department';
+$string['showrole'] = 'Show role';
+$string['leftcolumnratio'] = 'Left column ratio';
+
+$string['author'] = 'Author';
+$string['topicexpert'] = 'Topic expert';
+$string['reviewer'] = 'Reviewer';
+$string['illustrator'] = 'Illustrator';
+$string['pedagogicdesigner'] = 'Pedagogic designer';
+$string['assessmentdesigner'] = 'Assessment designer';
 
 $string['family'] = 'meta';

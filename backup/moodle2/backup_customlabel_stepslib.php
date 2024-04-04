@@ -26,9 +26,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
 /**
- * Define all the backup steps that will be used by the backup_vodclic_activity_task
+ * Define all the backup steps that will be used by the backup_customlabel_activity_task
  */
 
+/**
+ * Define the complete choice structure for backup, with file and id annotations
+ */
 class backup_customlabel_activity_structure_step extends backup_activity_structure_step {
 
     protected function define_structure() {
@@ -87,7 +90,8 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
         // Define id annotations.
 
         // Define file annotations.
-        $customlabel->annotate_files('mod_customlabel', 'contentfiles', null); // Get all itemids you can find (subids of internal fields).
+        // Get all itemids you can find (subids of internal fields).
+        $customlabel->annotate_files('mod_customlabel', 'contentfiles', null);
 
         // This will scan every type of label to find filepickers elements.
         $areas = customlabel_get_fileareas();
