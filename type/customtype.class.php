@@ -372,7 +372,7 @@ class customlabel_type {
                         $optionvalue = $this->data->{$optionname};
                     }
                     if (!empty($optionvalue)) {
-                        if (is_numeric($optionvalue)) {
+                        if (is_numeric($optionvalue) || !empty($field->straightoptions)) {
                             $this->data->{$name} = $optionvalue;
                         } else {
                             $this->data->{$name} = get_string($optionvalue, 'customlabeltype_'.$this->type);
@@ -726,7 +726,7 @@ class customlabel_type {
         // Save back.
         $this->content = base64_encode(json_encode($internaldata));
         // $this->make_content();
-        $DB->set_field('customlabel', 'content', $this->content);
+        $DB->set_field('customlabel', 'content', $this->content, ['id' => $this->instance->id]);
     }
 
     public function set_instance($instance) {
@@ -734,13 +734,16 @@ class customlabel_type {
     }
 
     /**
-     * Invoke amd modules if required.
+     * Invoke amd modules if required by specific type.
+     * Ensure module is called once.
      */
     public function require_js() {
         global $PAGE;
+        static $loadedtypes = [];
 
-        if (!empty($this->hasamd)) {
-            $class = 'customlabeltype_'.$this->type.'/customlabel';
+        $class = 'customlabeltype_'.$this->type.'/customlabel';
+        if (!empty($this->hasamd) && !array_key_exists($class, $loadedtypes)) {
+            $loadedtypes[$class] = 1;
             $PAGE->requires->js_call_amd($class, 'init');
         }
     }

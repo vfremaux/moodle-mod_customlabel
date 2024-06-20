@@ -64,6 +64,14 @@ class customlabel_type_collapsedtext extends customlabel_type {
         $this->fields['initialstate'] = $field;
 
         $field = new StdClass;
+        $field->name = 'titlelevel';
+        $field->type = 'list';
+        $field->straightoptions = true;
+        $field->options = array('h2', 'h3', 'h4', 'h5', 'h6');
+        $field->default = 'h4';
+        $this->fields['titlelevel'] = $field;
+
+        $field = new StdClass;
         $field->name = 'chapternum';
         $field->type = 'list';
         $field->straightoptions = true;
@@ -91,7 +99,7 @@ class customlabel_type_collapsedtext extends customlabel_type {
      * Process internal data before options and external source resolution.
      */
     public function preprocess_data() {
-        global $OUTPUT;
+        global $OUTPUT, $CFG;
 
         $iconstr = get_string('toggle', 'customlabeltype_collapsedtext');
         if (!isset($this->data->algorithm)) {
@@ -112,6 +120,15 @@ class customlabel_type_collapsedtext extends customlabel_type {
         $this->data->toggleicon = $OUTPUT->pix_icon('open', $iconstr, 'customlabeltype_collapsedtext');
         $this->data->openallicon = $OUTPUT->pix_icon('expandall', $this->data->openallstr, 'customlabeltype_collapsedtext');
         $this->data->closeallicon = $OUTPUT->pix_icon('collapseall', $this->data->closeallstr, 'customlabeltype_collapsedtext');
+
+        // Let static config force the title level
+        if (empty($this->data->titlelevel)) {
+            if (!empty($CFG->forced_plugin_settings['customlabeltype_collapsedtext']['defaulttitlelevel'])) {
+                $this->data->titlelevel = $CFG->forced_plugin_settings['customlabeltype_collapsedtext']['defaulttitlelevel'];
+            } else {
+                $this->data->titlelevel = 'h4';
+            }
+        }
 
         if (empty($this->cmid)) {
             debugging('here');
@@ -135,7 +152,7 @@ class customlabel_type_collapsedtext extends customlabel_type {
             $key = 'chaptercaption'.$i;
             $chaptertpl->caption = format_string(@$this->data->$key);
 
-            switch($this->data->initialstate) {
+            switch ($this->data->initialstate ?? 'open') {
                 case 'open':
                     $chaptertpl->initialstate = '';
                     break;

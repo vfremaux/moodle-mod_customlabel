@@ -85,8 +85,13 @@ class customlabel_type_text extends customlabel_type {
         }
 
         $this->data->textcontent = str_replace("%WWWROOT%", $CFG->wwwroot, $this->data->textcontent);
+        $this->data->textcontent = str_replace("%25WWWROOT%25", $CFG->wwwroot, $this->data->textcontent);
         $this->data->textcontent = str_replace("%COURSEID%", $COURSE->id, $this->data->textcontent);
+        $this->data->textcontent = str_replace("%25COURSEID%25", $COURSE->id, $this->data->textcontent);
+        $this->data->textcontent = str_replace("%CIDNUMBER%", $COURSE->idnumber, $this->data->textcontent);
+        $this->data->textcontent = str_replace("%25CIDNUMBER%25", $COURSE->idnumber, $this->data->textcontent);
         $this->data->textcontent = str_replace("%USERID%", $USER->id, $this->data->textcontent);
+        $this->data->textcontent = str_replace("%25USERID%25", $USER->id, $this->data->textcontent);
 
         $this->data->textcontent = preg_replace('/@@PLUGINFILE\:\:\d+@@/', '@@PLUGINFILE@@', @$this->data->textcontent);
         $this->data->textcontent = file_rewrite_pluginfile_urls($this->data->textcontent,
@@ -94,8 +99,13 @@ class customlabel_type_text extends customlabel_type {
 
         // Weird fix.
         $this->data->readmorecontent = str_replace("%WWWROOT%", $CFG->wwwroot, $this->data->readmorecontent);
+        $this->data->readmorecontent = str_replace("%25WWWROOT%25", $CFG->wwwroot, $this->data->readmorecontent);
         $this->data->readmorecontent = str_replace("%COURSEID%", $COURSE->id, $this->data->readmorecontent);
+        $this->data->readmorecontent = str_replace("%25COURSEID%25", $COURSE->id, $this->data->readmorecontent);
+        $this->data->readmorecontent = str_replace("%CIDNUMBER%", $COURSE->idnumber, $this->data->readmorecontent);
+        $this->data->readmorecontent = str_replace("%25CIDNUMBER%25", $COURSE->idnumber, $this->data->readmorecontent);
         $this->data->readmorecontent = str_replace("%USERID%", $USER->id, $this->data->readmorecontent);
+        $this->data->readmorecontent = str_replace("%25USERID%25", $USER->id, $this->data->readmorecontent);
         $this->data->readmorecontent = preg_replace('/@@PLUGINFILE\:\:\d+@@/', '@@PLUGINFILE@@', @$this->data->readmorecontent);
         $this->data->readmorecontent = file_rewrite_pluginfile_urls($this->data->readmorecontent,
                 'pluginfile.php', $context->id, 'mod_customlabel', 'contentfiles', $this->fields['readmorecontent']->itemid);

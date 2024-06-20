@@ -68,6 +68,12 @@ class customlabel_type_unitheading extends customlabel_type {
         // Get virtual fields from course title.
         $storedimage = $this->get_file_url('image');
         $this->data->imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
+        if (empty($this->data->imagewidth)) {
+            $this->data->imagewidth = "20%";
+        }
+        if (empty($this->data->imagepositionoption)) {
+            $this->data->imagepositionoption = 'left';
+        }
         if ($this->data->imagepositionoption == 'left') {
             $this->data->toleft = true;
             $this->data->contentpadding = "padding-left:2em";
