@@ -23,7 +23,6 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->dirroot.'/mod/customlabel/backup/moodle2/backup_customlabel_settingslib.php'); // Because it exists (must).
 require_once($CFG->dirroot.'/mod/customlabel/backup/moodle2/backup_customlabel_stepslib.php'); // Because it exists (must).
 
 /**
