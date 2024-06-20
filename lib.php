@@ -384,7 +384,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     $iscminfo = (get_class($cminfo) == 'cminfo') || (get_class($cminfo) == 'cm_info');
 
     // Apply role restriction here.
-    if (!$customlabel = $DB->get_record('customlabel', array('id' => $cminfo->instance))) {
+    if (!$customlabel = $DB->get_record('customlabel', ['id' => $cminfo->instance])) {
         return;
     }
 
@@ -401,6 +401,8 @@ function customlabel_cm_info_dynamic(&$cminfo) {
     }
 
     if ($iscminfo) {
+
+        customlabel_cm_info_view($cminfo);
         $cminfo->set_no_view_link();
         $cminfo->set_extra_classes('label'); // Important, or customlabel WILL NOT be deletable in topic/week course.
     }
@@ -415,7 +417,7 @@ function customlabel_cm_info_dynamic(&$cminfo) {
  * @todo : reevaluate strategy. this may still be used for improving standard formats.
  */
 function customlabel_cm_info_view(&$cminfo) {
-    global $DB, $PAGE, $CFG, $COURSE, $OUTPUT, $USER;
+    global $DB, $PAGE, $CFG, $COURSE, $OUTPUT, $USER, $ME;
 
     global $customlabelscriptsloaded;
     static $customlabelcssloaded = array();
@@ -484,7 +486,9 @@ function customlabel_cm_info_view(&$cminfo) {
                 $content = $csslink;
             } else {
                 // Apply to students too, moodle over filters content !
-                echo $csslink;
+                if (!defined(AJAX_SCRIPT) && !AJAX_SCRIPT) {
+                    echo $csslink;
+                }
             }
         }
         $customlabelcssloaded[] = $customlabel->labelclass;
@@ -508,7 +512,7 @@ function customlabel_cm_info_view(&$cminfo) {
     $ispluginfile = preg_match('/pluginfile/', $FULLME);
     $istogglecompletion = preg_match('/togglecompletion/', $FULLME);
 
-    if (!$ispluginfile && (($PAGE->pagetype != 'course-modedit') && !AJAX_SCRIPT && !$istogglecompletion) || $gettingmoduleupdate) {
+    if (!$ispluginfile && (($PAGE->pagetype != 'course-modedit') && !$istogglecompletion) || $gettingmoduleupdate) {
 
         // In edit form, some race conditions between theme and rendering goes wrong when not admin...
 
@@ -533,7 +537,7 @@ function customlabel_cm_info_view(&$cminfo) {
         } catch (Exception $e) {
             assert(1);
             if ($CFG->debug == E_ALL) {
-                print_error($e->getMessage());
+                throw new moodle_exception($e->getMessage());
             }
             // Quiet any exception here. Resolve case of Editing Teachers.
         }
@@ -763,6 +767,7 @@ function customlabel_get_completion_state($course, $cm, $userid, $type) {
 
 /**
  * Check if there are some plugins that need jqplot preload. Hard resolved bu now.
+ * TODO : check if still needed, as satisfaction now uses vflibs/chart_js.
  */
 function mod_customlabel_before_http_headers() {
     global $DB, $COURSE, $CFG;
@@ -781,8 +786,10 @@ function mod_customlabel_before_http_headers() {
         $labelclasses = array_keys($labels);
         // TODO : Do this better and discover by classlabel.
         if (in_array('satisfaction', $labelclasses)) {
-            include_once($CFG->dirroot.'/local/vflibs/jqplotlib.php');
-            local_vflibs_require_jqplot_libs();
+        	if (is_dir($CFG->dirroot.'/local/vflibs')) {
+	            include_once($CFG->dirroot.'/local/vflibs/jqplotlib.php');
+	            local_vflibs_require_jqplot_libs();
+	         }
         }
     }
 }

@@ -88,6 +88,8 @@ class customlabel_type_text extends customlabel_type {
         $this->data->textcontent = str_replace("%25WWWROOT%25", $CFG->wwwroot, $this->data->textcontent);
         $this->data->textcontent = str_replace("%COURSEID%", $COURSE->id, $this->data->textcontent);
         $this->data->textcontent = str_replace("%25COURSEID%25", $COURSE->id, $this->data->textcontent);
+        $this->data->textcontent = str_replace("%CIDNUMBER%", $COURSE->idnumber, $this->data->textcontent);
+        $this->data->textcontent = str_replace("%25CIDNUMBER%25", $COURSE->idnumber, $this->data->textcontent);
         $this->data->textcontent = str_replace("%USERID%", $USER->id, $this->data->textcontent);
         $this->data->textcontent = str_replace("%25USERID%25", $USER->id, $this->data->textcontent);
 
@@ -100,6 +102,8 @@ class customlabel_type_text extends customlabel_type {
         $this->data->readmorecontent = str_replace("%25WWWROOT%25", $CFG->wwwroot, $this->data->readmorecontent);
         $this->data->readmorecontent = str_replace("%COURSEID%", $COURSE->id, $this->data->readmorecontent);
         $this->data->readmorecontent = str_replace("%25COURSEID%25", $COURSE->id, $this->data->readmorecontent);
+        $this->data->readmorecontent = str_replace("%CIDNUMBER%", $COURSE->idnumber, $this->data->readmorecontent);
+        $this->data->readmorecontent = str_replace("%25CIDNUMBER%25", $COURSE->idnumber, $this->data->readmorecontent);
         $this->data->readmorecontent = str_replace("%USERID%", $USER->id, $this->data->readmorecontent);
         $this->data->readmorecontent = str_replace("%25USERID%25", $USER->id, $this->data->readmorecontent);
         $this->data->readmorecontent = preg_replace('/@@PLUGINFILE\:\:\d+@@/', '@@PLUGINFILE@@', @$this->data->readmorecontent);

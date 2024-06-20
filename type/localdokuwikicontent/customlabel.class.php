@@ -43,18 +43,21 @@ class customlabel_type_localdokuwikicontent extends customlabel_type {
 
         $field = new StdClass();
         $field->name = 'local';
+        $field->help = 'localwiki';
         $field->type = 'choiceyesno';
         $field->default = $this->config->defaultlocal;
         $this->fields['local'] = $field;
 
         $field = new StdClass();
         $field->name = 'contentpage';
+        $field->help = 'contentpage';
         $field->type = 'textfield';
         $field->size = 20;
         $this->fields['contentpage'] = $field;
 
         $field = new StdClass();
         $field->name = 'accesstoken';
+        $field->help = 'accesstoken';
         $field->type = 'textfield';
         $field->default = $this->config->defaultlocal;
         $field->size = 20;
@@ -62,6 +65,7 @@ class customlabel_type_localdokuwikicontent extends customlabel_type {
 
         $field = new StdClass();
         $field->name = 'remotehost';
+        $field->help = 'remotehost';
         $field->type = 'textfield';
         $field->default = $this->config->defaultremotehost;
         $field->size = 40;
@@ -115,7 +119,9 @@ class customlabel_type_localdokuwikicontent extends customlabel_type {
         if (!empty($this->data->contentpage)) {
 
             if (!empty($this->data->local)) {
-                debug_trace("Getting local ");
+                if (function_exists('debug_trace')) {
+                    debug_trace("Getting local ", TRACE_DEBUG);
+                }
                 $content = customlabeltype_localwikicontent_get_page_content($this->data->contentpage, $lang);
 
                 $config = get_config('customlabeltype_localdokuwikicontent');
@@ -125,7 +131,9 @@ class customlabel_type_localdokuwikicontent extends customlabel_type {
             } else {
                 $content = '';
                 $webroot = '';
-                debug_trace("Getting remote");
+                if (function_exists('debug_trace')) {
+                    debug_trace("Getting remote", DEBUG_TRACE);
+                }
                 if ($remote = $this->get_remote_page_content($this->data->contentpage, $lang)) {
                     if (!empty($remote->content)) {
                         $content = $remote->content;
@@ -190,6 +198,12 @@ class customlabel_type_localdokuwikicontent extends customlabel_type {
         return false;
     }
 
+    /** 
+     * Gets content from a remote server
+     * Uses default remote url and default remote accesstoken, unless having been overriden by instance settings.
+     * @param string $page the page id.
+     * @param string $lang the language.
+     */
     protected function get_remote_page_content($page, $lang) {
 
         $config = get_config('customlabeltype_localdokuwikicontent');
