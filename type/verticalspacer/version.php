@@ -17,8 +17,7 @@
 /**
  * Version details.
  *
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_verticalspacer
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -30,4 +29,3 @@ $plugin->version  = 2015041800;  // The current module version (Date: YYYYMMDDXX
 $plugin->component = 'customlabeltype_verticalspacer';   // Full name of the plugin (used for diagnostics).
 
 $plugin->codeincrement = "XX.0001";
-

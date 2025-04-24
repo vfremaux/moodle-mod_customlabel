@@ -15,19 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     mod_customlabel
- * @category    mod
- * @copyright   2010 onwards Valery Fremaux {valery.fremaux@gmail.com}
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Define all the backup steps that will be used by the backup_customlabel_activity_task
+ *
+ * @package    mod_customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux (www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
-
-/**
- * Define all the backup steps that will be used by the backup_customlabel_activity_task
- */
 
 /**
  * Define the complete choice structure for backup, with file and id annotations
@@ -43,27 +41,27 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
          */
 
         // Define each element separated.
-        $customlabel = new backup_nested_element('customlabel', array('id'), array(
-            'name', 'title', 'labelclass', 'fallbacktype', 'intro', 'introformat', 'timemodified', 'content', 'processedcontent'));
+        $customlabel = new backup_nested_element('customlabel', ['id'], [
+            'name', 'title', 'labelclass', 'fallbacktype', 'intro', 'introformat', 'timemodified', 'content', 'processedcontent']);
 
         $metadata = new backup_nested_element('metadata');
 
         $metadatatypes = new backup_nested_element('metadatatypes');
 
-        $metadatatype = new backup_nested_element('metadatatype', array('id'), array(
-            'type', 'code', 'name', 'description', 'sortorder'));
+        $metadatatype = new backup_nested_element('metadatatype', ['id'], [
+            'type', 'code', 'name', 'description', 'sortorder']);
 
         $metadatavalues = new backup_nested_element('metadatavalues');
 
-        $metadatavalue = new backup_nested_element('metadatavalue', array('id'), array(
-            'typeid', 'code', 'value', 'translatable', 'sortorder', 'parent'));
+        $metadatavalue = new backup_nested_element('metadatavalue', ['id'], [
+            'typeid', 'code', 'value', 'translatable', 'sortorder', 'parent']);
 
         // Do NOT backup constraints.
 
         $metadatacourse = new backup_nested_element('metadatacourse');
 
-        $metadatacoursedatum = new backup_nested_element('metadatacoursedatum', array('id'), array(
-            'courseid', 'valueid'));
+        $metadatacoursedatum = new backup_nested_element('metadatacoursedatum', ['id'], [
+            'courseid', 'valueid']);
 
         // Build the tree.
         $customlabel->add_child($metadata);
@@ -77,15 +75,15 @@ class backup_customlabel_activity_structure_step extends backup_activity_structu
         $metadatacourse->add_child($metadatacoursedatum);
 
         // Define sources.
-        $customlabel->set_source_table('customlabel', array('id' => backup::VAR_ACTIVITYID));
+        $customlabel->set_source_table('customlabel', ['id' => backup::VAR_ACTIVITYID]);
 
         // Unless types are overriden (not implemented) this will not produce data.
-        $metadatatype->set_source_table('customlabel_mtd_type', array('id' => backup::VAR_ACTIVITYID));
+        $metadatatype->set_source_table('customlabel_mtd_type', ['id' => backup::VAR_ACTIVITYID]);
 
         // Unless types are overriden (not implemented) this will not produce data.
-        $metadatavalue->set_source_table('customlabel_mtd_value', array('typeid' => backup::VAR_PARENTID));
+        $metadatavalue->set_source_table('customlabel_mtd_value', ['typeid' => backup::VAR_PARENTID]);
 
-        $metadatacoursedatum->set_source_table('customlabel_course_metadata', array('courseid' => backup::VAR_COURSEID));
+        $metadatacoursedatum->set_source_table('customlabel_course_metadata', ['courseid' => backup::VAR_COURSEID]);
 
         // Define id annotations.
 

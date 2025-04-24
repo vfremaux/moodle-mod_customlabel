@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_keypoints
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -35,7 +35,7 @@ class customlabel_type_keypoints extends customlabel_type {
     public function __construct($data) {
         parent::__construct($data);
         $this->type = 'keypoints';
-        $this->fields = array();
+        $this->fields = [];
         $this->directdisplay = true;
 
         $keypointnum = @$this->data->keypointnum;
@@ -61,7 +61,11 @@ class customlabel_type_keypoints extends customlabel_type {
         }
     }
 
-    public function preprocess_data($course = null) {
+    /**
+     * Preprocesses template before getting options and additional inputs
+     * from fields.
+     */
+    public function preprocess_data() {
 
         if ($this->instance->completion1enabled) {
             $keypointtpl->feedbackmark = true;
@@ -81,11 +85,11 @@ class customlabel_type_keypoints extends customlabel_type {
      * Add customized per type completion rules (up to 3)
      * @param object $mform the completion form
      */
-    static public function add_completion_rules($mform) {
+    public static function add_completion_rules($mform) {
 
         $mform->addElement('checkbox', 'completion1enabled', '', get_string('completion1', 'customlabeltype_keypoints'));
 
-        return array('completion1enabled');
+        return ['completion1enabled'];
     }
 
     /**

@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_satisfaction
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -38,7 +38,7 @@ class customlabel_type_satisfaction extends customlabel_type {
 
         parent::__construct($data);
         $this->type = 'satisfaction';
-        $this->fields = array();
+        $this->fields = [];
 
         // Not true any more. Using chartjs
         // $this->usesjqplot = true;
@@ -109,6 +109,10 @@ class customlabel_type_satisfaction extends customlabel_type {
         debug_trace($this->data);
     }
 
+    /**
+     * Preprocesses template before getting options and additional inputs
+     * from fields.
+     */
     public function preprocess_data() {
         global $DB, $OUTPUT, $COURSE;
 
@@ -130,7 +134,7 @@ class customlabel_type_satisfaction extends customlabel_type {
 
         if ($module->name == 'questionnaire') {
             $satisfaction = $this->get_questionnaire_score($this->data->activityscoresource, $this->data->qposition);
-            debug_trace("Getting results for {$this->data->activityscoresource}, {$this->data->qposition} ");
+            // debug_trace("Getting results for {$this->data->activityscoresource}, {$this->data->qposition} ");
         } else {
             $satisfaction = $this->get_feedback_score($this->data->activityscoresource, $this->data->qposition);
         }
@@ -159,6 +163,8 @@ class customlabel_type_satisfaction extends customlabel_type {
 
     /**
      * Get the local score of the required question in a questionnaire result.
+     * @param int $cmid
+     * @params int $qposition
      */
     protected function get_questionnaire_score($cmid, $qposition) {
         global $DB;

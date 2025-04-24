@@ -18,7 +18,7 @@
  * This script implements a pageitem content builder for feeding
  * a page_module actvity wrapper.
  *
- * @package   customlabel
+ * @package   mod_customlabel
  * @copyright 2014 Valery Fremaux (valery.Fremaux@gmail.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

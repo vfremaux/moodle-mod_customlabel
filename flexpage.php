@@ -15,23 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Special page format adapter.
+ *
  * @package    mod_customlabel
- * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @see blocks/page_module/block_pagge_module.php
  */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 
+/**
+ * A local dedicated wr apper for page format.
+ */
 class mod_customlabel_flexpage extends block_flexpagemod_lib_mod {
 
+    /**
+     * Setup page module block for page format.
+     */
     public function module_block_setup() {
         global $DB;
 
         $cm = $this->get_cm();
-        $customlabel = $DB->get_record('customlabel', array('id' => $cm->instance));
+        $customlabel = $DB->get_record('customlabel', ['id' => $cm->instance]);
         $customlabel->coursemodule = $cm->id;
         $instance = customlabel_load_class($customlabel, $customlabel->labelclass);
         $block = null;

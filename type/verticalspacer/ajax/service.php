@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Ajax calls for vertical spacer.
  *
- * @package    mod_customlabel
- * @category   mod
+ * @package customlabeltype_verticalspacer
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+
 require('../../../../../config.php');
 require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
@@ -34,7 +34,7 @@ $PAGE->set_context(context_course::instance($courseid));
 $isvisible = optional_param('isvisible', false, PARAM_BOOL);
 $height = optional_param('height', false, PARAM_INT);
 
-$course = $DB->get_record('course', array('id' => $courseid));
+$course = $DB->get_record('course', ['id' => $courseid]);
 if (!$course) {
     die;
 }
@@ -44,7 +44,7 @@ if (!empty($isvisible)) {
 }
 
 if (!empty($height)) {
-    $customlabel = $DB->get_record('customlabel', array('id' => $customlabelid));
+    $customlabel = $DB->get_record('customlabel', ['id' => $customlabelid]);
     if ($customlabel->labelclass != 'verticalspacer') {
         die;
     }

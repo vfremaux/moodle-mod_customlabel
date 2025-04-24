@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_question
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -38,7 +38,7 @@ class customlabel_type_question extends customlabel_type {
     public function __construct($data) {
         parent::__construct($data);
         $this->type = 'question';
-        $this->fields = array();
+        $this->fields = [];
 
         $this->hasamd = true;
 
@@ -104,7 +104,7 @@ class customlabel_type_question extends customlabel_type {
         $field->name = 'shuffleanswers';
         $field->type = 'choiceyesno';
         $field->default = true;
-        $field->disabledif = array('isqcmchallenge', 'neq', 1);
+        $field->disabledif = ['isqcmchallenge', 'neq', 1];
         $this->fields['shuffleanswers'] = $field;
 
         $field = new StdClass;
@@ -112,19 +112,23 @@ class customlabel_type_question extends customlabel_type {
         $field->type = 'textfield';
         $field->default = 0;
         $field->size = 3;
-        $field->disabledif = array('isqcmchallenge', 'neq', 1);
+        $field->disabledif = ['isqcmchallenge', 'neq', 1];
         $this->fields['attempts'] = $field;
 
         $field = new StdClass;
         $field->name = 'correctanswer';
         $field->type = 'list';
-        $field->options = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        $field->options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         $field->straightoptions = true;
         $field->help = 'correctanswer';
-        $field->disabledif = array('isqcmchallenge', 'neq', 1);
+        $field->disabledif = ['isqcmchallenge', 'neq', 1];
         $this->fields['correctanswer'] = $field;
     }
 
+    /**
+     * Preprocesses template before getting options and additional inputs
+     * from fields.
+     */
     public function preprocess_data() {
         global $OUTPUT, $COURSE, $USER, $DB;
 
@@ -159,7 +163,7 @@ class customlabel_type_question extends customlabel_type {
             $correctanswer = @$answers[$this->data->correctanswer];
 
             // Get eventual stored answer.
-            $params = array('customlabelid' => $this->instance->id, 'userid' => $USER->id);
+            $params = ['customlabelid' => $this->instance->id, 'userid' => $USER->id];
             $userdata = $DB->get_record('customlabel_user_data', $params);
 
             // Prepare a reverse index array.
@@ -210,12 +214,12 @@ class customlabel_type_question extends customlabel_type {
      * Add customized per type completion rules (up to 3)
      * @param object $mform the completion form
      */
-    static public function add_completion_rules($mform) {
+    public static function add_completion_rules($mform) {
 
         $mform->addElement('checkbox', 'completion1enabled', '', get_string('completion1', 'customlabeltype_question'));
         $mform->addElement('checkbox', 'completion2enabled', '', get_string('completion2', 'customlabeltype_question'));
 
-        return array('completion1enabled', 'completion2enabled');
+        return ['completion1enabled', 'completion2enabled'];
     }
 
     /**

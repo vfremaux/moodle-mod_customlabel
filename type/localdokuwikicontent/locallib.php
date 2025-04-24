@@ -17,7 +17,7 @@
 /**
  *
  * @package    customlabeltype_localdokuwikicontent
- * @category   report
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -45,7 +45,7 @@ function customlabeltype_localwikicontent_get_page_content($contentpage, $lang) 
         return $OUTPUT->notification(get_string('errornowiki', 'customlabeltype_localdokuwikicontent', ''), 'error');
     }
 
-    $output = array();
+    $output = [];
 
     $path = core_text::strtolower(str_replace(':', '/', $contentpage));
     $contentfile = $basedir.'/data/pages/'.$path.'.txt';

@@ -13,21 +13,38 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Main type implementation
+ *
+ * @package    customlabeltype_unitheading
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype_heading.trait.php');
 
+/**
+ * Main subtype implementation.
+ */
 class customlabel_type_unitheading extends customlabel_type {
 
     use customlabel_trait_heading;
 
+    /**
+     * Constructor
+     * @param object $data
+     */
     public function __construct($data) {
         global $CFG, $PAGE, $OUTPUT;
 
         parent::__construct($data);
         $this->type = 'unitheading';
-        $this->fields = array();
+        $this->fields = [];
 
         $this->standard_name_fields();
 
@@ -61,18 +78,21 @@ class customlabel_type_unitheading extends customlabel_type {
      * If exists, this method can process local alternative values for
      * realizing the template, after all standard translations have been performed.
      * Type information structure and application context dependant.
-     * @param $data
+     * @param object $course
      */
     public function postprocess_data($course = null) {
 
         // Get virtual fields from course title.
         $storedimage = $this->get_file_url('image');
-        $this->data->imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
+        $this->data->imageurl = $storedimage;
         if (empty($this->data->imagewidth)) {
             $this->data->imagewidth = "20%";
         }
         if (empty($this->data->imagepositionoption)) {
-            $this->data->imagepositionoption = 'left';
+            $this->data->imagepositionoption = 'none';
+            if (!empty($this->data->imageurl)) {
+                $this->data->imagepositionoption = 'left';
+            }
         }
         if ($this->data->imagepositionoption == 'left') {
             $this->data->toleft = true;

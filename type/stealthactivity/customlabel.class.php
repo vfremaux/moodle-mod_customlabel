@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_stealthactivity
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -35,7 +35,7 @@ class customlabel_type_stealthactivity extends customlabel_type {
     public function __construct($data) {
         parent::__construct($data);
         $this->type = 'stealthactivity';
-        $this->fields = array();
+        $this->fields = [];
 
         $field = new StdClass;
         $field->name = 'stealthmodule';
@@ -85,7 +85,7 @@ class customlabel_type_stealthactivity extends customlabel_type {
             $this->data->onclick = $cminfo->onclick;
 
             $courserenderer = $PAGE->get_renderer('course');
-            $this->data->cmlink = $courserenderer->course_section_cm_name($cminfo, array());
+            $this->data->cmlink = $courserenderer->course_section_cm_name($cminfo, []);
 
             if (empty($this->data->layoutoption)) {
                 $this->data->layoutoption = 'thumbandtitle';
@@ -134,7 +134,7 @@ class customlabel_type_stealthactivity extends customlabel_type {
             $linkclasses .= ' dimmed';
             $textclasses .= ' dimmed dimmed_text';
         }
-        return array($linkclasses, $textclasses);
+        return [$linkclasses, $textclasses];
     }
 
     /**

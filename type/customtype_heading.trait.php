@@ -16,7 +16,7 @@
 
 /**
  * @package    mod_customlabel
- * @category   mod
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -51,7 +51,7 @@ trait customlabel_trait_heading {
         $field = new StdClass();
         $field->name = 'imageposition';
         $field->type = 'list';
-        $field->options = array('none', 'left', 'right');
+        $field->options = ['none', 'left', 'right'];
         $field->default = 'none';
         $this->fields['imageposition'] = $field;
 

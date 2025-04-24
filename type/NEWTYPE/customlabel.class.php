@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package customlabel
- * @category mod
+ * @package mod_customlabel
+ *
  * @subpackage document_wrappers
  * @author Valery Fremaux [valery.fremaux@gmail.com] > 1.9
  * @date 2008/03/31
@@ -37,7 +37,7 @@ class customlabel_type_NEWTYPE extends customlabel_type {
     public function __construct($data) {
         parent::__construct($data);
         $this->type = 'NEWTYPE';
-        $this->fields = array();
+        $this->fields = [];
 
         $field = new StdClass;
         $field->name = 'smalltext';
@@ -56,13 +56,13 @@ class customlabel_type_NEWTYPE extends customlabel_type {
         unset($field);
         $field->name = 'list';
         $field->type = 'list';
-        $field->options = array('opt1', 'opt2'); // This can be changed to whatever any menu_list.
+        $field->options = ['opt1', 'opt2']; // This can be changed to whatever any menu_list.
         $this->fields['list'] = $field;
 
         unset($field);
         $field->name = 'listmultiple[]';
         $field->type = 'list';
-        $field->options = array('opt1', 'opt2'); // This can be changed to whatever any menu_list.
+        $field->options = ['opt1', 'opt2']; // This can be changed to whatever any menu_list.
         $field->multiple = 1;
         $field->size = 5;
         $this->fields['listmultiple'] = $field;

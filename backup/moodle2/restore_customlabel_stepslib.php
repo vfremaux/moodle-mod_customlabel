@@ -17,10 +17,13 @@
 /**
  * Define all the restore steps that will be used by the restore_customlabel_activity_task
  *
- * @package customlabel
- * @subpackage backup-moodle2
- * @copyright 2010 onwards Valery Fremaux (valery.freamux@club-internet.fr)
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux (www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ *
+ * @todo : Subrogate restore id conversions to subtype specific data. Ex : type satisfaction needs
+ * remapping the base questionnaire/feedback
  */
 defined('MOODLE_INTERNAL') || die();
 
@@ -31,9 +34,12 @@ require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
  */
 class restore_customlabel_activity_structure_step extends restore_activity_structure_step {
 
+    /**
+     * Define XML structure for parsing.
+     */
     protected function define_structure() {
 
-        $paths = array();
+        $paths = [];
 
         // Main customlabel record.
         $paths[] = new restore_path_element('customlabel', '/activity/customlabel');
@@ -63,6 +69,10 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         }
     }
 
+    /**
+     * Main customlabel data restore
+     * @param object $data
+     */
     protected function process_customlabel($data) {
         global $DB;
         static $classes = null;
@@ -106,6 +116,10 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $this->apply_activity_instance($newitemid);
     }
 
+    /**
+     * Customlabel metadata restore
+     * @param object $data
+     */
     protected function process_metadatatype($data) {
         global $DB;
 
@@ -113,7 +127,7 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $oldid = $data->id;
 
         // The data is actually inserted into the database later in inform_new_usage_id.
-        $params = array('code' => $data->code);
+        $params = ['code' => $data->code];
         if (!$oldrec = $DB->get_record('customlabel_mtd_type', $params)) {
             $newitemid = $DB->insert_record('customlabel_mtd_type', $data);
         } else {
@@ -122,6 +136,10 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         $this->set_mapping('customlabel_mtd_type', $oldid, $newitemid, false); // Has no related files.
     }
 
+    /**
+     * Customlabel metadata restore
+     * @param object $data
+     */
     protected function process_metadatavalue($data) {
         global $DB;
 
@@ -132,7 +150,7 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
 
         // The data is actually inserted into the database later in inform_new_usage_id.
         if ($data->typeid) {
-            $params = array('typeid' => $data->typeid, 'code' => $data->code);
+            $params = ['typeid' => $data->typeid, 'code' => $data->code];
             if (!$oldrec = $DB->get_record('customlabel_mtd_value', $params)) {
                 $newitemid = $DB->insert_record('customlabel_mtd_value', $data);
             } else {
@@ -142,6 +160,10 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         }
     }
 
+    /**
+     * Customlabel metadata restore
+     * @param object $data
+     */
     protected function process_coursemetadata($data) {
         global $DB;
 
@@ -158,13 +180,20 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         }
     }
 
+    /**
+     * Post update a customlabel internal field
+     * @param object $data
+     * @param string $fieldname
+     * @param int $oldid
+     * @param int $newid
+     */
     private function postupdate(&$data, $fieldname, $oldid, $newid) {
         global $DB;
 
         if (preg_match('/^(.*)_(\\d+)$/', $data->$fieldname, $matches)) {
             if ($matches[2] == $oldid) {
                 $newname = $matches[1].'_'.$newid;
-                $DB->set_field('customlabel', $fieldname, $newname, array('id' => $newid));
+                $DB->set_field('customlabel', $fieldname, $newname, ['id' => $newid]);
             }
         }
     }
@@ -177,7 +206,7 @@ class restore_customlabel_activity_structure_step extends restore_activity_struc
         global $DB;
 
         $courseid = $this->task->get_courseid();
-        $course = $DB->get_record('course', array('id' => $courseid));
+        $course = $DB->get_record('course', ['id' => $courseid]);
 
         $customlabels = $DB->get_records('customlabel', ['course' => $courseid]);
         if (!$customlabels) {

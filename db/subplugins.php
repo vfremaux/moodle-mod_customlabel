@@ -17,11 +17,12 @@
 /**
  * Definition of subplugins
  *
- * @package     mod_customlabel
- * @category    mod
- * @copyright   2012 Valery Fremaux
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux (www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+
 defined('MOODLE_INTERNAL') || die();
 
-$subplugins = array('customlabeltype'  => 'mod/customlabel/type');
+$subplugins = ['customlabeltype'  => 'mod/customlabel/type'];

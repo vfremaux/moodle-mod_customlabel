@@ -18,7 +18,7 @@
  * Version details.
  *
  * @package    mod_customlabel
- * @category   mod
+ *
  * @author     Valery Fremaux (valery.fremaux@gmail.com)
  * @copyright  2013 onwards Valery Fremaux (valery.fremaux@gmail.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -36,7 +36,7 @@ $plugin->maturity = MATURITY_STABLE;
 // Non moodle attributes.
 $plugin->codeincrement = '4.1.0018';
 $plugin->privacy = 'dualrelease';
-$plugin->prolocations = array(
+$plugin->prolocations = [
     'type/coursedata',
     'type/pedagogicadvice',
     'type/authordata',
@@ -54,4 +54,4 @@ $plugin->prolocations = array(
     'type/requestcontact',
     'type/satisfaction',
     'type/contactpoint',
-);
+];

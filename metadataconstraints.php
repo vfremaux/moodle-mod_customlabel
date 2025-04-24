@@ -15,19 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Edits contraints between two classification domains.
+ *
  * @package    mod_customlabel
- * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux <valery.fremaux@gmail.com> (www.activeProLearn.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $config = get_config('customlabel');
 
-$q1 = new StdClass;
-$q2 = new StdClass;
+$q1 = new StdClass();
+$q2 = new StdClass();
 $q1->value = optional_param('value1', '', PARAM_TEXT);
 $q2->value = optional_param('value2', '', PARAM_TEXT);
 
@@ -38,10 +39,10 @@ if ($q1->value == $q2->value) {
 }
 
 $classtable = $config->classification_value_table;
-$q1->countvalueset = $DB->count_records($classtable, array($config->classification_value_type_key => $q1->value));
-$q2->countvalueset = $DB->count_records($classtable, array($config->classification_value_type_key => $q2->value));
-$q1->valueset = $DB->get_records($classtable, array($config->classification_value_type_key => $q1->value));
-$q2->valueset = $DB->get_records($classtable, array($config->classification_value_type_key => $q2->value));
+$q1->countvalueset = $DB->count_records($classtable, [$config->classification_value_type_key => $q1->value]);
+$q2->countvalueset = $DB->count_records($classtable, [$config->classification_value_type_key => $q2->value]);
+$q1->valueset = $DB->get_records($classtable, [$config->classification_value_type_key => $q1->value]);
+$q2->valueset = $DB->get_records($classtable, [$config->classification_value_type_key => $q2->value]);
 
 if ($action != '') {
     include_once($CFG->dirroot.'/mod/customlabel/metadataconstraints.controller.php');
@@ -71,4 +72,3 @@ if (!$DB->count_records($config->classification_type_table, ['type' => 'category
         echo $renderer->constraints_form($view, $q1, $q2);
     }
 }
-

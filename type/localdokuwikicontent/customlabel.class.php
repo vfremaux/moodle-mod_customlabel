@@ -15,8 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * Main subtype implementation
+ *
+ * @package    customlabeltype_localdokuwikicontent
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -26,6 +27,9 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 require_once($CFG->dirroot.'/mod/customlabel/type/localdokuwikicontent/locallib.php');
 
+/**
+ * Implementation class
+ */
 class customlabel_type_localdokuwikicontent extends customlabel_type {
 
     private $config;
@@ -39,7 +43,7 @@ class customlabel_type_localdokuwikicontent extends customlabel_type {
 
         parent::__construct($data);
         $this->type = 'localdokuwikicontent';
-        $this->fields = array();
+        $this->fields = [];
 
         $field = new StdClass();
         $field->name = 'local';
@@ -132,7 +136,7 @@ class customlabel_type_localdokuwikicontent extends customlabel_type {
                 $content = '';
                 $webroot = '';
                 if (function_exists('debug_trace')) {
-                    debug_trace("Getting remote", DEBUG_TRACE);
+                    debug_trace("Getting remote", TRACE_DEBUG);
                 }
                 if ($remote = $this->get_remote_page_content($this->data->contentpage, $lang)) {
                     if (!empty($remote->content)) {
@@ -198,7 +202,7 @@ class customlabel_type_localdokuwikicontent extends customlabel_type {
         return false;
     }
 
-    /** 
+    /**
      * Gets content from a remote server
      * Uses default remote url and default remote accesstoken, unless having been overriden by instance settings.
      * @param string $page the page id.
@@ -226,11 +230,11 @@ class customlabel_type_localdokuwikicontent extends customlabel_type {
             }
         }
 
-        $params = array('wstoken' => $accesstoken,
+        $params = ['wstoken' => $accesstoken,
                         'wsfunction' => 'customlabeltype_localdokuwikicontent_get_page',
                         'moodlewsrestformat' => 'json',
                         'page' => $page,
-                        'lang' => $lang);
+                        'lang' => $lang];
 
         $serviceurl = $remotehost.'/webservice/rest/server.php';
         return $this->send($serviceurl, $params);
@@ -256,8 +260,8 @@ class customlabel_type_localdokuwikicontent extends customlabel_type {
         $error = '';
         if (!$result = curl_exec($ch)) {
             if ($CFG->debug == DEBUG_DEVELOPER) {
-           		$error = "CURL Error : ".curl_errno($ch).' '.curl_error($ch)."\n";
-           	}
+                $error = "CURL Error : ".curl_errno($ch).' '.curl_error($ch)."\n";
+            }
         }
 
         if (preg_match('/EXCEPTION/', $result)) {

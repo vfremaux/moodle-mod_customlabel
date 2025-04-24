@@ -141,6 +141,17 @@
         </tr>
         {{/showoutcomes}}
 
+        {{#showcompetencies}}
+        <tr class="custombox-{{labelclass}}">
+            <td class="custombox-param {{labelclass}}" width="{{leftcolumnratio}}">
+                {{#str}}competencies, customlabeltype_coursedata{{/str}}
+            </td>
+            <td class="custombox-value {{labelclass}}" width="{{rightcolumnratio}}">
+                {{{competencies}}}
+            </td>
+        </tr>
+        {{/showcompetencies}}
+
         {{#showfollowers}}
         <tr class="custombox-{{labelclass}}">
             <td class="custombox-param {{labelclass}}" width="{{leftcolumnratio}}">
@@ -151,7 +162,7 @@
             </td>
         </tr>
         {{/showfollowers}}
-        
+
         {{#showheadteacher}}
         <tr class="custombox-{{labelclass}}">
             <td class="custombox-param {{labelclass}}" width="{{leftcolumnratio}}">

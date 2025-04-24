@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package customlabel
- * @category mod
+ * @package customlabeltype_remotecontent
+ *
  * @subpackage document_wrappers
  * @author Valery Fremaux [valery.fremaux@gmail.com] > 1.9
  * @date 2008/03/31
@@ -41,7 +41,7 @@ class customlabel_type_remotecontent extends customlabel_type {
     public function __construct($data) {
         parent::__construct($data);
         $this->type = 'remotecontent';
-        $this->fields = array();
+        $this->fields = [];
 
         $protocoloptions = ['soap', 'rest', 'moodlews', 'htmlcapture'];
 
@@ -214,6 +214,10 @@ class customlabel_type_remotecontent extends customlabel_type {
 
     }
 
+    /**
+     * Preprocesses template before getting options and additional inputs
+     * from fields.
+     */
     public function preprocess_data() {
 
         $str = '';
@@ -249,7 +253,7 @@ class customlabel_type_remotecontent extends customlabel_type {
 
         $renderer = $PAGE->get_renderer('block_remote_content');
 
-        $params = array('wstoken' => $this->data->wstoken);
+        $params = ['wstoken' => $this->data->wstoken];
 
         if ($this->data->wsprotocol == 'rest') {
             $params['wsfunction'] = $this->data->wsfunction;
@@ -275,13 +279,13 @@ class customlabel_type_remotecontent extends customlabel_type {
             // Call Moodle WS using a Soap client.
             $serviceurl = $this->data->baseurl.'/webservice/soap/server.php';
 
-            $options = array('trace' => 1);
+            $options = ['trace' => 1];
 
-            $opts = array(
-                'http' => array(
-                    'user_agent' => 'Moodle SOAP Client'
-                )
-            );
+            $opts = [
+                'http' => [
+                    'user_agent' => 'Moodle SOAP Client',
+                ],
+            ];
             $context = stream_context_create($opts);
             $options['stream_context'] = $context;
             $options['cache_wsdl'] = WSDL_CACHE_NONE;
@@ -301,7 +305,7 @@ class customlabel_type_remotecontent extends customlabel_type {
 
             if (!is_array($data)) {
                 // Converts int a single object array to render one template instance.
-                $data = array($data);
+                $data = [$data];
             }
 
             foreach($data as $datum) {
@@ -379,7 +383,7 @@ class customlabel_type_remotecontent extends customlabel_type {
 
     protected function send_soap_request() {
 
-        $options = array('trace' => 1);
+        $options = ['trace' => 1];
         if (!empty($this->data->soaplogin)) {
             $options['login'] = $this->data->soaplogin;
             $options['password'] = $this->data->soappassword;
@@ -391,7 +395,7 @@ class customlabel_type_remotecontent extends customlabel_type {
             $this->add_context($soapparams);
         }
 
-        $argsarr = array();
+        $argsarr = [];
         if ($argspairs = explode('&', $soapparams)) {
             foreach ($soappairs as $pair) {
                 $parts = explode('=', $pair);
@@ -401,7 +405,7 @@ class customlabel_type_remotecontent extends customlabel_type {
             }
         }
 
-        $options = array('exceptions' => true);
+        $options = ['exceptions' => true];
         try {
             $result = $client->__soapCall($this->data->soapfunction, $argsarr, $options);
         } catch (Exception $soape) {

@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_courseheading
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -37,7 +37,7 @@ class customlabel_type_courseheading extends customlabel_type {
 
         parent::__construct($data);
         $this->type = 'courseheading';
-        $this->fields = array();
+        $this->fields = [];
 
         $field = new StdClass();
         $field->name = 'showdescription';
@@ -91,7 +91,7 @@ class customlabel_type_courseheading extends customlabel_type {
         $field = new StdClass();
         $field->name = 'imageposition';
         $field->type = 'list';
-        $field->options = array('none', 'left', 'right');
+        $field->options = ['none', 'left', 'right'];
         $field->default = 'none';
         $this->fields['imageposition'] = $field;
 
@@ -154,7 +154,7 @@ class customlabel_type_courseheading extends customlabel_type {
             $this->data->imageL = '';
             $this->data->imageR = '';
         }
-        if ($cat = $DB->get_record('course_categories', array('id' => $course->category))) {
+        if ($cat = $DB->get_record('course_categories', ['id' => $course->category])) {
             $this->data->category = $cat->name;
         }
     }

@@ -19,8 +19,8 @@
  * this file is automatically loaded by the /mod/customlabel/lang/xx_utf8/customlabel.php
  * module language file.
  *
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_remotecontent
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -28,29 +28,29 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$capabilities = array(
+$capabilities = [
 
     // Controls who can add this type.
-    'customlabeltype/remotecontent:addinstance' => array(
+    'customlabeltype/remotecontent:addinstance' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
-        'legacy' => array(
+        'legacy' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-            'coursecreator' => CAP_ALLOW
-        )
-    ),
+            'coursecreator' => CAP_ALLOW,
+        ],
+    ],
 
     // Controls visibility of labeltype on role base.
-    'customlabeltype/remotecontent:view' => array(
+    'customlabeltype/remotecontent:view' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => array(
+        'legacy' => [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
             'coursecreator' => CAP_ALLOW,
             'student' => CAP_ALLOW,
-        )
-    ),
-);
+        ],
+    ],
+];

@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_authordata
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -26,10 +26,9 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
- *
+ * Customlabel type main class
  *
  */
-
 class customlabel_type_authordata extends customlabel_type {
 
     public $nbauthor = 5;
@@ -39,7 +38,7 @@ class customlabel_type_authordata extends customlabel_type {
 
         parent::__construct($data);
         $this->type = 'authordata';
-        $this->fields = array();
+        $this->fields = [];
 
         $field = new StdClass;
         $field->name = 'tablecaption';
@@ -138,7 +137,7 @@ class customlabel_type_authordata extends customlabel_type {
 
                 $authortpl = new StdClass;
                 $authortpl->authorname = $this->data->{'author'.$i};
-                $authortpl->role = (!empty($this->data->{'role'.$i})) ? get_string($this->data->{'role'.$i}, 'customlabeltype_authordata') : '';
+                $authortpl->role = (!empty($this->data->{'role'.$i})) ? $this->data->{'role'.$i} : '';
                 if (isset($this->data->{'institution'.$i})) {
                     $authortpl->institution = $this->data->{'institution'.$i};
                 }
@@ -155,10 +154,12 @@ class customlabel_type_authordata extends customlabel_type {
             }
         }
 
-        $leftratio = 0 + (int) str_replace('%', '', $this->data->leftcolumnratio ?? '30%');
+        if (empty($this->data->leftcolumnratio)) {
+            $this->data->leftcolumnratio = '30%';
+        }
+        $leftratio = 0 + (int) str_replace('%', '', $this->data->leftcolumnratio);
         $this->data->rightcolumnratio = 100 - $leftratio;
         $this->data->rightcolumnratio .= '%';
-
     }
 }
 

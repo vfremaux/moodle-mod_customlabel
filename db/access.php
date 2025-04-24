@@ -15,43 +15,45 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package customlabel
- * @subpackage backup-moodle2
- * @copyright 2010 onwards Valery Fremaux (valery.freamux@club-internet.fr)
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Capabilities.
+ *
+ * @package    mod_customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux (www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$capabilities = array(
+$capabilities = [
 
     // Controls creation of customlabel.
-    'mod/customlabel:addinstance' => array(
+    'mod/customlabel:addinstance' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => array(
+        'legacy' => [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    ),
+            'manager' => CAP_ALLOW,
+        ],
+    ],
 
-    'mod/customlabel:fullaccess' => array(
+    'mod/customlabel:fullaccess' => [
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => array(
-            'manager' => CAP_ALLOW
-        )
-    ),
+        'legacy' => [
+            'manager' => CAP_ALLOW,
+        ],
+    ],
 
-    'mod/customlabel:managemetadata' => array(
+    'mod/customlabel:managemetadata' => [
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'legacy' => array(
-            'manager' => CAP_ALLOW
-        )
-    )
-);
+        'legacy' => [
+            'manager' => CAP_ALLOW,
+        ],
+    ],
+];
 

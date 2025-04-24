@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_sequenceheading
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -37,7 +37,7 @@ class customlabel_type_sequenceheading extends customlabel_type {
 
         parent::__construct($data);
         $this->type = 'sequenceheading';
-        $this->fields = array();
+        $this->fields = [];
 
         $this->standard_name_fields();
 
@@ -80,7 +80,7 @@ class customlabel_type_sequenceheading extends customlabel_type {
             $field = new StdClass();
             $field->name = 'verticalalign';
             $field->type = 'list';
-            $field->options = array('top', 'middle', 'bottom');
+            $field->options = ['top', 'middle', 'bottom'];
             $field->default = 'top';
             $this->fields['verticalalign'] = $field;
         }
@@ -102,7 +102,10 @@ class customlabel_type_sequenceheading extends customlabel_type {
                 $this->data->valignclass = "aligned-".$this->data->verticalalignoption;
             }
             if (empty($this->data->imagepositionoption)) {
-                $this->data->imagepositionoption = 'left';
+                $this->data->imagepositionoption = 'none';
+                if (!empty($this->data->imageurl)) {
+                    $this->data->imagepositionoption = 'left';
+                }
             }
             $this->data->contentpadding = '';
             if ($this->data->imageurl) {
@@ -116,7 +119,7 @@ class customlabel_type_sequenceheading extends customlabel_type {
 
             if (!empty($this->data->imagewidth)) {
                 if (is_numeric($this->data->imagewidth)) {
-                    $this->data->imagewidth.= 'px';
+                    $this->data->imagewidth .= 'px';
                 }
             }
         }

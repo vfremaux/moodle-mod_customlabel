@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod_customlabel
- * @category mod
+ * @package customlabeltype_satisfaction
+ *
  * @author Valery Fremaux
  * @date 02/12/2007
  *

@@ -14,6 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Ajax services.
+ *
+ * @package    mod_customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux (www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ */
+
 require('../../../config.php');
 require_once($CFG->dirroot.'/mod/customlabel/lib.php');
 
@@ -62,8 +71,8 @@ if (empty($cmid)) {
     $instance->data = new StdClass;
     $instance->data->uselevels = 2;
 } else {
-    $cm = $DB->get_record('course_modules', array('id' => $cmid));
-    $customlabelrec = $DB->get_record('customlabel', array('id' => $cm->instance));
+    $cm = $DB->get_record('course_modules', ['id' => $cmid]);
+    $customlabelrec = $DB->get_record('customlabel', ['id' => $cm->instance]);
     $instance = customlabel_load_class($customlabelrec);
 }
 
@@ -72,10 +81,10 @@ if (empty($cmid)) {
  * acceptable ones
  * this is another writing for "get_all_classification_linked_values".
  */
-$included = array();
-$used = array();
-$includedtrace = array();
-$usedtypes = array();
+$included = [];
+$used = [];
+$includedtrace = [];
+$usedtypes = [];
 
 if (!empty($constraints)) {
     while ($constraint = array_pop($constraintsarr)) {
@@ -102,7 +111,7 @@ if (!empty($constraints)) {
                 (value1 = ? OR value2 = ?)
         ";
 
-        $params = array();
+        $params = [];
         $params[] = $constraint;
         $params[] = $constraint;
 
@@ -117,8 +126,8 @@ if (!empty($constraints)) {
                 }
                 if ($apeer->const == 1) {
                     $included[$peervalue] = 1;
-                    $peer = $DB->get_field($config->classification_value_table, 'value', array('id' => $peervalue));
-                    $usedtypes[] = $DB->get_field($config->classification_value_table, 'typeid', array('id' => $peervalue));
+                    $peer = $DB->get_field($config->classification_value_table, 'value', ['id' => $peervalue]);
+                    $usedtypes[] = $DB->get_field($config->classification_value_table, 'typeid', ['id' => $peervalue]);
                     $includedtrace["$peervalue - $peer"] = 1;
                     if (!in_array($peervalue, $used)) {
                         assert(1);
@@ -128,7 +137,7 @@ if (!empty($constraints)) {
         }
     }
 }
-$listvalues = array();
+$listvalues = [];
 
 foreach ($targets as $target) {
     if ($target >= $instance->data->uselevels) {
@@ -137,7 +146,7 @@ foreach ($targets as $target) {
 
     // This filters option lists against constraints.
     if ($typevalues = $instance->get_datasource_options($instance->fields['level'.$target])) {
-        $options = array();
+        $options = [];
         foreach ($typevalues as $id => $value) {
             // We must check if not fully excluded.
             if (!empty($constraints)) {
@@ -152,7 +161,7 @@ foreach ($targets as $target) {
 
         $selectid = ($variant == 'menu') ? 'menu'.$field->name : 'id_'.$field->name;
 
-        $params = array();
+        $params = [];
         if (!empty($field->constraintson)) {
             $params['data-constrained'] = 1;
             $params['data-constraints'] = $field->constraintson;
@@ -164,12 +173,12 @@ foreach ($targets as $target) {
 
         if (empty($field->multiple)) {
             $params['id'] = $selectid;
-            $return[$target] = html_writer::select($options, $field->name, @$preselection[$target], array(), $params);
+            $return[$target] = html_writer::select($options, $field->name, @$preselection[$target], [], $params);
         } else {
             $params['multiple'] = 'multiple';
             $params['size'] = '6';
             $params['id'] = $selectid;
-            $return[$target] = html_writer::select($options, "{$field->name}[]", @$preselection[$target], array(), $params);
+            $return[$target] = html_writer::select($options, "{$field->name}[]", @$preselection[$target], [], $params);
         }
     }
 }

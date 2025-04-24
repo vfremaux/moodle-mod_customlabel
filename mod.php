@@ -30,6 +30,6 @@ require_sesskey();
 
 $SESSION->customlabel = new StdClass();
 $SESSION->customlabel->update_type_change = $labelclass;
-$params = array('update' => $update, 'sr' => $sectionreturn, 'sesskey' => sesskey(), 'type' => $labelclass);
+$params = ['update' => $update, 'sr' => $sectionreturn, 'sesskey' => sesskey(), 'type' => $labelclass];
 $redirect = new moodle_url('/course/modedit.php', $params);
 redirect($redirect);

@@ -15,8 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * Capabilities.
+ *
+ * @package customlabeltype_verticalspacer
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -24,24 +25,24 @@
 defined('MOODLE_INTERNAL') || die();
 
 
-$capabilities = array(
+$capabilities = [
 
     // Controls who can add this type.
-    'customlabeltype/verticalspacer:addinstance' => array(
+    'customlabeltype/verticalspacer:addinstance' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
-        'legacy' => array(
+        'legacy' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-            'coursecreator' => CAP_ALLOW
-        )
-    ),
+            'coursecreator' => CAP_ALLOW,
+        ],
+    ],
 
     // Controls visibility of labeltype on role base.
-    'customlabeltype/verticalspacer:view' => array(
+    'customlabeltype/verticalspacer:view' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => array(
+        'legacy' => [
             'editingteacher' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
@@ -49,6 +50,6 @@ $capabilities = array(
             'student' => CAP_ALLOW,
             'user' => CAP_ALLOW,
             'guest' => CAP_ALLOW,
-        )
-    ),
-);
+        ],
+    ],
+];

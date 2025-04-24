@@ -14,16 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Privacy Subsystem implementation for local shop.
+ *
+ * @package    mod_customlabel
+ * @author    Valery Fremaux (valery.fremaux@gmail.com)
+ * @copyright   2017 Valery Fremaux <valery.fremaux@gmail.com> (activeprolearn.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 namespace mod_customlabel\privacy;
 
-use \core_privacy\local\request\writer;
-use \core_privacy\local\metadata\collection;
+use core_privacy\local\request\writer;
+use core_privacy\local\metadata\collection;
 
-defined('MOODLE_INTERNAL') || die();
-
+/**
+ * Provider.
+ */
 class provider implements \core_privacy\local\metadata\provider {
 
-    public static function get_metadata(collection $collection) : collection {
+    /**
+     * Get metadata.
+     */
+    public static function get_metadata(collection $collection): collection {
 
         $fields = [
             'userid' => 'privacy:metadata:customlabel_user_data:userid',
@@ -44,7 +57,7 @@ class provider implements \core_privacy\local\metadata\provider {
      * @param   int           $userid       The user to search.
      * @return  contextlist   $contextlist  The list of contexts used in this plugin.
      */
-    public static function get_contexts_for_userid(int $userid) : contextlist {
+    public static function get_contexts_for_userid(int $userid): contextlist {
         $contextlist = new contextlist();
 
         // Fetching customodules context should be sufficiant to get contexts where user is involved in.
@@ -90,8 +103,8 @@ class provider implements \core_privacy\local\metadata\provider {
 
             $data = new StdClass;
 
-            $params = array('customlabelid' => $ctx->instanceid,
-                            'userid' => $user->id);
+            $params = ['customlabelid' => $ctx->instanceid,
+                            'userid' => $user->id];
             $completions = $DB->get_records('customlabel_user_data', $params);
 
             foreach ($completions as $cp) {
@@ -119,6 +132,10 @@ class provider implements \core_privacy\local\metadata\provider {
         $DB->delete_records('customlabel_user_data', ['customlabelid' => $context->instanceid]);
     }
 
+    /**
+     * Deletes all data related to one single user.
+     * @param approved_contextlist $contextlist
+     */
     public static function delete_data_for_user(approved_contextlist $contextlist) {
         global $DB;
 

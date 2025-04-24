@@ -15,15 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * MVC Controller for metadata values.
  *
  * @package    mod_customlabel
- * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- *
  * @see Acces from adminmetadata.php
+ * @todo rewrite as a controller class.
  */
+
 defined('MOODLE_INTERNAL') || die;
 
 $config = get_config('customlabel');
@@ -31,7 +32,8 @@ $configclassvaluetable = clean_param($config->classification_value_table, PARAM_
 $configclassconstrainttable = clean_param($config->classification_constraint_table, PARAM_ALPHANUMEXT);
 $configclassvaluetypekey = clean_param($config->classification_value_type_key, PARAM_ALPHANUMEXT);
 
-/************************************* Add ******************/
+/* Add */
+
 if ($action == 'add') {
     $data = $mform->get_data();
     $metadatavalue = new StdClass;
@@ -39,16 +41,16 @@ if ($action == 'add') {
     $metadatavalue->code = clean_param($data->code, PARAM_ALPHANUM);
     $metadatavalue->value = clean_param($data->value, PARAM_CLEANHTML);
     // Get max ordering.
-    $params = array($configclassvaluetypekey => $data->typeid);
+    $params = [$configclassvaluetypekey => $data->typeid];
     $maxordering = $DB->get_field($configclassvaluetable, ' MAX(sortorder)', $params);
     $metadatavalue->sortorder = 1 + @$maxordering;
     if (!$DB->insert_record($configclassvaluetable, $metadatavalue)) {
-        print_error('errorinservalue', 'customlabel');
+        throw new moodle_exception('errorinservalue', 'customlabel');
     }
     redirect($url."?view=qualifiers&typeid={$data->typeid}");
 }
 
-/************************************* Update ******************/
+/* Update */
 if ($action == 'update') {
     $data = $mform->get_data();
     $metadatavalue = new StdClass;
@@ -56,30 +58,30 @@ if ($action == 'update') {
     $metadatavalue->code = clean_param($data->code, PARAM_ALPHANUMEXT);
     $metadatavalue->value = clean_param($data->value, PARAM_CLEANHTML);
     if (!$DB->update_record($configclassvaluetable, $metadatavalue)) {
-        print_error('errorupdatevalue', 'customlabel');
+        throw new moodle_exception('errorupdatevalue', 'customlabel');
     }
     redirect($url."?view=qualifiers&typeid={$data->typeid}");
 }
 
-/*********************************** get a value for editing ************************/
+/* get a value for editing */
 if ($action == 'edit') {
     $valueid = required_param('valueid', PARAM_INT);
-    $data = $DB->get_record($configclassvaluetable, array('id' => $valueid));
+    $data = $DB->get_record($configclassvaluetable, ['id' => $valueid]);
 }
-/*********************************** moves up ************************/
+/* moves up */
 if ($action == 'up') {
     $id = required_param('valueid', PARAM_INT);
     classification_tree_up($id, $type);
     classification_tree_updateordering(0, $type);
 }
-/*********************************** moves down ************************/
+/* moves down */
 if ($action == 'down') {
     $id = required_param('valueid', PARAM_INT);
     classification_tree_down($id, $type);
     classification_tree_updateordering(0, $type);
 }
 
-/************************************* Delete safe (only if not used) ******************/
+/* Delete safe (only if not used) */
 if ($action == 'delete') {
     /*
      * todo check if there is no instances working with such type.
@@ -88,17 +90,17 @@ if ($action == 'delete') {
     $action = 'forcedelete';
 }
 
-/************************************* Delete unsafe ******************/
+/* Delete unsafe */
 if ($action == 'forcedelete') {
     $id = required_param('valueid', PARAM_INT);
-    $value = $DB->get_record($configclassvaluetable, array('id' => $id));
+    $value = $DB->get_record($configclassvaluetable, ['id' => $id]);
 
     if ($value) {
         // Delete related constraints.
-        $DB->delete_records($configclassconstrainttable, array('value1' => $id));
-        $DB->delete_records($configclassconstrainttable, array('value2' => $id));
+        $DB->delete_records($configclassconstrainttable, ['value1' => $id]);
+        $DB->delete_records($configclassconstrainttable, ['value2' => $id]);
 
-        $DB->delete_records($configclassvaluetable, array('id' => $id));
+        $DB->delete_records($configclassvaluetable, ['id' => $id]);
     }
 }
 
@@ -118,7 +120,7 @@ function classification_tree_updateordering($id, $type) {
 
     // Getting ordering value of the current node.
 
-    $res = $DB->get_record($configclassvaluetable, array('id' => $id));
+    $res = $DB->get_record($configclassvaluetable, ['id' => $id]);
     if (!$res) {
         // Fallback : we give the ordering.
         $res = new StdClass;
@@ -167,7 +169,7 @@ function classification_tree_up($id, $type) {
     $configclassvaluetable = clean_param($config->classification_value_table, PARAM_ALPHANUMEXT);
     $configclassvaluetypekey = clean_param($config->classification_value_type_key, PARAM_ALPHANUMEXT);
 
-    $res = $DB->get_record($configclassvaluetable, array('id' => $id));
+    $res = $DB->get_record($configclassvaluetable, ['id' => $id]);
     if (!$res) {
         return;
     }
@@ -213,7 +215,7 @@ function classification_tree_down($id, $type) {
     $configclassvaluetable = clean_param($config->classification_value_table, PARAM_ALPHANUMEXT);
     $configclassvaluetypekey = clean_param($config->classification_value_type_key, PARAM_ALPHANUMEXT);
 
-    $res = $DB->get_record($configclassvaluetable, array('id' => $id));
+    $res = $DB->get_record($configclassvaluetable, ['id' => $id]);
 
     $query = "
         SELECT

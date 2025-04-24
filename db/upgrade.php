@@ -15,17 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     mod_customlabel
- * @category    mod
- * @author      Valery Fremaux <valery.fremaux@gmail.com>
- * @copyright   (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * Standard upgrade sequence
+ *
+ * @package    mod_customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux (www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
 defined('MOODLE_INTERNAL') || die ();
 
 require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
 
+/**
+ * Upgrade sequence.
+ */
 function xmldb_customlabel_upgrade($oldversion = 0) {
     global $DB;
 
@@ -83,7 +87,7 @@ function xmldb_customlabel_upgrade($oldversion = 0) {
 
         // Define index ix_typeid (not unique) to be added to customlabel_mtd_value.
         $table = new xmldb_table('customlabel_mtd_value');
-        $index = new xmldb_index('ix_typeid', XMLDB_INDEX_NOTUNIQUE, array('typeid'));
+        $index = new xmldb_index('ix_typeid', XMLDB_INDEX_NOTUNIQUE, ['typeid']);
 
         // Conditionally launch add index ix_typeid.
         if (!$dbman->index_exists($table, $index)) {
@@ -92,18 +96,18 @@ function xmldb_customlabel_upgrade($oldversion = 0) {
 
         // Define index ix_courseid_valueid (unique) to be added to customlabel_course_metadata.
         $table = new xmldb_table('customlabel_course_metadata');
-        $index = new xmldb_index('ix_courseid_valueid', XMLDB_INDEX_UNIQUE, array('courseid', 'valueid'));
+        $index = new xmldb_index('ix_courseid_valueid', XMLDB_INDEX_UNIQUE, ['courseid', 'valueid']);
 
         // Conditionally launch add index ix_courseid_valueid.
         // Secure the index creation.
-        $DB->delete_records('customlabel_course_metadata', array('valueid' => 0));
+        $DB->delete_records('customlabel_course_metadata', ['valueid' => 0]);
         if (!$dbman->index_exists($table, $index)) {
             $dbman->add_index($table, $index);
         }
 
         // Define index ix_constraint (unique) to be added to customlabel_mtd_constraint.
         $table = new xmldb_table('customlabel_mtd_constraint');
-        $index = new xmldb_index('ix_constraint', XMLDB_INDEX_UNIQUE, array('value1', 'value2'));
+        $index = new xmldb_index('ix_constraint', XMLDB_INDEX_UNIQUE, ['value1', 'value2']);
 
         // Conditionally launch add index ix_constraint.
         if (!$dbman->index_exists($table, $index)) {
@@ -151,10 +155,10 @@ function xmldb_customlabel_upgrade($oldversion = 0) {
         $table->add_field('completion3', XMLDB_TYPE_INTEGER, '9', null, XMLDB_NOTNULL, null, 0);
 
         // Adding keys to table customlabel_user_data.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
 
         // Adding indexes to table customlabel_user_data.
-        $table->add_index('ix_userid_cid', XMLDB_INDEX_UNIQUE, array('userid', 'customlabelid'));
+        $table->add_index('ix_userid_cid', XMLDB_INDEX_UNIQUE, ['userid', 'customlabelid']);
 
         // Conditionally launch create table for customlabel_user_data.
         if (!$dbman->table_exists($table)) {
@@ -193,13 +197,13 @@ function xmldb_customlabel_upgrade($oldversion = 0) {
     if ($oldversion < 2019061000) {
 
         $table = new xmldb_table('customlabel_course_metadata');
-        $index = new xmldb_index('mdl_custcourmeta_couval_uix', XMLDB_INDEX_UNIQUE, array('courseid', 'valueid'));
+        $index = new xmldb_index('mdl_custcourmeta_couval_uix', XMLDB_INDEX_UNIQUE, ['courseid', 'valueid']);
 
         if ($dbman->index_exists($table, $index)) {
             // Adding indexes to table customlabel_user_data.
             $dbman->drop_index($table, $index);
 
-            $index = new xmldb_index('ix_course_value_cm_id', XMLDB_INDEX_UNIQUE, array('courseid', 'valueid', 'cmid'));
+            $index = new xmldb_index('ix_course_value_cm_id', XMLDB_INDEX_UNIQUE, ['courseid', 'valueid', 'cmid']);
             $dbman->add_index($table, $index);
         }
 
@@ -215,7 +219,7 @@ function customlabel_course_preprocess_filepickers($c) {
 
     $fs = get_file_storage();
 
-    if ($customlabels = $DB->get_records('customlabel', array('course' => $c->id))) {
+    if ($customlabels = $DB->get_records('customlabel', ['course' => $c->id])) {
         foreach ($customlabels as $c) {
             mtrace("preprocessing customlabel $c->name ");
             $cm = get_coursemodule_from_instance('customlabel', $c->id);

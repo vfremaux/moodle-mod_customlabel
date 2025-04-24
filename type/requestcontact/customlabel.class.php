@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_requestcontact
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -35,8 +35,8 @@ class customlabel_type_requestcontact extends customlabel_type {
     public function __construct($data) {
         parent::__construct($data);
         $this->type = 'requestcontact';
-        $this->fields = array();
-        
+        $this->fields = [];
+
         $field = new StdClass();
         $field->name = 'naming';
         $field->type = 'textfield';
@@ -51,15 +51,15 @@ class customlabel_type_requestcontact extends customlabel_type {
         $field->itemid = 0;
         $this->fields['url'] = $field;
     }
-    
-    public function postprocess_data($course = null){
+
+    public function postprocess_data($course = null) {
         $https = 'https://';
         $checkhttp = 'h';
         $check = strpos($this->data->{'url'}, $checkhttp);
         if($check === false){
             $this->data->{'url'} = $https.$this->data->{'url'};
         }
-        
+
         if(empty($this->data->{'naming'})){
             $this->data->{'naming'} = 'Formulaire de contact';
         }

@@ -19,8 +19,8 @@
  * this file is automatically loaded by the /mod/customlabel/lang/xx_utf8/customlabel.php
  * module language file.
  *
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_requestcontact
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL

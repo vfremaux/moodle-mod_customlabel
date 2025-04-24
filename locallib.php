@@ -15,13 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Local functions for customlabel
+ *
  * @package    mod_customlabel
- * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- *
- * TODO : check if there is not a legacy post install function in module API
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -46,7 +45,7 @@ if (!during_initial_install()) {
  * @param int $context if a context is given, filters out any type that is not allowed against
  *                     roles held by the current user. Returns all types otherwise.
  * @param bool $ignoredisabled
- * @param $outputmode if set to true will get an associative array, if set to 'names' will provide an array of names
+ * @param bool $outputmode if set to true will get an associative array, if set to 'names' will provide an array of names
  * @return a sorted array of class definitions as objects or an array of class names
  */
 function customlabel_get_classes($context = null, $ignoredisabled = true, $outputmode = false) {
@@ -54,10 +53,10 @@ function customlabel_get_classes($context = null, $ignoredisabled = true, $outpu
 
     $config = get_config('customlabel');
 
-    static $classes = array();
-    static $classarr = array();
+    static $classes = [];
+    static $classarr = [];
 
-    $classnames = array();
+    $classnames = [];
     if (empty($classes)) {
         $basetypedir = $CFG->dirroot.'/mod/customlabel/type';
 
@@ -126,7 +125,7 @@ function customlabel_get_fileareas() {
 
     $basetypedir = $CFG->dirroot.'/mod/customlabel/type';
 
-    $areas = array();
+    $areas = [];
 
     $classdir = opendir($basetypedir);
     while ($entry = readdir($classdir)) {
@@ -162,13 +161,12 @@ function customlabel_get_fileareas() {
  * @param object $customlabel a customlabel record from the database
  * @param boolean $quiet if true, will be silent when failing finding the class reference
  * @return an instanciated classed object, loaded with the data in the record.
- * @uses $CFG, $OUTPUT
  */
 function customlabel_load_class($customlabel, $quiet = false) {
     global $CFG, $OUTPUT;
 
     if (is_null($customlabel) && !$quiet) {
-        print_error('errorclassloading', 'customlabel');
+        throw new moodle_exception('errorclassloading', 'customlabel');
     }
 
     $classfile = $CFG->dirroot."/mod/customlabel/type/{$customlabel->labelclass}/customlabel.class.php";
@@ -185,6 +183,11 @@ function customlabel_load_class($customlabel, $quiet = false) {
     }
 }
 
+/**
+ * Fix some form returns.
+ * @param objectref &$customlabelrec
+ * @param objectref &$instance
+ */
 function customlabel_process_fields(&$customlabelrec, &$instance) {
 
     $customlabeldata = new StdClass;
@@ -209,21 +212,23 @@ function customlabel_process_fields(&$customlabelrec, &$instance) {
         if (preg_match('/editor/', $field->type)) {
             $editorname = $fieldname.'_editor';
             if (!isset($customlabelrec->$editorname)) {
-                $editordata = @$_REQUEST[$editorname]; // Odd thing when bouncing.
+                $editordata = $_REQUEST[$editorname] ?? null; // Odd thing when bouncing.
             } else {
                 $editordata = $customlabelrec->$editorname; // Odd thing when bouncing.
             }
 
             // Saves all embdeded images or files into elements in a single text area.
-            file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
-            $t = $editordata['text'];
-            $customlabeldata->{$fieldname} = customlabel_file_rewrite_urls_to_pluginfile($t, $editordata['itemid'], $field->itemid);
+            if (!is_null($editordata)) {
+                file_save_draft_area_files($editordata['itemid'], $context->id, 'mod_customlabel', 'contentfiles', $field->itemid);
+                $t = $editordata['text'];
+                $customlabeldata->{$fieldname} = customlabel_file_rewrite_urls_to_pluginfile($t, $editordata['itemid'], $field->itemid);
+            }
             unset($customlabelrec->{$fieldname});
             continue;
         }
 
         if ($field->type == 'filepicker') {
-            $customlabeldata->{$fieldname} = @$customlabelrec->{$fieldname};
+            $customlabeldata->{$fieldname} = $customlabelrec->{$fieldname} ?? '';
             /*
              * We need pass coursemodule as file storage context.
              */
@@ -231,7 +236,7 @@ function customlabel_process_fields(&$customlabelrec, &$instance) {
             continue;
         }
 
-        $customlabeldata->{$fieldname} = @$customlabelrec->{$fieldname};
+        $customlabeldata->{$fieldname} = $customlabelrec->{$fieldname} ?? '';
         unset($customlabelrec->{$fieldname});
     }
 
@@ -293,7 +298,7 @@ function customlabel_save_draft_file(&$customlabel, $filearea) {
  *
  * We need customise that because our text has @@FILETAGS@@ from distinct itemids
  *
- * @category files
+ *
  * @global stdClass $CFG
  * @param string $text The content that may contain ULRs in need of rewriting.
  * @param string $file The script that should be used to serve these files. pluginfile.php, draftfile.php, etc.
@@ -336,7 +341,7 @@ function customlabel_file_rewrite_pluginfile_urls($text, $file, $contextid, $com
  *
  * We need customise that because our text has @@FILETAGS@@ from distinct itemids
  *
- * @category files
+ *
  * @param string $text the content to process.
  * @param int $draftitemid the draft file area the content was using.
  * @param bool $forcehttps whether the content contains https URLs. Default false.
@@ -357,7 +362,7 @@ function customlabel_file_rewrite_urls_to_pluginfile($text, $draftitemid, $field
     $text = preg_replace($pattern, '@@PLUGINFILE::'.$fielditemid.'@@/', $text);
 
     if (strpos($text, 'draftfile.php?file=') !== false) {
-        $matches = array();
+        $matches = [];
         $pattern = "!$wwwroot/draftfile.php\?file=%2F{$usercontext->id}%2Fuser%2Fdraft%2F{$draftitemid}%2F[^'\",&<>|`\s:\\\\]+!iu";
         preg_match_all($pattern, $text, $matches);
         if ($matches) {
@@ -425,7 +430,7 @@ function customlabel_regenerate(&$customlabel, $labelclassname, &$course) {
  * @param mixed $labelclasses 'all' or an array of class names to operate in the course.
  * DEPRECATED because no more cached precalculated content in customlabels.
  */
-function customlabel_course_regenerate(&$course, $labelclasses = '', $options = array()) {
+function customlabel_course_regenerate(&$course, $labelclasses = '', $options = []) {
     global $DB;
 
     if ($labelclasses == 'all') {
@@ -436,7 +441,7 @@ function customlabel_course_regenerate(&$course, $labelclasses = '', $options = 
     foreach ($labelclasses as $labelclassname) {
         mtrace("   processing class '$labelclassname'");
         $select = " course = ? AND labelclass = ? ";
-        $customlabels = $DB->get_records_select('customlabel', $select, array($course->id, $labelclassname));
+        $customlabels = $DB->get_records_select('customlabel', $select, [$course->id, $labelclassname]);
         if ($customlabels) {
             foreach ($customlabels as $customlabel) {
                 if (!empty($options['verbose'])) {

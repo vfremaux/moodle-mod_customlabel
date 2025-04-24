@@ -16,7 +16,7 @@
 
 /**
  * @package    mod_customlabel
- * @category   mod
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -29,7 +29,7 @@ if (is_dir($CFG->dirroot.'/blocks/course_status')) {
 
 $value = optional_param('value', 0, PARAM_INT);
 $type = optional_param('typeid', 0, PARAM_INT);
-$params = array('value' => $value, 'typeid' => $type);
+$params = ['value' => $value, 'typeid' => $type];
 $url = new moodle_url('/mod/customlabel/adminmetadata.php', $params);
 
 $context = context_system::instance();
@@ -65,7 +65,7 @@ if ($value != 0) {
             c.fullname
     ";
     if (!$courses = $DB->get_records_sql($sql)) {
-        $courses = array();
+        $courses = [];
     }
 } else if ($type != 0) {
     $sql = "
@@ -87,7 +87,7 @@ if ($value != 0) {
             c.fullname
     ";
     if (!$courses = $DB->get_records_sql($sql)) {
-        $courses = array();
+        $courses = [];
     }
 }
 
@@ -100,17 +100,17 @@ if (!empty($courses)) {
     $strstatus = get_string('status');
 
     $table = new html_table();
-    $table->head = array("<b>$strcourse</b>", "<b>$strstatus</b>");
-    $table->size = array('70%', '30%');
+    $table->head = ["<b>$strcourse</b>", "<b>$strstatus</b>"];
+    $table->size = ['70%', '30%'];
     $table->width = '90%';
-    $table->align = array('left', 'center');
+    $table->align = ['left', 'center'];
     foreach ($courses as $acourse) {
-        $curl = new moodle_url('/course/view.php', array('id' => $acourse->id));
+        $curl = new moodle_url('/course/view.php', ['id' => $acourse->id]);
         $courselink = '<a target="_blanck" href="'.$curl.'">'.format_string($acourse->fullname).'</a>';
         if (function_exists('ext_course_status_get_desc')) {
-            $table->data[] = array($courselink, ext_course_status_get_desc($acourse));
+            $table->data[] = [$courselink, ext_course_status_get_desc($acourse)];
         } else {
-            $table->data[] = array($courselink, '');
+            $table->data[] = [$courselink, ''];
         }
     }
     echo html_writer::table($table);

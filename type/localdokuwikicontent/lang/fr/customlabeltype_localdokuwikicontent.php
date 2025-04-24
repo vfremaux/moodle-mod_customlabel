@@ -15,12 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a local class contextual translation file for field names and list options.
- * this file is automatically loaded by the /mod/customlabel/lang/xx_utf8/customlabel.php
- * module language file.
+ * Lang file.
  *
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_localdokuwikicontent
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -50,6 +47,7 @@ $string['errornowiki'] = 'Pas de volume wiki dans le chemin défini dans la conf
 $string['heading'] = 'Titre de page ';
 $string['hideelements'] = 'Cacher les éléments HTML ';
 $string['local'] = 'Contenu local';
+$string['localwiki'] = 'contenu de Wiki local';
 $string['localcss'] = 'CSS locale ';
 $string['notconfigured'] = 'Les coordonnées du Wiki ne sont pas configurées dans les réglages globaux.';
 $string['partiallyconfigured'] = 'Le wiki est partiellement configuré dans les réglages globaux. Toutes les langues activées ne trouvent pas un wiki cible valide.';

@@ -15,13 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod_customlabel
- * @category mod
- * @author Valery Fremaux
- * @date 02/12/2007
+ * Main type implementation.
  *
- * A generic class for collecting all that is common to all elements
+ * @package customlabeltype_verticalspacer
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
@@ -29,19 +30,22 @@ require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 /**
  * the vertical spacer allows making vertical blank gaps in a page, adjustable
  * so aligning vertically columns content.
- *
  */
 class customlabel_type_verticalspacer extends customlabel_type {
 
+    /**
+     * Constructor
+     * @param object $data
+     */
     public function __construct($data) {
         global $USER;
 
         parent::__construct($data);
         $this->type = 'verticalspacer';
-        $this->fields = array();
+        $this->fields = [];
         $this->hasamd = true;
 
-        $field = new StdClass;
+        $field = new StdClass();
         $field->name = 'spacing';
         $field->type = 'textfield';
         $field->default = 100;
@@ -50,16 +54,17 @@ class customlabel_type_verticalspacer extends customlabel_type {
     }
 
     /**
-     * Prepares data for template
+     * Preprocesses template before getting options and additional inputs
+     * from fields.
      */
-    public function preprocess_data($course = null) {
+    public function preprocess_data() {
         global $CFG, $OUTPUT, $COURSE, $PAGE;
 
         // Some kind of global static.
-        $customid = @$CFG->custom_unique_id + 1;
+        $customid = ($CFG->custom_unique_id ?? 0) + 1;
 
         $this->data->courseid = $COURSE->id;
-        $this->data->cid = 0 + @$this->data->instance;
+        $this->data->cid = $this->data->instance ?? 0;
         $this->data->customid = $customid;
         $this->data->wwwroot = $CFG->wwwroot;
         $this->data->editing = $PAGE->user_is_editing();

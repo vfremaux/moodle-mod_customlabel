@@ -17,13 +17,11 @@
 /**
  * Post-install code for the customlabel module.
  *
- * @package     mod_customlabel
- * @category    mod
- * @copyright   2013 Valery Fremaux
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux (www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Defaults as an array of
@@ -33,40 +31,40 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_customlabel_qualifier_defaults($typesorvalues = 'types') {
 
     if ($typesorvalues == 'types') {
-        return array(
-            array('filter', 'WORKEFFORT', 'customlabeltype_worktodo', 'customlabel_mtd_type'),
-            array('filter', 'WORKMODE', 'customlabeltype_worktodo', 'customlabel_mtd_type'),
-            array('filter', 'WORKTYPE', 'customlabeltype_worktodo', 'customlabel_mtd_type')
-        );
+        return [
+            ['filter', 'WORKEFFORT', 'customlabeltype_worktodo', 'customlabel_mtd_type'],
+            ['filter', 'WORKMODE', 'customlabeltype_worktodo', 'customlabel_mtd_type'],
+            ['filter', 'WORKTYPE', 'customlabeltype_worktodo', 'customlabel_mtd_type'],
+        ];
     }
 
-    return array(
-        array('WORKEFFORT', 'NQ', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKEFFORT', 'VERYEASY', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKEFFORT', 'EASY', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKEFFORT', 'MEDIUM', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKEFFORT', 'HARD', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKEFFORT', 'VERYHARD', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+    return [
+        ['WORKEFFORT', 'NQ', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKEFFORT', 'VERYEASY', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKEFFORT', 'EASY', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKEFFORT', 'MEDIUM', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKEFFORT', 'HARD', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKEFFORT', 'VERYHARD', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
 
-        array('WORKMODE', 'NQ', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKMODE', 'ALONEONLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKMODE', 'ALONEOFFLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKMODE', 'TEAMONLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKMODE', 'TEAMOFFLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKMODE', 'COURSEONLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKMODE', 'COURSEOFFLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKMODE', 'COACHSYNCHRONOUS', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKMODE', 'COACHASYNCHRONOUS', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
+        ['WORKMODE', 'NQ', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKMODE', 'ALONEONLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKMODE', 'ALONEOFFLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKMODE', 'TEAMONLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKMODE', 'TEAMOFFLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKMODE', 'COURSEONLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKMODE', 'COURSEOFFLINE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKMODE', 'COACHSYNCHRONOUS', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKMODE', 'COACHASYNCHRONOUS', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
 
-        array('WORKTYPE', 'NQ', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKTYPE', 'TRAINING', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKTYPE', 'WRITING', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKTYPE', 'INFOQUEST', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKTYPE', 'EXERCISE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKTYPE', 'PROJECT', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKTYPE', 'EXPERIMENT', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0),
-        array('WORKTYPE', 'SYNTHESIS', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0)
-    );
+        ['WORKTYPE', 'NQ', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKTYPE', 'TRAINING', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKTYPE', 'WRITING', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKTYPE', 'INFOQUEST', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKTYPE', 'EXERCISE', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKTYPE', 'PROJECT', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKTYPE', 'EXPERIMENT', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+        ['WORKTYPE', 'SYNTHESIS', 'customlabeltype_worktodo', 'customlabel_mtd_value', 0],
+    ];
 }
 
 /**
@@ -77,7 +75,7 @@ function xmldb_customlabel_install() {
 
     // Work effort.
 
-    $params = array('type' => 'filter', 'code' => 'WORKEFFORT');
+    $params = ['type' => 'filter', 'code' => 'WORKEFFORT'];
     if ($DB->record_exists('customlabel_mtd_type', $params)) {
         // Was already installed once.
         return;
@@ -85,7 +83,7 @@ function xmldb_customlabel_install() {
 
     $types = xmldb_customlabel_qualifier_defaults('types');
     $i = 0;
-    $installedtypes = array();
+    $installedtypes = [];
     foreach ($types as $type) {
         list($fieldtype, $code, $plugin, $table) = $type;
         $record = new stdClass();

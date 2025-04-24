@@ -26,13 +26,13 @@ if ($action == 'submit') {
     $cmid = required_param('cmid', PARAM_INT);
     $givenanswer = required_param('answernum', PARAM_INT);
 
-    $cm = $DB->get_record('course_modules', array('id' => $cmid));
-    $instance = $DB->get_record('customlabel', array('id' => $cm->instance));
+    $cm = $DB->get_record('course_modules', ['id' => $cmid]);
+    $instance = $DB->get_record('customlabel', ['id' => $cm->instance]);
 
     $instance->coursemodule = $cm->id;
     $customlabel = customlabel_load_class($instance);
 
-    $params = array('userid' => $USER->id, 'customlabelid' => $instance->id);
+    $params = ['userid' => $USER->id, 'customlabelid' => $instance->id];
 
     $correctanswer = $customlabel->get_data('correctanswer');
     $status = CUSTOMLABEL_QUESTION_ANSWERED;
@@ -58,7 +58,7 @@ if ($action == 'submit') {
     }
 
     // Mark completion in moodle completion if needed.
-    $course = $DB->get_record('course', array('id' => $cm->course));
+    $course = $DB->get_record('course', ['id' => $cm->course]);
     $completion = new completion_info($course);
     if (($completion->is_enabled($cm) == COMPLETION_TRACKING_AUTOMATIC) &&
             $instance->completion1enabled) {

@@ -17,8 +17,8 @@
 /**
  * Global Search Engine for Moodle
  *
- * @package customlabel
- * @category mod
+ * @package mod_customlabel
+ *
  * @subpackage document_wrappers
  * @author Valery Fremaux [valery.fremaux@gmail.com] > 1.9
  * @date 2008/03/31
@@ -32,11 +32,11 @@
  */
 namespace local_search;
 
-use \StdClass;
-use \context_module;
-use \context_course;
-use \moodle_url;
-use \context;
+use StdClass;
+use context_module;
+use context_course;
+use moodle_url;
+use context;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -111,12 +111,12 @@ class customlabel_document_wrapper extends document_wrapper {
             $pages = $DB->get_records('format_page_items', $params);
             if ($pages) {
                 $firstitemoccurence = array_shift($pages);
-                $courseurl = new moodle_url('/course/view.php', array('id' => $courseid, 'page' => $firstitemoccurence->pageid));
+                $courseurl = new moodle_url('/course/view.php', ['id' => $courseid, 'page' => $firstitemoccurence->pageid]);
             }
         }
 
         if (empty($courseurl)) {
-            $courseurl = new moodle_url('/course/view.php', array('id' => $courseid));
+            $courseurl = new moodle_url('/course/view.php', ['id' => $courseid]);
         }
 
         return $courseurl;
@@ -149,10 +149,10 @@ class customlabel_document_wrapper extends document_wrapper {
         global $DB;
 
         // Starting with Moodle native resources.
-        $documents = array();
+        $documents = [];
 
-        $coursemodule = $DB->get_field('modules', 'id', array('name' => 'customlabel'));
-        $params = array('course' => $instance->course, 'module' => $coursemodule, 'instance' => $instance->id);
+        $coursemodule = $DB->get_field('modules', 'id', ['name' => 'customlabel']);
+        $params = ['course' => $instance->course, 'module' => $coursemodule, 'instance' => $instance->id];
         $cm = $DB->get_record('course_modules', $params);
         $context = context_module::instance($cm->id);
         $instance->coursemodule = $cm->id;
@@ -184,11 +184,11 @@ class customlabel_document_wrapper extends document_wrapper {
     public static function single_document($id, $itemtype) {
         global $DB;
 
-        $instance = $DB->get_record('customlabel', array('id' => $id));
+        $instance = $DB->get_record('customlabel', ['id' => $id]);
 
         if ($customlabel) {
-            $coursemodule = $DB->get_field('modules', 'id', array('name' => 'customlabel'));
-            $cm = $DB->get_record('course_modules', array('module' => $coursemodule, 'instance' => $instance->id));
+            $coursemodule = $DB->get_field('modules', 'id', ['name' => 'customlabel']);
+            $cm = $DB->get_record('course_modules', ['module' => $coursemodule, 'instance' => $instance->id]);
             $instance->coursemodule = $cm->id;
             $customclass = customlabel_load_class($instance, true);
             $context = context_module::instance($cm->id);
@@ -209,7 +209,7 @@ class customlabel_document_wrapper extends document_wrapper {
      *
      */
     public static function db_names() {
-        return array(array('id', 'customlabel', 'timemodified', 'timemodified', 'customlabel', ''));
+        return [['id', 'customlabel', 'timemodified', 'timemodified', 'customlabel', '']];
     }
 
     /**
@@ -218,14 +218,14 @@ class customlabel_document_wrapper extends document_wrapper {
     protected static function search_get_objectinfo($itemtype, $thisid, $contextid = null) {
         global $DB;
 
-        if (!$course = $DB->get_record('course', array('id' => $thisid))) {
+        if (!$course = $DB->get_record('course', ['id' => $thisid])) {
             return false;
         }
 
         if ($contextid) {
             // We still need this case for the global search engine being able to operate.
-            $info->context = $DB->get_record('context', array('id' => $contextid));
-            $info->cm = $DB->get_record('course_modules', array('id' => $info->context->instanceid));
+            $info->context = $DB->get_record('context', ['id' => $contextid]);
+            $info->cm = $DB->get_record('course_modules', ['id' => $info->context->instanceid]);
         } else {
             // This case IS NOT consistant for extracting object information.
             return false;

@@ -19,8 +19,8 @@
  * this file is automatically loaded by the /mod/customlabel/lang/xx_utf8/customlabel.php
  * module language file.
  *
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_coursedata
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -42,11 +42,13 @@ $string['lastupdate'] = 'Last update&nbsp;';
 $string['learningmethod'] = 'Learning method';
 $string['leftcolumnratio'] = 'Left column ratio';
 $string['objectives'] = 'Learner\'s objectives';
+$string['competencies'] = 'Competencies';
 $string['outcomes'] = 'Outcomes';
 $string['pluginname'] = 'Course element : Course Information';
 $string['prerequisites'] = 'Prerequisites';
 $string['public'] = 'Audience';
 $string['showconcepts'] = 'Show Key concepts';
+$string['showcompetencies'] = 'Show Competencies';
 $string['showduration'] = 'Show Duration';
 $string['showevaluation'] = 'Show evaluation';
 $string['showfollowers'] = 'Show Following courses ';

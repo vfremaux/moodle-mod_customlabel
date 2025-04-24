@@ -15,8 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Index of labels. Wraps back to course view.
+ *
  * @package    mod_customlabel
- * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -28,4 +29,4 @@ $id = required_param('id', PARAM_INT);   // Course ID.
 
 require_login();
 
-redirect(new moodle_url('/course/view.php', array('id' => $id)));
+redirect(new moodle_url('/course/view.php', ['id' => $id]));

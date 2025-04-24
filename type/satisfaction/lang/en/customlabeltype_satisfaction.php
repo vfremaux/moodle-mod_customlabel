@@ -15,8 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * Lang File.
+ *
+ * @package    customlabeltype_satisfaction
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -51,5 +52,10 @@ $string['left'] = 'Left';
 $string['top'] = 'Top';
 $string['bottom'] = 'Bottom';
 $string['right'] = 'Right';
+
+$string['e'] = 'Left';
+$string['n'] = 'Top';
+$string['s'] = 'Bottom';
+$string['w'] = 'Right';
 
 $string['family'] = 'special';

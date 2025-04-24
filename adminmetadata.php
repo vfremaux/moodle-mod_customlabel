@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Administrates metadata
+ *
  * @package    mod_customlabel
- * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
- * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
+ * @copyright  2008 Valery Fremaux <valery.fremaux@gmail.com> (www.activeProLearn.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
@@ -32,9 +33,9 @@ require_capability('mod/customlabel:managemetadata', $context);
 
 $view = optional_param('view', 'metadata', PARAM_ALPHA);
 
-$url = new moodle_url('/mod/customlabel/adminmetadata.php', array('view' => $view));
+$url = new moodle_url('/mod/customlabel/adminmetadata.php', ['view' => $view]);
 $PAGE->navbar->add(get_string('administration'), '');
-$settingsurl = new moodle_url('/admin/settings.php', array('section' => 'modsettingcustomlabel'));
+$settingsurl = new moodle_url('/admin/settings.php', ['section' => 'modsettingcustomlabel']);
 $PAGE->navbar->add(get_string('modulenameplural', 'customlabel'), $settingsurl);
 $metaurl = new moodle_url('/mod/customlabel/adminmetadata.php');
 $PAGE->navbar->add(get_string('classification', 'customlabel'), $metaurl);
@@ -52,15 +53,15 @@ $action = optional_param('what', '', PARAM_ALPHA);
 if (!preg_match("/classifiers|metadata|constraints|model/", $view)) {
     $view = 'metadata';
 }
-$rows = array(
+$rows = [
     'classifiers' => 'classifiers',
     'classificationvalues' => 'metadata',
     'constraints' => 'constraints',
-    'classificationmodel' => 'model'
-);
+    'classificationmodel' => 'model',
+];
 
 foreach ($rows as $rowindex => $rowvalue) {
-    $taburl = new moodle_url('/mod/customlabel/adminmetadata.php', array('view' => $rowvalue));
+    $taburl = new moodle_url('/mod/customlabel/adminmetadata.php', ['view' => $rowvalue]);
     $row[] = new tabobject($rowvalue, $taburl, get_string($rowindex, 'customlabel'));
 }
 $tabrows[] = $row;

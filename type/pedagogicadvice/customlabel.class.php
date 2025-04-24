@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_pedagogicadvice
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -35,7 +35,7 @@ class customlabel_type_pedagogicadvice extends customlabel_type {
     public function __construct($data) {
         parent::__construct($data);
         $this->type = 'pedagogicadvice';
-        $this->fields = array();
+        $this->fields = [];
 
         $field = new StdClass;
         $field->name = 'advice';
@@ -50,7 +50,11 @@ class customlabel_type_pedagogicadvice extends customlabel_type {
         $this->fields['initiallyvisible'] = $field;
     }
 
-    public function preprocess_data($course = null) {
+    /**
+     * Preprocesses template before getting options and additional inputs
+     * from fields.
+     */
+    public function preprocess_data() {
         global $CFG, $OUTPUT;
 
         $customid = @$CFG->custom_unique_id + 1;
