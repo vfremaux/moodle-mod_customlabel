@@ -1,9 +1,0 @@
-/* Element specific rules that affect only this element class */
-
-.custombox-pedagogicadvice {
-    width: 100%;
-}
-
-.custombox-helper.pedagogicadvice {
-    font-size: 80%;
-}
