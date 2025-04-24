@@ -15,28 +15,41 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Type edition form
+ *
  * @package    mod_customlabel
- * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux (www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/formslib.php');
 
+/**
+ * Form for classification types.
+ */
 class EditTypeForm extends moodleform {
 
+    /** @var string */
     private $view;
+
+    /** @var string */
     private $action;
 
+    /**
+     * Constructor
+     */
     public function __construct($view, $action, $url) {
         $this->view = $view;
         $this->action = $action;
         parent::__construct($url);
     }
 
+    /**
+     * Standard definition
+     */
     public function definition() {
         $mform = & $this->_form;
 
@@ -57,21 +70,26 @@ class EditTypeForm extends moodleform {
         $mform->setType('type', PARAM_TEXT);
         $mform->addHelpButton('type', 'typetype', 'customlabel');
 
-        $mform->addElement('text', 'code', get_string('code', 'customlabel'), array('size' => 15));
+        $mform->addElement('text', 'code', get_string('code', 'customlabel'), ['size' => 15]);
         $mform->setType('code', PARAM_ALPHANUM);
         $mform->addHelpButton('code', 'typecode', 'customlabel');
 
-        $mform->addElement('text', 'name', get_string('name'), array('size' => 30));
+        $mform->addElement('text', 'name', get_string('name'), ['size' => 30]);
         $mform->setType('name', PARAM_TEXT);
 
-        $mform->addElement('textarea', 'description', get_string('description'), array('rows' => 3, 'cols' => 30));
+        $mform->addElement('textarea', 'description', get_string('description'), ['rows' => 3, 'cols' => 30]);
         $mform->setType('description', PARAM_TEXT);
 
         $this->add_action_buttons(false);
     }
 
+    /**
+     * Standard validation
+     * @param object $data
+     * @param array $files
+     */
     public function validation($data, $files = null) {
-        $errors = array();
+        $errors = [];
 
         if (empty($data['name'])) {
             $errors['name'] = get_string('emptytypenameerror', 'customlabel');

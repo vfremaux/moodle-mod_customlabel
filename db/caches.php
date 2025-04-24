@@ -15,16 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package   local_customlabel
- * @category  local
- * @copyright 2006 Valery Fremaux
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Defines caches.
+ *
+ * @package    mod_customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux (www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$definitions = array(
-    'pro' => array(
-        'mode' => cache_store::MODE_APPLICATION
-    )
-);
+$definitions = [
+    'pro' => [
+        'mode' => cache_store::MODE_APPLICATION,
+    ],
+];

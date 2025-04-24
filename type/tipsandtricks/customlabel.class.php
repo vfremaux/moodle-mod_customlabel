@@ -15,8 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * Main subtype implementation
+ *
+ * @package    customlabeltype_tipsandtricks
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -26,16 +27,18 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
- *
- *
+ * Main implementation class
  */
-
 class customlabel_type_tipsandtricks extends customlabel_type {
 
+    /**
+     * Constructor
+     * @param object $data
+     */
     public function __construct($data) {
         parent::__construct($data);
         $this->type = 'tipsandtricks';
-        $this->fields = array();
+        $this->fields = [];
 
         $field = new StdClass;
         $field->name = 'tipsandtricks';

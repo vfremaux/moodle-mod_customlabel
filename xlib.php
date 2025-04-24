@@ -19,7 +19,7 @@
  * from elsewhere in Moodle and not part of the standard Core API
  *
  * @package    mod_customlabel
- * @category   mod
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
@@ -40,6 +40,10 @@ function theme_set_customlabelcss($css) {
     return $css;
 }
 
+/**
+ * Get authors in a course based on presence of "course_author" type.
+ * @param int $courseid
+ */
 function customlabel_get_authors($courseid) {
     global $DB;
 
@@ -57,6 +61,11 @@ function customlabel_get_authors($courseid) {
     return $instance;
 }
 
+/**
+ * Get courseheading info based on presence of a courseheading type
+ * If found more than one, take first.
+ * @param int $courseid
+ */
 function customlabel_get_courseheading($courseid) {
     global $DB;
 
@@ -74,6 +83,11 @@ function customlabel_get_courseheading($courseid) {
     return $instance;
 }
 
+/**
+ * Get all classification values for the course. Based on presence of courseclassifier
+ * types.
+ * @param int $courseid
+ */
 function customlabel_get_all_classifiers($courseid) {
     global $DB;
 
@@ -83,6 +97,12 @@ function customlabel_get_all_classifiers($courseid) {
     return $potcls;
 }
 
+/**
+ * Get all classification values for the course. Based on presence of courseclassifier
+ * types. If more than one are found, take the first that comes.
+ * @param int $courseid
+ * @todo potentially enhance the candidate selection
+ */
 function customlabel_get_classifiers($courseid) {
     global $DB;
 
@@ -100,6 +120,10 @@ function customlabel_get_classifiers($courseid) {
     return $instance;
 }
 
+/**
+ * Get all course metadata on base of presence of a coursedata element
+ * @param int $courseid
+ */
 function customlabel_get_coursedata($courseid) {
     global $DB;
 
@@ -117,6 +141,10 @@ function customlabel_get_coursedata($courseid) {
     return $instance;
 }
 
+/**
+ * Get the requestcontact element of the course. (first one)
+ * @param int $courseid
+ */
 function customlabel_get_requestcontact($courseid) {
     global $DB;
 
@@ -137,6 +165,11 @@ function customlabel_get_requestcontact($courseid) {
 /**
  * Finds a customlabel, or all customlabels of some type in a course.
  * Special behaviour : in page format, needs to be published
+ * @param object $course
+ * @param string $type
+ * @param bool $wantfirst
+ * @param bool $onlyvisible
+ * @param bool $onlypublished (only for page format)
  */
 function customlabel_get_customlabel_in_course($course, $type, $wantfirst = false, $onlyvisible = true, $onlypublished = true) {
     global $DB;
@@ -149,10 +182,10 @@ function customlabel_get_customlabel_in_course($course, $type, $wantfirst = fals
         $visibleclause = '';
         if (!empty($onlyvisible)) {
             $visibleclause = " AND
-                fpi.visible = 1 
+                fpi.visible = 1
             ";
         }
-        
+
         $select = "
             SELECT
                 c.*
@@ -168,7 +201,7 @@ function customlabel_get_customlabel_in_course($course, $type, $wantfirst = fals
                 m.name = 'customlabel' AND
                 fpi.cmid = cm.id AND
                 fpi.pageid = fp.id AND
-                fp.courseid = c.id 
+                fp.courseid = c.id
                 {$visibleclause}
         ";
 
@@ -182,25 +215,21 @@ function customlabel_get_customlabel_in_course($course, $type, $wantfirst = fals
 }
 
 /**
- *
+ * Get any field in any customlabel
+ * @param int $courseid
+ * @param string $type
+ * @param string $field
+ * @todo finish implement
  */
-function customlabel_get_customlabel_field($courseid) {
-    global $DB;
-
-    $params = ['course' => $courseid, 'labelclass' => 'requestcontact'];
-    $potrq = $DB->get_records('customlabel', $params, 'id');
-
-    if (!$potrq) {
-        return;
-    }
-
-    // At the moment take the first that comes.
-    $cl = array_shift($potrq);
-
-    $instance = customlabel_load_class($cl);
-    return $instance;
+function customlabel_get_customlabel_field($courseid, $type, $field) {
+    return '';
 }
 
+/**
+ * Search coures using customlabel metadata
+ * @param string $searchcriteria
+ * @todo finish implement it.
+ */
 function customlabel_search_courses($searchcriteria) {
     return [];
 }

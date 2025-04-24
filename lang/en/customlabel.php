@@ -15,11 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Lang file.
+ *
  * @package    mod_customlabel
- * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux (www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  */
 
 $string['customlabel:addinstance'] = 'Can add an instance';

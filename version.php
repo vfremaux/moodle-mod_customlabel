@@ -18,7 +18,7 @@
  * Version details.
  *
  * @package    mod_customlabel
- * @category   mod
+ *
  * @author     Valery Fremaux (valery.fremaux@gmail.com)
  * @copyright  2013 onwards Valery Fremaux (valery.fremaux@gmail.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -26,17 +26,17 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2023060503; // The current module version (Date: YYYYMMDDXX).
+$plugin->version  = 2025011400; // The current module version (Date: YYYYMMDDXX).
 $plugin->requires = 2022111800;
 $plugin->component = 'mod_customlabel'; // Full name of the plugin (used for diagnostics).
-$plugin->release = '4.1.0 (Build 2023060503)';
-$plugin->supported = [401, 402];
+$plugin->release = '4.5.0 (Build 2023060503)';
+$plugin->supported = [404, 405];
 $plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
-$plugin->codeincrement = '4.1.0018';
+$plugin->codeincrement = '4.5.0018';
 $plugin->privacy = 'dualrelease';
-$plugin->prolocations = array(
+$plugin->prolocations = [
     'type/coursedata',
     'type/pedagogicadvice',
     'type/authordata',
@@ -54,4 +54,4 @@ $plugin->prolocations = array(
     'type/requestcontact',
     'type/satisfaction',
     'type/contactpoint',
-);
+];

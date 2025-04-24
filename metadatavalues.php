@@ -16,7 +16,7 @@
 
 /**
  * @package    mod_customlabel
- * @category   mod
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -67,14 +67,14 @@ echo $deferredheader;
 
 echo get_string('editclass', 'customlabel') . ':&nbsp;&nbsp;';
 
-echo $OUTPUT->single_select(new moodle_url('', array('view' => $view)), 'typeid', $types, $type);
+echo $OUTPUT->single_select(new moodle_url('', ['view' => $view]), 'typeid', $types, $type);
 
 echo '<br/>';
 echo '<br/>';
 echo $OUTPUT->heading(get_string('metadataset', 'customlabel'));
-$params = array($config->classification_value_type_key => $type);
+$params = [$config->classification_value_type_key => $type];
 if (!$values = $DB->get_records($config->classification_value_table, $params, 'sortorder')) {
-    $values = array();
+    $values = [];
 }
 
 // Make the value form.
@@ -83,9 +83,9 @@ $strcode = get_string('code', 'customlabel');
 $strcourses = get_string('courses');
 $strcommands = get_string('commands', 'customlabel');
 $table = new html_table();
-$table->head = array("", "<b>$strcode</b>", "<b>$strvalues</b>", "<b>$strcourses</b>", "<b>$strcommands</b>");
-$table->width = array('10%', '50%', '10%', '30%');
-$table->align = array('center', 'left', 'center', 'right');
+$table->head = ["", "<b>$strcode</b>", "<b>$strvalues</b>", "<b>$strcourses</b>", "<b>$strcommands</b>"];
+$table->size = ['5%', '10%', '50%', '10%', '30%'];
+$table->align = ['center', 'left', 'left', 'center', 'right'];
 $table->width = '90%';
 
 echo $OUTPUT->box_start();
@@ -111,33 +111,33 @@ if (!empty($values)) {
         ";
         $avalue->courses = $DB->count_records_sql($sql);
 
-        $params = array('view' => 'qualifiers', 'what' => 'delete', 'valueid' => $avalue->id, 'typeid' => $type);
+        $params = ['view' => 'qualifiers', 'what' => 'delete', 'valueid' => $avalue->id, 'typeid' => $type];
         $deleteurl = new moodle_url('/mod/customlabel/adminmetadata.php', $params);
         $cmds = '<a href="'.$deleteurl.'">'.$OUTPUT->pix_icon('/t/delete', get_string('delete')).'</a>';
 
-        $params = array('typeid' => $type, 'what' => 'edit', 'valueid' => $avalue->id);
+        $params = ['typeid' => $type, 'what' => 'edit', 'valueid' => $avalue->id];
         $editurl = new moodle_url('/mod/customlabel/adminmetadata.php', $params);
         $cmds .= '&nbsp;<a href="'.$editurl.'">'.$OUTPUT->pix_icon('/t/edit', get_string('edit')).'</a>';
         if ($i > 0) {
-            $params = array('typeid' => $type, 'what' => 'up', 'valueid' => $avalue->id);
+            $params = ['typeid' => $type, 'what' => 'up', 'valueid' => $avalue->id];
             $upurl = new moodle_url('/mod/customlabel/adminmetadata.php', $params);
             $cmds .= '&nbsp;<a href="'.$upurl.'">'.$OUTPUT->pix_icon('/t/up', '').'</a>';
         } else {
             $cmds .= '&nbsp;&nbsp;&nbsp;';
         }
         if ($i < $valuecount - 1) {
-            $params = array('typeid' => $type, 'what' => 'down', 'valueid' => $avalue->id);
+            $params = ['typeid' => $type, 'what' => 'down', 'valueid' => $avalue->id];
             $downurl = new moodle_url('/mod/customlabel/adminmetadata.php', $params);
             $cmds .= '&nbsp;<a href="'.$downurl.'">'.$OUTPUT->pix_icon('/t/down', '').'</a>';
         } else {
             $cmds .= "&nbsp;&nbsp;&nbsp;";
         }
-        $params = array('value' => $avalue->id, 'typeid' => $type);
+        $params = ['value' => $avalue->id, 'typeid' => $type];
         $lpshowclassifiedurl = new moodle_url('/mod/customlabel/showclassified.php', $params);
         $img = $OUTPUT->pix_icon('/t/hide', get_string('hide'));
         $coursecount = ($avalue->courses) ? '<a href="'.$lpshowclassifiedurl.'">'.$avalue->courses.' '.$img.'</a>' : 0;
         $selcheck = '<input type="checkbox" name="items[]" value="'.$avalue->id.'" />';
-        $table->data[] = array($selcheck, $avalue->code, format_string($avalue->value), $coursecount, $cmds);
+        $table->data[] = [$selcheck, $avalue->code, format_string($avalue->value), $coursecount, $cmds];
         $i++;
     }
     echo html_writer::table($table);

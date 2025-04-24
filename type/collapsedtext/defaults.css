@@ -9,3 +9,8 @@
     border-radius: 8px;
     margin-bottom: 10px;
 }
+
+.custombox-collapsedtext-panel {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

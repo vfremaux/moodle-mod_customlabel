@@ -15,12 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a local class contextual translation file for field names and list options.
- * this file is automatically loaded by the /mod/customlabel/lang/xx_utf8/customlabel.php
- * module language file.
+ * Lang File.
  *
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_important
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL

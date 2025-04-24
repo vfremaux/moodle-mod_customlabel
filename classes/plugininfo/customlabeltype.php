@@ -17,17 +17,21 @@
 /**
  * Subplugin info class.
  *
- * @package   customlabel
- * @copyright 2014 Valery Fremaux (valery.Fremaux@gmail.com)
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux (www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-namespace mod_customlabel\plugininfo;
 
-defined('MOODLE_INTERNAL') || die();
+namespace mod_customlabel\plugininfo;
 
 use core\plugininfo\base, core_plugin_manager, moodle_url;
 
+/**
+ * Gives info about subplugins.
+ */
 class customlabeltype extends base {
+
     /**
      * Finds all enabled plugins, the result may include missing plugins.
      * @return array|null of enabled plugins $pluginname=>$pluginname, null means unknown
@@ -37,9 +41,9 @@ class customlabeltype extends base {
 
         $plugins = core_plugin_manager::instance()->get_installed_plugins('customlabeltype');
         if (!$plugins) {
-            return array();
+            return [];
         }
-        $installed = array();
+        $installed = [];
         foreach ($plugins as $plugin => $version) {
             $installed[] = 'customlabeltype_'.$plugin;
         }
@@ -54,7 +58,7 @@ class customlabeltype extends base {
             unset($plugins[$name]);
         }
 
-        $enabled = array();
+        $enabled = [];
         foreach ($plugins as $plugin => $version) {
             $enabled[$plugin] = $plugin;
         }
@@ -62,6 +66,9 @@ class customlabeltype extends base {
         return $enabled;
     }
 
+    /**
+     * Is individual uninstalling allowed ?
+     */
     public function is_uninstall_allowed() {
         return true;
     }
@@ -71,7 +78,7 @@ class customlabeltype extends base {
      * @return moodle_url
      */
     public static function get_manage_url() {
-        return new moodle_url('/mod/customlabel/adminmanageplugins.php', array('subtype' => 'customlabeltype'));
+        return new moodle_url('/mod/customlabel/adminmanageplugins.php', ['subtype' => 'customlabeltype']);
     }
 
     /**
@@ -82,6 +89,9 @@ class customlabeltype extends base {
         parent::uninstall_cleanup();
     }
 
+    /**
+     * Give name for settings session.
+     */
     public function get_settings_section_name() {
         return $this->type . '_' . $this->name;
     }

@@ -15,25 +15,37 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- *
+ * MVC controller class for contraints edition.
  * @package    mod_customlabel
- * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- *
- * @see Acces from adminmetadata.php
  */
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * MVC controller.
+ * @todo : reshape to more generic controller patternn, using receive and process.
+ */
 class constraints_controller {
 
+    /**
+     * Constructor
+     * @param string $q1 the first metadata domain in the matrix
+     * @param string $q2 the second metadata domain in the matrix
+     */
     public function __construct($q1, $q2) {
+        if ($q1 == $q2) {
+            throw new coding_exception("Same constraints. This should never happen");
+        }
         $this->q1 = $q1;
         $this->q2 = $q2;
     }
 
+    /**
+     * Process the command.
+     */
     public function process($action) {
         global $DB;
 

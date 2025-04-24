@@ -15,14 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * main view of a customlabel is always in its course container, unless
- * we display its XML exportation.
+ * main view of a customlabel is always in its course container, unless we display its XML exportation.
  *
  * @package    mod_customlabel
- * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux <valery.fremaux@gmail.com> (www.activeProLearn.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  */
 
 require('../../config.php');
@@ -34,23 +32,23 @@ $what = optional_param('what', '', PARAM_ALPHA);     // What to be seen.
 
 if ($id) {
     if (! $cm = get_coursemodule_from_id('customlabel', $id)) {
-        print_error('invalidcoursemodule');
+        throw new moodle_exception('invalidcoursemodule');
     }
-    if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
-        print_error('coursemisconf');
+    if (! $course = $DB->get_record('course', ['id' => $cm->course])) {
+        throw new moodle_exception('coursemisconf');
     }
-    if (! $customlabel = $DB->get_record('customlabel', array('id' => $cm->instance))) {
-        print_error('invalidcoursemodule');
+    if (! $customlabel = $DB->get_record('customlabel', ['id' => $cm->instance])) {
+        throw new moodle_exception('invalidcoursemodule');
     }
 } else {
-    if (! $customlabel = $DB->get_record('customlabel', array('id' => $l))) {
-        print_error('invalidcoursemodule');
+    if (! $customlabel = $DB->get_record('customlabel', ['id' => $l])) {
+        throw new moodle_exception('invalidcoursemodule');
     }
-    if (! $course = $DB->get_record('course', array('id' => $customlabel->course))) {
-        print_error('coursemisconf');
+    if (! $course = $DB->get_record('course', ['id' => $customlabel->course])) {
+        throw new moodle_exception('coursemisconf');
     }
     if (! $cm = get_coursemodule_from_instance("customlabel", $customlabel->id, $course->id)) {
-        print_error('invalidcoursemodule');
+        throw new moodle_exception('invalidcoursemodule');
     }
 }
 
@@ -60,7 +58,7 @@ require_login($course->id);
 
 if ($what == 'xml') {
     echo $OUTPUT->header();
-    $customlabel = $DB->get_record('customlabel', array('id' => $l));
+    $customlabel = $DB->get_record('customlabel', ['id' => $l]);
     $customlabel->coursemodule = $cm->id;
     $instance = customlabel_load_class($customlabel);
     $xml = $instance->get_xml();
@@ -72,4 +70,4 @@ if ($what == 'xml') {
 
 // Normal view "in-situ".
 
-redirect(new moodle_url('/course/view.php', array('id' => $course->id)));
+redirect(new moodle_url('/course/view.php', ['id' => $course->id]));

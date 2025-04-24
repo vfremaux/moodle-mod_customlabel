@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * @package    customlabeltype_localdokuwikicontent
- * @category   report
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,8 +31,8 @@ class customlabeltype_localdokuwikicontent_external extends external_api {
     public static function get_page($page, $lang = false) {
         global $CFG;
 
-        $input = array('page' => $page,
-                       'lang' => $lang);
+        $input = ['page' => $page,
+                       'lang' => $lang];
         $params = self::validate_parameters(self::get_page_parameters(), $input);
 
         $result = new StdClass;
@@ -48,19 +48,19 @@ class customlabeltype_localdokuwikicontent_external extends external_api {
 
     public static function get_page_parameters() {
         return new external_function_parameters(
-            array(
+            [
                 'page' => new external_value(PARAM_TEXT, 'Wiki page'),
                 'lang' => new external_value(PARAM_TEXT, 'Volume language'),
-            )
+            ]
         );
     }
 
     public static function get_page_returns() {
         return new external_single_structure(
-            array(
+            [
                 'content' => new external_value(PARAM_RAW, 'Wiki page content'),
                 'webroot' => new external_value(PARAM_TEXT, 'Wiki page web root'),
-            )
+            ]
         );
     }
 }

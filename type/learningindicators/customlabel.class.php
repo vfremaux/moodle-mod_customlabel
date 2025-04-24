@@ -15,8 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * Main subtype implementation
+ *
+ * @package    customlabeltype_learningindicators
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -26,14 +27,17 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
- *
- *
+ * Main type class
  */
-
 class customlabel_type_learningindicators extends customlabel_type {
 
+    /** @var Is this subtype data driven by a learningtimecheck (internally detected) */
     protected $isltcdriven = false;
 
+    /**
+     * Constructor
+     * @param object $data
+     */
     public function __construct($data) {
         global $CFG, $COURSE;
 
@@ -46,7 +50,7 @@ class customlabel_type_learningindicators extends customlabel_type {
 
         parent::__construct($data);
         $this->type = 'learningindicators';
-        $this->fields = array();
+        $this->fields = [];
 
         $field = new StdClass;
         $field->name = 'showprogress';
@@ -86,6 +90,10 @@ class customlabel_type_learningindicators extends customlabel_type {
         $this->fields['activityscoresource'] = $field;
     }
 
+    /**
+     * Preprocesses template before getting options and additional inputs
+     * from fields.
+     */
     public function preprocess_data() {
         if (empty($this->data->progresssource)) {
             $this->data->progresssource = 'standard';
@@ -139,38 +147,49 @@ class customlabel_type_learningindicators extends customlabel_type {
      * Get the standard completion progress for current course/current user.
      */
     protected function get_standard_progress() {
-        global $COURSE, $USER;
+        assert(true);
     }
 
     /**
      * Get the LTC completion progress for current course/current user.
      */
     protected function get_ltc_progress() {
-        global $USER, $CFG;
+        global $CFG;
 
         include_once($CFG->dirroot.'/mod/learningtimecheck/xlib.php');
-
     }
 
+    /**
+     * Get user's time of use in a use_stats block.
+     */
     protected function get_use_time() {
-        global $USER, $CFG;
+        global $CFG;
 
         include_once($CFG->dirroot.'/blocks/use_stats/xlib.php');
     }
 
+    /**
+     * Get the total time from a learningtimecheck.
+     */
     protected function get_ltc_total_time() {
         global $USER, $CFG;
 
         include_once($CFG->dirroot.'/mod/learningtimecheck/xlib.php');
     }
 
+    /**
+     * Print a graph.
+     * @param string $purpose
+     * @param string $graphmode
+     * @param string $value
+     */
     protected function print_graph($purpose, $graphmode, $value) {
 
         $str = '';
 
         switch ($graphmode) {
             case 'donut': {
-                
+                // Prints a donut.
             }
             break;
 

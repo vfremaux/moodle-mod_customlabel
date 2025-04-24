@@ -15,10 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod_customlabel
- * @subpackage backup-moodle2
- * @copyright 2012 onwards Valery Fremaux
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Restore task.
+ *
+ * @package    mod_customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux (www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -49,10 +51,10 @@ class restore_customlabel_activity_task extends restore_activity_task {
      * Define the contents in the activity that must be
      * processed by the link decoder
      */
-    static public function define_decode_contents() {
-        $contents = array();
+    public static function define_decode_contents() {
+        $contents = [];
 
-        $contents[] = new restore_decode_content('customlabel', array('processedcontent'), 'customlabel');
+        $contents[] = new restore_decode_content('customlabel', ['processedcontent'], 'customlabel');
 
         return $contents;
     }
@@ -61,13 +63,13 @@ class restore_customlabel_activity_task extends restore_activity_task {
      * Define the decoding rules for links belonging
      * to the activity to be executed by the link decoder
      */
-    static public function define_decode_rules() {
-        $rules = array();
+    public static function define_decode_rules() {
+        $rules = [];
 
         $rules[] = new restore_decode_rule('CUSTOMLABELINDEX', '/mod/customlabel/index.php?id=$1', 'course');
         $rules[] = new restore_decode_rule('CUSTOMLABELVIEWBYID', '/mod/customlabel/view.php?id=$1', 'course_module');
 
-        return array();
+        return [];
     }
 
     /**
@@ -76,8 +78,8 @@ class restore_customlabel_activity_task extends restore_activity_task {
      * label logs. It must return one array
      * of {@link restore_log_rule} objects
      */
-    static public function define_restore_log_rules() {
-        $rules = array();
+    public static function define_restore_log_rules() {
+        $rules = [];
 
         $rules[] = new restore_log_rule('customlabel', 'add', 'view.php?id={course_module}', '{customlabel}');
         $rules[] = new restore_log_rule('customlabel', 'update', 'view.php?id={course_module}', '{customlabel}');
@@ -96,8 +98,8 @@ class restore_customlabel_activity_task extends restore_activity_task {
      * by the restore final task, but are defined here at
      * activity level. All them are rules not linked to any module instance (cmid = 0)
      */
-    static public function define_restore_log_rules_for_course() {
-        $rules = array();
+    public static function define_restore_log_rules_for_course() {
+        $rules = [];
 
         $rules[] = new restore_log_rule('customlabel', 'view all', 'index.php?id={course}', null);
 

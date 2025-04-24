@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace mod_customlabel\output;
+
 /**
  *
  * @package    mod_customlabel
@@ -26,7 +28,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class mod_customlabel_renderer extends plugin_renderer_base {
+use stdClass;
+use plugin_renderer_base;
+use moodle_url;
+
+class renderer extends plugin_renderer_base {
 
     public function set_choice($view, $q1, $q2) {
         global $DB;
@@ -36,7 +42,7 @@ class mod_customlabel_renderer extends plugin_renderer_base {
         $config = get_config('customlabel');
         $choiceurl = new moodle_url('/mod/customlabel/adminmetadata.php');
         $table = $config->classification_type_table;
-        $valuetypes = $DB->get_records_menu($table, array('type' => 'category'), 'name', 'id,name');
+        $valuetypes = $DB->get_records_menu($table, ['type' => 'category'], 'name', 'id,name');
 
         $template->choiceurl = $choiceurl;
         $template->view = $view;
@@ -70,7 +76,7 @@ class mod_customlabel_renderer extends plugin_renderer_base {
                 cv2.typeid = ?))
         ";
 
-        $constraints = $DB->get_records_sql($sql, array($q1->value, $q2->value, $q2->value, $q1->value));
+        $constraints = $DB->get_records_sql($sql, [$q1->value, $q2->value, $q2->value, $q1->value]);
         if ($constraints) {
             foreach ($constraints as $constraint) {
                 // Get always the longest type ID first in matrix grid (columns).
@@ -115,7 +121,7 @@ class mod_customlabel_renderer extends plugin_renderer_base {
                         $value = @$values[$valuea][$valueb];
                         $valuekey = "ct_{$valuea}_{$valueb}";
                         $class = ($value) ? 'green' : 'red';
-                        $attrs = array('class' => 'customlabel-constraint-select '.$class);
+                        $attrs = ['class' => 'customlabel-constraint-select '.$class];
                         $valuesettpl->optionsselect = html_writer::select($options, $valuekey, $value, '', $attrs);
                         $value2settpl->valueset[] = $valuesettpl;
                         $j++;

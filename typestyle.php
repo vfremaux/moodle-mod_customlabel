@@ -17,9 +17,17 @@
 /**
  * A dynamic styling helper.
  *
- * disabled length limitation for labels
- * define("LABEL_MAX_NAME_LENGTH", 50);
+ * @package    mod_customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux <valery.fremaux@gmail.com> (www.activeProLearn.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+
+/*
+ * In this special case, this is access to CSS resource that should be obtained even if not logged in.
+ * phpcs:disable moodle.Files.RequireLogin.Missing
+ */
+
 require('../../config.php');
 
 $type = required_param('type', PARAM_TEXT);

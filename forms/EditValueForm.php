@@ -15,23 +15,35 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Form fo editing classification values.
+ *
  * @package    mod_customlabel
- * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux (www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 1999 onwards Martin Dougiamas  http://dougiamas.com
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/formslib.php');
 
+/**
+ * Form for values
+ */
 class EditValueForm extends moodleform {
 
+    /**  @param string */
     private $view;
+
+    /**  @param string */
     private $action;
+
+    /**  @param string */
     private $type;
 
+    /**
+     * Constructor
+     */
     public function __construct($view, $action, $type, $url) {
         $this->view = $view;
         $this->action = $action;
@@ -39,6 +51,9 @@ class EditValueForm extends moodleform {
         parent::__construct($url);
     }
 
+    /**
+     * Standard definition
+     */
     public function definition() {
         $mform = & $this->_form;
 
@@ -57,17 +72,20 @@ class EditValueForm extends moodleform {
         $mform->addElement('hidden', 'id', '');
         $mform->setType('id', PARAM_INT);
 
-        $mform->addElement('text', 'code', get_string('code', 'customlabel'), array('size' => 15));
+        $mform->addElement('text', 'code', get_string('code', 'customlabel'), ['size' => 15]);
         $mform->setType('code', PARAM_ALPHANUM);
 
-        $mform->addElement('text', 'value', get_string('name'), array('size' => 60));
+        $mform->addElement('text', 'value', get_string('name'), ['size' => 60]);
         $mform->setType('value', PARAM_TEXT);
 
         $this->add_action_buttons(false);
     }
 
+    /**
+     * Standard validation
+     */
     public function validation($data, $files = null) {
-        $errors = array();
+        $errors = [];
 
         if (empty($data['value'])) {
             $errors['value'] = get_string('emptyvalueerror', 'customlabel');

@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_formule
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -35,7 +35,7 @@ class customlabel_type_formule extends customlabel_type {
     public function __construct($data) {
         parent::__construct($data);
         $this->type = 'formule';
-        $this->fields = array();
+        $this->fields = [];
 
         $field = new StdClass;
         $field->name = 'formulename';
@@ -69,6 +69,10 @@ class customlabel_type_formule extends customlabel_type {
         $this->fields['developmentinitiallyvisible'] = $field;
     }
 
+    /**
+     * Preprocesses template before getting options and additional inputs
+     * from fields.
+     */
     public function preprocess_data() {
         global $OUTPUT, $COURSE;
 

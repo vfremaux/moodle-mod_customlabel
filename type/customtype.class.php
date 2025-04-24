@@ -16,7 +16,7 @@
 
 /**
  * @package mod_customlabel
- * @category mod
+ *
  * @author Valery Fremaux
  * @date 02/12/2007
  *
@@ -26,6 +26,9 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/customlabel/extralib/lib.php');
 
+/**
+ * Customlabel subtype base class
+ */
 class customlabel_type {
 
     public $title;
@@ -47,7 +50,7 @@ class customlabel_type {
         $this->cmid = @$data->coursemodule; // It is possible we have NOT, f.e. when we just loading the class as an empty object.
         $this->title = @$data->title;
         $this->type = $type;
-        $this->fields = array();
+        $this->fields = [];
         $this->instance = $data;
         if (isset($data->content)) {
             $this->data = json_decode(base64_decode($data->content));
@@ -63,11 +66,11 @@ class customlabel_type {
      */
     public function get_options($fieldname) {
         if (!array_key_exists($fieldname, $this->fields)) {
-            return array();
+            return [];
         }
 
         if (empty($this->fields[$fieldname]->options)) {
-            return array();
+            return [];
         }
 
         if (is_string($this->fields[$fieldname]->options)) {
@@ -77,7 +80,7 @@ class customlabel_type {
         }
 
         // Get all code / translations for the option list.
-        $options = array();
+        $options = [];
         foreach ($optionsource as $option) {
             $options[$option] = get_string($option, 'customlabeltype_'.$this->type);
         }
@@ -91,7 +94,7 @@ class customlabel_type {
     public function get_datasource_options(&$field) {
         global $CFG, $DB;
 
-        $options = array();
+        $options = [];
         switch ($field->source) {
             case 'dbfieldkeyed':
                 $table = '{'.clean_param($field->table, PARAM_ALPHANUMEXT).'}';
@@ -136,7 +139,7 @@ class customlabel_type {
                 if (!empty($field->file) && file_exists($CFG->dirroot.'/'.$field->file)) {
                     include_once($CFG->dirroot.'/'.$field->file);
                 } else {
-                    print_error("Missing explicit library file location for datasource");
+                    throw new moodle_exception("Missing explicit library file location for datasource");
                 }
                 $functionname = $field->function;
                 $options = $functionname();
@@ -158,7 +161,7 @@ class customlabel_type {
             return (array)$value;
         }
 
-        $result = array();
+        $result = [];
         $optionsparts = preg_split('/ - |; |<br\/>/', $value);
         foreach ($optionsparts as $part) {
             foreach ($options as $key => $val) {
@@ -199,11 +202,11 @@ class customlabel_type {
 
         if (!isloggedin() || is_guest($context)) {
             // Check capability to see on user role.
-            $userrole = $DB->get_record('role', array('shortname' => 'guest'));
-            $params = array('contextid' => context_system::instance()->id,
+            $userrole = $DB->get_record('role', ['shortname' => 'guest']);
+            $params = ['contextid' => context_system::instance()->id,
                             'roleid' => $userrole->id,
                             'capability' => 'customlabeltype/'.$instance->labelclass.':view',
-                            'permission' => CAP_ALLOW);
+                            'permission' => CAP_ALLOW];
             if (!$DB->get_record('role_capabilities', $params)) {
                 // Set no chance to see anything from it.
                 return false;
@@ -218,8 +221,9 @@ class customlabel_type {
     }
 
     /**
-     *
-     *
+     * Extracts values from a datasource to build options for select.
+     * @param object $field a customlabel subtype field definition
+     * @param array $values
      */
     public function get_datasource_values($field, $values) {
         global $CFG, $DB;
@@ -232,10 +236,10 @@ class customlabel_type {
 
         $fieldname = $field->field;
         $fieldkey = (empty($field->key)) ? 'id' : $field->key;
-        $fieldselect = (@$field->select) ? "AND $field->select" : '';
+        $fieldselect = ($field->select ?? '') ? "AND $field->select" : '';
         $select = " WHERE `$fieldkey` IN ('$valuelist') ". $fieldselect;
 
-        $output = array();
+        $output = [];
         $table = $field->table;
         $sql = "
             SELECT
@@ -261,8 +265,8 @@ class customlabel_type {
      * some form information must be fetched based on form results on a specific way.
      * It can be used for storing collected information in additional
      * locations in the database.
-     *
      */
+
     public function preprocess_data() {
         assert(1);
     }
@@ -474,7 +478,7 @@ class customlabel_type {
                     } else {
                         if ($field->source == 'dbfieldkeyed') {
                             // Fake a one value array.
-                            $this->data->{$name} = format_string(implode($sep, $this->get_datasource_values($field, array($valuearray))));
+                            $this->data->{$name} = format_string(implode($sep, $this->get_datasource_values($field, [$valuearray])));
                         } else {
                             if (!empty($this->data->{$name})) {
                                 $key = ''.$this->data->{$name};
@@ -503,7 +507,7 @@ class customlabel_type {
 
                     switch ($field->source) {
                         case 'dbfieldkeyed': {
-                            $sourcevalue = $this->get_datasource_values($field, array($this->data->{$nameoption}));
+                            $sourcevalue = $this->get_datasource_values($field, [$this->data->{$nameoption}]);
                             $this->data->{$name} = format_string(implode($sep, $sourcevalue));
                             break;
                         }
@@ -608,7 +612,7 @@ class customlabel_type {
 
         $search = '/(.*?)<%if %%(.*?)%%\s+%>(.*?)<%endif\s+%>(.*)$/is';
         $buffer = '';
-        $matches = array();
+        $matches = [];
         $matches[4] = '';
         while (preg_match($search, $template, $matches)) {
             $buffer .= $matches[1]; // Prefix.
@@ -621,7 +625,7 @@ class customlabel_type {
             if ($test) {
                 // We defer evaluation along with an extractable array.
                 // The eval() call is defered to an extralib library.
-                $vars = array($fieldname => @$this->data->$fieldname);
+                $vars = [$fieldname => @$this->data->$fieldname];
                 customlabel_eval($test, $vars, $result);
                 if ($result) {
                     $buffer .= $matches[3];

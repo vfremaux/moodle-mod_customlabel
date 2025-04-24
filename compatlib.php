@@ -15,13 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
- * @author     Valery Fremaux <valery.fremaux@gmail.com>
- * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * Cross version compatibility wrappers
  *
- * TODO : check if there is not a legacy post install function in module API
+ * @package    mod_customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux <valery.fremaux@gmail.com> (www.activeProLearn.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
 /**

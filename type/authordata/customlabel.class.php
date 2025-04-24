@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_authordata
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -26,10 +26,9 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
- *
+ * Customlabel type main class
  *
  */
-
 class customlabel_type_authordata extends customlabel_type {
 
     public $nbauthor = 5;
@@ -39,7 +38,7 @@ class customlabel_type_authordata extends customlabel_type {
 
         parent::__construct($data);
         $this->type = 'authordata';
-        $this->fields = array();
+        $this->fields = [];
 
         $field = new StdClass;
         $field->name = 'tablecaption';
@@ -50,6 +49,7 @@ class customlabel_type_authordata extends customlabel_type {
             $field = new StdClass;
             $field->name = 'author'.$i;
             $field->type = 'textfield';
+            $field->size = 25;
             $this->fields['author'.$i] = $field;
 
             $field = new StdClass;
@@ -62,15 +62,37 @@ class customlabel_type_authordata extends customlabel_type {
             $field = new StdClass;
             $field->name = 'institution'.$i;
             $field->type = 'textfield';
+            $field->size = 50;
             $field->default = '';
             $this->fields['institution'.$i] = $field;
 
             $field = new StdClass;
             $field->name = 'department'.$i;
             $field->type = 'textfield';
+            $field->size = 40;
             $field->default = '';
             $this->fields['department'.$i] = $field;
+
+            $field = new StdClass;
+            $field->name = 'role'.$i;
+            $field->type = 'list';
+            $field->options = ['author', 'reviewer', 'illustrator', 'pedagogicdesigner'];
+            $field->default = '';
+            $this->fields['role'.$i] = $field;
         }
+
+        // This is for extra contributors, unformatted
+        $field = new StdClass;
+        $field->name = 'contributors';
+        $field->type = 'editor';
+        $field->itemid = 0;
+        $this->fields['contributors'] = $field;
+
+        $field = new StdClass;
+        $field->name = 'commonswitches';
+        $field->type = 'separator';
+        $field->label = 'commonswitches';
+        $this->fields['commonswitches'] = $field;
 
         $field = new StdClass;
         $field->name = 'showinstitution';
@@ -78,21 +100,14 @@ class customlabel_type_authordata extends customlabel_type {
         $this->fields['showinstitution'] = $field;
 
         $field = new StdClass;
-        $field->name = 'institution';
-        $field->type = 'textfield';
-        $field->default = @$USER->institution;
-        $this->fields['institution'] = $field;
-
-        $field = new StdClass;
         $field->name = 'showdepartment';
         $field->type = 'choiceyesno';
         $this->fields['showdepartment'] = $field;
 
         $field = new StdClass;
-        $field->name = 'department';
-        $field->type = 'textfield';
-        $field->default = @$USER->department;
-        $this->fields['department'] = $field;
+        $field->name = 'showrole';
+        $field->type = 'choiceyesno';
+        $this->fields['showrole'] = $field;
 
         $field = new StdClass;
         $field->name = 'showcontributors';
@@ -100,10 +115,10 @@ class customlabel_type_authordata extends customlabel_type {
         $this->fields['showcontributors'] = $field;
 
         $field = new StdClass;
-        $field->name = 'contributors';
-        $field->type = 'editor';
-        $field->itemid = 0;
-        $this->fields['contributors'] = $field;
+        $field->name = 'leftcolumnratio';
+        $field->type = 'textfield';
+        $field->default = '30%';
+        $this->fields['leftcolumnratio'] = $field;
     }
 
     public function postprocess_data($course = null) {
@@ -122,6 +137,7 @@ class customlabel_type_authordata extends customlabel_type {
 
                 $authortpl = new StdClass;
                 $authortpl->authorname = $this->data->{'author'.$i};
+                $authortpl->role = (!empty($this->data->{'role'.$i})) ? $this->data->{'role'.$i} : '';
                 if (isset($this->data->{'institution'.$i})) {
                     $authortpl->institution = $this->data->{'institution'.$i};
                 }
@@ -138,6 +154,12 @@ class customlabel_type_authordata extends customlabel_type {
             }
         }
 
+        if (empty($this->data->leftcolumnratio)) {
+            $this->data->leftcolumnratio = '30%';
+        }
+        $leftratio = 0 + (int) str_replace('%', '', $this->data->leftcolumnratio);
+        $this->data->rightcolumnratio = 100 - $leftratio;
+        $this->data->rightcolumnratio .= '%';
     }
 }
 

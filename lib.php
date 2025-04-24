@@ -17,11 +17,17 @@
 /**
  * Library of functions and constants for module label.
  *
- * disabled length limitation for labels
- * define("LABEL_MAX_NAME_LENGTH", 50);
+ * @package    mod_customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
+
 defined('MOODLE_INTERNAL') || die();
 
+/*
+ * length limitation for labels. Comment to disable.
+ */
 define("CUSTOMLABEL_MAX_NAME_LENGTH", 50);
 
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
@@ -41,6 +47,7 @@ if (!during_initial_install()) {
 /**
  * This function is not implemented in this plugin, but is needed to mark
  * the vf documentation custom volume availability.
+ * @package mod_customlabel
  */
 function customlabel_supports_feature($feature = null, $getsupported = false) {
     global $CFG;
@@ -51,14 +58,32 @@ function customlabel_supports_feature($feature = null, $getsupported = false) {
     }
 
     if (!isset($supports)) {
-        $supports = array(
-            'pro' => array(
-                'api' => array('ws'),
-                'types' => array('remotecontent','cssadditions','localdokuwikicontent','learningindicators','verticalspacer'),
-            ),
-            'community' => array(
-            ),
-        );
+        $supports = [
+            'pro' => [
+                'api' => ['ws'],
+                'types' => [
+                    'coursedata',
+                    'pedagogicadvice',
+                    'authordata',
+                    'authornote',
+                    'courseclassifier',
+                    'learningindicators',
+                    'localdokuwikicontent',
+                    'remotecontent',
+                    'cssadditions',
+                    'genericpractices',
+                    'genericgoals',
+                    'processgoals',
+                    'processpractices',
+                    'verticalspacer',
+                    'requestcontact',
+                    'satisfaction',
+                    'contactpoint',
+                ],
+            ],
+            'community' => [
+            ],
+        ];
     }
 
     if ($getsupported) {
@@ -98,18 +123,20 @@ function customlabel_supports_feature($feature = null, $getsupported = false) {
 }
 
 /**
+ * Deprecated
  * @uses LABEL_MAX_NAME_LENGTH
  * @param object $label
  * @return string
+ * @package mod_customlabel
  */
-function get_customlabel_name($customlabel) {
+function get_customlabel_name_to_remove($customlabel) {
     $name = strip_tags(format_string($customlabel->processedcontent, true));
     if (core_text::strlen($name) > CUSTOMLABEL_MAX_NAME_LENGTH) {
         $name = core_text::substr($name, 0, CUSTOMLABEL_MAX_NAME_LENGTH)."...";
     }
 
     if (empty($name)) {
-        // arbitrary name
+        // Arbitrary name.
         $name = $customlabel->title;
     }
 
@@ -135,6 +162,7 @@ require_once($CFG->dirroot.'/mod/customlabel/locallib.php');
  * @uses FEATURE_GRADE_OUTCOMES
  * @param string $feature FEATURE_xx constant for requested feature
  * @return bool|null True if module supports feature, false if not, null if doesn't know
+ * @package mod_customlabel
  */
 function customlabel_supports($feature) {
     switch ($feature) {
@@ -189,14 +217,19 @@ function customlabel_supports($feature) {
 /**
  * @param object $customlabel
  * @return string
+ * @package mod_customlabel
  */
 function customlabel_get_name($customlabel) {
 
-    $name = format_string($customlabel->name, true);
+    $name = $customlabel->name;
+
+    if (!empty($customlabel->title)) {
+        $name = $customlabel->title;
+    }
 
     if (empty($name)) {
         // Arbitrary name.
-        $name = get_string('modulename', 'customlabel');
+        $name = get_string('pluginname', 'customlabeltype_'.$customlabel->labelclass);
     }
 
     return $name;
@@ -209,6 +242,7 @@ function customlabel_get_name($customlabel) {
  * of the new instance.
  * @param object $customlabel
  * @return int instance id when created
+ * @package mod_customlabel
  */
 function customlabel_add_instance($customlabelrec) {
     global $DB;
@@ -247,12 +281,13 @@ function customlabel_add_instance($customlabelrec) {
  * Given an object containing all the necessary data,
  * (defined by the form in mod.html) this function
  * will update an existing instance with new data.
+ * @package mod_customlabel
  */
 function customlabel_update_instance($customlabelrec) {
     global $DB;
 
     // Check if type changed.
-    $oldinstance = $DB->get_record('customlabel', array('id' => $customlabelrec->instance));
+    $oldinstance = $DB->get_record('customlabel', ['id' => $customlabelrec->instance]);
     $oldinstance->coursemodule = $customlabelrec->coursemodule;
     $typechanged = false;
 
@@ -298,11 +333,12 @@ function customlabel_update_instance($customlabelrec) {
  * Given an ID of an instance of this module,
  * this function will permanently delete the instance
  * and any data that depends on it.
+ * @package mod_customlabel
  */
 function customlabel_delete_instance($id) {
     global $DB;
 
-    if (! $customlabel = $DB->get_record('customlabel', array('id' => "$id"))) {
+    if (! $customlabel = $DB->get_record('customlabel', ['id' => "$id"])) {
         return false;
     }
 
@@ -321,7 +357,7 @@ function customlabel_delete_instance($id) {
 
     $result = true;
 
-    if (! $DB->delete_records('customlabel', array('id' => $customlabel->id))) {
+    if (! $DB->delete_records('customlabel', ['id' => $customlabel->id])) {
         $result = false;
     }
 
@@ -334,6 +370,7 @@ function customlabel_delete_instance($id) {
 /**
  * Returns the users with data in one resource
  * (NONE, but must exist on EVERY mod !!)
+ * @package mod_customlabel
  */
 function customlabel_get_participants($customlabelid) {
     return false;
@@ -344,14 +381,19 @@ function customlabel_get_participants($customlabelid) {
  * "extra" information that may be needed when printing
  * this activity in a course listing.
  * See get_array_of_activities() in course/lib.php
+ * @package mod_customlabel
  */
 function customlabel_get_coursemodule_info($coursemodule) {
-    global $CFG, $DB;
-    static $instances = array();
+    global $CFG, $DB, $ME;
+    static $instances = [];
+
+    if (preg_match('/modedit\.php/', $ME)) {
+        return;
+    }
 
     if (!in_array($coursemodule->instance, $instances)) {
         $fields = 'id, labelclass, intro, title, name, content, processedcontent';
-        if ($customlabel = $DB->get_record('customlabel', array('id' => $coursemodule->instance), $fields)) {
+        if ($customlabel = $DB->get_record('customlabel', ['id' => $coursemodule->instance], $fields)) {
             $customlabel->coursemodule = $coursemodule->id;
             // Check label subtype is still installed.
             if (!is_dir($CFG->dirroot.'/mod/customlabel/type/'.$customlabel->labelclass)) {
@@ -372,14 +414,22 @@ function customlabel_get_coursemodule_info($coursemodule) {
     }
 
     $info = new stdClass();
-    $info->name = $customlabel->name;
+    $info->name = customlabel_get_name($customlabel);
     $info->extra = '';
     $info->extra = urlencode($instances[$coursemodule->instance]->title);
     return $info;
 }
 
+/**
+ *
+ * @package mod_customlabel
+ */
 function customlabel_cm_info_dynamic(&$cminfo) {
-    global $DB;
+    global $DB, $ME;
+
+    if (preg_match('/modedit\.php/', $ME)) {
+        return;
+    }
 
     $iscminfo = (get_class($cminfo) == 'cminfo') || (get_class($cminfo) == 'cm_info');
 
@@ -400,8 +450,12 @@ function customlabel_cm_info_dynamic(&$cminfo) {
         return;
     }
 
-    if ($iscminfo) {
+    $info = optional_param('info', '', PARAM_TEXT);
+    $gettingmoduleupdate = in_array($info, ['core_course_get_module', 'core_course_edit_module']);
 
+    if ($iscminfo && !$gettingmoduleupdate) {
+        // Do not render the item while in Ajax callback.
+        // This is called by require_login and collides with the theme setup.
         customlabel_cm_info_view($cminfo);
         $cminfo->set_no_view_link();
         $cminfo->set_extra_classes('label'); // Important, or customlabel WILL NOT be deletable in topic/week course.
@@ -415,13 +469,18 @@ function customlabel_cm_info_dynamic(&$cminfo) {
  * @see : Page format use the pageitem.php strategy for dealing with the
  * content display rules.
  * @todo : reevaluate strategy. this may still be used for improving standard formats.
+ * @package mod_customlabel
  */
 function customlabel_cm_info_view(&$cminfo) {
     global $DB, $PAGE, $CFG, $COURSE, $OUTPUT, $USER, $ME;
 
+    if (preg_match('/modedit\.php/', $ME)) {
+        return;
+    }
+
     global $customlabelscriptsloaded;
-    static $customlabelcssloaded = array();
-    static $customlabelamdloaded = array();
+    static $customlabelcssloaded = [];
+    static $customlabelamdloaded = [];
 
     $config = get_config('customlabel');
 
@@ -435,14 +494,14 @@ function customlabel_cm_info_view(&$cminfo) {
 
     // Improve page format by testing if in current visble page.
     if ($COURSE->format == 'page') {
-        $current = \format\page\course_page::get_current_page($COURSE->id);
-        if (!$DB->record_exists('format_page_items', array('cmid' => $cminfo->id, 'pageid' => $current->id))) {
+        $current = \format_page\course_page::get_current_page($COURSE->id);
+        if (!$DB->record_exists('format_page_items', ['cmid' => $cminfo->id, 'pageid' => $current->id])) {
             return;
         }
     }
 
     // Apply role restriction here.
-    if (!$customlabel = $DB->get_record('customlabel', array('id' => $cminfo->instance))) {
+    if (!$customlabel = $DB->get_record('customlabel', ['id' => $cminfo->instance])) {
         return;
     }
 
@@ -474,7 +533,11 @@ function customlabel_cm_info_view(&$cminfo) {
 
     if (!in_array($customlabel->labelclass, $customlabelcssloaded)) {
         $cssurl = '/mod/customlabel/typestyle.php?type='.$customlabel->labelclass;
-        $cssurl .= '&theme='.$PAGE->theme->name;
+        $info = optional_param('info', '', PARAM_TEXT);
+        if ($info != 'core_course_edit_module') {
+            // Apply the theme skins only if not in course module edition callback.
+            $cssurl .= '&theme='.$PAGE->theme->name;
+        }
         if (!$PAGE->requires->is_head_done()) {
             $PAGE->requires->css($cssurl);
         } else {
@@ -507,7 +570,7 @@ function customlabel_cm_info_view(&$cminfo) {
 
     // Specific >= 3.5
     $info = optional_param('info', '', PARAM_TEXT);
-    $gettingmoduleupdate = in_array($info, array('core_course_get_module', 'core_course_edit_module'));
+    $gettingmoduleupdate = in_array($info, ['core_course_get_module', 'core_course_edit_module']);
     global $FULLME;
     $ispluginfile = preg_match('/pluginfile/', $FULLME);
     $istogglecompletion = preg_match('/togglecompletion/', $FULLME);
@@ -573,17 +636,19 @@ function customlabel_cm_info_view(&$cminfo) {
 /**
  *
  *
+ * @package mod_customlabel
  */
 function customlabel_get_view_actions() {
-    return array();
+    return [];
 }
 
 /**
  *
  *
+ * @package mod_customlabel
  */
 function customlabel_get_post_actions() {
-    return array();
+    return [];
 }
 
 /**
@@ -593,11 +658,12 @@ function customlabel_get_post_actions() {
 /**
  * Returns a XML fragment with the stored metadata and the type information
  *
+ * @package mod_customlabel
  */
 function customlabel_get_xml($clid) {
     global $DB;
 
-    if ($customlabel = $DB->get_record('customlabel', array('id' => "$clid"))) {
+    if ($customlabel = $DB->get_record('customlabel', ['id' => "$clid"])) {
         $content = json_decode(base64_decode($customlabel->content));
         $xml = "<datablock>\n";
         $xml .= "\t<instance>\n";
@@ -623,6 +689,7 @@ function customlabel_get_xml($clid) {
  * allows role conditional display depending on customlabel type
  * @param $block in page format, course module id is found in page_module instance.
  * @param $cmid, an alternative to give directly the course module id
+ * @package mod_customlabel
  */
 function customlabel_is_hidden_byrole(&$block, $cmid = 0) {
     global $USER, $DB;
@@ -635,7 +702,7 @@ function customlabel_is_hidden_byrole(&$block, $cmid = 0) {
     $capability = 'customlabeltype/'.$customlabel->labelclass.':view';
 
     // Trap the unlogged or guest case.
-    $guestrole = $DB->get_record('roles', array('name' => 'guest'));
+    $guestrole = $DB->get_record('roles', ['name' => 'guest']);
     if ($rolesforcap = get_roles_with_capability($capability, CAP_ALLOW)) {
         $allowedroleids = array_keys($rolesforcap);
         if (in_array($guestrole, $allowedroleids)) {
@@ -646,7 +713,7 @@ function customlabel_is_hidden_byrole(&$block, $cmid = 0) {
 
     // Normal cases.
     $cm = get_coursemodule_from_id('customlabel', $cmid);
-    $customlabel = $DB->get_record('customlabel', array('id' => $cm->instance));
+    $customlabel = $DB->get_record('customlabel', ['id' => $cm->instance]);
     $context = context_module::instance($cmid);
     $res = !has_capability($capability, $context);
     return $res;
@@ -659,14 +726,14 @@ function customlabel_is_hidden_byrole(&$block, $cmid = 0) {
  * @param array $options additional options affecting the file serving
  * @return bool false if file not found, does not return if found - just send the file
  */
-function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
+function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
     global $CFG, $DB;
 
     if ($context->contextlevel != CONTEXT_MODULE) {
         return false;
     }
 
-    if (!$customlabel = $DB->get_record('customlabel', array('id' => $cm->instance))) {
+    if (!$customlabel = $DB->get_record('customlabel', ['id' => $cm->instance])) {
         return false;
     }
     $customlabel->coursemodule = $cm->id;
@@ -716,12 +783,13 @@ function customlabel_pluginfile($course, $cm, $context, $filearea, $args, $force
  * @param bool $type Type of comparison (or/and; can be used as return value if no conditions)
  * @return bool True if completed, false if not. (If no conditions, then return
  *   value depends on comparison type)
+ * @package mod_customlabel
  */
 function customlabel_get_completion_state($course, $cm, $userid, $type) {
     global $DB;
 
     // Get customlabel details.
-    if (!($instance = $DB->get_record('customlabel', array('id' => $cm->instance)))) {
+    if (!($instance = $DB->get_record('customlabel', ['id' => $cm->instance]))) {
         throw new Exception("Can't find customlabel {$cm->instance}");
     }
 
@@ -730,7 +798,7 @@ function customlabel_get_completion_state($course, $cm, $userid, $type) {
 
     $result = $type; // Default return value.
     if ($instance->completion1enabled) {
-        $params = array('userid' => $userid, 'customlabelid' => $cm->instance);
+        $params = ['userid' => $userid, 'customlabelid' => $cm->instance];
         $ud = $DB->get_field('customlabel_user_data', 'completion1', $params);
         $value = ($ud == $customlabel->complete_value(1));
         if ($type == COMPLETION_AND) {
@@ -741,7 +809,7 @@ function customlabel_get_completion_state($course, $cm, $userid, $type) {
     }
 
     if ($instance->completion2enabled) {
-        $params = array('userid' => $userid, 'customlabelid' => $cm->instance);
+        $params = ['userid' => $userid, 'customlabelid' => $cm->instance];
         $ud = $DB->get_field('customlabel_user_data', 'completion2', $params);
         $value = ($ud == $customlabel->complete_value(2));
         if ($type == COMPLETION_AND) {
@@ -752,7 +820,7 @@ function customlabel_get_completion_state($course, $cm, $userid, $type) {
     }
 
     if ($instance->completion3enabled) {
-        $params = array('userid' => $userid, 'customlabelid' => $cm->instance);
+        $params = ['userid' => $userid, 'customlabelid' => $cm->instance];
         $ud = $DB->get_field('customlabel_user_data', 'completion3', $params);
         $value = ($ud == $customlabel->complete_value(3));
         if ($type == COMPLETION_AND) {
@@ -766,35 +834,6 @@ function customlabel_get_completion_state($course, $cm, $userid, $type) {
 }
 
 /**
- * Check if there are some plugins that need jqplot preload. Hard resolved bu now.
- * TODO : check if still needed, as satisfaction now uses vflibs/chart_js.
- */
-function mod_customlabel_before_http_headers() {
-    global $DB, $COURSE, $CFG;
-
-    // Get all distinct labeltypes
-    $sql = "
-        SELECT DISTINCT
-            labelclass
-        FROM
-            {customlabel}
-        WHERE
-            course = :course
-    ";
-    $labels = $DB->get_records_sql($sql, ['course' => $COURSE->id]);
-    if ($labels) {
-        $labelclasses = array_keys($labels);
-        // TODO : Do this better and discover by classlabel.
-        if (in_array('satisfaction', $labelclasses)) {
-        	if (is_dir($CFG->dirroot.'/local/vflibs')) {
-	            include_once($CFG->dirroot.'/local/vflibs/jqplotlib.php');
-	            local_vflibs_require_jqplot_libs();
-	         }
-        }
-    }
-}
-
-/**
  * This function is used by the reset_course_userdata function in moodlelib.
  * This function will remove all posts from the specified forum
  * and clean up any related data.
@@ -803,28 +842,29 @@ function mod_customlabel_before_http_headers() {
  * @global object
  * @param $data the data submitted from the reset course.
  * @return array status array
+ * @package mod_customlabel
  */
 function customlabel_reset_userdata($data) {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/rating/lib.php');
 
     $componentstr = get_string('modulenameplural', 'customlabel');
-    $status = array();
+    $status = [];
 
     if (!empty($data->reset_customlabel_all)) {
-        $params = array($data->courseid);
-        $labels = $DB->get_records('customlabel', array('course' => $data->courseid));
+        $params = [$data->courseid];
+        $labels = $DB->get_records('customlabel', ['course' => $data->courseid]);
         if (!$labels) {
-            return array();
+            return [];
         }
     } else if (!empty($data->reset_customlabel_types)) {
-        $labels = array();
+        $labels = [];
         foreach ($data->reset_customlabel_types as $type) {
-            $labels = $DB->get_records('customlabel', array('course' => $data->courseid, 'labelclass' => $type));
+            $labels = $DB->get_records('customlabel', ['course' => $data->courseid, 'labelclass' => $type]);
             $labels += $labels;
         }
     } else {
-        return array();
+        return [];
     }
 
     $labelids = array_keys($labels);
@@ -842,18 +882,18 @@ function customlabel_reset_userdata($data) {
     ";
 
     $DB->execute($sql, $inparams);
-    $status[] = array('component' => $componentstr, 'item' => get_string('userstatesreset', 'customlabel'), 'error' => false);
+    $status[] = ['component' => $componentstr, 'item' => get_string('userstatesreset', 'customlabel'), 'error' => false];
 
     if (!empty($data->reset_customlabel_completions)) {
 
-        $module = $DB->get_record('modules', array('name' => 'customlabel'));
+        $module = $DB->get_record('modules', ['name' => 'customlabel']);
         $select = "
             instance $insql AND
             module = ?
         ";
         $inparams[] = $module->id;
 
-        $course = $DB->get_record('course', array('id' => $data->id));
+        $course = $DB->get_record('course', ['id' => $data->id]);
         $completion = new completion_info($course);
 
         $cms = $DB->get_records_select('course_modules', $select, $inparams);
@@ -871,6 +911,7 @@ function customlabel_reset_userdata($data) {
  * Called by course/reset.php
  *
  * @param $mform form passed by reference
+ * @package mod_customlabel
  */
 function customlabel_reset_course_form_definition(&$mform) {
     global $CFG;
@@ -884,7 +925,7 @@ function customlabel_reset_course_form_definition(&$mform) {
     $classes = customlabel_get_classes(context_system::instance(), true, false);
 
     // Filter out those who do not deal with completion at all.
-    $types = array();
+    $types = [];
     foreach ($classes as $c) {
         $classfile = $CFG->dirroot."/mod/customlabel/type/{$c->id}/customlabel.class.php";
         if (!file_exists($classfile)) {
@@ -898,7 +939,7 @@ function customlabel_reset_course_form_definition(&$mform) {
         }
     }
 
-    $options = array('multiple' => 'multiple');
+    $options = ['multiple' => 'multiple'];
     $mform->addElement('select', 'reset_customlabel_types', get_string('resetlabeltypes', 'customlabel'), $types, $options);
     $mform->setAdvanced('reset_customlabel_types');
     $mform->disabledIf('reset_customlabel_types', 'reset_customlabel_all', 'checked');
@@ -907,28 +948,30 @@ function customlabel_reset_course_form_definition(&$mform) {
 /**
  * Course reset form defaults.
  * @return array
+ * @package mod_customlabel
  */
 function customlabel_reset_course_form_defaults($course) {
-    return array('reset_customlabel_all' => 1);
+    return ['reset_customlabel_all' => 1];
 }
 
 /**
  * This function allows the tool_dbcleaner to register integrity checks
+ * @package mod_customlabel
  */
 function customlabel_dbcleaner_add_keys() {
     global $DB;
 
-    $customlabelmoduleid = $DB->get_field('modules', 'id', array('name' => 'customlabel'));
+    $customlabelmoduleid = $DB->get_field('modules', 'id', ['name' => 'customlabel']);
 
-    $keys = array(
-        array('customlabel', 'course', 'course', 'id', ''),
-        array('customlabel', 'id', 'course_modules', 'instance', ' module = '.$customlabelmoduleid.' '),
-        array('customlabel_mtd_value', 'typeid', 'customlabel_mtd_type', 'id', ''),
-        array('customlabel_course_metadata', 'courseid', 'course', 'id', ''),
-        array('customlabel_course_metadata', 'valueid', 'customlabel_mtd_value', 'id', ''),
-        array('customlabel_mtd_constraints', 'value1', 'customlabel_mtd_value', 'id', ''),
-        array('customlabel_mtd_constraints', 'value2', 'customlabel_mtd_value', 'id', ''),
-    );
+    $keys = [
+        ['customlabel', 'course', 'course', 'id', ''],
+        ['customlabel', 'id', 'course_modules', 'instance', ' module = '.$customlabelmoduleid.' '],
+        ['customlabel_mtd_value', 'typeid', 'customlabel_mtd_type', 'id', ''],
+        ['customlabel_course_metadata', 'courseid', 'course', 'id', ''],
+        ['customlabel_course_metadata', 'valueid', 'customlabel_mtd_value', 'id', ''],
+        ['customlabel_mtd_constraints', 'value1', 'customlabel_mtd_value', 'id', ''],
+        ['customlabel_mtd_constraints', 'value2', 'customlabel_mtd_value', 'id', ''],
+    ];
 
     return $keys;
 }

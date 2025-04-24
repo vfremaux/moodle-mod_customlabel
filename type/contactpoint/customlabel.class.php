@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_contactpoint
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -35,7 +35,7 @@ class customlabel_type_contactpoint extends customlabel_type {
     public function __construct($data) {
         parent::__construct($data);
         $this->type = 'contactpoint';
-        $this->fields = array();
+        $this->fields = [];
 
         $field = new StdClass();
         $field->name = 'instructions';
@@ -47,7 +47,7 @@ class customlabel_type_contactpoint extends customlabel_type {
         $field = new Stdclass();
         $field->name = 'contacttype';
         $field->type = 'list';
-        $field->options = array('any', 'anywritten', 'mail', 'phone', 'onlinevocal', 'chat', 'meeting', 'facetoface');
+        $field->options = ['any', 'anywritten', 'mail', 'phone', 'onlinevocal', 'chat', 'meeting', 'facetoface'];
         $this->fields['contacttype'] = $field;
     }
 

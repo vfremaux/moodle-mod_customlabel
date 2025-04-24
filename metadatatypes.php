@@ -15,15 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Edit metadata types (domains)
  *
  * @package    mod_customlabel
- * @category   mod
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
- * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
+ * @copyright  2008 Valery Fremaux <valery.fremaux@gmail.com> (www.activeProLearn.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- *
  * @see Acces from adminmetadata.php
  */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/customlabel/forms/EditTypeForm.php');
@@ -56,6 +56,7 @@ echo $deferredheader;
 $types = $DB->get_records($config->classification_type_table, null, 'sortorder');
 
 echo $OUTPUT->heading(get_string('classifierstypes', 'customlabel'));
+
 // Make the type form.
 $strname = get_string('typename', 'customlabel');
 $strcode = get_string('code', 'customlabel');
@@ -64,14 +65,14 @@ $struseas = get_string('usedas', 'customlabel');
 $strdesc = get_string('description');
 $strcommands = get_string('commands', 'customlabel');
 $table = new html_table();
-$table->head = array("<b>$strname</b>",
+$table->head = ["<b>$strname</b>",
                      "<b>$struseas</b>",
                      "<b>$strcode</b>",
                      "<b>$strdesc</b>",
                      "<b>$strcourses</b>",
-                     "<b>$strcommands</b>");
-$table->size = array('20%', '5%', '10%', '50%', '5%', '10%');
-$table->align = array('left', 'center', 'center', 'center', 'right');
+                     "<b>$strcommands</b>"];
+$table->size = ['20%', '5%', '10%', '50%', '5%', '10%'];
+$table->align = ['left', 'center', 'center', 'center', 'right'];
 $table->width = '95%';
 echo $OUTPUT->box_start();
 $count = count($types);
@@ -105,43 +106,43 @@ if ($types) {
             WHERE
                 v.{$configvaluetypekey} = ?
         ";
-        $atype->courses = $DB->count_records_sql($sql, array($atype->id));
+        $atype->courses = $DB->count_records_sql($sql, [$atype->id]);
 
         // Delete command.
         $piximage = $OUTPUT->pix_icon('/t/delete', get_string('delete'));
         $cmdurl = clone($url);
-        $cmdurl->params(array('view' => 'classifiers', 'what' => 'delete', 'typeid' => $atype->id));
+        $cmdurl->params(['view' => 'classifiers', 'what' => 'delete', 'typeid' => $atype->id]);
         $cmds = '<a href="'.$cmdurl.'">'.$piximage.'</a>';
 
         // Edit command.
         $piximage = $OUTPUT->pix_icon('/t/edit', get_string('editvalues', 'customlabel'));
         $cmdurl = clone($url);
-        $cmdurl->params(array('view' => 'classifiers', 'what' => 'edit', 'typeid' => $atype->id));
+        $cmdurl->params(['view' => 'classifiers', 'what' => 'edit', 'typeid' => $atype->id]);
         $cmds .= ' <a href="'.$cmdurl.'">'.$piximage.'</a>';
 
         if ($i > 0) {
             // Up command.
             $piximage = $OUTPUT->pix_icon('/t/up', get_string('up', 'customlabel'));
             $cmdurl = clone($url);
-            $cmdurl->params(array('view' => 'classifiers', 'what' => 'up', 'typeid' => $atype->id));
+            $cmdurl->params(['view' => 'classifiers', 'what' => 'up', 'typeid' => $atype->id]);
             $cmds .= ' <a href="'.$cmdurl.'" title="'.$upstr.'">'.$piximage.'</a>';
         }
         if ($i < $count - 1) {
             $pixicon = $OUTPUT->pix_icon('/t/down', get_string('down', 'customlabel'));
             $cmdurl = clone($url);
-            $cmdurl->params(array('view' => 'classifiers', 'what' => 'down', 'typeid' => $atype->id));
+            $cmdurl->params(['view' => 'classifiers', 'what' => 'down', 'typeid' => $atype->id]);
             $cmds .= ' <a href="'.$cmdurl.'" title="'.$downstr.'">'.$pixicon.'</a>';
         }
         $typename = format_string($atype->name);
         $link = "<a href=\"{$url}?view=qualifiers&typeid={$atype->id}\">{$typename}</a> ";
-        $counturl = new moodle_url('/mod/customlabel/showclassified.php', array('typeid' => $atype->id));
+        $counturl = new moodle_url('/mod/customlabel/showclassified.php', ['typeid' => $atype->id]);
         $img = $OUTPUT->pix_icon('/t/hide', get_string('hide'));
         $coursecount = ($atype->courses) ? '<a href="'.$counturl.'">'.$atype->courses.' '.$img.'</a>' : 0;
         $typestr = 'unresolved type';
         if (!empty($atype->type)) {
             $typestr = get_string($atype->type, 'customlabel');
         }
-        $table->data[] = array($link, $typestr, $atype->code, format_string($atype->description), $coursecount, $cmds);
+        $table->data[] = [$link, $typestr, $atype->code, format_string($atype->description), $coursecount, $cmds];
         $i++;
     }
 

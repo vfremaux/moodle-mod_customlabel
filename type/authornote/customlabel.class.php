@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_authornote
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -35,7 +35,7 @@ class customlabel_type_authornote extends customlabel_type {
         parent::__construct($data);
 
         $this->type = 'authornote';
-        $this->fields = array();
+        $this->fields = [];
 
         $field = new StdClass;
         $field->name = 'authornote';
@@ -51,7 +51,11 @@ class customlabel_type_authornote extends customlabel_type {
         $this->fields['initiallyvisible'] = $field;
     }
 
-    public function preprocess_data($course = null) {
+    /**
+     * Preprocesses template before getting options and additional inputs
+     * from fields.
+     */
+    public function preprocess_data() {
         global $CFG, $OUTPUT;
 
         $customid = @$CFG->custom_unique_id + 1;

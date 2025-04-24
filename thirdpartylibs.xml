@@ -14,4 +14,18 @@
     <version>v3</version>
     <licenseversion>v3</licenseversion>
   </library>
+  <library>
+    <location>pro</location>
+    <name>Pro parts</name>
+    <license>APL</license>
+    <version></version>
+    <licenseversion></licenseversion>
+  </library>
+  <library>
+    <location>type/NEWTYPE</location>
+    <name>New subtype template</name>
+    <license>APL</license>
+    <version></version>
+    <licenseversion></licenseversion>
+  </library>
 </libraries>

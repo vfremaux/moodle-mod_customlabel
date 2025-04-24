@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_sectionheading
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -34,7 +34,7 @@ class customlabel_type_sectionheading extends customlabel_type {
 
         parent::__construct($data);
         $this->type = 'sectionheading';
-        $this->fields = array();
+        $this->fields = [];
 
         $this->standard_name_fields();
 
@@ -74,9 +74,12 @@ class customlabel_type_sectionheading extends customlabel_type {
 
         // Get virtual fields from course title.
         $storedimage = $this->get_file_url('image');
-        $this->data->imageurl = (!empty($storedimage)) ? $storedimage : $this->fields['image']->default;
+        $this->data->imageurl = $storedimage;
         if (empty($this->data->imagepositionoption)) {
-            $this->data->imagepositionoption = 'left';
+            $this->data->imagepositionoption = 'none';
+            if (!empty($this->data->imageurl)) {
+                $this->data->imagepositionoption = 'left';
+            }
         }
         if ($this->data->imagepositionoption == 'left') {
             $this->data->toleft = true;

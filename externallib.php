@@ -15,8 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * WS services
+ *
  * @package     mod_customlabel
- * @category    mod
  * @author      Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright   2016 Valery Fremaux (http://www.mylearningfactory.com)
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -44,7 +45,7 @@ class mod_customlabel_external extends external_api {
 
         switch ($input['cidsource']) {
             case 'idnumber':
-                if (!$cid = $DB->get_field('course_modules', 'instance', array('idnumber' => $input['cid']))) {
+                if (!$cid = $DB->get_field('course_modules', 'instance', ['idnumber' => $input['cid']])) {
                     throw new moodle_exception('Course module not found');
                 }
                 break;
@@ -55,7 +56,7 @@ class mod_customlabel_external extends external_api {
                 throw new moodle_exception('Invalid id source for element');
         }
 
-        if (!$DB->record_exists('customlabel', array('id' => $cid))) {
+        if (!$DB->record_exists('customlabel', ['id' => $cid])) {
             throw new moodle_exception('Course element instance not found');
         }
 
@@ -72,11 +73,11 @@ class mod_customlabel_external extends external_api {
 
         $desc = 'source for the course element id, can be either \'id\', or \'idnumber\'';
         return new external_function_parameters(
-            array(
+            [
                 'cidsource' => new external_value(PARAM_ALPHA, $desc),
                 'cid' => new external_value(PARAM_TEXT, 'Element id'),
                 'lang' => new external_value(PARAM_TEXT, 'The output language', VALUE_DEFAULT, $CFG->lang),
-            )
+            ]
         );
     }
 
@@ -118,11 +119,11 @@ class mod_customlabel_external extends external_api {
     public static function get_attribute_parameters() {
         $desc = 'source for the course element id, can be either \'id\', or \'idnumber\'';
         return new external_function_parameters(
-            array(
+            [
                 'cidsource' => new external_value(PARAM_ALPHA, $desc),
                 'cid' => new external_value(PARAM_TEXT, 'Element id'),
                 'attributekey' => new external_value(PARAM_TEXT, 'Attribute key id'),
-            )
+            ]
         );
     }
 
@@ -167,12 +168,12 @@ class mod_customlabel_external extends external_api {
     public static function set_attribute_parameters() {
         $desc = 'source for the course element id, can be either \'id\', or \'idnumber\'';
         return new external_function_parameters(
-            array(
+            [
                 'cidsource' => new external_value(PARAM_ALPHA, $desc),
                 'cid' => new external_value(PARAM_TEXT, 'Element id'),
                 'attributekey' => new external_value(PARAM_TEXT, 'Attribute id id'),
                 'value' => new external_value(PARAM_RAW, 'Attribute value'),
-            )
+            ]
         );
     }
 
@@ -217,10 +218,10 @@ class mod_customlabel_external extends external_api {
     public static function refresh_parameters() {
         $desc = 'source for the course element id, can be either \'id\', or \'idnumber\'';
         return new external_function_parameters(
-            array(
+            [
                 'cidsource' => new external_value(PARAM_ALPHA, $desc),
                 'cid' => new external_value(PARAM_TEXT, 'Element id'),
-            )
+            ]
         );
     }
 
@@ -264,14 +265,14 @@ class mod_customlabel_external extends external_api {
         switch ($result['domain']->type) {
 
             case 'id':
-                if (!$DB->record_exists($config->classification_type_table, array('id' => $result['domain']->id))) {
+                if (!$DB->record_exists($config->classification_type_table, ['id' => $result['domain']->id])) {
                     throw new moodle_exception('Domain type missing by id');
                 }
                 $result['domainid'] = $result['domain']->id;
                 break;
 
             case 'code': {
-                $params = array('code' => $result['domain']->id);
+                $params = ['code' => $result['domain']->id];
                 if (!$type = $DB->record_exists($config->classification_type_table, $params, 'id,id')) {
                     throw new moodle_exception('Domain type missing by code '.$result['domain']->id);
                 }
@@ -280,7 +281,7 @@ class mod_customlabel_external extends external_api {
             }
 
             case 'name': {
-                $params = array('name' => $result['domain']->id);
+                $params = ['name' => $result['domain']->id];
                 if (!$type = $DB->record_exists($config->classification_type_table, $params, 'id,id')) {
                     throw new moodle_exception('Domain type missing by name '.$result['domain']->id);
                 }
@@ -301,14 +302,14 @@ class mod_customlabel_external extends external_api {
      */
     public static function get_mtd_domain_parameters() {
         return new external_function_parameters(
-            array(
+            [
                 'domain' => new external_single_structure(
-                    array(
+                    [
                         'type' => new external_value(PARAM_TEXT, 'Identifier field, can be "id", "name" or "code"'),
                         'id' => new external_value(PARAM_TEXT, 'Domain identifier'),
-                    )
-                )
-            )
+                    ]
+                ),
+            ]
         );
     }
 
@@ -339,11 +340,11 @@ class mod_customlabel_external extends external_api {
     public static function get_mtd_domain_returns() {
         return new external_multiple_structure(
             new external_single_structure(
-                array(
+                [
                     'code' => new external_value(PARAM_TEXT, 'Domain value code'),
                     'value' => new external_value(PARAM_TEXT, 'Domain value label'),
                     'id' => new external_value(PARAM_INT, 'Internal ID for classification reference'),
-                )
+                ]
             )
         );
     }
@@ -351,14 +352,14 @@ class mod_customlabel_external extends external_api {
     public static function add_instance_parameters() {
         $desc = 'Source for the course id, can be either \'id\', or \'idnumber\', or \'shortname\'';
         return new external_function_parameters(
-            array(
+            [
                 'cidsource' => new external_value(PARAM_ALPHA, $desc),
                 'cid' => new external_value(PARAM_TEXT, 'Course identifier'),
                 'sectionnum' => new external_value(PARAM_NUMERIC, 'Section/page num'),
                 'position' => new external_value(PARAM_NUMERIC, 'Position in section/page sequence, 0 (end) or -1 (start)'),
                 'labeltype' => new external_value(PARAM_NUMERIC, 'Label type name'),
                 'idnumber' => new external_value(PARAM_NUMERIC, 'Idnumber value for associated course module'),
-            )
+            ]
         );
     }
 
@@ -375,7 +376,7 @@ class mod_customlabel_external extends external_api {
 
     public static function add_instance_returns() {
         return new external_single_structure(
-            array(
+            [
                 'id' => new external_value(PARAM_INT, 'Course module id'),
                 'idnumber' => new external_value(PARAM_TEXT, 'Course module idnumber'),
                 'attributes' => new external_multiple_structure(
@@ -385,8 +386,8 @@ class mod_customlabel_external extends external_api {
                             'type' => new external_value(PARAM_TEXT, 'Label attribute type'),
                         ]
                     )
-                )
-            )
+                ),
+            ]
         );
     }
 

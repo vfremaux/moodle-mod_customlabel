@@ -15,13 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * Local library.
+ *
+ * @package    customlabeltype_worktodo
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Get the course modules that can be linked as work to do
@@ -34,7 +34,7 @@ function customlabel_get_candidate_modules() {
     }
 
     $modinfo = get_fast_modinfo($COURSE);
-    $modules = array('0' => get_string('unassigned', 'customlabeltype_worktodo'));
+    $modules = ['0' => get_string('unassigned', 'customlabeltype_worktodo')];
 
     foreach ($modinfo->get_cms() as $cminfo) {
         if (!$cminfo->visible) {

@@ -15,8 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * Main subtype implementation
+ *
+ * @package    customlabeltype_theorema
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -26,24 +27,26 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/customlabel/type/customtype.class.php');
 
 /**
- *
- *
+ * Main implementation class
  */
-
 class customlabel_type_theorema extends customlabel_type {
 
+    /**
+     * Constructor
+     * @param object $data
+     */
     public function __construct($data) {
         parent::__construct($data);
         $this->type = 'theorema';
-        $this->fields = array();
+        $this->fields = [];
 
-        $field = new StdClass;
+        $field = new StdClass();
         $field->name = 'theoremaname';
         $field->type = 'textfield';
         $field->size = 255;
         $this->fields['theoremaname'] = $field;
 
-        $field = new StdClass;
+        $field = new StdClass();
         $field->name = 'theorema';
         $field->type = 'editor';
         $field->itemid = 0;
@@ -61,7 +64,7 @@ class customlabel_type_theorema extends customlabel_type {
             }
         }
 
-        $field = new StdClass;
+        $field = new StdClass();
         $field->name = 'corollarynum';
         $field->type = 'textfield';
         $field->size = 4;
@@ -70,7 +73,7 @@ class customlabel_type_theorema extends customlabel_type {
 
         $i = 0;
         for ($i = 0; $i < $subdefsnum; $i++) {
-            $field = new StdClass;
+            $field = new StdClass();
             $field->name = 'corollary'.$i;
             $field->type = 'editor';
             $field->itemid = $i + 1;
@@ -78,38 +81,42 @@ class customlabel_type_theorema extends customlabel_type {
             $this->fields['corollary'.$i] = $field;
         }
 
-        $field = new StdClass;
+        $field = new StdClass();
         $field->name = 'showdemonstration';
         $field->type = 'choiceyesno';
         $this->fields['showdemonstration'] = $field;
 
-        $field = new StdClass;
+        $field = new StdClass();
         $field->name = 'demonstration';
         $field->type = 'editor';
         $field->itemid = $i + 1;
         $field->rows = 20;
         $this->fields['demonstration'] = $field;
 
-        $field = new StdClass;
+        $field = new StdClass();
         $field->name = 'demoinitiallyvisible';
         $field->type = 'choiceyesno';
         $field->default = 0;
         $this->fields['demoinitiallyvisible'] = $field;
 
-        $field = new StdClass;
+        $field = new StdClass();
         $field->name = 'showdemonstrationon';
         $field->type = 'datetime';
         $field->default = time() + DAYSECS * 7;
         $this->fields['showdemonstrationon'] = $field;
     }
 
+    /**
+     * Preprocesses template before getting options and additional inputs
+     * from fields.
+     */
     public function preprocess_data() {
         global $OUTPUT, $COURSE;
 
         $minusurl = $OUTPUT->image_url('minus', 'customlabel');
         $plusurl = $OUTPUT->image_url('plus', 'customlabel');
-        $this->data->initialcontrolimageurl = (@$this->data->demoinitiallyvisible) ? $minusurl : $plusurl;
-        $this->data->initialclass = (@$this->data->demoinitiallyvisible) ? '' : 'hidden';
+        $this->data->initialcontrolimageurl = ($this->data->demoinitiallyvisible ?? false) ? $minusurl : $plusurl;
+        $this->data->initialclass = ($this->data->demoinitiallyvisible ?? false) ? '' : 'hidden';
 
         $this->data->corollarylist = "<ul class=\"customlabel-corollaries theorema\">\n";
         for ($i = 0; $i < $this->data->corollarynum; $i++) {
@@ -120,12 +127,12 @@ class customlabel_type_theorema extends customlabel_type {
         $this->data->corollarylist .= "</ul>\n";
         $this->data->customid = $this->cmid;
         if (!empty($this->data->showdemonstrationon->enabled)) {
-            $qdate = mktime(@$this->data->showdemonstrationon->hour,
-                            @$this->data->showdemonstrationon->minute,
+            $qdate = mktime($this->data->showdemonstrationon->hour ?? 0,
+                            $this->data->showdemonstrationon->minute ?? 0,
                             0,
-                            @$this->data->showdemonstrationon->month,
-                            @$this->data->showdemonstrationon->day,
-                            @$this->data->showdemonstrationon->year);
+                            $this->data->showdemonstrationon->month ?? 0,
+                            $this->data->showdemonstrationon->day ?? 0,
+                            $this->data->showdemonstrationon->year ?? 0);
             if ($qdate <= time()) {
                 $this->data->canshow = true;
             }

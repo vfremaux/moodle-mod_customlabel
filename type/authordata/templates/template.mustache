@@ -33,29 +33,43 @@
         {{/tablecaption}}
 
         <tr>
-            <td class="custombox-param {{labelclass}}">
+            <td class="custombox-param {{labelclass}}" width="{{leftcolumnratio}}">
                 {{#str}}author, customlabeltype_authordata{{/str}}{{#hasmany}}s{{/hasmany}}
             </td>
-            <td class="custombox-value {{labelclass}}">
+            <td class="custombox-value {{labelclass}}" width="{{rightcolumnratio}}">
+            <table width="100%">
                 {{#authors}}
-                {{#thumb}}
-                <img src="{{{thumb}}}" title="{{{author}}}" style="float:right" width="80"  height="120"/>
-                {{/thumb}}
-
-                {{{authorname}}}
-
+                <tr>
+                    <td>
+                        {{{authorname}}}
+                    </td>
+                {{#showrole}}
+                    <td class="authordata-role">
+                        {{{role}}}
+                    </td>
+                {{/showrole}}
                 {{#showinstitution}}
-                - <span class="authordata-institution">{{institution}}</span>
+                    <td class="authordata-institution">
+                        {{{institution}}}
+                    </td>
                 {{/showinstitution}}
-
                 {{#showdepartment}}
-                 (<span class="authordata-department">{{department}}</span>)
+                    <td class="authordata-department">
+                        {{department}}
+                    </td>
                 {{/showdepartment}}
-                <br/>
+                {{#thumb}}
+                    <td class="authordata-thumb">
+                        <img src="{{{thumb}}}" title="{{{author}}}" style="float:right" width="80"  height="120"/>
+                    </td>
+                {{/thumb}}
+                </tr>
                 {{/authors}}
+                </table>
             </td>
         </tr>
 
+        <!-- Old fashion for unique organisation - never used
         {{#showinstitution}}
         {{#institution}}
         <tr>
@@ -81,6 +95,7 @@
         </tr>
         {{/department}}
         {{/showdepartment}}
+        -->
 
         {{#showcontributors}}
         <tr>

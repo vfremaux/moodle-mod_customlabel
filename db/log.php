@@ -17,16 +17,16 @@
 /**
  * Definition of log events
  *
- * @package     mod_customlabel
- * @category    mod
- * @copyright   2012 Valery Fremaux
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_customlabel
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux (www.mylearningfactory.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$logs = array(
-    array('module' => 'customlabel', 'action' => 'add', 'mtable' => 'customlabel', 'field' => 'name'),
-    array('module' => 'customlabel', 'action' => 'delete', 'mtable' => 'customlabel', 'field' => 'name'),
-    array('module' => 'customlabel', 'action' => 'view', 'mtable' => 'customlabel', 'field' => 'name'),
-);
+$logs = [
+    ['module' => 'customlabel', 'action' => 'add', 'mtable' => 'customlabel', 'field' => 'name'],
+    ['module' => 'customlabel', 'action' => 'delete', 'mtable' => 'customlabel', 'field' => 'name'],
+    ['module' => 'customlabel', 'action' => 'view', 'mtable' => 'customlabel', 'field' => 'name'],
+];

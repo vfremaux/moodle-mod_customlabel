@@ -18,8 +18,9 @@
  * Allows the admin to manage assignment plugins
  *
  * @package    mod_customlabel
- * @copyright 2012 NetSpot {@link http://www.netspot.com.au}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author     Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright  2008 Valery Fremaux <valery.fremaux@gmail.com> (www.activeProLearn.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  */
 
 require_once(dirname(__FILE__) . '/../../config.php');

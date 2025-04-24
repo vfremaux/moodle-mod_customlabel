@@ -15,12 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a local class contextual translation file for field names and list options.
- * this file is automatically loaded by the /mod/customlabel/lang/xx_utf8/customlabel.php
- * module language file.
+ * Lang file.
  *
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_localdokuwikicontent
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -32,14 +29,14 @@ $string['localdokuwikicontent:addinstance'] = 'Can add an instance';
 $string['advice'] = 'Warning';
 $string['accesstoken'] = 'Access token';
 $string['configaccesstoken'] = 'Access token (default)';
-$string['configaccesstoken_desc'] = 'Access token';
+$string['configaccesstoken_desc'] = 'Access token allows passing access control for dokuwikies implementing the "lib/authtoken" plugin.';
 $string['configbasedir'] = 'Base wiki dir';
-$string['configbasedir_desc'] = 'Physical location of the local wiki';
+$string['configbasedir_desc'] = 'Physical location of the local wiki. This path must point the root dir of the dokuwiki installation.';
 $string['configtypename'] = 'Enable subtype Local Doku Wiki';
 $string['configwebroot'] = 'Base wiki URL';
 $string['configwebroot_desc'] = 'Base wiki URL for local wiki pages';
 $string['configdefaultlocal'] = 'Default local wiki';
-$string['configdefaultlocal_desc'] = 'Default value for local switch';
+$string['configdefaultlocal_desc'] = 'Default value for local switch. If set to remote, the remote configuration will be applied, unless instance specific info is given.';
 $string['configdefaultremotehost'] = 'Default remote host';
 $string['configdefaultremotehost_desc'] = 'Default host for remote pages';
 $string['configdefaultremotetoken'] = 'Default remote token';
@@ -51,6 +48,7 @@ $string['errornowiki'] = 'No wiki found at the configured basedir {$a}';
 $string['heading'] = 'Page title';
 $string['hideelements'] = 'Hide elements';
 $string['local'] = 'Local content';
+$string['localwiki'] = 'Local Wiki content';
 $string['lang'] = 'Language';
 $string['localcss'] = 'Local css';
 $string['notconfigured'] = 'Wiki is not setup in global configuration.';
@@ -62,3 +60,7 @@ $string['typename'] = 'Content';
 
 $string['family'] = 'special';
 
+$string['localwiki_help'] = 'when using a local wiki, the content is directly accessed from thre same server than moodle. elsewhere it is fetched by URL. Local access has usually better performance.';
+$string['remotehost_help'] = 'If the wiki is remote and this setting is given, it must be set as the base URL access to the wiki. Global settings can give default value.';
+$string['accesstoken_help'] = 'If the wiki is remote, and this parameter is defined, it must be set to a valid access token to the content. Global settings can give default value. ';
+$string['contentpage_help'] = 'Enter the page identifier, as it would be mentionned in the "id" url attribute value of the request to "doku.php". ';

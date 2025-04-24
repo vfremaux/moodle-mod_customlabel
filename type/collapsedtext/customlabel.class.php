@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_collapsedtext
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -35,7 +35,7 @@ class customlabel_type_collapsedtext extends customlabel_type {
     public function __construct($data) {
         parent::__construct($data);
         $this->type = 'collapsedtext';
-        $this->fields = array();
+        $this->fields = [];
 
         // Introduces an architecture change with simplified and more direct component rendering.
         $this->hasamd = true;
@@ -44,7 +44,7 @@ class customlabel_type_collapsedtext extends customlabel_type {
         if (empty($chapternum)) {
             $chapternum = 3;
             if (!isset($this->data)) {
-                $this->data = new StdClass;
+                $this->data = new StdClass();
             }
             $this->data->chapternum = 3;
         }
@@ -52,14 +52,14 @@ class customlabel_type_collapsedtext extends customlabel_type {
         $field = new StdClass;
         $field->name = 'algorithm';
         $field->type = 'list';
-        $field->options = array('toggle', 'accordion');
+        $field->options = ['toggle', 'accordion'];
         $field->default = 'toggle';
         $this->fields['algorithm'] = $field;
 
         $field = new StdClass;
         $field->name = 'initialstate';
         $field->type = 'list';
-        $field->options = array('open', 'firstopen', 'collapsed');
+        $field->options = ['open', 'firstopen', 'collapsed'];
         $field->default = 'collapsed';
         $this->fields['initialstate'] = $field;
 
@@ -67,7 +67,7 @@ class customlabel_type_collapsedtext extends customlabel_type {
         $field->name = 'titlelevel';
         $field->type = 'list';
         $field->straightoptions = true;
-        $field->options = array('h2', 'h3', 'h4', 'h5', 'h6');
+        $field->options = ['h2', 'h3', 'h4', 'h5', 'h6'];
         $field->default = 'h4';
         $this->fields['titlelevel'] = $field;
 
@@ -75,7 +75,7 @@ class customlabel_type_collapsedtext extends customlabel_type {
         $field->name = 'chapternum';
         $field->type = 'list';
         $field->straightoptions = true;
-        $field->options = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30); // @see lang files to adjust string generation.
+        $field->options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30]; // @see lang files to adjust string generation.
         $field->default = 3;
         $this->fields['chapternum'] = $field;
 
@@ -96,7 +96,8 @@ class customlabel_type_collapsedtext extends customlabel_type {
     }
 
     /**
-     * Process internal data before options and external source resolution.
+     * Preprocesses template before getting options and additional inputs
+     * from fields.
      */
     public function preprocess_data() {
         global $OUTPUT, $CFG;
@@ -180,11 +181,11 @@ class customlabel_type_collapsedtext extends customlabel_type {
      * Add customized per type completion rules (up to 3)
      * @param object $mform the completion form
      */
-    static public function add_completion_rules($mform) {
+    public static function add_completion_rules($mform) {
 
         $mform->addElement('checkbox', 'completion1enabled', '', get_string('completion1', 'customlabeltype_collapsedtext'));
 
-        return array('completion1enabled');
+        return ['completion1enabled'];
     }
 
     /**

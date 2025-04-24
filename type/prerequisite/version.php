@@ -17,8 +17,8 @@
 /**
  * Version details.
  *
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_prerequisite
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL

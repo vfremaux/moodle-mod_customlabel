@@ -16,16 +16,16 @@
 
 /**
  * @package     mod_customlabel
- * @category    mod
+ *
  * @copyright   2010 onwards Valery Fremaux {valery.fremaux@gmail.com}
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-global $CLI_VMOODLE_PRECHECK;
+global $clivmoodleprecheck;
 
 define('CLI_SCRIPT', true);
 define('CACHE_DISABLE_ALL', true);
-$CLI_VMOODLE_PRECHECK = true; // Force first config to be minimal.
+$clivmoodleprecheck = true; // Force first config to be minimal.
 
 require(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php');
 
@@ -37,14 +37,14 @@ require_once($CFG->dirroot.'/lib/clilib.php'); // Cli only functions.
 
 // CLI options.
 list($options, $unrecognized) = cli_get_params(
-    array(
+    [
         'help' => false,
         'host' => false,
-    ),
-    array(
+    ],
+    [
         'h' => 'help',
         'H' => 'host',
-    )
+    ]
 );
 
 // Display help.
@@ -82,7 +82,7 @@ if (!empty($options['host'])) {
 }
 
 // Replay full config whenever. If vmoodle switch is armed, will switch now config.
-if ($CLI_VMOODLE_PRECHECK == false) {
+if ($clivmoodleprecheck == false) {
     // First pass stopeed config to vmoodle trap.
     require(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php'); // Global moodle config file.
 }

@@ -19,6 +19,8 @@
     transition: transform 1s ease-in-out;
     transform-origin: top;
     -webkit-transition: transform 1s ease-in-out;
+    padding-top: 10px;
+    padding-bottom: 20px;
 }
 
 .custombox-collapsedtext-panel.collapsed {
@@ -27,4 +29,6 @@
     transform: scaleY(0);
     transform-origin: top;
     transition: transform .2s ease;
+    padding-top: 0;
+    padding-bottom: 0;
 }

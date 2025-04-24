@@ -16,7 +16,7 @@
 
 /**
  * @package    mod_customlabel
- * @category   mod
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -33,7 +33,7 @@ $label = get_string('settings', 'customlabel');
 $settings = new admin_settingpage($section, $label, 'moodle/site:config', $module->is_enabled() === false);
 
 if ($ADMIN->fulltree) {
-    $menu = array();
+    $menu = [];
     foreach (core_component::get_plugin_list('customlabeltype') as $type => $notused) {
         $visible = !get_config('customlabeltype_' . $type, 'disabled');
         if ($visible) {
@@ -55,7 +55,7 @@ if ($ADMIN->fulltree) {
         'default' => get_string('defaultstyle', 'customlabel'),
         'flatstyle' => get_string('flatstyle', 'customlabel'),
         'colored' => get_string('coloredstyle', 'customlabel'),
-        'flatstyle colored' => get_string('flatcoloredstyle', 'customlabel')
+        'flatstyle colored' => get_string('flatcoloredstyle', 'customlabel'),
     ];
 
     $namedskins = glob($CFG->dirroot.'/mod/customlabel/pix/skins/*');

@@ -29,8 +29,8 @@ $PAGE->set_context($context);
 if ($action == 'open') {
     $item = required_param('item', PARAM_INT);
 
-    $cm = $DB->get_record('course_modules', array('id' => $cmid));
-    $instance = $DB->get_record('customlabel', array('id' => $cm->instance));
+    $cm = $DB->get_record('course_modules', ['id' => $cmid]);
+    $instance = $DB->get_record('customlabel', ['id' => $cm->instance]);
 
     $instance->coursemodule = $cm->id;
     $customlabel = customlabel_load_class($instance);
@@ -39,7 +39,7 @@ if ($action == 'open') {
     // If all chapter are marked, the customlabel is complete. ($item starts at 0).
     $pow = pow(2, $item - 1);
 
-    $params = array('userid' => $USER->id, 'customlabelid' => $instance->id);
+    $params = ['userid' => $USER->id, 'customlabelid' => $instance->id];
     $ud = $DB->get_record('customlabel_user_data', $params);
     if (!$ud) {
         $ud = new StdClass;
@@ -58,7 +58,7 @@ if ($action == 'open') {
     // Check if everything is marked.
     $fullmark = pow(2, 0 + @$customlabel->get_data('chapternum')) - 1;
     if ($ud->completion1 == $fullmark) {
-        $course = $DB->get_record('course', array('id' => $cm->course));
+        $course = $DB->get_record('course', ['id' => $cm->course]);
         $completion = new completion_info($course);
         if (($completion->is_enabled($cm) == COMPLETION_TRACKING_AUTOMATIC) &&
            $instance->completion1enabled) {
@@ -69,15 +69,15 @@ if ($action == 'open') {
 
 if ($action == 'complete') {
 
-    $cm = $DB->get_record('course_modules', array('id' => $cmid));
-    $instance = $DB->get_record('customlabel', array('id' => $cm->instanceid));
+    $cm = $DB->get_record('course_modules', ['id' => $cmid]);
+    $instance = $DB->get_record('customlabel', ['id' => $cm->instanceid]);
     if ($instance) {
         $instance->coursemodule = $cm->id;
         $customlabel = customlabel_load_class($instance);
 
         $fullmark = pow(2, $customlabel->get_data('chapternum')) - 1;
 
-        $params = array('userid' => $USER->id, 'customlabelid' => $instance->id);
+        $params = ['userid' => $USER->id, 'customlabelid' => $instance->id];
         $ud = $DB->get_record('customlabel_user_data', $params);
         if (!$ud) {
             $ud = new StdClass;
@@ -90,7 +90,7 @@ if ($action == 'complete') {
             $ud->completion1 = $fullmark;
             $DB->update_record('customlabel_user_data', $ud);
         }
-        $course = $DB->get_record('course', array('id' => $cm->course));
+        $course = $DB->get_record('course', ['id' => $cm->course]);
 
         $completion = new completion_info($course);
         if (($completion->is_enabled($cm) == COMPLETION_TRACKING_AUTOMATIC) &&

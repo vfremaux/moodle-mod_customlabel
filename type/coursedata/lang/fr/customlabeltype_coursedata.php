@@ -19,8 +19,8 @@
  * this file is automatically loaded by the /mod/customlabel/lang/xx_utf8/customlabel.php
  * module language file.
  *
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_coursedata
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -30,6 +30,7 @@ $string['coursedata:view'] = 'Peut voir le contenu';
 $string['coursedata:addinstance'] = 'Peut ajouter une instance';
 
 $string['concepts'] = 'Mot clé&nbsp;';
+$string['competencies'] = 'Compétences&nbsp;';
 $string['configtypename'] = 'Active le type Information sur le cours';
 $string['defaulttablecaption'] = 'Informations';
 $string['duration'] = 'Durée du parcours&ensp;';
@@ -47,6 +48,7 @@ $string['pluginname'] = 'Elément de cours&ensp;: Information sur le cours';
 $string['prerequisites'] = 'Pré requis nécessaires';
 $string['public'] = 'Public&nbsp;';
 $string['showconcepts'] = 'Afficher les concepts clefs&ensp;';
+$string['showcompetencies'] = 'Afficher les compétences&ensp;';
 $string['showduration'] = 'Afficher la durée du parcours&ensp;';
 $string['showevaluation'] = 'Afficher les modes d\'évaluation&ensp;';
 $string['showfollowers'] = 'Afficher les suites possibles&ensp;';

@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_customlabel
- * @category   mod
+ * @package    customlabeltype_courseclassifier
+ *
  * @author     Valery Fremaux <valery.fremaux@gmail.com>
  * @copyright  (C) 2008 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
@@ -37,12 +37,12 @@ class customlabel_type_courseclassifier extends customlabel_type {
 
         parent::__construct($data);
         $this->type = 'courseclassifier';
-        $this->fields = array();
+        $this->fields = [];
 
         $config = get_config('customlabel');
 
         if (isset($data->content)) {
-            // $data is a customlabel record not yet decoded. This comes from modedit.php
+            // Tip : $data is a customlabel record not yet decoded. This comes from modedit.php
             $preset = json_decode(base64_decode($data->content));
             if (!empty($preset)) {
                 // Decode content and append members to $data.
@@ -56,8 +56,9 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $data = new StdClass;
         }
 
+        $maxcount = $this->get_max_categories_number();
         if (empty($data->uselevels)) {
-            $data->uselevels = $this->get_max_categories_number();
+            $data->uselevels = $maxcount;
         }
 
         $field = new StdClass;
@@ -66,7 +67,6 @@ class customlabel_type_courseclassifier extends customlabel_type {
         $field->default = get_string('defaulttablecaption', 'customlabeltype_courseclassifier');
         $this->fields['tablecaption'] = $field;
 
-        $maxcount = $this->get_max_categories_number();
         if ($maxcount == 0) {
             $field = new StdClass;
             $field->name = 'uselevels';
@@ -76,10 +76,11 @@ class customlabel_type_courseclassifier extends customlabel_type {
             return;
         }
 
+        // Number of level used in this plugin.
         $field = new StdClass;
         $field->name = 'uselevels';
         $field->type = 'list';
-        for ($i = 0; $i < $maxcount ; $i++) {
+        for ($i = 0; $i < $maxcount; $i++) {
             $field->options[] = $i + 1;
         }
         $field->straightoptions = true;
@@ -87,7 +88,8 @@ class customlabel_type_courseclassifier extends customlabel_type {
         $field->default = 2;
         $this->fields['uselevels'] = $field;
 
-        if ($fieldid = $DB->get_field($config->classification_type_table, 'id', array('code' => 'LEVEL0'))) {
+        // Use the first level if has been correctly defined.
+        if ($fieldid = $DB->get_field($config->classification_type_table, 'id', ['code' => 'LEVEL0'])) {
 
             $field = new StdClass;
             $field->name = 'level0';
@@ -97,14 +99,14 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $field->field = 'value';
             $field->select = $config->classification_value_type_key.' = '.$fieldid;
             $field->multiple = 'multiple';
-            $field->constraintson = $this->get_constraintlist(0, $maxcount);
+            $field->constraintson = $this->get_constraintlist(0, $data->uselevels);
             $field->mandatory = false;
             $field->size = 8;
             $this->fields['level0'] = $field;
         }
 
         if ($data->uselevels > 1) {
-            if ($fieldid = $DB->get_field($config->classification_type_table, 'id', array('code' => 'LEVEL1'))) {
+            if ($fieldid = $DB->get_field($config->classification_type_table, 'id', ['code' => 'LEVEL1'])) {
 
                 $field = new StdClass;
                 $field->name = 'level1';
@@ -116,14 +118,14 @@ class customlabel_type_courseclassifier extends customlabel_type {
                 $field->select = $config->classification_value_type_key.' = '.$fieldid;
                 $field->multiple = 'multiple';
                 $field->size = 8;
-                $field->constraintson = $this->get_constraintlist(1, $maxcount);
+                $field->constraintson = $this->get_constraintlist(1, $data->uselevels);
                 $field->mandatory = false;
                 $this->fields['level1'] = $field;
             }
         }
 
         if ($data->uselevels > 2) {
-            if ($fieldid = $DB->get_field($config->classification_type_table, 'id', array('code' => 'LEVEL2'))) {
+            if ($fieldid = $DB->get_field($config->classification_type_table, 'id', ['code' => 'LEVEL2'])) {
 
                 $field = new StdClass;
                 $field->name = 'level2';
@@ -135,14 +137,14 @@ class customlabel_type_courseclassifier extends customlabel_type {
                 $field->select = $config->classification_value_type_key.' = '.$fieldid;
                 $field->multiple = 'multiple';
                 $field->size = 8;
-                $field->constraintson = $this->get_constraintlist(2, $maxcount);
+                $field->constraintson = $this->get_constraintlist(2, $data->uselevels);
                 $field->mandatory = false;
                 $this->fields['level2'] = $field;
             }
         }
 
         if ($data->uselevels > 3) {
-            if ($fieldid = $DB->get_field($config->classification_type_table, 'id', array('code' => 'LEVEL3'))) {
+            if ($fieldid = $DB->get_field($config->classification_type_table, 'id', ['code' => 'LEVEL3'])) {
 
                 $field = new StdClass;
                 $field->name = 'level3';
@@ -152,15 +154,15 @@ class customlabel_type_courseclassifier extends customlabel_type {
                 $field->field = 'value';
                 $field->select = $config->classification_value_type_key.' = '.$fieldid;
                 $field->multiple = 'multiple';
-                $field->constraintson = $this->get_constraintlist(3, $maxcount);
+                $field->constraintson = $this->get_constraintlist(3, $data->uselevels);
                 $field->mandatory = false;
                 $field->size = 8;
-                $this->fields['level2'] = $field;
+                $this->fields['level3'] = $field;
             }
         }
 
         // Get all course filters.
-        $coursefilters = $DB->get_records($config->classification_type_table, array('type' => 'coursefilter'));
+        $coursefilters = $DB->get_records($config->classification_type_table, ['type' => 'coursefilter']);
 
         foreach ($coursefilters as $coursefilter) {
 
@@ -192,17 +194,22 @@ class customlabel_type_courseclassifier extends customlabel_type {
 
     }
 
+    /**
+     * Tells the list of categories level that are constrained to this list
+     * We have constraints on all levels different from us.
+     */
     protected function get_constraintlist($me, $max) {
 
         $nodes = [];
 
-        for ($i = 0 ; $i < $max ; $i++) {
+        for ($i = 0; $i < $max; $i++) {
             if ($i != $me) {
                 $nodes[] = $i;
             }
         }
 
-        return implode(',', $nodes);
+        $constrainedlist = implode(',', $nodes);
+        return $constrainedlist;
     }
 
     /**
@@ -217,11 +224,11 @@ class customlabel_type_courseclassifier extends customlabel_type {
 
         // debug_trace("Deleting metadata for {$this->type}:{$this->cmid} in {$COURSE->id} by key {$config->course_metadata_course_key}");
         $cm = get_coursemodule_from_id('customlabel', $this->cmid);
-        $params = array($config->course_metadata_course_key => $cm->course, 'cmid' => $this->cmid);
+        $params = [$config->course_metadata_course_key => $cm->course, 'cmid' => $this->cmid];
         $DB->delete_records($config->course_metadata_table, $params);
 
         // Also delete old values bound to 0.
-        $params = array($config->course_metadata_course_key => $cm->course, 'cmid' => 0);
+        $params = [$config->course_metadata_course_key => $cm->course, 'cmid' => 0];
         $DB->delete_records($config->course_metadata_table, $params);
     }
 
@@ -248,7 +255,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
         $coursekey = $config->course_metadata_course_key;
 
         // Remove all old classification.
-        $params = array($config->course_metadata_course_key => $courseid, 'cmid' => $this->cmid);
+        $params = [$config->course_metadata_course_key => $courseid, 'cmid' => $this->cmid];
         $DB->delete_records($config->course_metadata_table, $params);
 
         // Add updated level0.
@@ -318,7 +325,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
         // Get all course filters.
         $this->data->classifiers = false;
         $this->data->classifierrows = '';
-        $coursefilters = $DB->get_records($config->classification_type_table, array('type' => 'coursefilter'));
+        $coursefilters = $DB->get_records($config->classification_type_table, ['type' => 'coursefilter']);
 
         foreach ($coursefilters as $coursefilter) {
 
@@ -344,6 +351,10 @@ class customlabel_type_courseclassifier extends customlabel_type {
         }
     }
 
+    /**
+     * Preprocesses template before getting options and additional inputs
+     * from fields.
+     */
     public function preprocess_data() {
         global $DB;
 
@@ -361,7 +372,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
             $this->data->uselevels = 2;
         }
 
-        $classifiers = $DB->get_records($config->classification_type_table, array('type' => 'category'));
+        $classifiers = $DB->get_records($config->classification_type_table, ['type' => 'category']);
         if ($classifiers) {
             foreach ($classifiers as $classif) {
                 if ($classif->code == 'LEVEL0') {
@@ -431,7 +442,7 @@ class customlabel_type_courseclassifier extends customlabel_type {
             }
         }
 
-        $coursefilters = $DB->get_records($config->classification_type_table, array('type' => 'coursefilter'));
+        $coursefilters = $DB->get_records($config->classification_type_table, ['type' => 'coursefilter']);
         if ($coursefilters) {
             foreach ($coursefilters as $filter) {
                 $showkey = 'show'.strtolower($filter->code);
@@ -456,6 +467,11 @@ class customlabel_type_courseclassifier extends customlabel_type {
         }
     }
 
+    /**
+     * Get constraints between classification domains.
+     * @param array $levels
+     * @param int $minus
+     */
     protected function get_constraints($levels, $minus) {
         for ($i = 0; $i < $levels; $i++) {
             if ($i != $minus) {
@@ -465,6 +481,9 @@ class customlabel_type_courseclassifier extends customlabel_type {
         return implode(',', $constraintset);
     }
 
+    /**
+     * Get the maximum number of classifying levels configured in settings
+     */
     protected function get_max_categories_number() {
         global $DB;
 
